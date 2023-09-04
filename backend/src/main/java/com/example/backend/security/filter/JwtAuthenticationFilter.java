@@ -1,6 +1,6 @@
-package com.example.backend.filter;
+package com.example.backend.security.filter;
 
-import com.example.backend.provider.JwtTokenProvider;
+import com.example.backend.security.provider.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

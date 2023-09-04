@@ -1,4 +1,4 @@
-package com.example.backend.repository;
+package com.example.backend.repository.member;
 
 
 import com.example.backend.entity.Member;

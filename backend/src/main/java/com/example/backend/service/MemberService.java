@@ -1,8 +1,8 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.TokenInfo;
-import com.example.backend.provider.JwtTokenProvider;
-import com.example.backend.repository.MemberRepository;
+import com.example.backend.security.provider.JwtTokenProvider;
+import com.example.backend.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

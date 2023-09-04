@@ -1,4 +1,4 @@
-package com.example.backend.provider;
+package com.example.backend.security.provider;
 
 import com.example.backend.dto.TokenInfo;
 import io.jsonwebtoken.*;
