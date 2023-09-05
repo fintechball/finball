@@ -383,7 +383,7 @@
 
 |  **Name**  |  정영빈  |  서정희  |  정현우  |  신현탁  |  하성호  |  김정희  |
 | :------: | :------: | :------: | :------: | :------: | :------: | :------: |
-|  **역할**  |  풀스택  |  프론트엔드  |  풀스택  |  프론트엔드  |  풀스택  |    |
+|  **역할**  |  풀스택  |  프론트엔드  |  풀스택  |  프론트엔드  |  풀스택  |  풀스택  |
 <!-- | **Profile**  | ![image](./contents/forReadme/profiles/이동규.png) | ![image](./contents/forReadme/profiles/김정희.png) | ![image](./contents/forReadme/profiles/하성호.png) | ![image](./contents/forReadme/profiles/김나연.png) | ![image](./contents/forReadme/profiles/김예진.png) | ![image](./contents/forReadme/profiles/김현빈.png) |
 | **Position** |                Backend <br/> Leader                |                      Backend                       |                      Backend                       |                      Frontend                      |                      Frontend                      |                      Frontend                      |
 |   **Git**    |        [GitHub](https://github.com/unit74)         |      [GitHub](https://github.com/JeongHuiKim)      |      [GitHub](https://github.com/seongho-98)       |      [GitHub](https://github.com/nayeonxkim)       |        [GitHub](https://github.com/yelunar)        |     [GitHub](https://github.com/HyeonBhinKim)      | -->
