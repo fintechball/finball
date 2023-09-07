@@ -384,9 +384,8 @@
 |  **Name**  |  정영빈  |  서정희  |  정현우  |  신현탁  |  하성호  |  김정희  |
 | :------: | :------: | :------: | :------: | :------: | :------: | :------: |
 |  **역할**  |  풀스택  |  프론트엔드  |  풀스택  |  프론트엔드  |  풀스택  |  풀스택  |
-| **GitHub** |  [GitHub](https://github.com/wjddudqls96)  |  [GitHub](https://github.com/jh2dang)  |  [GitHub](https://github.com/tunkcalb)  |  [GitHub](https://github.com/hts1996)  |  [GitHub](https://github.com/seongho-98)  |  [GitHub](https://github.com/JeongHuiKim)  |
-<!-- | **Profile**  | ![image](./contents/forReadme/profiles/이동규.png) | ![image](./contents/forReadme/profiles/김정희.png) | ![image](./contents/forReadme/profiles/하성호.png) | ![image](./contents/forReadme/profiles/김나연.png) | ![image](./contents/forReadme/profiles/김예진.png) | ![image](./contents/forReadme/profiles/김현빈.png) |
-| **Position** |                Backend <br/> Leader                |                      Backend                       |                      Backend                       |                      Frontend                      |                      Frontend                      |                      Frontend                      |
-|   **Git**    |        [GitHub](https://github.com/unit74)         |      [GitHub](https://github.com/JeongHuiKim)      |      [GitHub](https://github.com/seongho-98)       |      [GitHub](https://github.com/nayeonxkim)       |        [GitHub](https://github.com/yelunar)        |     [GitHub](https://github.com/HyeonBhinKim)      | -->
+| **profile**|  |  | ![정현우](https://github.com/tunkcalb/shinhan-solup/assets/95354899/47f04fcb-5ffc-4cb8-a5f6-d8437ba43595) |  |  |  |
+<!--| ![정영빈](https://github.com/tunkcalb/shinhan-solup/assets/95354899/60bd0105-1716-49a5-b29a-54f8344ebd41) | ![서정희](https://github.com/tunkcalb/shinhan-solup/assets/95354899/f4c70f14-39d2-49f9-918a-cb2e3492392a) |  | ![신현탁](https://github.com/tunkcalb/shinhan-solup/assets/95354899/8ac0a59e-96b3-423d-ad2d-ce1f7c1fe801) | ![하성호](https://github.com/tunkcalb/shinhan-solup/assets/95354899/503fc614-d2b0-439c-bc67-502a50c29665) | ![김정희](https://github.com/tunkcalb/shinhan-solup/assets/95354899/2c6fa00f-b5aa-4a86-a8c6-1a4e166f6b0e) |-->
+
 
 <div align="right"><a href="#tableContents">목차로 이동</a></div>
