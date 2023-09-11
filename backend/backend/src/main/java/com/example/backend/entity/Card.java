@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Card {
+
     @Id
     @Column
     private String cardNumber;
