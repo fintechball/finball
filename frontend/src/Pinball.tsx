@@ -25,7 +25,7 @@ const dummy = [
   { user_name: "하성호", ball_id: 5, cnt: 10, user_color: "" },
 ];
 
-function App() {
+function Pinball() {
   const [balls, setBalls] = useState([]);
   const [isGroundRemoved, setIsGroundRemoved] = useState(false);
   const [ballCount, setBallCount] = useState(0);
@@ -990,4 +990,4 @@ function App() {
   );
 }
 
-export default App;
+export default Pinball;
