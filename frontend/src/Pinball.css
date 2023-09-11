@@ -1,19 +1,26 @@
-body { margin: 0; overflow: hidden; }
 canvas {
-	display: block;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 1;
+  width: 100%;
+  height: auto;
 }
-button {
-	background-color: #0077FF; /* 버튼 배경색 */
-	color: black; /* 버튼 글자색 */
-	border: none;
-	padding: 10px 20px;
-	font-size: 16px;
-	cursor: pointer;
-	z-index: 2; /* 버튼을 화면 위로 올림 */
-  }
+#btn {
+  background-color: #4c4499;
+  border-radius: 50%;
+  border: 5% "px" solid white; /* 흰색 테두리 추가 */
+  width: 20%;
+  position: absolute;
+  aspect-ratio: 1;
+  top: 40%;
+  left: 40%;
+  color: white; /* 버튼 글자색 */
+  font-size: 3vw; /* 가로 비율에 따라 글자 크기 조절 */
+  cursor: pointer;
+  z-index: 2; /* 버튼을 화면 위로 올림 */
+}
+
+#score {
+  position: sticky;
+}
+#GameModal {
+  width: 60%;
+  height: 60%;
+}
