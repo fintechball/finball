@@ -1,6 +1,7 @@
 package com.finball.mydata.security;
 
 
+import com.finball.mydata.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Bean
     public BCryptPasswordEncoder PasswordEncoder() {
@@ -35,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .addFilter(new JwtAuthenticationFilter(
                         authenticationManager())) // formLogin을 disable 했기 때문에 해당 인증 작업을 다시 필터로 등록
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), memberRepository))
                 .authorizeRequests();
     }
 
