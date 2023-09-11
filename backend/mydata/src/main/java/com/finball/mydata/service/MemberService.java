@@ -14,8 +14,10 @@ public class MemberService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void regist(Member member) {
-        String userName = member.getName();
+        String name = member.getName();
         String registrationNumber = bCryptPasswordEncoder.encode(member.getRegistrationNumber());
-        memberRepository.save(new Member(userName, registrationNumber));
+
+        Member registMember = Member.builder().name(name).registrationNumber(registrationNumber).roles("ROLE_USER").build();
+        memberRepository.save(registMember);
     }
 }

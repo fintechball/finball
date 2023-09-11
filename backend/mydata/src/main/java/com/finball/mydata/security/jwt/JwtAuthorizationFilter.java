@@ -2,6 +2,7 @@ package com.finball.mydata.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.finball.mydata.entity.Member;
 import com.finball.mydata.jwt.JwtProperties;
 import com.finball.mydata.repository.MemberRepository;
 import java.io.IOException;
@@ -9,6 +10,8 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.finball.mydata.security.auth.PrincipalDetails;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -50,9 +53,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         // 서명이 정상적으로 됨
         if(username != null) {
             System.out.println("username 정상");
-            Member userEntity = memberRepository.findByUsername(username);
+            Member memberEntity = memberRepository.findByName(username);
 
-            PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
+            PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
 
             // Jwt 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어 준다.
             Authentication authentication =
