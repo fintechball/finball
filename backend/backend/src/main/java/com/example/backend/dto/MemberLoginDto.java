@@ -11,6 +11,7 @@ public class MemberLoginDto {
 
     @Data
     public static class Request {
+
         private String memberId;
         private String password;
     }
@@ -18,6 +19,7 @@ public class MemberLoginDto {
     @Data
     @AllArgsConstructor
     public static class Response {
+
         private TokenInfo tokenInfo;
     }
 }
