@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class GlobalHandler {
 
-  @ExceptionHandler(CustomException.class) //CustomException 에러를 잡아줌
-  protected ResponseEntity<ErrorResponse> handleTest(CustomException ex){
-    log.error("hello" + ex.toString());
-    return ResponseUtil.createErrorResponse(ErrorCode.BAD_REQUEST_ERROR1);
-  }
+    @ExceptionHandler(CustomException.class) //CustomException 에러를 잡아줌
+    protected ResponseEntity<ErrorResponse> handleTest(CustomException ex) {
+        log.error("hello" + ex.toString());
+        return ResponseUtil.createErrorResponse(ErrorCode.BAD_REQUEST_ERROR1);
+    }
 }

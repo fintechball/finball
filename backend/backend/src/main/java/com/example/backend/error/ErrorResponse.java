@@ -11,16 +11,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonInclude(Include.NON_NULL)
 public class ErrorResponse {
-  private int status;
-  private String message;
 
-  @Builder
-  protected ErrorResponse(ErrorCode code){
-    this.status = code.getStatus();
-    this.message = code.getMessage();
-  }
+    private int status;
+    private String message;
 
-  public static ErrorResponse of(final ErrorCode code){
-    return new ErrorResponse(code);
-  }
+    @Builder
+    protected ErrorResponse(ErrorCode code) {
+        this.status = code.getStatus();
+        this.message = code.getMessage();
+    }
+
+    public static ErrorResponse of(final ErrorCode code) {
+        return new ErrorResponse(code);
+    }
 }
