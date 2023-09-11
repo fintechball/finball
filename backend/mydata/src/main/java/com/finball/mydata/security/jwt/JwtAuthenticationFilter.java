@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             System.out.println(member);
 
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(member.getName(), member.getRegistrationNumber());
+                    new UsernamePasswordAuthenticationToken(member.getRegistrationNumber(), member.getName()+member.getRegistrationNumber());
 
             // 2.정상인지 로그인 시도를 해보는 것. authenticationManager로 로그인 시도를 하면
             // PrincipalDetailsService가 호출이 되고 loadUserByUsername() 함수가 실행된 후 정상이면 authentication이 리턴됨
@@ -50,9 +50,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             Authentication authentication =
                     authenticationManager.authenticate(authenticationToken);
 
+            System.out.println("========");
+
 
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-            System.out.println("로그인 완료됨 : " + principalDetails.getMember().getName()); // 로그인 정상적으로 되었다는 뜻
+            System.out.println("로그인 완료됨 : " + principalDetails.getMember().getRegistrationNumber()); // 로그인 정상적으로 되었다는 뜻
 
             // authentication 객체가 session 영역에 저장됨.
             // 리턴의 이유는 권한 관리를 security가 대신 해주기 때문에 편하려고 하는거
@@ -76,7 +78,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withSubject("finball 토큰")
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
                 .withClaim("id", principalDetails.getMember().getId())
-                .withClaim("username", principalDetails.getMember().getName())
+                .withClaim("registratinoNumber", principalDetails.getMember().getRegistrationNumber())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);

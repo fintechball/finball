@@ -23,6 +23,8 @@ public class Member {
 
     private String registrationNumber;
 
+    private String password;
+
     private String roles;
 
     public List<String> getRoleList() {
