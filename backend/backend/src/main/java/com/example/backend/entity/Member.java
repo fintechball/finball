@@ -22,11 +22,37 @@ import java.util.stream.Collectors;
 public class Member implements UserDetails {
 
     @Id
-    @Column(updatable = false, unique = true, nullable = false)
-    private String memberId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(unique = true, nullable = false)
+    private String userId;
+
+    @Column(unique = true, nullable = false)
+    private String phoneNumber;
+
+    @Column
+    private String easyPassword;
+
+    @Column
+    private int point = 0;
+
+    @Column
+    private String profileImg = "/defaultProfileImg";
 
     @Column(nullable = false)
     private String password;
+
+    @Column
+    private String email;
+
+    @Column
+    private String address;
+
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -41,7 +67,7 @@ public class Member implements UserDetails {
 
     @Override
     public String getUsername() {
-        return memberId;
+        return userId;
     }
 
     @Override

@@ -20,11 +20,27 @@ public class QMember extends EntityPathBase<Member> {
 
     public static final QMember member = new QMember("member1");
 
-    public final StringPath memberId = createString("memberId");
+    public final StringPath address = createString("address");
+
+    public final StringPath easyPassword = createString("easyPassword");
+
+    public final StringPath email = createString("email");
+
+    public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final StringPath name = createString("name");
 
     public final StringPath password = createString("password");
 
+    public final StringPath phoneNumber = createString("phoneNumber");
+
+    public final NumberPath<Integer> point = createNumber("point", Integer.class);
+
+    public final StringPath profileImg = createString("profileImg");
+
     public final ListPath<String, StringPath> roles = this.<String, StringPath>createList("roles", String.class, StringPath.class, PathInits.DIRECT2);
+
+    public final StringPath userId = createString("userId");
 
     public QMember(String variable) {
         super(Member.class, forVariable(variable));
