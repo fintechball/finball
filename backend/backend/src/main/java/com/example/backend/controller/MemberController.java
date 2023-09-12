@@ -1,8 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.MemberLoginDto;
-import com.example.backend.dto.MemberLoginDto.Response;
-import com.example.backend.dto.TokenInfo;
+import com.example.backend.dto.Response;
+import com.example.backend.dto.UserSignUpDto;
 import com.example.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +16,9 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/member/login")
-    public MemberLoginDto.Response login(@RequestBody MemberLoginDto.Request request) {
-        String memberId = request.getMemberId();
-        String password = request.getPassword();
-        TokenInfo tokenInfo = memberService.login(memberId, password);
-        return new Response(tokenInfo);
+    @PostMapping("/user")
+    public Response<?> userSignUp(@RequestBody UserSignUpDto.Request request) {
+        memberService.userSignUp(request);
+        return new Response(200, "정상적으로 회원가입이 완료되었습니다.", null);
     }
 }
