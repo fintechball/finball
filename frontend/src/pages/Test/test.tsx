@@ -1,7 +1,12 @@
 import React from "react";
 import type { RootState } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
-import { decrement, increment, reset } from "../../store/slices/counterSlice";
+import {
+  decrement,
+  increment,
+  reset,
+  incrementByAmount,
+} from "../../store/slices/counterSlice";
 
 function Counter() {
   const count = useSelector((state: RootState) => state.counter.value);
@@ -25,6 +30,12 @@ function Counter() {
         </button>
         <button aria-label="reset value" onClick={() => dispatch(reset())}>
           Reset
+        </button>
+        <button
+          aria-label="incrementByAmount value"
+          onClick={() => dispatch(incrementByAmount(5))}
+        >
+          5증가!
         </button>
       </div>
     </div>
