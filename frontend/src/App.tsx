@@ -3,7 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
-import Counter from "../src/pages/Test/test";
+import Router from "../src/routes/index";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -32,8 +32,7 @@ function App() {
       </p>
 
       <div>
-        <h1>리덕스 카운터 테스트</h1>
-        <Counter />
+        <Router />
       </div>
     </>
   );

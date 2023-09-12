@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./Login.module.css";
-import finballImage from "./assets/Logo.png";
+import finballImage from "../../assets/mini.png";
 // import { Button } from 'react-bootstrap';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { OutlinedInput, Button } from "@material-ui/core";
