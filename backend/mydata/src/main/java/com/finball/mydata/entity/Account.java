@@ -1,5 +1,6 @@
 package com.finball.mydata.entity;
 
+import com.finball.mydata.dto.account.AccountDto;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +14,7 @@ import lombok.Getter;
 public class Account {
 
     @Id
-    private Long accountNo;
+    private String accountNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -30,4 +31,14 @@ public class Account {
     private LocalDateTime accountRegist;
 
     private LocalDateTime accountClose;
+
+    public AccountDto toDto(){
+        return AccountDto.builder()
+                .account(this.accountNo)
+                .bankName(this.company.getCpName())
+                .bankImage(this.company.getCpLogo())
+                .name(this.name)
+                .balance(this.balance)
+                .build();
+    }
 }
