@@ -2,15 +2,15 @@ package com.example.backend.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.backend.entity.Member;
 import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.security.UserDetailsImpl;
+import com.example.backend.security.redis.RedisDao;
+import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class JwtTokenUtils {
 
     private final MemberRepository memberRepository;
+    private final RedisDao redisDao;
 
     @Value("${spring.auth.secret.key}")
     String JWT_SECRET;
@@ -58,9 +59,9 @@ public class JwtTokenUtils {
         map.put(ACCESS_TOKEN, accessToken);
         map.put(REFRESH_TOKEN, refreshToken);
 
-        /*
-            redis에 토큰 저장하는 로직 추가해줘야됨
-         */
+        redisDao.deleteValues(userDetails.getUsername()); // 기존에 있던 리프레쉬 토큰 삭제
+        redisDao.setValues(userDetails.getUsername(), refreshToken, Duration.ofMillis(REFRESH_TOKEN_VALID_MILLI_SEC)); // 새로운 리프레쉬 토큰 저장
+
         return map;
 
     }
