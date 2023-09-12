@@ -19,7 +19,8 @@ public class AccountService {
 
     public GetAccountsDto.Response getAccounts(Long id, Request request) {
         List<Long> bankList = request.getBankList();
-        List<AccountDto> accountList = accountRepository.findAllByMemberIdAndCompanyIdIn(id, bankList)
+        List<AccountDto> accountList = accountRepository.findAllByMemberIdAndCompanyIdIn(id,
+                        bankList)
                 .stream().map(Account::toDto).collect(Collectors.toList());
         return GetAccountsDto.Response.builder()
                 .userAccountList(accountList).build();

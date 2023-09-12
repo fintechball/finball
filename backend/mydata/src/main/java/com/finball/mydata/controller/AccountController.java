@@ -23,7 +23,8 @@ public class AccountController {
 
     @PostMapping("/mydata/account")
     public Response<GetAccountsDto.Response> getAccounts(
-            @RequestBody GetAccountsDto.Request request, @AuthenticationPrincipal PrincipalDetails userDetails) {
+            @RequestBody GetAccountsDto.Request request,
+            @AuthenticationPrincipal PrincipalDetails userDetails) {
         long id = userDetails.getMember().getId();
         GetAccountsDto.Response response = accountService.getAccounts(id, request);
         return new Response<>("200", "계좌 조회 완료", response);
