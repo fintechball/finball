@@ -10,6 +10,7 @@ import com.example.backend.security.provider.JwtAuthProvider;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -38,6 +42,8 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()  // 필터 생성할때 마다 and해줘야됨
@@ -58,7 +64,7 @@ public class SecurityConfig {
 
     @Autowired
     void registerProvider(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(new FormLoginAuthProvider(userDetailsService, encodePassword()));
+        auth.authenticationProvider(new FormLoginAuthProvider(userDetailsService));
         auth.authenticationProvider(new JwtAuthProvider(jwtTokenUtils, memberRepository));
     }
 
@@ -66,7 +72,7 @@ public class SecurityConfig {
     FormLoginFilter formLoginFilter(AuthenticationManager authenticationManager) {
         FormLoginFilter formLoginFilter = new FormLoginFilter(authenticationManager);
 
-        formLoginFilter.setFilterProcessesUrl("/member/login"); // 해당 URL로 접근하면 Filter를 실행할 것이다.
+        formLoginFilter.setFilterProcessesUrl("/user/login"); // 해당 URL로 접근하면 Filter를 실행할 것이다.
         formLoginFilter.setAuthenticationSuccessHandler(
                 new FormLoginSuccessHandler(jwtTokenUtils)
         ); // filter를 실행해서 성공되는 경우 커스텀한 Handler 실행
@@ -75,25 +81,41 @@ public class SecurityConfig {
         return formLoginFilter;
     }
 
-    JwtAuthFilter jwtAuthFilter(AuthenticationManager authenticationManager) {
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*"); // local 테스트 시
+        configuration.setAllowCredentials(true);
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("*");
+        configuration.addExposedHeader("Access_Token");
+        configuration.addExposedHeader("Refresh_Token");
+        configuration.addAllowedOriginPattern("*"); // 배포 전 모두 허용
+        val source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
 
+        return source;
+    }
+
+    JwtAuthFilter jwtAuthFilter(AuthenticationManager authenticationManager) {
         List<Path> skipPathList = new ArrayList<>();
 
-        skipPathList.add(new Path(HttpMethod.POST, "/member/login"));
+        // User
+        skipPathList.add(new Path(HttpMethod.POST, "/user"));
+        skipPathList.add(new Path(HttpMethod.POST, "/user/login"));
 
         FilterSkipMatcher matcher = new FilterSkipMatcher(skipPathList, "/**");
-
-        JwtAuthFilter jwtAuthFilter = new JwtAuthFilter(matcher, extractor);
-
-        jwtAuthFilter.setAuthenticationManager(authenticationManager);
-
-        return jwtAuthFilter;
+        JwtAuthFilter filter = new JwtAuthFilter(matcher, extractor);
+        filter.setAuthenticationManager(authenticationManager);
+        return filter;
     }
 
     public class CustomFilter extends AbstractHttpConfigurer<CustomFilter, HttpSecurity> {
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
+            System.out.println("CustomFilter : configure");
 
             AuthenticationManager authenticationManager = http
                     .getSharedObject(AuthenticationManager.class);

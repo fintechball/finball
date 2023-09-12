@@ -17,8 +17,7 @@ public class FilterSkipMatcher implements RequestMatcher {
         this.orRequestMatcher = new OrRequestMatcher(
             pathToSkips.stream()
                     .map(this::httpPath)
-                .collect(Collectors.toList())
-        );
+                .collect(Collectors.toList()));
         this.requestMatcher = new AntPathRequestMatcher(processingPath);
     }
 
@@ -28,6 +27,6 @@ public class FilterSkipMatcher implements RequestMatcher {
 
     @Override
     public boolean matches(HttpServletRequest request) {
-        return false;
+        return !orRequestMatcher.matches(request) && requestMatcher.matches(request);
     }
 }

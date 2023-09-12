@@ -27,6 +27,8 @@ public class JwtAuthProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
 
+        System.out.println("JwtAuthProvider : authenticate");
+
         String token = (String) authentication.getPrincipal();
 
         String userId = jwtDecoder.decodeUsername(token);

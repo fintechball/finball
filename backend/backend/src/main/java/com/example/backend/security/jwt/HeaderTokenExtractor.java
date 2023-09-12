@@ -15,6 +15,8 @@ public class HeaderTokenExtractor {
     public final String HEADER_PREFIX = "Bearer ";
 
     public String extract(String header, HttpServletRequest request) {
+        System.out.println("HeaderTokenExtractor : extract");
+
         if (header == null || header.length() < HEADER_PREFIX.length()) {
             System.out.println("error request : " + request.getRequestURI());
             throw new NoSuchElementException("올바른 JWT 정보가 아닙니다.");

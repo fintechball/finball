@@ -1,6 +1,7 @@
 package com.example.backend.dto;
 
 import com.example.backend.entity.Member;
+import com.example.backend.type.UserType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,11 +17,13 @@ public class UserSignUpDto {
         private String name;
         private String phoneNumber;
 
-        public Member toMember() {
+        public Member toMember(String encodedPassword) {
+
             return new Member().builder()
                     .userId(this.userId)
-                    .password(this.password)
+                    .password(encodedPassword)
                     .name(this.name)
+                    .type(UserType.USER)
                     .phoneNumber(this.phoneNumber).build();
         }
 

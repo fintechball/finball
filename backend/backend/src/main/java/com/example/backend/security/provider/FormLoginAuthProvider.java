@@ -14,20 +14,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class FormLoginAuthProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
     @Override
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
+
+        System.out.println("FormLoginAuthProvider : authenticate");
 
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
 
         String userId = token.getName();
         String password = (String) token.getCredentials();
 
+
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(userId);
 
+
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        System.out.println(password);
+        System.out.println(userDetails.getPassword());
         if(!bCryptPasswordEncoder.matches(password, userDetails.getPassword())) {
             throw new IllegalArgumentException("토큰에 해당하는 비밀번호가 일치하지 않습니다.");
         }

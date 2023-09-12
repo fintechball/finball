@@ -37,6 +37,7 @@ public class JwtTokenUtils {
     final String REFRESH_TOKEN = "REFRESH_TOKEN";
 
     public Map<String, String> generatedJwtToken(UserDetailsImpl userDetails) {
+        System.out.println("JwtTokenUtils : generatedJwtToken");
 
         Map<String, String> map = new HashMap<>();
 

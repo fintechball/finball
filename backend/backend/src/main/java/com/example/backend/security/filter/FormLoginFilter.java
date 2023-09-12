@@ -28,6 +28,7 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
             HttpServletResponse response) throws AuthenticationException {
+        System.out.println("FormLoginFilter : attemptAuthentication");
 
         UsernamePasswordAuthenticationToken authRequest = null;
 
@@ -37,6 +38,8 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
             String username = requestBody.get("username").asText();
             String password = requestBody.get("password").asText();
+
+            System.out.println(password);
 
             authRequest = new UsernamePasswordAuthenticationToken(username, password);
         } catch (IOException e) {

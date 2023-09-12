@@ -30,6 +30,7 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
     public Authentication attemptAuthentication(HttpServletRequest request,
             HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
+        System.out.println("JwtAuthFilter : attemptAuthentication");
 
         String payLoad = request.getHeader("Authorization");
 
@@ -49,6 +50,7 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
     protected void successfulAuthentication(HttpServletRequest request,
             HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
+        System.out.println("JwtAuthFilter : successfulAuthentication");
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authResult);
         SecurityContextHolder.setContext(context);
@@ -63,6 +65,7 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
     protected void unsuccessfulAuthentication(HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException failed) throws IOException, ServletException {
+        System.out.println("JwtAuthFilter : unsuccessfulAuthentication");
         super.unsuccessfulAuthentication(request, response, failed);
     }
 }

@@ -17,6 +17,7 @@ public class JwtDecoder {
     private final JwtTokenUtils jwtTokenUtils;
 
     public String decodeUsername(String token) {
+        System.out.println("JwtDecoder : decodeUsername");
         DecodedJWT decodedJWT = isValidToken(token);
 
         Date expireDate = decodedJWT.getClaim(jwtTokenUtils.CLAIM_EXPIRED_DATE).asDate();
@@ -36,6 +37,7 @@ public class JwtDecoder {
 
 
     DecodedJWT isValidToken(String token) {
+        System.out.println("JwtDecoder : isValidToken");
         try {
             Algorithm algorithm = Algorithm.HMAC256(jwtTokenUtils.JWT_SECRET);
             JWTVerifier verifier = JWT.require(algorithm).build();
