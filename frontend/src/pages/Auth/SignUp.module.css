@@ -19,7 +19,7 @@
   gap: 1vh; /* 자식요소간의 간격 */
   align-items: center;
   text-align: center;
-  background-image: url("./assets/background.png") !important; /* 이미지 파일의 경로를 정확하게 지정합니다. */
+  background-image: url("../../assets/background.png") !important; /* 이미지 파일의 경로를 정확하게 지정합니다. */
   background-size: cover; /* 이미지 크기를 컨테이너에 맞게 조절합니다. */
   background-repeat: no-repeat; /* 이미지 반복 없음 */
 }
