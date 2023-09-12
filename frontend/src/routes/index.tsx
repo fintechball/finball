@@ -6,8 +6,10 @@ import Counter from "../pages/Test/Counter";
 
 import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/SignUp";
+import SignUpConfrim from "../pages/Auth/SignUpConfrim"
 
 import Pinball from "../pages/Pinball/Pinball";
+import Game from "../pages/Pinball/Game";
 import Card from "../pages/Pinball/Card";
 
 function Router() {
@@ -20,6 +22,8 @@ function Router() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/pinball" element={<Pinball />} />
         <Route path="/card" element={<Card />} />
+        <Route path="/game" element={<Game />} />
+        <Route path="/signupconfrim" element={<SignUpConfrim />} />
       </Routes>
     </>
   );

@@ -1,0 +1,26 @@
+.certi {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 30%;
+    margin-top: 50px;
+  }
+  
+  .ball {
+    width: 5vh;
+    height:5vh;
+    border-radius: 50%;
+    margin-right: 3%;
+    background-color: gray;
+  }
+  
+  /* 인증번호 입력 시 기본 색상 */
+  .active {
+    background-color: green;
+  }
+  
+  .invisible {
+    width: 3%;
+    opacity: 0;
+  }
+  
