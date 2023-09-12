@@ -1,20 +1,36 @@
 package com.finball.mydata.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import lombok.Getter;
+import javax.persistence.*;
 
-@Entity
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String name;
 
     private String registrationNumber;
+
+    private String password;
+
+    private String roles;
+
+    public List<String> getRoleList() {
+        if (this.roles.length() > 0) {
+            return Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
+    }
 }
