@@ -9,7 +9,7 @@ import {
   Body,
   Events,
 } from "matter-js";
-import "./Game.css";
+import "./Pinball.css";
 import Modal from "react-modal";
 import finball from "./assets/finball.png";
 const width = window.innerWidth;
