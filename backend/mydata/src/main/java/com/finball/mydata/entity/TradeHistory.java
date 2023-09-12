@@ -3,12 +3,14 @@ package com.finball.mydata.entity;
 import com.finball.mydata.type.DealType;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+@Entity
 public class TradeHistory {
 
     @Id
