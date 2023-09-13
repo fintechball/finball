@@ -2,6 +2,7 @@ package com.finball.mydata.util;
 
 import com.finball.mydata.dto.account.AccountDto;
 import com.finball.mydata.entity.Member;
+import com.finball.mydata.type.CompanyType;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -35,6 +36,8 @@ public class RandomAccount {
         LocalDateTime registerDt = LocalDateTime.now();
         String name = (String) bank.get("name");
         Long companyId = (Long) bank.get("cp_id");
+
+
 
         return AccountDto.builder()
                 .accountNumber(accountNumber)
