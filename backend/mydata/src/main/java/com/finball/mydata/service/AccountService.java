@@ -5,6 +5,7 @@ import com.finball.mydata.dto.account.GetAccountsDto;
 import com.finball.mydata.dto.account.GetAccountsDto.Request;
 import com.finball.mydata.dto.account.GetAccountsDto.Response;
 import com.finball.mydata.entity.Account;
+import com.finball.mydata.entity.Member;
 import com.finball.mydata.repository.AccountRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,9 +18,11 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    public GetAccountsDto.Response getAccounts(Long id, Request request) {
+    public GetAccountsDto.Response getAccounts(Member member, Request request) {
+        long memberId = member.getId();
         List<Long> bankList = request.getBankList();
-        List<AccountDto> accountList = accountRepository.findAllByMemberIdAndCompanyIdIn(id,
+        List<AccountDto> accountList = accountRepository.findAllByMemberIdAndCompanyIdInWithFetchJoin(
+                        memberId,
                         bankList)
                 .stream().map(Account::toDto).collect(Collectors.toList());
         return GetAccountsDto.Response.builder()

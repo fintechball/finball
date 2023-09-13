@@ -7,10 +7,14 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account {
 
     @Id
@@ -32,7 +36,19 @@ public class Account {
 
     private LocalDateTime accountClose;
 
-    public AccountDto toDto(){
+    @Builder
+    public Account(String accountNo, Member member, Company company, Long balance, String name,
+            LocalDateTime accountRegist, LocalDateTime accountClose) {
+        this.accountNo = accountNo;
+        this.member = member;
+        this.company = company;
+        this.balance = balance;
+        this.name = name;
+        this.accountRegist = accountRegist;
+        this.accountClose = accountClose;
+    }
+
+    public AccountDto toDto() {
         return AccountDto.builder()
                 .account(this.accountNo)
                 .bankName(this.company.getCpName())

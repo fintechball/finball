@@ -11,17 +11,15 @@ import lombok.NoArgsConstructor;
 public class GetAccountsDto {
 
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class Request {
+
         List<Long> bankList;
     }
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class Response {
+
         List<AccountDto> userAccountList;
     }
 }

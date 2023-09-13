@@ -5,10 +5,14 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Card {
 
     @Id
@@ -27,4 +31,15 @@ public class Card {
     private String image;
 
     private String cardCompanyName;
+
+    @Builder
+    public Card(String cardNo, Member member, Company company, String name, String image,
+            String cardCompanyName) {
+        this.cardNo = cardNo;
+        this.member = member;
+        this.company = company;
+        this.name = name;
+        this.image = image;
+        this.cardCompanyName = cardCompanyName;
+    }
 }
