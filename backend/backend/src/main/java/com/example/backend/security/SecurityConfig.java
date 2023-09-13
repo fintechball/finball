@@ -105,6 +105,12 @@ public class SecurityConfig {
         skipPathList.add(new Path(HttpMethod.POST, "/user"));
         skipPathList.add(new Path(HttpMethod.POST, "/user/login"));
 
+        // Deploy
+        skipPathList.add(new Path(HttpMethod.GET, "/profile"));
+
+        // HealthCheck
+        skipPathList.add(new Path(HttpMethod.POST, "/actuator/health"));
+
         FilterSkipMatcher matcher = new FilterSkipMatcher(skipPathList, "/**");
         JwtAuthFilter filter = new JwtAuthFilter(matcher, extractor);
         filter.setAuthenticationManager(authenticationManager);
