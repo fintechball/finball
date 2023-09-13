@@ -71,11 +71,11 @@ function App() {
 
     // Create balls array
     const balls = [];
-    for (let i = 0; i < 400; i++) {
+    for (let i = 0; i < 100; i++) {
       const ball = Bodies.circle(
         Math.random() * parentSize.width,
         Math.random() * parentSize.height,
-        Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 55,
+        Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 40,
         {
           restitution: 0.01,
           friction: 0.001,
