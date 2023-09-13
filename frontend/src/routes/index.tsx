@@ -6,7 +6,6 @@ import Counter from "../pages/Test/Counter";
 
 import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/SignUp";
-
 import Pinball from "../pages/Pinball/Pinball";
 import Card from "../pages/Pinball/Card";
 
