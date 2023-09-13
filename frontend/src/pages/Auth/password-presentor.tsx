@@ -5,6 +5,7 @@ export default class PasswordPresentor {
       const name = e.target.name;
       const value = e.target.value.trim();
       let modifiedValue = value.substring(0, 1); // input maxlength: 1 지정
+      console.log(name,modifiedValue)
     
       // 클릭 이벤트인 경우, 값을 변경하지 않음
       if (e.type === 'click') {

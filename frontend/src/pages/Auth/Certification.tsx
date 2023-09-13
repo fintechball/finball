@@ -4,7 +4,7 @@ import styles from './Certification.module.css'
 import PasswordPresentor from './password-presentor';
 import { Style } from '@mui/icons-material';
 
-export default function Password() {
+export default function Password({value}) {
   // 함수들은 Class 를 외부에서 생성하여 import를 하여 사용하였다.
   const passwordPresentor = new PasswordPresentor(); // 인스턴스 생성
   
@@ -12,14 +12,24 @@ export default function Password() {
   
   // input value 
   const [state, setState] = useState({
-    value1: '',
-    value2: '',
-    value3: '',
-    value4: '',
-    value5: '',
-    value6: '',
+    value1: value[0]? value[0]:'',
+    value2: value[1]? value[1]:'',
+    value3: value[2]? value[2]:'',
+    value4: value[3]? value[3]:'',
+    value5: value[4]? value[4]:'',
+    value6: value[5]? value[5]:'',
   });
-	
+  useEffect(() => {
+    // value prop이 변경될 때마다 컴포넌트 내부 상태를 업데이트합니다.
+    setState({
+      value1: value.charAt(0) || '',
+      value2: value.charAt(1) || '',
+      value3: value.charAt(2) || '',
+      value4: value.charAt(3) || '',
+      value5: value.charAt(4) || '',
+      value6: value.charAt(5) || '',
+    });
+  }, [value]);
   // input onChange
   const handleInputChange = (e) => {
     if (e.type === 'click') {
