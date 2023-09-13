@@ -622,7 +622,6 @@ useEffect(() => {
 
       <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen}}>Finball!</button>
       <div
-        id="ballCount"
         style={{
           position: 'fixed',
           zIndex:3,
@@ -655,6 +654,7 @@ useEffect(() => {
                 height: '50%', // 모달의 높이
                 top: '25%', // 모달을 수직으로 가운데 정렬
                 left: '25%', // 모달을 수평으로 가운데 정렬
+                zIndex:30,
               },
             }}
         >
