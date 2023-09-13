@@ -622,7 +622,6 @@ useEffect(() => {
 
       <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen}}>Finball!</button>
       <div
-        id="ballCount"
         style={{
           position: 'fixed',
           zIndex:3,
