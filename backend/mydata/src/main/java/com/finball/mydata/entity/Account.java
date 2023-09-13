@@ -6,14 +6,20 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor // 문제 2. 기본 생성자의 접근 제어자가 불명확함
+@AllArgsConstructor
 public class Account {
 
     @Id
-    private Long accountNo;
+    private String accountNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
