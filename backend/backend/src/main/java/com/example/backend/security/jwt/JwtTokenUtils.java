@@ -2,15 +2,16 @@ package com.example.backend.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.backend.entity.Member;
+import com.example.backend.config.redis.RedisDao;
+import com.example.backend.dto.TokenDto;
 import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.security.UserDetailsImpl;
+import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class JwtTokenUtils {
 
     private final MemberRepository memberRepository;
+    private final RedisDao redisDao;
 
     @Value("${spring.auth.secret.key}")
     String JWT_SECRET;
@@ -35,6 +37,7 @@ public class JwtTokenUtils {
     final String CLAIM_USER_NAME = "USER_NAME";
     final String ACCESS_TOKEN = "ACCESS_TOKEN";
     final String REFRESH_TOKEN = "REFRESH_TOKEN";
+    final String TOKEN_HEADER = "Bearer ";
 
     public Map<String, String> generatedJwtToken(UserDetailsImpl userDetails) {
         System.out.println("JwtTokenUtils : generatedJwtToken");
@@ -58,12 +61,52 @@ public class JwtTokenUtils {
         map.put(ACCESS_TOKEN, accessToken);
         map.put(REFRESH_TOKEN, refreshToken);
 
-        /*
-            redis에 토큰 저장하는 로직 추가해줘야됨
-         */
+        redisDao.deleteValues(userDetails.getUsername()); // 기존에 있던 리프레쉬 토큰 삭제
+        redisDao.setValues(userDetails.getUsername(), refreshToken,
+                Duration.ofMillis(REFRESH_TOKEN_VALID_MILLI_SEC)); // 새로운 리프레쉬 토큰 저장
+
         return map;
 
     }
 
+    public TokenDto reissueToken(String userId, String userRefreshToken)
+            throws IllegalAccessException {
 
+        String redisRefreshToken = redisDao.getValues(userId);
+
+        if (redisRefreshToken == null) {
+            throw new IllegalAccessException("refreshToken이 존재하지 않습니다. 다시 로그인하세요");
+        }
+
+        if (!redisRefreshToken.equals(userRefreshToken)) {
+            throw new IllegalAccessException("refreshToken이 일치하지 않습니다. 다시 로그인하세요");
+        }
+
+        String accessToken = JWT.create()
+                .withIssuer("finball")
+                .withClaim(CLAIM_USER_NAME, userId)
+                .withClaim(CLAIM_EXPIRED_DATE,
+                        new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALID_MILLI_SEC))
+                .sign(Algorithm.HMAC256(JWT_SECRET));
+
+        String refreshToken = JWT.create()
+                .withIssuer("finball")
+                .withClaim(CLAIM_USER_NAME, userId)
+                .withClaim(CLAIM_EXPIRED_DATE,
+                        new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALID_MILLI_SEC))
+                .sign(Algorithm.HMAC256(JWT_SECRET));
+
+        redisDao.deleteValues(userId); // 기존에 있던 리프레쉬 토큰 삭제
+        redisDao.setValues(userId, refreshToken,
+                Duration.ofMillis(REFRESH_TOKEN_VALID_MILLI_SEC)); // 새로운 리프레쉬 토큰 저장
+
+        TokenDto token = new TokenDto(TOKEN_HEADER + accessToken, TOKEN_HEADER + refreshToken);
+
+        return token;
+    }
+
+
+    public void logout(String userId) {
+        redisDao.deleteValues(userId); // 리프레쉬 토큰 삭제
+    }
 }

@@ -29,11 +29,7 @@ public class FormLoginAuthProvider implements AuthenticationProvider {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(userId);
 
-
-
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        System.out.println(password);
-        System.out.println(userDetails.getPassword());
         if(!bCryptPasswordEncoder.matches(password, userDetails.getPassword())) {
             throw new IllegalArgumentException("토큰에 해당하는 비밀번호가 일치하지 않습니다.");
         }
