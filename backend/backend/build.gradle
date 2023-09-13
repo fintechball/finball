@@ -57,6 +57,9 @@ dependencies {
 
 	//헬스 체크 의존 추가
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 // Querydsl 설정부
