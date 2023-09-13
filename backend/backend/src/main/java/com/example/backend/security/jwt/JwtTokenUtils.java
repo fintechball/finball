@@ -2,10 +2,10 @@ package com.example.backend.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.backend.config.redis.RedisDao;
 import com.example.backend.dto.TokenDto;
 import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.security.UserDetailsImpl;
-import com.example.backend.security.redis.RedisDao;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;

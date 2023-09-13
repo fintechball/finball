@@ -1,4 +1,4 @@
-package com.example.backend.security.redis;
+package com.example.backend.config.redis;
 
 import java.time.Duration;
 import org.springframework.data.redis.core.RedisTemplate;

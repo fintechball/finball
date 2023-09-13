@@ -1,6 +1,5 @@
 package com.example.backend.service;
 
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backend.dto.TokenDto;
 import com.example.backend.security.jwt.HeaderTokenExtractor;
 import com.example.backend.security.jwt.JwtDecoder;
@@ -19,11 +18,8 @@ public class RefreshTokenService {
 
     public TokenDto reissue(HttpServletRequest request) throws IllegalAccessException {
         String tokenPayLoad = request.getHeader("Authorization");
-
         String token = extractor.extract(tokenPayLoad, request);
-
         String userId = jwtDecoder.decodeUsername(token);
-
         TokenDto newToken = jwtTokenUtils.reissueToken(userId, token);
 
         return newToken;
@@ -32,12 +28,8 @@ public class RefreshTokenService {
 
     public void logout(HttpServletRequest request) {
         String tokenPayLoad = request.getHeader("Authorization");
-
         String token = extractor.extract(tokenPayLoad, request);
-
         String userId = jwtDecoder.decodeUsername(token);
-
         jwtTokenUtils.logout(userId);
-
     }
 }

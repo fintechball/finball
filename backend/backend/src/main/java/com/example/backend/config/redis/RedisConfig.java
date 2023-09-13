@@ -1,4 +1,4 @@
-package com.example.backend.security.redis;
+package com.example.backend.config.redis;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
