@@ -1,5 +1,6 @@
 package com.finball.mydata.entity;
 
+import com.finball.mydata.dto.company.BankInfoDto;
 import com.finball.mydata.type.CompanyType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -31,4 +32,12 @@ public class Company {
 
     @Enumerated(EnumType.STRING)
     private CompanyType cpType;
+
+    public BankInfoDto toBankInfoDto(){
+        return BankInfoDto.builder()
+                .code(String.valueOf(this.cpCode))
+                .name(this.cpName)
+                .img(this.cpLogo)
+                .build();
+    }
 }
