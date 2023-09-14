@@ -49,7 +49,7 @@ public class Account {
         this.accountClose = accountClose;
     }
 
-    public AccountDto toDto() {
+    public AccountDto toAccountDto() {
         return AccountDto.builder()
                 .account(this.accountNo)
                 .bankName(this.company.getCpName())

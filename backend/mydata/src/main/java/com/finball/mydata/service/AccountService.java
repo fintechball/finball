@@ -37,7 +37,7 @@ public class AccountService {
                 memberId,
                 bankList);
         List<AccountDto> accountDtoList = accountList
-                .stream().map(Account::toDto).collect(Collectors.toList());
+                .stream().map(Account::toAccountDto).collect(Collectors.toList());
 
         return GetAccountsDto.Response.builder()
                 .userAccountList(accountDtoList).build();
