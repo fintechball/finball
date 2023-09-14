@@ -1,6 +1,6 @@
 package com.finball.mydata.util;
 
-import com.finball.mydata.dto.card.CardDto;
+import com.finball.mydata.dto.card.RegistCardDto;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -18,7 +18,7 @@ public class RandomCard {
 
     static final String JSON_FILE_PATH = "C:\\Users\\SSAFY\\Desktop\\ssafy2\\ssafy2-2\\S09P22E106\\backend\\mydata\\src\\main\\java\\com\\finball\\mydata\\util\\json\\card.json";
 
-    public CardDto create() throws IOException, ParseException {
+    public RegistCardDto create() throws IOException, ParseException {
         JSONParser parser = new JSONParser();
         Reader reader = new FileReader(JSON_FILE_PATH);
 
@@ -29,13 +29,13 @@ public class RandomCard {
         return createCardDto(card);
     }
 
-    private CardDto createCardDto(JSONObject card) {
+    private RegistCardDto createCardDto(JSONObject card) {
         String cardNumber = createCardNumber(card);
         String name = (String) card.get("name");
         Long companyId = (Long) card.get("cp_id");
         String image = (String) card.get("image");
 
-        return CardDto.builder()
+        return RegistCardDto.builder()
                 .cardNumber(cardNumber)
                 .companyId(companyId)
                 .name(name)
