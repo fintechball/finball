@@ -22,8 +22,6 @@ public class QCard extends EntityPathBase<Card> {
 
     public static final QCard card = new QCard("card");
 
-    public final StringPath cardCompanyName = createString("cardCompanyName");
-
     public final StringPath cardNo = createString("cardNo");
 
     public final QCompany company;

@@ -30,7 +30,7 @@ public class AccountController {
             @AuthenticationPrincipal PrincipalDetails userDetails) {
         Member member = userDetails.getMember();
         GetAccountsDto.Response response = accountService.getAccounts(member, request);
-        return new Response<>("200", "계좌 조회 완료", response);
+        return new Response<>(200, "계좌 조회 완료", response);
     }
 
     @GetMapping("/create/account/{memberId}")
