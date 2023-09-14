@@ -18,7 +18,8 @@ public class AccountCustomRepository extends QuerydslRepositorySupport {
         this.queryFactory = queryFactory;
     }
 
-    public List<Account> findAllByMemberIdAndCompanyIdInWithFetchJoin(long memberId, List<Long> companyIds) {
+    public List<Account> findAllByMemberIdAndCompanyIdInWithFetchJoin(long memberId,
+            List<Long> companyIds) {
         return queryFactory
                 .selectFrom(account)
                 .leftJoin(account.member).fetchJoin()

@@ -32,6 +32,7 @@ public class AccountController {
         GetAccountsDto.Response response = accountService.getAccounts(member, request);
         return new Response<>("200", "계좌 조회 완료", response);
     }
+
     @GetMapping("/create/account/{memberId}")
     public void createAccount(@PathVariable Long memberId) throws Exception {
         accountService.createAccount(memberId);
