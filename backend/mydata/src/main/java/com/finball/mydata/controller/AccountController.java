@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -29,5 +31,9 @@ public class AccountController {
         Member member = userDetails.getMember();
         GetAccountsDto.Response response = accountService.getAccounts(member, request);
         return new Response<>("200", "계좌 조회 완료", response);
+    }
+    @GetMapping("/create/account/{memberId}")
+    public void createAccount(@PathVariable Long memberId) throws Exception {
+        accountService.createAccount(memberId);
     }
 }

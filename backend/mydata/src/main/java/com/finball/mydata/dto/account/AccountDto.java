@@ -17,4 +17,14 @@ public class AccountDto {
     private String account;
     private Long balance;
 
+    @Override
+    public String toString() {
+        return "AccountDto{" +
+                "bankName='" + bankName + '\'' +
+                ", bankImage='" + bankImage + '\'' +
+                ", name='" + name + '\'' +
+                ", account='" + account + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 }
