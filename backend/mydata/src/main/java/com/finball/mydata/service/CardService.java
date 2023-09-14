@@ -1,6 +1,6 @@
 package com.finball.mydata.service;
 
-import com.finball.mydata.dto.card.CardDto;
+import com.finball.mydata.dto.card.RegistCardDto;
 import com.finball.mydata.entity.Card;
 import com.finball.mydata.entity.Company;
 import com.finball.mydata.entity.Member;
@@ -24,11 +24,11 @@ public class CardService {
 
     public void createCard(Long memberId) throws IOException, ParseException {
         Member member = memberRepository.findById(memberId).get();
-        CardDto cardDto = randomCard.create();
+        RegistCardDto registCardDto = randomCard.create();
 
-        Long companyId = cardDto.getCompanyId();
+        Long companyId = registCardDto.getCompanyId();
         Company company = companyRepository.findById(companyId).get();
-        Card card = cardDto.toCard(member, company);
+        Card card = registCardDto.toCard(member, company);
 
         cardRepository.save(card);
 
