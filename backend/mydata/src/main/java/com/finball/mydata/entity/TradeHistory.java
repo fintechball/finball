@@ -11,15 +11,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TradeHistory {
 
     @Id
@@ -51,4 +53,21 @@ public class TradeHistory {
     private String opAccount;
 
     private String opBankName;
+
+    @Builder
+    public TradeHistory(Company company, Account account, Long value, Long remain,
+            LocalDate date, LocalTime time, DealType type, String target, String nickname,
+            String opAccount, String opBankName) {
+        this.company = company;
+        this.account = account;
+        this.value = value;
+        this.remain = remain;
+        this.date = date;
+        this.time = time;
+        this.type = type;
+        this.target = target;
+        this.nickname = nickname;
+        this.opAccount = opAccount;
+        this.opBankName = opBankName;
+    }
 }
