@@ -36,4 +36,8 @@ public class Account {
     private LocalDateTime accountRegist;
 
     private LocalDateTime accountClose;
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
 }
