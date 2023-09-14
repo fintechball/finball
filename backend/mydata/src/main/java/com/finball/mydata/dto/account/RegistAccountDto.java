@@ -13,20 +13,20 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor // 문제 2. 기본 생성자의 접근 제어자가 불명확함
 @AllArgsConstructor
-public class AccountDto {
+public class RegistAccountDto {
 
     private String accountNumber;
     private LocalDateTime registerDt;
     private Long balance;
-    private String name;
     private Long companyId;
+    private String accountName;
 
     public Account toAccount(Member member, Company company) {
         return Account.builder()
                 .accountNo(this.accountNumber)
                 .accountRegist(this.registerDt)
                 .balance(this.balance)
-                .name(this.name)
+                .name(this.accountName)
                 .member(member)
                 .company(company)
                 .build();
