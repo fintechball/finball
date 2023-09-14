@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardDto {
+public class RegistCardDto {
 
     private String cardNumber;
     private String image;
