@@ -19,7 +19,7 @@ public class RandomAccount {
     Random random = new Random();
     static final String JSON_FILE_PATH = "C:\\Users\\SSAFY\\Desktop\\S09P22E106\\backend\\mydata\\src\\main\\java\\com\\finball\\mydata\\util\\json\\account.json";
 
-    public RegistAccountDto create(Member member) throws IOException, ParseException {
+    public RegistAccountDto create() throws IOException, ParseException {
         JSONParser parser = new JSONParser();
         Reader reader = new FileReader(JSON_FILE_PATH);
 
@@ -27,16 +27,14 @@ public class RandomAccount {
         JSONArray banks = (JSONArray) data.get("banks");
         JSONObject bank = getRandomBank(banks);
 
-        return createAccountDto(bank, member);
+        return createAccountDto(bank);
     }
 
-    private RegistAccountDto createAccountDto(JSONObject bank, Member member) {
+    private RegistAccountDto createAccountDto(JSONObject bank) {
         String accountNumber = createAccountNumber(bank);
         LocalDateTime registerDt = LocalDateTime.now();
-        String name = (String) bank.get("name");
         Long companyId = (Long) bank.get("cp_id");
         String accountName = createAccountName(bank);
-
 
         return RegistAccountDto.builder()
                 .accountNumber(accountNumber)
@@ -47,7 +45,7 @@ public class RandomAccount {
                 .build();
     }
 
-    private String createAccountName(JSONObject bank){
+    private String createAccountName(JSONObject bank) {
         JSONArray names = (JSONArray) bank.get("accountName");
         int randIndex = random.nextInt(names.size());
 
@@ -94,7 +92,7 @@ public class RandomAccount {
     }
 
     private JSONObject getRandomBank(JSONArray banks) {
-        int bankIndex = random.nextInt(10);
+        int bankIndex = random.nextInt(banks.size());
         return (JSONObject) banks.get(bankIndex);
     }
 }
