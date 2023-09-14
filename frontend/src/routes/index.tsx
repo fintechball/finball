@@ -8,9 +8,7 @@ import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/SignUp";
 import SignUpConfrim from "../pages/Auth/SignUpConfrim"
 import SecurityKeypad from "../pages/Auth/SecurityKeypad"
-
 import Pinball from "../pages/Pinball/Pinball";
-import Game from "../pages/Pinball/Game";
 import Card from "../pages/Pinball/Card";
 
 function Router() {
