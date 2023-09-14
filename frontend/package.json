@@ -29,6 +29,7 @@
     "react-router-dom": "^6.15.0",
     "react-three": "^0.9.7",
     "redux-logger": "^3.0.6",
+    "require": "^2.4.20",
     "three": "^0.156.1"
   },
   "devDependencies": {

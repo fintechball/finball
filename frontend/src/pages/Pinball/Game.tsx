@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Engine, Render, World, Bodies, MouseConstraint, Mouse, Body,Events } from 'matter-js';
 import './Game.module.css';
-import Button from 'react-bootstrap/Button';
+
 import Modal from 'react-modal';
 import finball from "../../assets/finball.png" 
 import styles from './Game.module.css';
 const width = window.innerWidth;
 const height = window.innerWidth*5;
-const Payment = 1;
+const Payment = 10;
 const theme = '#4C4499';
   const dummy=
     [
@@ -132,7 +132,7 @@ function start() {
   for (let i = 0; i < totalCnt; i++) {
     const ball = Bodies.circle(X[Math.floor(Math.random() * X.length)], Y[Math.floor(Math.random() * Y.length)], width/70, {
       restitution: 0.7,
-      friction: 0.001,
+      friction: 0.1,
       density: 0.001,
       label:"red",
       isStatic: false,
@@ -186,7 +186,7 @@ useEffect(() => {
     if (isMobile) {
       engine.gravity.y = 0.12
     } else {
-      engine.gravity.y = 0.30
+      engine.gravity.y = 0.3
     }
     const mouse = Mouse.create(render.canvas);
     const mouseConstraint = MouseConstraint.create(engine, {
@@ -338,14 +338,14 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const wall8 = Bodies.rectangle(height*0.08660, height*0.975, width*0.02, height*0.055, {
+      const wall8 = Bodies.rectangle(height*0.08660, height*0.975, width*0.02, height*0.053, {
         isStatic: true,
         render: {
           fillStyle: theme,
           strokeStyle: 'transparent',
         },
       });
-      const wall9 = Bodies.rectangle(height*0.1134, height*0.975, width*0.02, height*0.055, {
+      const wall9 = Bodies.rectangle(height*0.1134, height*0.975, width*0.02, height*0.053, {
         isStatic: true,
         render: {
           fillStyle: theme,
@@ -492,7 +492,7 @@ useEffect(() => {
       Engine.update(engine, 1000 / 240);
   
       // rot1을 함수 내부에서 정의
-      const rot1 = Bodies.rectangle(height*0.0866, height*0.13,width *0.25, width *0.25, {
+      const rot1 = Bodies.rectangle(height*0.0866, height*0.13,width *0.2, width *0.2, {
         isStatic: true,
         render: {
           fillStyle: theme,
@@ -527,7 +527,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const stick1 = Bodies.rectangle(width*0.3, height*0.95,width *0.3+height*0.02, width  *0.01, {
+      const stick1 = Bodies.rectangle(width*0.3, height*0.95,width *0.3+height*0.01, width  *0.01, {
         isStatic: true,
         angle: -Math.PI /4, 
         label:"TEST",
@@ -536,7 +536,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const stick2 = Bodies.rectangle(width*0.7, height*0.95,width *0.3+height*0.02, width  *0.01, {
+      const stick2 = Bodies.rectangle(width*0.7, height*0.95,width *0.3+height*0.01, width  *0.01, {
         isStatic: true,
         angle: -Math.PI /6, 
         label:"TEST",
@@ -608,7 +608,7 @@ useEffect(() => {
           const scrollDiff = targetScrollTop - currentScrollTop;
   
           if (Math.abs(scrollDiff) > 1) {
-            window.scrollTo(0, currentScrollTop + scrollDiff / 50);
+            window.scrollTo(0, currentScrollTop + scrollDiff / 40);
           }
   
           requestAnimationFrame(updateScroll);
