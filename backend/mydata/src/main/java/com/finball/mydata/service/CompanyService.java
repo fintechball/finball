@@ -17,16 +17,12 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
 
     public GetBankListDto.Response getBanks() {
-        System.out.println("asdasdasdasdasdasdas");
         List<Company> companies = companyRepository.findAllByCpType(CompanyType.은행사);
         List<BankInfoDto> bankInfoDtoList = new ArrayList<>();
-        System.out.println(bankInfoDtoList);
 
         for(Company company : companies){
             bankInfoDtoList.add(company.toBankInfoDto());
         }
-
-        System.out.println(bankInfoDtoList);
 
         return GetBankListDto.Response.builder()
                 .bankList(bankInfoDtoList)
