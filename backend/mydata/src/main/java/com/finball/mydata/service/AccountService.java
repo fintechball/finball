@@ -24,7 +24,7 @@ public class AccountService {
 
     public void createAccount(Long id) throws IOException, ParseException {
         Member member = memberRepository.findById(id).get();
-        RegistAccountDto registAccountDto = randomAccount.create(member);
+        RegistAccountDto registAccountDto = randomAccount.create();
 
         Long companyId = registAccountDto.getCompanyId();
         Company company = companyRepository.findById(companyId).get();
