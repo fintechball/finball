@@ -1,8 +1,7 @@
 package com.finball.mydata.util;
 
-import com.finball.mydata.dto.account.AccountDto;
+import com.finball.mydata.dto.account.RegistAccountDto;
 import com.finball.mydata.entity.Member;
-import com.finball.mydata.type.CompanyType;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -20,7 +19,7 @@ public class RandomAccount {
     Random random = new Random();
     static final String JSON_FILE_PATH = "C:\\Users\\SSAFY\\Desktop\\S09P22E106\\backend\\mydata\\src\\main\\java\\com\\finball\\mydata\\util\\json\\account.json";
 
-    public AccountDto create(Member member) throws IOException, ParseException {
+    public RegistAccountDto create(Member member) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
         Reader reader = new FileReader(JSON_FILE_PATH);
 
@@ -31,21 +30,28 @@ public class RandomAccount {
         return createAccountDto(bank, member);
     }
 
-    private AccountDto createAccountDto(JSONObject bank, Member member) {
+    private RegistAccountDto createAccountDto(JSONObject bank, Member member) {
         String accountNumber = createAccountNumber(bank);
         LocalDateTime registerDt = LocalDateTime.now();
         String name = (String) bank.get("name");
         Long companyId = (Long) bank.get("cp_id");
+        String accountName = createAccountName(bank);
 
 
-
-        return AccountDto.builder()
+        return RegistAccountDto.builder()
                 .accountNumber(accountNumber)
                 .registerDt(registerDt)
                 .balance(0L)
-                .name(name)
+                .accountName(accountName)
                 .companyId(companyId)
                 .build();
+    }
+
+    private String createAccountName(JSONObject bank){
+        JSONArray names = (JSONArray) bank.get("accountName");
+        int randIndex = random.nextInt(names.size());
+
+        return (String) names.get(randIndex);
     }
 
     private String createAccountNumber(JSONObject bank) {

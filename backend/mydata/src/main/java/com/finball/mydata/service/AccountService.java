@@ -1,6 +1,6 @@
 package com.finball.mydata.service;
 
-import com.finball.mydata.dto.account.AccountDto;
+import com.finball.mydata.dto.account.RegistAccountDto;
 import com.finball.mydata.entity.Account;
 import com.finball.mydata.entity.Company;
 import com.finball.mydata.entity.Member;
@@ -24,11 +24,11 @@ public class AccountService {
 
     public void createAccount(Long id) throws IOException, ParseException {
         Member member = memberRepository.findById(id).get();
-        AccountDto accountDto = randomAccount.create(member);
+        RegistAccountDto registAccountDto = randomAccount.create(member);
 
-        Long companyId = accountDto.getCompanyId();
+        Long companyId = registAccountDto.getCompanyId();
         Company company = companyRepository.findById(companyId).get();
-        Account account = accountDto.toAccount(member, company);
+        Account account = registAccountDto.toAccount(member, company);
 
         accountRepository.save(account);
     }
