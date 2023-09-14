@@ -3,7 +3,6 @@ package com.finball.mydata.service;
 import com.finball.mydata.dto.account.AccountDto;
 import com.finball.mydata.dto.account.AccountTransferDto;
 import com.finball.mydata.dto.account.AccountTransferDto.Request;
-import com.finball.mydata.dto.account.AccountTransferDto.Response;
 import com.finball.mydata.dto.account.TransferInfoDto;
 import com.finball.mydata.dto.account.TransferResponseDto;
 import com.finball.mydata.entity.Account;
@@ -36,6 +35,8 @@ public class AccountService {
     private final RandomAccount randomAccount;
     private final AccountCustomRepository accountCustomRepository;
 
+    private final static int FINBALL_ACCOUNT_CODE = -1;
+
     public void createAccount(Long id) throws IOException, ParseException {
         Member member = memberRepository.findById(id).get();
         AccountDto accountDto = randomAccount.create(member);
@@ -50,50 +51,63 @@ public class AccountService {
     @Transactional
     public AccountTransferDto.Response accountTransfer(Request request) {
 
+        List<TransferResponseDto> responseList = new ArrayList<>();
         TransferInfoDto plusBank = request.getPlusBank();
         TransferInfoDto minusBank = request.getMinusBank();
         Long value = request.getValue();
 
-        List<TransferResponseDto> responseList = new ArrayList<>();
+        List<Account> minusAccountList = accountCustomRepository
+                .findByAccountNo(minusBank.getAccountNumber());
+        List<Account> plusAccountList = accountCustomRepository
+                .findByAccountNo(plusBank.getAccountNumber());
 
-        // accountNumber는 고유하기 때문에 get(0)로 처리함
-        List<Account> minusAccountList = accountCustomRepository.findByAccountNo(minusBank.getAccountNumber());
-        List<Account> plusAccountList = accountCustomRepository.findByAccountNo(plusBank.getAccountNumber());
+        Account minusAccount = getAccount(minusAccountList);
+        Account plusAccount = getAccount(plusAccountList);
 
-        Account minusAccount = minusAccountList.size() == 0 ? null : minusAccountList.get(0);
-        Account plusAccount = plusAccountList.size() == 0 ? null : plusAccountList.get(0);
-
-        if (minusBank.getCode() == -1) {
-            responseList.add(new TransferResponseDto(minusBank.getAccountNumber(), "out"));
-        } else {
-            // 거래 목록 추가
-            Company company = companyRepository.findByCpCode(minusBank.getCode());
-
-            TradeHistory tradeHistory = request.toTradeHistory(minusAccount, plusAccount, company,
-                    DealType.출금);
-            tradeHistoryRepository.save(tradeHistory);
-
-            // 계좌에 반영
-            minusAccount.setBalance(minusAccount.getBalance() - value);
-        }
-
-        if (plusBank.getCode() == -1) {
-            responseList.add(new TransferResponseDto(plusBank.getAccountNumber(), "in"));
-        } else {
-            // 거래 목록 추가
-            Company company = companyRepository.findByCpCode(plusBank.getCode());
-
-            TradeHistory tradeHistory = request.toTradeHistory(plusAccount, minusAccount, company,
-                    DealType.입금);
-            tradeHistoryRepository.save(tradeHistory);
-
-            // 계좌에 반영
-            plusAccount.setBalance(plusAccount.getBalance() + value);
-        }
-
+        doTransfer(request, minusBank, minusAccount, plusAccount, value, DealType.출금, responseList);
+        doTransfer(request, plusBank, plusAccount, minusAccount, value, DealType.입금, responseList);
 
         AccountTransferDto.Response response = new AccountTransferDto.Response(responseList);
 
         return response;
+    }
+
+    public Account getAccount(List<Account> accountList) {
+        if (accountList.size() == 0) {
+            return null;
+        }
+        return accountList.get(0);
+    }
+
+    public void doTransfer(AccountTransferDto.Request request, TransferInfoDto transferInfo,
+            Account affected,
+            Account affecting,
+            Long value, DealType type, List<TransferResponseDto> responseList) {
+
+        if (transferInfo.getCode() == FINBALL_ACCOUNT_CODE) {
+            responseList.add(new TransferResponseDto(transferInfo.getAccountNumber(), type));
+            return;
+        }
+
+        // 거래 목록 추가
+        Company company = companyRepository.findByCpCode(transferInfo.getCode());
+
+        TradeHistory tradeHistory = null;
+        if (affecting == null) {
+            tradeHistory = request.toTradeHistoryNoOpAccount(affected, affecting, company,
+                    type);
+        } else {
+            tradeHistory = request.toTradeHistory(affected, affecting, company,
+                    type);
+        }
+
+        tradeHistoryRepository.save(tradeHistory);
+
+        // 계좌에 반영
+        if (type == DealType.출금) {
+            affected.setBalance(affected.getBalance() - value);
+        } else {
+            affected.setBalance(affected.getBalance() + value);
+        }
     }
 }

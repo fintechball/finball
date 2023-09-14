@@ -23,25 +23,81 @@ public class AccountTransferDto {
         private TransferInfoDto minusBank;
         private Long value;
 
+//        @Builder
+//        public TradeHistory toTradeHistory(Account account, Account opAccount, Company company,
+//                DealType type) {
+//            return TradeHistory.builder()
+//                    .company(company)
+//                    .account(account)
+//                    .date(LocalDate.now())
+//                    .nickname(null)
+//                    .opAccount(opAccount == null ? (type == DealType.입금 ? this.minusBank
+//                            .getAccountNumber() : this.plusBank.getAccountNumber())
+//                            : opAccount.getAccountNo())
+//                    .opBankName(opAccount == null ? "findBall" : opAccount.getCompany().getCpName())
+//                    .type(type)
+//                    .remain(account.getBalance() + (type == DealType.입금 ? this.value : -this.value))
+//                    .value(this.value)
+//                    .time(LocalTime.now())
+//                    .target(null)
+//                    .build();
+//        }
+
         @Builder
         public TradeHistory toTradeHistory(Account account, Account opAccount, Company company,
                 DealType type) {
+
+            Long value = this.value;
+            if (type == DealType.출금) {
+                value = -value;
+            }
+
             return TradeHistory.builder()
                     .company(company)
                     .account(account)
                     .date(LocalDate.now())
                     .nickname(null)
-                    .opAccount(opAccount == null ? (type == DealType.입금 ? this.minusBank
-                            .getAccountNumber() : this.plusBank.getAccountNumber())
-                            : opAccount.getAccountNo())
-                    .opBankName(opAccount == null ? "findBall" : opAccount.getCompany().getCpName())
+                    .opAccount(opAccount.getAccountNo())
+                    .opBankName(opAccount.getCompany().getCpName())
                     .type(type)
-                    .remain(account.getBalance() + (type == DealType.입금 ? this.value : -this.value))
+                    .remain(account.getBalance() + value)
                     .value(this.value)
                     .time(LocalTime.now())
                     .target(null)
                     .build();
         }
+
+        @Builder
+        public TradeHistory toTradeHistoryNoOpAccount(Account account, Account opAccount,
+                Company company,
+                DealType type) {
+
+            String accountNumber;
+            Long value = this.value;
+            if (type == DealType.입금) {
+                accountNumber = this.minusBank
+                        .getAccountNumber();
+            } else {
+                accountNumber = this.plusBank
+                        .getAccountNumber();
+                value = -value;
+            }
+
+            return TradeHistory.builder()
+                    .company(company)
+                    .account(account)
+                    .date(LocalDate.now())
+                    .nickname(null)
+                    .opAccount(accountNumber)
+                    .opBankName("findBall")
+                    .type(type)
+                    .remain(account.getBalance() + value)
+                    .value(this.value)
+                    .time(LocalTime.now())
+                    .target(null)
+                    .build();
+        }
+
     }
 
     @Data
