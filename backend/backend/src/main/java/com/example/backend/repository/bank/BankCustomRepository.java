@@ -32,4 +32,15 @@ public class BankCustomRepository extends QuerydslRepositorySupport {
 
     }
 
+    public List<String> findAccountNumberByMemberId(String userId) {
+
+        QAccount account = QAccount.account;
+
+        return queryFactory
+                .selectDistinct(account.accountNumber)
+                .from(account)
+                .where(account.member.userId.eq(userId))
+                .fetch();
+    }
+
 }

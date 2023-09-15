@@ -20,10 +20,4 @@ public class MemberController {
         return "회원가입완료";
     }
 
-    @GetMapping("test")
-    public String test() {
-        return "test";
-    }
-
-
 }
