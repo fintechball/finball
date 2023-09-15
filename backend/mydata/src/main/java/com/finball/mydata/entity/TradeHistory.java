@@ -3,6 +3,17 @@ package com.finball.mydata.entity;
 import com.finball.mydata.dto.tradeHistory.AccountHistoryInfoDto;
 import com.finball.mydata.dto.tradeHistory.OppositeBankInfo;
 import com.finball.mydata.type.DealType;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +24,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TradeHistory {

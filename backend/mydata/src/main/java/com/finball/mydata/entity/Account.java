@@ -37,6 +37,9 @@ public class Account {
 
     private LocalDateTime accountClose;
 
+    public void setBalance(Long balance) {
+        this.balance = balance;
+
     @Builder
     public Account(String accountNo, Member member, Company company, Long balance, String name,
             LocalDateTime accountRegist, LocalDateTime accountClose) {
