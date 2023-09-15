@@ -9,8 +9,6 @@ function App() {
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById('home-canvas'); // 부모 컨테이너의 ID로 가져옴
-    console.log(parentContainer.clientWidth,parentContainer.clientHeight)
-    console.log(parentContainer)
     return {
       width: parentContainer.clientWidth,
       height: parentContainer.clientHeight,
@@ -26,7 +24,7 @@ function App() {
 
     // 중력 설정
     newEngine.world.gravity.x = 0;
-    newEngine.world.gravity.y = 0.2;
+    newEngine.world.gravity.y = 0.3;
 
     // Create a renderer
     const newRender = Render.create({
