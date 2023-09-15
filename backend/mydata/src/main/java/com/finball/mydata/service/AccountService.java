@@ -3,29 +3,25 @@ package com.finball.mydata.service;
 import com.finball.mydata.dto.account.AccountDto;
 import com.finball.mydata.dto.account.AccountTransferDto;
 import com.finball.mydata.dto.account.AccountTransferDto.Request;
+import com.finball.mydata.dto.account.GetAccountsDto;
+import com.finball.mydata.dto.account.RegistAccountDto;
 import com.finball.mydata.dto.account.TransferInfoDto;
 import com.finball.mydata.dto.account.TransferResponseDto;
-import com.finball.mydata.dto.account.GetAccountsDto;
-import com.finball.mydata.dto.account.GetAccountsDto.Request;
 import com.finball.mydata.entity.Account;
+import com.finball.mydata.entity.Company;
 import com.finball.mydata.entity.Member;
 import com.finball.mydata.entity.TradeHistory;
-import com.finball.mydata.repository.AccountCustomRepository;
-import com.finball.mydata.repository.AccountRepository;
-import com.finball.mydata.repository.account.AccountCustomRepository;
-import com.finball.mydata.repository.account.AccountRepository;
-import java.util.List;
-import java.util.stream.Collectors;
-import com.finball.mydata.dto.account.RegistAccountDto;
-import com.finball.mydata.entity.Company;
 import com.finball.mydata.repository.CompanyRepository;
 import com.finball.mydata.repository.MemberRepository;
 import com.finball.mydata.repository.TradeHistoryRepository;
+import com.finball.mydata.repository.account.AccountCustomRepository;
+import com.finball.mydata.repository.account.AccountRepository;
 import com.finball.mydata.type.DealType;
 import com.finball.mydata.util.RandomAccount;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
@@ -41,12 +37,9 @@ public class AccountService {
     private final CompanyRepository companyRepository;
     private final TradeHistoryRepository tradeHistoryRepository;
     private final RandomAccount randomAccount;
-    private final AccountCustomRepository accountCustomRepository;
-
     private final static int FINBALL_ACCOUNT_CODE = -1;
 
-
-    public GetAccountsDto.Response getAccounts(Member member, Request request) {
+    public GetAccountsDto.Response getAccounts(Member member, GetAccountsDto.Request request) {
         long memberId = member.getId();
         List<Long> bankList = request.getBankList();
         List<Account> accountList = accountCustomRepository.findAllByMemberIdAndCompanyIdInWithFetchJoin(
