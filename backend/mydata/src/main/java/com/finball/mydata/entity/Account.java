@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +38,7 @@ public class Account {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
 
     @Builder
     public Account(String accountNo, Member member, Company company, Long balance, String name,
