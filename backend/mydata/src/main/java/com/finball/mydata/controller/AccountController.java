@@ -1,5 +1,6 @@
 package com.finball.mydata.controller;
 
+import com.finball.mydata.dto.account.AccountTransferDto;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.finball.mydata.dto.account.GetAccountsDto;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -37,4 +40,14 @@ public class AccountController {
     public void createAccount(@PathVariable Long memberId) throws Exception {
         accountService.createAccount(memberId);
     }
+
+    @PostMapping("/mydata/transfer")
+    public AccountTransferDto.Response accountTransfer(@RequestBody AccountTransferDto.Request request) {
+
+        AccountTransferDto.Response response = accountService.accountTransfer(request);
+
+        return response;
+    }
+
+
 }
