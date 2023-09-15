@@ -45,7 +45,7 @@ function SignupConfirm() {
             </Button>
           </div>
           <div> 인증번호를 입력하세요.</div>
-          <Password/>
+          <Password value={""}/>
           <Button
           variant="contained"
         >

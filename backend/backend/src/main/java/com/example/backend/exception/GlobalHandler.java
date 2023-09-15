@@ -17,4 +17,5 @@ public class GlobalHandler {
         log.error("hello" + ex.toString());
         return ResponseUtil.createErrorResponse(ErrorCode.BAD_REQUEST_ERROR1);
     }
+
 }

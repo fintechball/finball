@@ -9,10 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     @Id
@@ -26,6 +24,14 @@ public class Member {
     private String password;
 
     private String roles;
+
+    @Builder
+    public Member(String name, String registrationNumber, String password, String roles) {
+        this.name = name;
+        this.registrationNumber = registrationNumber;
+        this.password = password;
+        this.roles = roles;
+    }
 
     public List<String> getRoleList() {
         if (this.roles.length() > 0) {
