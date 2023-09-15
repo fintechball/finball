@@ -11,7 +11,6 @@ import SecurityKeypad from "../pages/Auth/SecurityKeypad"
 import CertificationNaver from "../pages/Auth/CertificationNaver"
 
 import Pinball from "../pages/Pinball/Pinball";
-import Game from "../pages/Pinball/Game";
 import Card from "../pages/Pinball/Card";
 import ControlledCarousel from "../pages/Pinball/AccountBook";
 
