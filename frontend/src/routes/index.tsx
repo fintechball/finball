@@ -6,14 +6,16 @@ import Counter from "../pages/Test/Counter";
 
 import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/SignUp";
-import SignUpConfrim from "../pages/Auth/SignUpConfrim"
-import SecurityKeypad from "../pages/Auth/SecurityKeypad"
+import SignUpConfrim from "../pages/Auth/SignUpConfrim";
+import SecurityKeypad from "../pages/Auth/SecurityKeypad";
 
 import Pinball from "../pages/Pinball/Pinball";
 import Game from "../pages/Pinball/Game";
 import Card from "../pages/Pinball/Card";
 
 import Accounts from "../pages/Account/Accounts";
+
+import TestPage from "../pages/Test/TestPage";
 
 function Router() {
   return (
@@ -29,6 +31,7 @@ function Router() {
         <Route path="/signupconfrim" element={<SignUpConfrim />} />
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
         <Route path="/accounts" element={<Accounts />} />
+        <Route path="/testpage" element={<TestPage />} />
       </Routes>
     </>
   );
