@@ -13,6 +13,8 @@ import Pinball from "../pages/Pinball/Pinball";
 import Game from "../pages/Pinball/Game";
 import Card from "../pages/Pinball/Card";
 
+import Accounts from "../pages/Account/Accounts";
+
 function Router() {
   return (
     <>
@@ -26,6 +28,7 @@ function Router() {
         <Route path="/game" element={<Game />} />
         <Route path="/signupconfrim" element={<SignUpConfrim />} />
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
+        <Route path="/accounts" element={<Accounts />} />
       </Routes>
     </>
   );

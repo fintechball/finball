@@ -1,8 +1,8 @@
 package com.finball.mydata.service;
 
-import com.finball.mydata.dto.company.BankInfo;
-import com.finball.mydata.dto.company.BankListDto;
-import com.finball.mydata.dto.company.BankListDto.Response;
+import com.finball.mydata.dto.company.BankInfoDto;
+import com.finball.mydata.dto.company.GetBankListDto;
+import com.finball.mydata.dto.company.GetBankListDto.Response;
 import com.finball.mydata.entity.Company;
 import com.finball.mydata.repository.CompanyRepository;
 import com.finball.mydata.type.CompanyType;
@@ -17,19 +17,16 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
 
-    public Response getBankList() {
+    public GetBankListDto.Response getBanks() {
+        List<Company> companies = companyRepository.findAllByCpType(CompanyType.은행사);
+        List<BankInfoDto> bankInfoDtoList = new ArrayList<>();
 
-        List<Company> companyList = companyRepository.findAll();
-
-        List<BankInfo> bankInfoList = new ArrayList<>();
-
-        for (Company company : companyList) {
-            if (company.getCpType().equals(CompanyType.은행사)) {
-                bankInfoList.add(new BankInfo(company.getCpName(), company.getCpLogo(),
-                        company.getCpCode(), false));
-            }
+        for(Company company : companies){
+            bankInfoDtoList.add(company.toBankInfoDto());
         }
 
-        return new Response(bankInfoList);
+        return GetBankListDto.Response.builder()
+                .bankList(bankInfoDtoList)
+                .build();
     }
 }

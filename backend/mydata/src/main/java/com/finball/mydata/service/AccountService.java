@@ -5,12 +5,19 @@ import com.finball.mydata.dto.account.AccountTransferDto;
 import com.finball.mydata.dto.account.AccountTransferDto.Request;
 import com.finball.mydata.dto.account.TransferInfoDto;
 import com.finball.mydata.dto.account.TransferResponseDto;
+import com.finball.mydata.dto.account.GetAccountsDto;
+import com.finball.mydata.dto.account.GetAccountsDto.Request;
 import com.finball.mydata.entity.Account;
-import com.finball.mydata.entity.Company;
 import com.finball.mydata.entity.Member;
 import com.finball.mydata.entity.TradeHistory;
 import com.finball.mydata.repository.AccountCustomRepository;
 import com.finball.mydata.repository.AccountRepository;
+import com.finball.mydata.repository.account.AccountCustomRepository;
+import com.finball.mydata.repository.account.AccountRepository;
+import java.util.List;
+import java.util.stream.Collectors;
+import com.finball.mydata.dto.account.RegistAccountDto;
+import com.finball.mydata.entity.Company;
 import com.finball.mydata.repository.CompanyRepository;
 import com.finball.mydata.repository.MemberRepository;
 import com.finball.mydata.repository.TradeHistoryRepository;
@@ -29,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final AccountCustomRepository accountCustomRepository;
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
     private final TradeHistoryRepository tradeHistoryRepository;
@@ -37,13 +45,27 @@ public class AccountService {
 
     private final static int FINBALL_ACCOUNT_CODE = -1;
 
+
+    public GetAccountsDto.Response getAccounts(Member member, Request request) {
+        long memberId = member.getId();
+        List<Long> bankList = request.getBankList();
+        List<Account> accountList = accountCustomRepository.findAllByMemberIdAndCompanyIdInWithFetchJoin(
+                memberId,
+                bankList);
+        List<AccountDto> accountDtoList = accountList
+                .stream().map(Account::toAccountDto).collect(Collectors.toList());
+
+        return GetAccountsDto.Response.builder()
+                .userAccountList(accountDtoList).build();
+    }
+
     public void createAccount(Long id) throws IOException, ParseException {
         Member member = memberRepository.findById(id).get();
-        AccountDto accountDto = randomAccount.create(member);
+        RegistAccountDto registAccountDto = randomAccount.create();
 
-        Long companyId = accountDto.getCompanyId();
+        Long companyId = registAccountDto.getCompanyId();
         Company company = companyRepository.findById(companyId).get();
-        Account account = accountDto.toAccount(member, company);
+        Account account = registAccountDto.toAccount(member, company);
 
         accountRepository.save(account);
     }
