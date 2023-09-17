@@ -1,19 +1,17 @@
 package com.finball.mydata.dto.account;
 
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Data
 public class GetAccountsDto {
 
     @Getter
+    @ToString
     public static class Request {
 
-        List<Long> bankList;
+        List<Long> bankCode;
     }
 
     @Builder

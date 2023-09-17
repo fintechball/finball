@@ -126,6 +126,8 @@ public class BankService {
         httpHeaders.setBearerAuth(mydataToken);
         ObjectMapper objectMapper = new ObjectMapper();
 
+        System.out.println(request.toString());
+
         String requestBody = objectMapper.writeValueAsString(request);
 
         HttpEntity<?> entity = new HttpEntity<>(requestBody, httpHeaders);
