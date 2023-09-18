@@ -3,6 +3,7 @@ package com.example.backend.controller;
 import com.example.backend.dto.Response;
 import com.example.backend.dto.inventory.InventoryDto;
 import com.example.backend.dto.skin.PurchaseBallDto;
+import com.example.backend.dto.skin.SelectBallDto;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.InventoryService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,18 @@ public class InventoryController {
         inventoryService.purchaseBall(id, userId);
 
         return new Response(200, "스킨 구매를 완료되었습니다.");
+    }
+
+    @PostMapping("/ball/select")
+    public Response<?> selectBall(@RequestBody SelectBallDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        String userId = userDetails.getUsername();
+        Long id = request.getId();
+
+        inventoryService.selectBall(id, userId);
+
+        return new Response(200, "스킨 선택을 완료되었습니다.");
     }
 
 

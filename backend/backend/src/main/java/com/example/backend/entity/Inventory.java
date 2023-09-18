@@ -33,6 +33,10 @@ public class Inventory {
     @ManyToOne(fetch = FetchType.LAZY)
     private Skin skin;
 
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     public SkinInfo toSkinInfo() {
         return SkinInfo.builder()
                 .id(this.id)

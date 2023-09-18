@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +46,15 @@ public class InventoryService {
         Inventory inventory = new PurchaseBallDto().toInventory(skin, member);
 
         inventoryRepository.save(inventory);
+    }
+
+    @Transactional
+    public void selectBall(Long id, String userId) {
+
+        List<Inventory> inventoryList =  inventoryCustomRepository.findByMemberIdAndSkinId(id, userId);
+
+        Inventory inventory = inventoryList.get(0);
+
+        inventory.setSelected(true);
     }
 }
