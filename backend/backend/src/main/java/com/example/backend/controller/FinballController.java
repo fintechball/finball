@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
+import com.example.backend.dto.finball.FinancialBookDto;
 import com.example.backend.dto.finball.RegistFinballBookDto;
 import com.example.backend.dto.finball.RegistFinballDto;
 import com.example.backend.entity.Member;
@@ -33,12 +34,21 @@ public class FinballController {
     }
 
     @PostMapping("/financialbook") //가계부 최초 생성 요청
-    public Response createFinalcialBook(@RequestBody RegistFinballBookDto.Request request,
+    public Response createFinancialBook(@RequestBody RegistFinballBookDto.Request request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         Member member = userDetails.getMember();
         finballService.createCategory(request, member);
 
         return new Response<>(200, "가계부가 생성되었습니다.");
+    }
+
+    @GetMapping("/financialbook")
+    public Response readFinancialBook(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+
+        FinancialBookDto.Response data = finballService.readFinancialBook(member);
+
+        return new Response<>(200, "가계부를 조회하였습니다.", data);
     }
 }

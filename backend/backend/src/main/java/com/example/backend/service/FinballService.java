@@ -1,5 +1,7 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.finball.FinancialBookDto;
+import com.example.backend.dto.finball.FinancialBookDto.Response;
 import com.example.backend.dto.finball.RegistFinballBookDto;
 import com.example.backend.dto.finball.RegistFinballDto;
 import com.example.backend.entity.Category;
@@ -41,5 +43,21 @@ public class FinballService {
 
         ArrayList<Category> categories = request.toCategory(account);
         categoryRepository.saveAll(categories);
+    }
+
+    public FinancialBookDto.Response readFinancialBook(Member member) {
+        FinancialBookDto.Response response = new FinancialBookDto.Response();
+
+        FinBallAccount account = finBallAccountRepository.findByMemberId(member.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+                );
+
+        ArrayList<Category> categories = categoryRepository.findAllByFinBallAccount(account);
+        for (Category category : categories) {
+            response.getCategory().add(category.toCategoryDto());
+        }
+
+        response.setBalance();
+        return response;
     }
 }
