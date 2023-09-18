@@ -34,7 +34,7 @@ function Router() {
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/certificationnaver" element={<CertificationNaver />} />
-        <Route path="/test" element={<AccountBook />} />
+        <Route path="/account" element={<AccountBook />} />
         <Route path="/testpage" element={<TestPage />} />
       </Routes>
     </>
