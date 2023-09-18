@@ -12,10 +12,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class GlobalHandler {
 
-    @ExceptionHandler(CustomException.class) //CustomException 에러를 잡아줌
-    protected ResponseEntity<ErrorResponse> handleTest(CustomException ex) {
-        log.error("hello" + ex.toString());
-        return ResponseUtil.createErrorResponse(ErrorCode.BAD_REQUEST_ERROR1);
+    @ExceptionHandler(CustomException.class)
+    private ResponseEntity<ErrorResponse> handleLoginDeniedException(CustomException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(Exception.class)
+    private ResponseEntity<ErrorResponse> handleException(Exception e) {
+        return handleExceptionInternal(ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+
+    private ResponseEntity<ErrorResponse> handleExceptionInternal(ErrorCode errorCode) {
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode);
+        return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
     }
 
 }
