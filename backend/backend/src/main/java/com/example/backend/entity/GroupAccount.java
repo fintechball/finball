@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,5 +36,19 @@ public class GroupAccount {
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member member;
+    private Member owner;
+
+    @Builder
+    public GroupAccount(String accountNumber, LocalDateTime refreshDt, String name,
+            GameType gameType, long balance,
+            String url, Member owner) {
+        this.accountNumber = accountNumber;
+        this.refreshDt = refreshDt;
+        this.name = name;
+        this.gameType = gameType;
+        this.balance = balance;
+        this.url = url;
+        this.owner = owner;
+    }
 }
+
