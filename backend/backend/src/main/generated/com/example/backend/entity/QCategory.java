@@ -22,15 +22,15 @@ public class QCategory extends EntityPathBase<Category> {
 
     public static final QCategory category = new QCategory("category");
 
-    public final QAccountBook accountBook;
-
     public final NumberPath<Long> balance = createNumber("balance", Long.class);
+
+    public final QFinBallAccount finBallAccount;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath name = createString("name");
 
-    public final NumberPath<Integer> percent = createNumber("percent", Integer.class);
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = createDateTime("updatedAt", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> value = createNumber("value", Long.class);
 
@@ -52,7 +52,7 @@ public class QCategory extends EntityPathBase<Category> {
 
     public QCategory(Class<? extends Category> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.accountBook = inits.isInitialized("accountBook") ? new QAccountBook(forProperty("accountBook"), inits.get("accountBook")) : null;
+        this.finBallAccount = inits.isInitialized("finBallAccount") ? new QFinBallAccount(forProperty("finBallAccount"), inits.get("finBallAccount")) : null;
     }
 
 }
