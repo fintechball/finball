@@ -19,7 +19,7 @@ public class CardService {
     private final CardCustomRepository cardCustomRepository;
     private final RestTemplateUtil restTemplateUtil;
 
-    public CardCompanyListDto.Response getCardCompany(String userId)
+    public CardCompanyListDto.Response getCardCompanies(String userId)
             throws JsonProcessingException {
 
         List<CardCompanyInfo> cardCompanyInfoList = getCardCompanyInfoList();

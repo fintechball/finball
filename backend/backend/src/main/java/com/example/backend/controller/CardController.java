@@ -25,7 +25,7 @@ public class CardController {
             throws JsonProcessingException {
 
         CardCompanyListDto.Response response = cardService
-                .getCardCompany(userDetails.getUsername());
+                .getCardCompanies(userDetails.getUsername());
 
         return new Response(200, "카드사 목록을 성공적으로 반환하였습니다.", response);
     }
