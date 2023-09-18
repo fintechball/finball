@@ -26,7 +26,7 @@ public class MemberController {
     @PostMapping("/user")
     public Response<?> userSignUp(@RequestBody UserSignUpDto.Request request) {
         memberService.userSignUp(request);
-        return new Response(200, "정상적으로 회원가입이 완료되었습니다.", null);
+        return new Response(200, "정상적으로 회원가입이 완료되었습니다.");
     }
 
     @PostMapping("/reissue")
@@ -40,7 +40,7 @@ public class MemberController {
     public Response<?> logout(HttpServletRequest request) {
         refreshTokenService.logout(request);
 
-        return new Response(200, "로그아웃이 완료되었습니다..", null);
+        return new Response(200, "로그아웃이 완료되었습니다..");
     }
 
 
