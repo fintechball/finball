@@ -77,7 +77,7 @@ function App() {
         {
           restitution: 0.01,
           friction: 0.001,
-          density: 100,
+          density: 10,
           isStatic: false,
           render: {
             fillStyle: '#05CD01',
@@ -88,7 +88,57 @@ function App() {
       );
       balls.push(ball);
     }
-
+    const clickEvent = (function() {
+      if ('ontouchstart' in document.documentElement === true) {
+        return 'touchstart';
+      } else {
+        return 'click';
+      }
+    })();
+    newRender.canvas.addEventListener(clickEvent, () => {
+      const sortedBalls = [...balls].sort((a, b) => b.position.y - a.position.y);
+      let ball = [];
+      for (let i = 1; i < 11; i++) {
+        ball.push(sortedBalls[sortedBalls.length - i]);
+      }
+      // 페이드 아웃 효과 추가
+      fadeOutBodies(ball);
+    });
+    const fadeOutBodies = (bodies) => {
+      const fadeOutInterval = setInterval(() => {
+        bodies.forEach((body) => {
+          if (body.render.opacity > 0) {
+            body.render.opacity -= 0.05; // 원하는 페이드 아웃 속도 조절
+            if (body.render.opacity <= 0){
+              World.remove(newEngine.world, body);
+              clearInterval(fadeOutInterval);
+            }
+          } 
+        });
+      }, 50); // 100ms마다 투명도 조절
+    };
+    newRender.canvas.addEventListener(clickEvent, () => {
+      for (let i = 0; i < 10; i++) {
+        const ball = Bodies.circle(
+          Math.random() * parentSize.width,
+          Math.random() * parentSize.height,
+          Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 40,
+          {
+            restitution: 0.01,
+            friction: 0.001,
+            density: 10,
+            isStatic: false,
+            render: {
+              fillStyle: '#05CD01',
+              strokeStyle: 'white',
+              lineWidth: 3,
+            },
+          }
+        );
+        balls.push(ball);
+        World.add(newEngine.world, ball);
+      }
+    });
     const Boundary = [ground,wall1,wall2,wall3];
     World.add(newEngine.world, [...Boundary, ...balls]);
 
@@ -99,9 +149,9 @@ function App() {
     // 윈도우 크기가 변경될 때 렌더러 크기를 업데이트
     window.addEventListener('resize', () => {
       const newSize = getParentContainerSize();
-      Render.canvasSize(render, newSize.width, newSize.height);
+      Render.canvasSize(newRender, newSize.width, newSize.height);
       // 물리 엔진에서도 크기 업데이트 필요
-      Bounds.update(render.bounds, newSize);
+      Bounds.update(newRender.bounds, newSize);
     });
 
     return () => {
