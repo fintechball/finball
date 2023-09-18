@@ -12,7 +12,7 @@ import CertificationNaver from "../pages/Auth/CertificationNaver";
 
 import Pinball from "../pages/Pinball/Pinball";
 import Card from "../pages/Pinball/Card";
-import ControlledCarousel from "../pages/Pinball/AccountBook";
+import AccountBook from "../pages/Pinball/AccountBook";
 
 import Accounts from "../pages/Account/Accounts";
 

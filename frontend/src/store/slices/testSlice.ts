@@ -11,7 +11,6 @@ interface TestData {
 
 interface TestState {
   test: TestData[];
-
   isLoading: boolean;
   error: null | string;
 }
@@ -27,7 +26,6 @@ export const fetchTest = createAsyncThunk("test/fetchTest", async () => {
   const data = (await res.data) as TestData[];
   return data;
 });
-
 
 export const testSlice = createSlice({
   name: "test",

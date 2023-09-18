@@ -19,12 +19,17 @@ public class GlobalHandler {
 
     @ExceptionHandler(Exception.class)
     private ResponseEntity<ErrorResponse> handleException(Exception e) {
-        return handleExceptionInternal(ErrorCode.INTERNAL_SERVER_ERROR);
+        return handleExceptionInternal(e, ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+
+    private ResponseEntity<ErrorResponse> handleExceptionInternal(Exception e, ErrorCode errorCode) {
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode);
+        e.printStackTrace();
+        return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
     }
 
     private ResponseEntity<ErrorResponse> handleExceptionInternal(ErrorCode errorCode) {
         ErrorResponse errorResponse = ErrorResponse.of(errorCode);
         return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
     }
-
 }
