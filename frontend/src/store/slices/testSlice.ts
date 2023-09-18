@@ -1,9 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+// import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
+interface TestData {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
+
 interface TestState {
-  test: string[];
+  test: TestData[];
+
   isLoading: boolean;
   error: null | string;
 }
@@ -15,12 +23,12 @@ const initialState: TestState = {
 };
 
 export const fetchTest = createAsyncThunk("test/fetchTest", async () => {
-  const res = await axios("https://jsonplaceholder.typicode.com/posts");
-  const data = await res.data;
+  const res = await axios.get("https://jsonplaceholder.typicode.com/posts");
+  const data = (await res.data) as TestData[];
   return data;
 });
 
-// Slice 생성
+
 export const testSlice = createSlice({
   name: "test",
   initialState,
