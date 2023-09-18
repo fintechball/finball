@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.skin.CreateBallDto;
 import com.example.backend.entity.Skin;
 import com.example.backend.repository.skin.SkinRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +12,8 @@ public class SkinService {
 
     private final SkinRepository skinRepository;
 
-    public void createSkin(Skin skin) {
+    public void createSkin(CreateBallDto.Request request) {
 
-        skinRepository.save(skin);
+        skinRepository.save(request.getSkin());
     }
 }

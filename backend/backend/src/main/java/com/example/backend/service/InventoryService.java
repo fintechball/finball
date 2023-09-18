@@ -2,9 +2,14 @@ package com.example.backend.service;
 
 import com.example.backend.dto.inventory.InventoryDto;
 import com.example.backend.dto.inventory.SkinInfo;
+import com.example.backend.dto.skin.PurchaseBallDto;
 import com.example.backend.entity.Inventory;
+import com.example.backend.entity.Member;
+import com.example.backend.entity.Skin;
 import com.example.backend.repository.inventory.InventoryCustomRepository;
 import com.example.backend.repository.inventory.InventoryRepository;
+import com.example.backend.repository.member.MemberRepository;
+import com.example.backend.repository.skin.SkinRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +20,8 @@ import org.springframework.stereotype.Service;
 public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
+    private final SkinRepository skinRepository;
+    private final MemberRepository memberRepository;
     private final InventoryCustomRepository inventoryCustomRepository;
 
     public InventoryDto.Response getInventory(String userId) {
@@ -28,5 +35,15 @@ public class InventoryService {
 
         return new InventoryDto.Response(response);
 
+    }
+
+    public void purchaseBall(Long id, String userId) {
+
+        Skin skin = skinRepository.findById(id).get();
+        Member member = memberRepository.findByUserId(userId).get();
+
+        Inventory inventory = new PurchaseBallDto().toInventory(skin, member);
+
+        inventoryRepository.save(inventory);
     }
 }
