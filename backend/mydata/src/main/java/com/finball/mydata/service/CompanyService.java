@@ -17,7 +17,7 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
 
-    public GetCompanyListDto.Response getCompanys(CompanyType type) {
+    public GetCompanyListDto.Response getCompanies(CompanyType type) {
         List<Company> companies = companyRepository.findAllByCpType(type);
         List<CompanyInfoDto> CompanyInfoDtoList = new ArrayList<>();
 

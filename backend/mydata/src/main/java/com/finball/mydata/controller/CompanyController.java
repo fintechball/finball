@@ -15,13 +15,13 @@ public class CompanyController {
 
     @GetMapping("/mydata/bank")
     public Response<?> getBanks() {
-        GetCompanyListDto.Response response = companyService.getCompanys(CompanyType.은행사);
+        GetCompanyListDto.Response response = companyService.getCompanies(CompanyType.은행사);
         return new Response<>(200, "성공적으로 은행사 정보를 불러왔습니다.", response);
     }
 
     @GetMapping("/mydata/cardCompany")
     public Response<?> getCardCompany() {
-        GetCompanyListDto.Response response = companyService.getCompanys(CompanyType.카드사);
+        GetCompanyListDto.Response response = companyService.getCompanies(CompanyType.카드사);
         return new Response<>(200, "성공적으로 카드사 정보를 불러왔습니다.", response);
     }
 
