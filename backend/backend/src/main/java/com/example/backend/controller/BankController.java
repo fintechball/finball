@@ -23,7 +23,8 @@ public class BankController {
     private final BankService bankService;
 
     @GetMapping("bank")
-    public Response<BankListDto> getBank(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public Response<BankListDto> getBank(@AuthenticationPrincipal UserDetailsImpl userDetails)
+            throws JsonProcessingException {
 
         BankListDto.Response response = bankService.getBank(userDetails.getUsername());
 
