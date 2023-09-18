@@ -1,0 +1,9 @@
+.header {
+  height: 50px;
+  background-color: aqua;
+  width: 100%;
+}
+.header h1,
+.header p {
+  margin: 0;
+}
