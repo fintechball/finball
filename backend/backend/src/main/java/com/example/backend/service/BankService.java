@@ -43,7 +43,7 @@ public class BankService {
                 .callMydata(null, null, "/mydata/bank", HttpMethod.GET);
         RestDto<BankInfo> restDto = new RestDto<>(BankInfo.class, responseEntity);
         List<BankInfo> bankInfoList = (List<BankInfo>) restTemplateUtil
-                .parseListBody(restDto, "bankList");
+                .parseListBody(restDto, "companyInfoDtoList");
 
         return bankInfoList;
     }
