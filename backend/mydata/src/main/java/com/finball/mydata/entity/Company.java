@@ -1,6 +1,6 @@
 package com.finball.mydata.entity;
 
-import com.finball.mydata.dto.company.BankInfoDto;
+import com.finball.mydata.dto.company.CompanyInfoDto;
 import com.finball.mydata.type.CompanyType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,8 +37,8 @@ public class Company {
     @Enumerated(EnumType.STRING)
     private CompanyType cpType;
 
-    public BankInfoDto toBankInfoDto(){
-        return BankInfoDto.builder()
+    public CompanyInfoDto toCompanyInfoDto(){
+        return CompanyInfoDto.builder()
                 .code(String.valueOf(this.cpCode))
                 .name(this.cpName)
                 .img(this.cpLogo)

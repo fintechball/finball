@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class BankInfoDto {
+public class CompanyInfoDto {
     private String code;
     private String name;
     private String img;
