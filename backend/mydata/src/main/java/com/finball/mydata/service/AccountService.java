@@ -41,7 +41,10 @@ public class AccountService {
 
     public GetAccountsDto.Response getAccounts(Member member, GetAccountsDto.Request request) {
         long memberId = member.getId();
-        List<Long> bankList = request.getBankList();
+
+        System.out.println(request);
+
+        List<Long> bankList = request.getBankCode();
         List<Account> accountList = accountCustomRepository.findAllByMemberIdAndCompanyIdInWithFetchJoin(
                 memberId,
                 bankList);

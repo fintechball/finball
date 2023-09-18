@@ -14,7 +14,7 @@ import lombok.ToString;
 public class BankInfo {
 
     String name;
-    String image;
+    String img;
     Long code;
     boolean isConnected;
 
