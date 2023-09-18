@@ -11,7 +11,6 @@ import SecurityKeypad from "../pages/Auth/SecurityKeypad";
 import CertificationNaver from "../pages/Auth/CertificationNaver";
 
 import Pinball from "../pages/Pinball/Pinball";
-import Game from "../pages/Pinball/Game";
 import Card from "../pages/Pinball/Card";
 import AccountBook from "../pages/Pinball/AccountBook";
 
@@ -34,7 +33,7 @@ function Router() {
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/certificationnaver" element={<CertificationNaver />} />
-        <Route path="/test" element={<AccountBook />} />
+        <Route path="/test" element={<ControlledCarousel />} />
         <Route path="/testpage" element={<TestPage />} />
       </Routes>
     </>
