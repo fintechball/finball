@@ -7,7 +7,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 
-export type AppThunkDispatch = ThunkDispatch<ReducerType, any, Action<string>>;
+// export type AppThunkDispatch = ThunkDispatch<ReducerType, any, Action<string>>;
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export default store;
