@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.inventory.SkinInfo;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,4 +28,15 @@ public class Inventory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Skin skin;
+
+    public SkinInfo toSkinInfo() {
+        return SkinInfo.builder()
+                .id(this.id)
+                .image(this.skin.getImage())
+                .name(this.skin.getName())
+                .isSelected(this.isSelected)
+                .build();
+    }
+
+
 }
