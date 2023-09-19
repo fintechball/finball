@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.finball.FinancialBookCategoryDto;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,4 +46,14 @@ public class Category {
         updatedAt = LocalDateTime.now();
     }
 
+    public FinancialBookCategoryDto toCategoryDto() {
+        int percent = (int) (this.balance / this.value);
+        return FinancialBookCategoryDto.builder()
+                .id(this.id)
+                .name(this.name)
+                .value(this.value)
+                .balance(this.balance)
+                .percent(percent * 100)
+                .build();
+    }
 }

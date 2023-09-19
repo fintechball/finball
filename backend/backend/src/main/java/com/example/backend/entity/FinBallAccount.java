@@ -43,4 +43,7 @@ public class FinBallAccount {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    @Column
+    private Integer bookRefreshDate; //가계부 refresh 날짜 (5일)
+
 }
