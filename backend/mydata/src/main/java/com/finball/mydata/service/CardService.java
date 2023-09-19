@@ -42,10 +42,12 @@ public class CardService {
 
     }
 
-    public GetCardsDto.Response getCardList(Request request, Member member) {
-        List<Card> cards = cardCustomRepository.findByMemberIdJoinCompany(member.getId());
-        List<CardInfoDto> cardInfoList = new ArrayList<>();
+    public GetCardsDto.Response getCardList(GetCardsDto.Request request, Member member) {
 
+        List<Long> cardCompanyList = request.getCardCompanyCodeList();
+        List<Card> cards = cardCustomRepository.findAllByMemberIdAndCompanyIdInWithFetchJoin(member.getId(), cardCompanyList);
+
+        List<CardInfoDto> cardInfoList = new ArrayList<>();
         for(Card card :cards){
             cardInfoList.add(card.toCardInfoDto());
         }

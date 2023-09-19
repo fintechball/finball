@@ -9,7 +9,7 @@ public class GetCardsDto {
 
     @Data
     public static class Request {
-        List<String> cardList;
+        List<Long> cardCompanyCodeList;
     }
 
     @Data

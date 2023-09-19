@@ -28,4 +28,15 @@ public class CardCustomRepository extends QuerydslRepositorySupport {
                 .where(card.member.userId.eq(userId))
                 .fetch();
     }
+
+    public List<String> findCardNumberByMemberId(String userId) {
+
+        QCard card = QCard.card;
+
+        return queryFactory
+                .selectDistinct(card.cardNumber)
+                .from(card)
+                .where(card.member.userId.eq(userId))
+                .fetch();
+    }
 }
