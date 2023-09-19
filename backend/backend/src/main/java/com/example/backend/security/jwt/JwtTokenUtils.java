@@ -38,6 +38,7 @@ public class JwtTokenUtils {
     final String ACCESS_TOKEN = "ACCESS_TOKEN";
     final String REFRESH_TOKEN = "REFRESH_TOKEN";
     final String TOKEN_HEADER = "Bearer ";
+    final String ISSUER = "finBall";
 
     public Map<String, String> generatedJwtToken(UserDetailsImpl userDetails) {
         System.out.println("JwtTokenUtils : generatedJwtToken");
@@ -45,14 +46,14 @@ public class JwtTokenUtils {
         Map<String, String> map = new HashMap<>();
 
         String accessToken = JWT.create()
-                .withIssuer("finball")
+                .withIssuer(ISSUER)
                 .withClaim(CLAIM_USER_NAME, userDetails.getUsername())
                 .withClaim(CLAIM_EXPIRED_DATE,
                         new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALID_MILLI_SEC))
                 .sign(Algorithm.HMAC256(JWT_SECRET));
 
         String refreshToken = JWT.create()
-                .withIssuer("finball")
+                .withIssuer(ISSUER)
                 .withClaim(CLAIM_USER_NAME, userDetails.getUsername())
                 .withClaim(CLAIM_EXPIRED_DATE,
                         new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALID_MILLI_SEC))
@@ -69,7 +70,7 @@ public class JwtTokenUtils {
 
     }
 
-    public TokenDto reissueToken(String userId, String userRefreshToken)
+    public TokenDto.Response reissueToken(String userId, String userRefreshToken)
             throws IllegalAccessException {
 
         String redisRefreshToken = redisDao.getValues(userId);
@@ -83,14 +84,14 @@ public class JwtTokenUtils {
         }
 
         String accessToken = JWT.create()
-                .withIssuer("finball")
+                .withIssuer(ISSUER)
                 .withClaim(CLAIM_USER_NAME, userId)
                 .withClaim(CLAIM_EXPIRED_DATE,
                         new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALID_MILLI_SEC))
                 .sign(Algorithm.HMAC256(JWT_SECRET));
 
         String refreshToken = JWT.create()
-                .withIssuer("finball")
+                .withIssuer(ISSUER)
                 .withClaim(CLAIM_USER_NAME, userId)
                 .withClaim(CLAIM_EXPIRED_DATE,
                         new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALID_MILLI_SEC))
@@ -100,9 +101,9 @@ public class JwtTokenUtils {
         redisDao.setValues(userId, refreshToken,
                 Duration.ofMillis(REFRESH_TOKEN_VALID_MILLI_SEC)); // 새로운 리프레쉬 토큰 저장
 
-        TokenDto token = new TokenDto(TOKEN_HEADER + accessToken, TOKEN_HEADER + refreshToken);
+        TokenDto.Response response = new TokenDto.Response(TOKEN_HEADER + accessToken, TOKEN_HEADER + refreshToken);
 
-        return token;
+        return response;
     }
 
 

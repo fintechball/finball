@@ -31,9 +31,9 @@ public class MemberController {
 
     @PostMapping("/reissue")
     public Response<?> reissue(HttpServletRequest request) throws IllegalAccessException {
-        TokenDto newToken = refreshTokenService.reissue(request);
+        TokenDto.Response response = refreshTokenService.reissue(request);
 
-        return new Response(200, "정상적으로 토큰이 갱신되었습니다.", newToken);
+        return new Response(200, "정상적으로 토큰이 갱신되었습니다.", response);
     }
 
     @DeleteMapping("/user")
