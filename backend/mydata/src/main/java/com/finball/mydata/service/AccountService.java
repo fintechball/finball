@@ -1,9 +1,9 @@
 package com.finball.mydata.service;
 
-import com.finball.mydata.dto.account.AccountDto;
+import com.finball.mydata.dto.account.BankAccountDto;
 import com.finball.mydata.dto.account.AccountTransferDto;
 import com.finball.mydata.dto.account.AccountTransferDto.Request;
-import com.finball.mydata.dto.account.GetAccountsDto;
+import com.finball.mydata.dto.account.BankAccountListDto;
 import com.finball.mydata.dto.account.RegistAccountDto;
 import com.finball.mydata.dto.account.TransferInfoDto;
 import com.finball.mydata.dto.account.TransferResponseDto;
@@ -39,18 +39,19 @@ public class AccountService {
     private final RandomAccount randomAccount;
     private final static int FINBALL_ACCOUNT_CODE = -1;
 
-    public GetAccountsDto.Response getAccounts(Member member, GetAccountsDto.Request request) {
-        long memberId = member.getId();
+    public BankAccountListDto.Response getBankAccountList(Long id,
+            BankAccountListDto.Request request) {
 
-        List<Long> bankList = request.getBankCode();
-        List<Account> accountList = accountCustomRepository.findAllByMemberIdAndCompanyIdInWithFetchJoin(
-                memberId,
-                bankList);
-        List<AccountDto> accountDtoList = accountList
+        List<Long> bankCodeList = request.getBankCodeList();
+        List<Account> accountList = accountCustomRepository
+                .findAllByMemberIdAndCompanyIdInWithFetchJoin(
+                        id,
+                        bankCodeList);
+        List<BankAccountDto> bankAccountDtoList = accountList
                 .stream().map(Account::toAccountDto).collect(Collectors.toList());
 
-        return GetAccountsDto.Response.builder()
-                .userAccountList(accountDtoList).build();
+        return BankAccountListDto.Response.builder()
+                .bankAccountList(bankAccountDtoList).build();
     }
 
     public void createAccount(Long id) throws IOException, ParseException {

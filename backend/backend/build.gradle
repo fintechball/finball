@@ -67,6 +67,10 @@ dependencies {
 
 	// PathVariable Validation
 	implementation 'org.hibernate.validator:hibernate-validator'
+
+	// java8 LocalDate
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
 }
 
 // Querydsl 설정부

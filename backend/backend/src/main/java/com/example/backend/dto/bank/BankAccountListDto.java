@@ -9,13 +9,13 @@ public class BankAccountListDto {
 
     @Data
     public static class Request {
-        private List<Long> bankCode;
+        private List<Long> bankCodeList;
     }
 
     @Data
     @AllArgsConstructor
     public static class Response {
-        private List<BankAccountInfo> bankAccountInfoList;
+        private List<BankAccountDto> bankAccountDtoList;
     }
 
 }
