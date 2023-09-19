@@ -26,6 +26,8 @@ public class QFinBallAccount extends EntityPathBase<FinBallAccount> {
 
     public final NumberPath<Long> balance = createNumber("balance", Long.class);
 
+    public final NumberPath<Integer> bookRefreshDate = createNumber("bookRefreshDate", Integer.class);
+
     public final QMember member;
 
     public final EnumPath<com.example.backend.type.MoneySource> moneySource = createEnum("moneySource", com.example.backend.type.MoneySource.class);
