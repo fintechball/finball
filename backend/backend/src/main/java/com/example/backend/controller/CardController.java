@@ -24,16 +24,6 @@ public class CardController {
 
     private final CardService cardService;
 
-    @GetMapping("cardCompany")
-    public Response<CardCompanyListDto.Response> getCardCompanies(@AuthenticationPrincipal UserDetailsImpl userDetails)
-            throws JsonProcessingException {
-
-        CardCompanyListDto.Response response = cardService
-                .getCardCompanies(userDetails.getUsername());
-
-        return new Response(200, "카드사 목록을 성공적으로 반환하였습니다.", response);
-    }
-
     @PostMapping("cardCompany/card")
     public Response<CardListDto.Response> getCards(
             @RequestBody CardListDto.Request request,

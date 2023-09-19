@@ -1,6 +1,6 @@
 package com.finball.mydata.entity;
 
-import com.finball.mydata.dto.company.CompanyInfoDto;
+import com.finball.mydata.dto.company.CompanyDto;
 import com.finball.mydata.type.CompanyType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -37,11 +37,7 @@ public class Company {
     @Enumerated(EnumType.STRING)
     private CompanyType cpType;
 
-    public CompanyInfoDto toCompanyInfoDto(){
-        return CompanyInfoDto.builder()
-                .code(String.valueOf(this.cpCode))
-                .name(this.cpName)
-                .img(this.cpLogo)
-                .build();
+    public CompanyDto toCompanyInfoDto(){
+        return new CompanyDto(this.cpName, this.cpLogo, this.cpCode, false);
     }
 }

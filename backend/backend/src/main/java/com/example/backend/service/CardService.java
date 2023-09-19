@@ -27,32 +27,6 @@ public class CardService {
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
 
-    public CardCompanyListDto.Response getCardCompanies(String userId)
-            throws JsonProcessingException {
-
-        List<CardCompanyInfo> cardCompanyInfoList = getCardCompanyInfoList();
-        List<String> existCardCompanyName = cardCustomRepository.findCpCodeByMemberId(userId);
-
-        for (CardCompanyInfo cardCompanyInfo : cardCompanyInfoList) {
-            if (existCardCompanyName.contains(cardCompanyInfo.getName())) {
-                cardCompanyInfo.setConnected(true);
-            }
-        }
-
-        return new CardCompanyListDto.Response(cardCompanyInfoList);
-    }
-
-    private List<CardCompanyInfo> getCardCompanyInfoList() throws JsonProcessingException {
-
-        ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMydata(null, null, "/mydata/cardCompany", HttpMethod.GET);
-        RestDto<CardCompanyInfo> restDto = new RestDto<>(CardCompanyInfo.class, responseEntity);
-        List<CardCompanyInfo> cardCompanyInfoList = (List<CardCompanyInfo>) restTemplateUtil
-                .parseListBody(restDto, "companyInfoDtoList");
-
-        return cardCompanyInfoList;
-    }
-
     public CardListDto.Response getCard(CardListDto.Request request, String userId)
             throws JsonProcessingException {
 

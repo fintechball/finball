@@ -24,30 +24,6 @@ public class BankService {
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
 
-    public BankListDto.Response getBank(String userId) throws JsonProcessingException {
-
-        List<BankInfo> bankInfoList = getBankInfoList();
-        List<String> existBankName = bankCustomRepository.findCpCodeByMemberId(userId);
-
-        for (BankInfo bankInfo : bankInfoList) {
-            if (existBankName.contains(bankInfo.getName())) {
-                bankInfo.setConnected(true);
-            }
-        }
-
-        return new BankListDto.Response(bankInfoList);
-    }
-
-    public List<BankInfo> getBankInfoList() throws JsonProcessingException {
-        ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMydata(null, null, "/mydata/bank", HttpMethod.GET);
-        RestDto<BankInfo> restDto = new RestDto<>(BankInfo.class, responseEntity);
-        List<BankInfo> bankInfoList = (List<BankInfo>) restTemplateUtil
-                .parseListBody(restDto, "companyInfoDtoList");
-
-        return bankInfoList;
-    }
-
     public BankAccountListDto.Response getBankAccount(BankAccountListDto.Request request,
             String userId)
             throws JsonProcessingException {
