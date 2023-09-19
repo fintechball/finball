@@ -21,7 +21,7 @@ public class CompanyController {
 
     private final CompanyService companyService;
 
-    @GetMapping("company/{type}")
+    @GetMapping("/company/{type}")
     public Response<CompanyListDto> getCompany(@AuthenticationPrincipal UserDetailsImpl userDetails,
             @PathVariable @Valid @Pattern(regexp = "^(bank|card)$", message = "Invalid type. Allowed values are 'bank' or 'card'.") String type)
             throws JsonProcessingException {

@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class GetCardsDto {
+public class CardListDto {
 
     @Data
     public static class Request {
@@ -15,6 +15,6 @@ public class GetCardsDto {
     @Data
     @Builder
     public static class Response {
-        List<CardInfoDto> cardList;
+        List<CardDto> cardDtoList;
     }
 }

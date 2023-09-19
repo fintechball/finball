@@ -1,7 +1,7 @@
 package com.finball.mydata.controller;
 
 import com.finball.mydata.dto.Response;
-import com.finball.mydata.dto.card.GetCardsDto;
+import com.finball.mydata.dto.card.CardListDto;
 import com.finball.mydata.security.auth.PrincipalDetails;
 import com.finball.mydata.service.CardService;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +23,12 @@ public class CardController {
         cardService.createCard(memberId);
     }
 
-    @PostMapping("/mydata/card")
-    public Response<?> getCardList(@RequestBody GetCardsDto.Request request,
-            @AuthenticationPrincipal PrincipalDetails details) {
-        GetCardsDto.Response response = cardService.getCardList(request, details.getMember());
+    @PostMapping("/myData/card")
+    public Response<?> getCardList(@RequestBody CardListDto.Request request,
+            @AuthenticationPrincipal PrincipalDetails userDetails) {
+
+        Long id = userDetails.getMember().getId();
+        CardListDto.Response response = cardService.getCardList(request, id);
         return new Response<>(200, "성공적으로 카드목록을 불러왔습니다.", response);
     }
 }
