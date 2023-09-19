@@ -53,6 +53,7 @@ public class RestTemplateUtil {
 
     public Object parseBody(RestDto<?> response, String key) throws JsonProcessingException {
         JsonNode body = getBody(response.getRespEntity(), key);
+        System.out.println("JSONNODE BODY" + body);
         Class<?> clazz = response.getClassName();
 
         return objectMapper.readValue(body.toString(), clazz);
@@ -64,8 +65,12 @@ public class RestTemplateUtil {
         objectMapper
                 .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);  // list deserialization 기능 활성화
         JsonNode jsonNode = objectMapper.readTree(respEntity.getBody());
-
         JsonNode data = objectMapper.readTree(String.valueOf(jsonNode.get("data")));
+
+        if(key == null) {
+            return data;
+        }
+
         JsonNode body = objectMapper.readTree(String.valueOf(data.get(key)));
 
         return body;

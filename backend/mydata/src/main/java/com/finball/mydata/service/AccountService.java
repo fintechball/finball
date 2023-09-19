@@ -21,6 +21,7 @@ import com.finball.mydata.util.RandomAccount;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
@@ -80,8 +81,10 @@ public class AccountService {
         Account minusAccount = getAccount(minusAccountList);
         Account plusAccount = getAccount(plusAccountList);
 
-        doTransfer(request, minusBank, minusAccount, plusAccount, value, DealType.출금, responseList);
-        doTransfer(request, plusBank, plusAccount, minusAccount, value, DealType.입금, responseList);
+        doTransfer(request, minusBank, plusBank, minusAccount, plusAccount, value, DealType.출금,
+                responseList);
+        doTransfer(request, plusBank, minusBank, plusAccount, minusAccount, value, DealType.입금,
+                responseList);
 
         AccountTransferDto.Response response = new AccountTransferDto.Response(responseList);
 
@@ -96,12 +99,23 @@ public class AccountService {
     }
 
     public void doTransfer(AccountTransferDto.Request request, TransferInfoDto transferInfo,
+            TransferInfoDto opTransferInfo,
             Account affected,
             Account affecting,
             Long value, DealType type, List<TransferResponseDto> responseList) {
 
         if (transferInfo.getCode() == FINBALL_ACCOUNT_CODE) {
-            responseList.add(new TransferResponseDto(transferInfo.getAccountNumber(), type));
+            Optional<Company> company = companyRepository.findById(opTransferInfo.getCode());
+
+            String opBankName = "핀볼";
+            String opAccountNumber = opTransferInfo.getAccountNumber();
+            if (company.isPresent()) {
+                opBankName = company.get().getCpName();
+            }
+
+            responseList.add(
+                    new TransferResponseDto(transferInfo.getAccountNumber(), type, opAccountNumber,
+                            opBankName));
             return;
         }
 

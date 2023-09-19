@@ -18,7 +18,6 @@ public class MyDataService {
 
     public void getToken(MemberMyDataDto.Request request, String userId)
             throws JsonProcessingException {
-
         ResponseEntity<String> respEntity = restTemplateUtil.callMydata(null, request, "/login",
                 HttpMethod.POST);
         redisUtil.storeMyDataToken(userId, respEntity);

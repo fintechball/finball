@@ -26,5 +26,4 @@ public class MyDataController {
 
         return new Response(200, "mydata 인증 완료", null);
     }
-
 }

@@ -35,12 +35,12 @@ public class AccountController {
     }
 
     @PostMapping("/mydata/transfer")
-    public AccountTransferDto.Response accountTransfer(
+    public Response<AccountTransferDto.Response> accountTransfer(
             @RequestBody AccountTransferDto.Request request) {
 
         AccountTransferDto.Response response = accountService.accountTransfer(request);
 
-        return response;
+        return new Response<>(200, "정상적으로 이체처리가 되었습니다.", response);
     }
 
 

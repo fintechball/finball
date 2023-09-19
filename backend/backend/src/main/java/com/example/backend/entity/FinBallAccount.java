@@ -43,4 +43,8 @@ public class FinBallAccount {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    public void updateBalance (Long value) {
+        this.balance += value;
+    }
+
 }

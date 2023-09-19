@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.transfer.TransferResponseDto;
 import com.example.backend.type.DealType;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -50,4 +51,12 @@ public class FinBallHistory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
+
+
+    public FinBallHistory(FinBallAccount finBallAccount, TransferResponseDto transfer, Long value) {
+        this.value = value;
+        this.balance = finBallAccount.getBalance() + value;
+        this.date = LocalDateTime.now();
+        this.dealType = transfer.getType();
+    }
 }

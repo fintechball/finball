@@ -9,9 +9,7 @@ public class MemberMyDataDto {
     @Data
     @NoArgsConstructor
     public static class Request {
-
         private String name;
         private String registrationNumber;
-
     }
 }

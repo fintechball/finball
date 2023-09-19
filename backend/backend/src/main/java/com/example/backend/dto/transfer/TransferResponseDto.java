@@ -1,14 +1,17 @@
-package com.finball.mydata.dto.account;
+package com.example.backend.dto.transfer;
 
-import com.finball.mydata.type.DealType;
+import com.example.backend.type.DealType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class TransferResponseDto {
+
     private String accountNumber;
     private DealType type;
     private String opAccountNumber;
