@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.member.MemberMyDataDto;
+import com.example.backend.dto.member.MyDataAuthDto;
 import com.example.backend.util.RedisUtil;
 import com.example.backend.util.RestTemplateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,7 +16,7 @@ public class MyDataService {
     private final RedisUtil redisUtil;
     private final RestTemplateUtil restTemplateUtil;
 
-    public void getToken(MemberMyDataDto.Request request, String userId)
+    public void getToken(MyDataAuthDto.Request request, String userId)
             throws JsonProcessingException {
 
         ResponseEntity<String> respEntity = restTemplateUtil.callMydata(null, request, "/login",

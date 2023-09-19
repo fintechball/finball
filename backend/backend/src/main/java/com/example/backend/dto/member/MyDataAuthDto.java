@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-public class MemberMyDataDto {
+public class MyDataAuthDto {
 
     @Data
     @NoArgsConstructor

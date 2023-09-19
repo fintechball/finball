@@ -22,7 +22,7 @@ public class RedisUtil {
         List<String> tokens = respEntity.getHeaders().getValuesAsList("Authorization");
 
         if (tokens.size() == 0) {
-            throw new IllegalAccessError("mydata 로그인 정보가 잘못되었습니다.");
+            throw new IllegalAccessError("myData 로그인 정보가 잘못되었습니다.");
         }
 
         redisDao.deleteValues(MYDATA_KEY + userId);

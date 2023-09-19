@@ -1,7 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
-import com.example.backend.dto.member.MemberMyDataDto;
+import com.example.backend.dto.member.MyDataAuthDto;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.MyDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,14 +17,15 @@ public class MyDataController {
 
     private final MyDataService myDataService;
 
-    @PostMapping("/user/mydata")
-    public Response<?> signUpMydata(@AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody MemberMyDataDto.Request request)
+    @PostMapping("/user/myData")
+    public Response<?> signUpMyData(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                    @RequestBody MyDataAuthDto.Request request)
             throws JsonProcessingException {
 
-        myDataService.getToken(request, userDetails.getUsername());
+        String userId = userDetails.getUsername();
+        myDataService.getToken(request, userId);
 
-        return new Response(200, "mydata 인증 완료", null);
+        return new Response(200, "myData 인증 완료", null);
     }
 
 }
