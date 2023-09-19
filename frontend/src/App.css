@@ -1,6 +1,8 @@
 #root {
   width: 360px;
   height: 640px;
+  padding-top: 60px;
+  padding-bottom: 60px;
   max-width: 1280px;
   margin: 0 auto;
   /* padding: 2rem; */
