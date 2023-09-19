@@ -3,8 +3,10 @@
   align-items: center;
   height: 60px;
   background-color: rgb(255, 255, 255);
-  width: 100%;
+  width: 360px;
   border-bottom: 1px solid rgb(235, 235, 235);
+  position: fixed;
+  top: 0;
 }
 .header h1,
 .header p {
