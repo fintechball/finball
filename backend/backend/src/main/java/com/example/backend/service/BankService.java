@@ -47,7 +47,7 @@ public class BankService {
         String myDataToken = redisUtil.getMyDataToken(userId);
 
         ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMydata(myDataToken, request, "/myData/bank/account", HttpMethod.POST);
+                .callMyData(myDataToken, request, "/myData/bank/account", HttpMethod.POST);
         RestDto<BankAccountDto> restDto = new RestDto<>(BankAccountDto.class, responseEntity);
         List<BankAccountDto> bankAccountDtoList = (List<BankAccountDto>) restTemplateUtil
                 .parseListBody(restDto, "bankAccountList");

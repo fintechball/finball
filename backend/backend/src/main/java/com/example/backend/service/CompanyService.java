@@ -37,7 +37,7 @@ public class CompanyService {
         String url = "/myData/company/" + type;
 
         ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMydata(null, null, url, HttpMethod.GET);
+                .callMyData(null, null, url, HttpMethod.GET);
         RestDto<CompanyDto> restDto = new RestDto<>(CompanyDto.class, responseEntity);
         return (List<CompanyDto>) restTemplateUtil.parseListBody(restDto, "companyDtoList");
 

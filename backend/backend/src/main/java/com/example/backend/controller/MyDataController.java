@@ -18,13 +18,13 @@ public class MyDataController {
     private final MyDataService myDataService;
 
     @PostMapping("/user/mydata")
-    public Response<?> signUpMydata(@AuthenticationPrincipal UserDetailsImpl userDetails,
+    public Response<?> signUpMyData(@AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody MemberMyDataDto.Request request)
             throws JsonProcessingException {
 
         myDataService.getToken(request, userDetails.getUsername());
 
-        return new Response(200, "mydata 인증 완료", null);
+        return new Response(200, "myData 인증 완료", null);
     }
 
 }

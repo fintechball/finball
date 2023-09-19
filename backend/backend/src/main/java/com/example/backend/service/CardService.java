@@ -45,7 +45,7 @@ public class CardService {
         String myDataToken = redisUtil.getMyDataToken(userId);
 
         ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMydata(myDataToken, request, "/mydata/card", HttpMethod.POST);
+                .callMyData(myDataToken, request, "/mydata/card", HttpMethod.POST);
         RestDto<CardInfo> restDto = new RestDto<>(CardInfo.class, responseEntity);
         List<CardInfo> cardInfoList = (List<CardInfo>) restTemplateUtil
                 .parseListBody(restDto, "cardList");

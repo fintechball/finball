@@ -60,6 +60,7 @@ public class Account {
                 .accountName(this.name)
                 .accountRegist(this.accountRegist)
                 .accountClose(this.accountClose)
+                .bankCode(this.company.getCpCode())
                 .build();
     }
 }
