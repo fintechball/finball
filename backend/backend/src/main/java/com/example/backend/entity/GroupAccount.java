@@ -36,19 +36,19 @@ public class GroupAccount {
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member owner;
+    private Member member;
 
     @Builder
     public GroupAccount(String accountNumber, LocalDateTime refreshDt, String name,
             GameType gameType, long balance,
-            String url, Member owner) {
+            String url, Member member) {
         this.accountNumber = accountNumber;
         this.refreshDt = refreshDt;
         this.name = name;
         this.gameType = gameType;
         this.balance = balance;
         this.url = url;
-        this.owner = owner;
+        this.member = member;
     }
 }
 

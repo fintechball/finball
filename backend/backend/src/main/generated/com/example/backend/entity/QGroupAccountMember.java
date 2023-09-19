@@ -24,11 +24,15 @@ public class QGroupAccountMember extends EntityPathBase<GroupAccountMember> {
 
     public final NumberPath<Long> balance = createNumber("balance", Long.class);
 
+    public final StringPath bankName = createString("bankName");
+
     public final QGroupAccount groupAccount;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final QMember member;
+
+    public final NumberPath<Long> skinId = createNumber("skinId", Long.class);
 
     public final StringPath toAccountNumber = createString("toAccountNumber");
 

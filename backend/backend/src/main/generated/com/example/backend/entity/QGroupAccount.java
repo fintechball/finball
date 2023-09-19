@@ -28,9 +28,9 @@ public class QGroupAccount extends EntityPathBase<GroupAccount> {
 
     public final EnumPath<com.example.backend.type.GameType> gameType = createEnum("gameType", com.example.backend.type.GameType.class);
 
-    public final StringPath name = createString("name");
+    public final QMember member;
 
-    public final QMember owner;
+    public final StringPath name = createString("name");
 
     public final DateTimePath<java.time.LocalDateTime> refreshDt = createDateTime("refreshDt", java.time.LocalDateTime.class);
 
@@ -54,7 +54,7 @@ public class QGroupAccount extends EntityPathBase<GroupAccount> {
 
     public QGroupAccount(Class<? extends GroupAccount> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.owner = inits.isInitialized("owner") ? new QMember(forProperty("owner")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
     }
 
 }
