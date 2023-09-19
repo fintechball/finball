@@ -9,23 +9,67 @@ import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LocalMallRoundedIcon from "@mui/icons-material/LocalMallRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+// import { useSelector } from "react-redux";
+// import { RootState } from "../../store/store";
+
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Footer() {
-  // const [isHome, setIsHome] = useState(false);
-  // const [isChat, setIsChat] = useState(false);
-  // const [isQuiz, setIsQuiz] = useState(false);
-  // const [isHome, setIsHome] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  //   const currentUrl = useSelector((state: RootState) => state.router.currentUrl);
+  const currentUrl = location.pathname;
+
+  useEffect(() => {
+    console.log(currentUrl);
+  }, [currentUrl]);
 
   return (
     <div>
       <div className={styles.footer}>
-        <HomeOutlinedIcon />
-        <QuestionAnswerOutlinedIcon />
-        <TipsAndUpdatesOutlinedIcon />
-        <LocalMallOutlinedIcon />
-        <MenuRoundedIcon />
+        {currentUrl === "/" ? (
+          <HomeRoundedIcon />
+        ) : (
+          <HomeOutlinedIcon
+            onClick={() => {
+              navigate("/");
+            }}
+          />
+        )}
+        {currentUrl === "/chatbot" ? (
+          <ForumRoundedIcon />
+        ) : (
+          <QuestionAnswerOutlinedIcon
+            onClick={() => {
+              navigate("/chatbot");
+            }}
+          />
+        )}
+        {currentUrl === "/quiz" ? (
+          <TipsAndUpdatesRoundedIcon />
+        ) : (
+          <TipsAndUpdatesOutlinedIcon
+            onClick={() => {
+              navigate("/quiz");
+            }}
+          />
+        )}
+        {currentUrl === "/shop" ? (
+          <LocalMallRoundedIcon />
+        ) : (
+          <LocalMallOutlinedIcon
+            onClick={() => {
+              navigate("/shop");
+            }}
+          />
+        )}
+        <MenuRoundedIcon
+          onClick={() => {
+            navigate("/navpage");
+          }}
+        />
       </div>
     </div>
   );
