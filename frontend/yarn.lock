@@ -2616,6 +2616,7 @@ glob-parent@~5.1.2:
     is-glob "^4.0.1"
 
 glob@^7.1.3, glob@^7.2.0:
+
   version "7.2.3"
   resolved "https://registry.npmjs.org/glob/-/glob-7.2.3.tgz"
   integrity sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==
