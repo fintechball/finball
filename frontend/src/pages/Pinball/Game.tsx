@@ -457,7 +457,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-
+    console.log( balls)
     const clickEvent = (function() {
       if ('ontouchstart' in document.documentElement === true) {
         return 'touchstart';
