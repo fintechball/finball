@@ -1,6 +1,6 @@
 package com.example.backend.entity;
 
-import com.example.backend.dto.inventory.SkinInfo;
+import com.example.backend.dto.inventory.InventoryInfo;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,8 +37,8 @@ public class Inventory {
         isSelected = selected;
     }
 
-    public SkinInfo toSkinInfo() {
-        return SkinInfo.builder()
+    public InventoryInfo toSkinInfo() {
+        return InventoryInfo.builder()
                 .id(this.id)
                 .image(this.skin.getImage())
                 .name(this.skin.getName())
