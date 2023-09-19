@@ -104,6 +104,8 @@ public class SecurityConfig {
         // User
         skipPathList.add(new Path(HttpMethod.POST, "/user"));
         skipPathList.add(new Path(HttpMethod.POST, "/user/login"));
+        skipPathList.add(new Path(HttpMethod.POST, "/user/authentication/id"));
+
 
         // Deploy
         skipPathList.add(new Path(HttpMethod.GET, "/profile"));
