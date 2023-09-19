@@ -30,7 +30,7 @@ public class InventoryCustomRepository extends QuerydslRepositorySupport {
                 .where(member.userId.eq(userId)).fetch();
     }
 
-    public List<Inventory> findByMemberIdAndSkinId(Long id, String userId) {
+    public List<Inventory> findBySkinIdAndMemberId(Long id, String userId) {
         QInventory inventory = QInventory.inventory;
         QMember member = QMember.member;
         QSkin skin = QSkin.skin;
@@ -54,6 +54,21 @@ public class InventoryCustomRepository extends QuerydslRepositorySupport {
                 .leftJoin(inventory.skin, skin).fetchJoin()
                 .leftJoin(inventory.member, member).fetchJoin()
                 .where(member.userId.eq(userId))
+                .fetch();
+
+    }
+
+    public List<Inventory> findSelectedBallByMemberId(String userId) {
+
+        QInventory inventory = QInventory.inventory;
+        QMember member = QMember.member;
+        QSkin skin = QSkin.skin;
+
+        return queryFactory.selectDistinct(inventory)
+                .from(inventory)
+                .leftJoin(inventory.skin, skin).fetchJoin()
+                .leftJoin(inventory.member, member).fetchJoin()
+                .where(member.userId.eq(userId).and(inventory.isSelected.eq(true)))
                 .fetch();
 
     }

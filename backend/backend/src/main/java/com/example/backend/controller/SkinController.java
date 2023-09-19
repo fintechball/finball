@@ -29,7 +29,8 @@ public class SkinController {
     @GetMapping("/ball")
     public Response<BallListDto.response> getBalls(@AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        BallListDto.response response = skinService.getBalls(userDetails.getUsername());
+        String userId = userDetails.getUsername();
+        BallListDto.response response = skinService.getBalls(userId);
 
         return new Response(200, "Ball List를 조회 완료했습니다.", response);
     }

@@ -2,7 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.dto.skin.BallListDto;
 import com.example.backend.dto.skin.CreateBallDto;
-import com.example.backend.dto.skin.SkinInfo;
+import com.example.backend.dto.skin.SkinDto;
 import com.example.backend.entity.Inventory;
 import com.example.backend.entity.Skin;
 import com.example.backend.repository.inventory.InventoryCustomRepository;
@@ -22,7 +22,7 @@ public class SkinService {
 
     public void createSkin(CreateBallDto.Request request) {
 
-        skinRepository.save(request.getSkin());
+        skinRepository.save(request.toSkin());
     }
 
     public BallListDto.response getBalls(String userId) {
@@ -34,20 +34,20 @@ public class SkinService {
 
     }
 
-    public List<SkinInfo> checkIsInvented(List<Skin> skinList, List<Inventory> inventoryList) {
+    public List<SkinDto> checkIsInvented(List<Skin> skinList, List<Inventory> inventoryList) {
 
-        List<SkinInfo> skinInfoList = new ArrayList<>();
+        List<SkinDto> skinDtoList = new ArrayList<>();
         List<Long> existSkinId = getSkinId(inventoryList);
 
         for (Skin skin : skinList) {
             if (existSkinId.contains(skin.getId())) {
-                skinInfoList.add(skin.toSkinInfo(true));
+                skinDtoList.add(skin.toSkinInfo(true));
             } else {
-                skinInfoList.add(skin.toSkinInfo(false));
+                skinDtoList.add(skin.toSkinInfo(false));
             }
         }
 
-        return skinInfoList;
+        return skinDtoList;
     }
 
     public List<Long> getSkinId(List<Inventory> inventoryList) {
