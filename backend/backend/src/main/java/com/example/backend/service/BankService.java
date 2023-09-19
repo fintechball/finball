@@ -38,7 +38,7 @@ public class BankService {
         return new BankListDto.Response(bankInfoList);
     }
 
-    public List<BankInfo> getBankInfoList() throws JsonProcessingException {
+   public List<BankInfo> getBankInfoList() throws JsonProcessingException {
         ResponseEntity<String> responseEntity = restTemplateUtil
                 .callMydata(null, null, "/mydata/bank", HttpMethod.GET);
         RestDto<BankInfo> restDto = new RestDto<>(BankInfo.class, responseEntity);

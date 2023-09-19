@@ -5,7 +5,9 @@ interface CounterState {
   value: number;
 }
 
-const initialState = { value: 0 } as CounterState;
+const initialState = {
+  value: 0,
+} as CounterState;
 
 const counterSlice = createSlice({
   name: "counter",
