@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class SkinInfo {
+public class InventoryInfo {
 
     private Long id;
     private String image;

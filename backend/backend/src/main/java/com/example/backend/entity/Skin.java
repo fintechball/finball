@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.example.backend.dto.skin.SkinInfo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +28,8 @@ public class Skin {
 
     @Column
     private int value;
+
+    public SkinInfo toSkinInfo(boolean isInvented) {
+        return new SkinInfo(this.id, this.name, this.image, this.value, isInvented);
+    }
 }

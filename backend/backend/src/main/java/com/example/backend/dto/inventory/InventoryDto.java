@@ -13,7 +13,7 @@ public class InventoryDto {
     @AllArgsConstructor
     public static class Response {
 
-        List<SkinInfo> inventory;
+        List<InventoryInfo> inventory;
     }
 
 }

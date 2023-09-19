@@ -1,5 +1,7 @@
 package com.finball.mydata.repository.card;
 
+import static com.finball.mydata.entity.QAccount.account;
+
 import com.finball.mydata.entity.Card;
 import com.finball.mydata.entity.Member;
 import com.finball.mydata.entity.QCard;
@@ -19,20 +21,14 @@ public class CardCustomRepository extends QuerydslRepositorySupport {
         this.queryFactory = queryFactory;
     }
 
-    public List<Card> findByMemberIdJoinCompany(Long memberID) {
+    public List<Card> findAllByMemberIdAndCompanyIdInWithFetchJoin(Long memberID, List<Long> companyCodes) {
         QCard card = QCard.card;
-        QCompany company = QCompany.company;
-        QMember member = QMember.member;
 
         return queryFactory
-                .select(card)
-                .from(card)
-                .leftJoin(card.company, company) // 카드와 회사 조인
-                .fetchJoin()
-                .leftJoin(card.member, member) // 카드와 멤버 조인
-                .fetchJoin()
-                .where(card.member.id.eq(memberID))
-                .orderBy(card.company.cpCode.asc())
+                .selectFrom(card)
+                .leftJoin(card.company).fetchJoin()
+                .leftJoin(card.member).fetchJoin()
+                .where(card.member.id.eq(memberID).and(card.company.cpCode.in(companyCodes)))
                 .fetch();
     }
 }

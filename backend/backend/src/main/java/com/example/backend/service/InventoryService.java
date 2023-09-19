@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.inventory.InventoryDto;
-import com.example.backend.dto.inventory.SkinInfo;
+import com.example.backend.dto.inventory.InventoryInfo;
 import com.example.backend.dto.skin.PurchaseBallDto;
 import com.example.backend.entity.Inventory;
 import com.example.backend.entity.Member;
@@ -27,7 +27,7 @@ public class InventoryService {
 
     public InventoryDto.Response getInventory(String userId) {
 
-        List<SkinInfo> response = new ArrayList<>();
+        List<InventoryInfo> response = new ArrayList<>();
         List<Inventory> inventoryList = inventoryCustomRepository.findAllByMemberId(userId);
 
         for (Inventory inventory : inventoryList) {

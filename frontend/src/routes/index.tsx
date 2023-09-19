@@ -19,6 +19,10 @@ import Accounts from "../pages/Account/Accounts";
 import TestPage from "../pages/Test/TestPage";
 import NavPage from "../pages/NavPage/NavPage";
 
+import Chatbot from "../pages/ChatBot/ChatBot";
+import Quiz from "../pages/Quiz/Quiz";
+import Shop from "../pages/Shop/Shop";
+
 function Router() {
   return (
     <>
@@ -39,6 +43,9 @@ function Router() {
 
         <Route path="/testpage" element={<TestPage />} />
         <Route path="/navpage" element={<NavPage />} />
+        <Route path="/chatbot" element={<Chatbot />} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/shop" element={<Shop />} />
       </Routes>
     </>
   );
