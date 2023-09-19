@@ -1,9 +1,16 @@
 .header {
-  height: 50px;
-  background-color: aqua;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  background-color: rgb(255, 255, 255);
   width: 100%;
+  border-bottom: 1px solid rgb(235, 235, 235);
 }
 .header h1,
 .header p {
   margin: 0;
+}
+.header img {
+  width: 100px;
+  margin: 0px 15px;
 }

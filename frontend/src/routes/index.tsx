@@ -18,6 +18,7 @@ import AccountBook from "../pages/Pinball/AccountBook";
 import Accounts from "../pages/Account/Accounts";
 
 import TestPage from "../pages/Test/TestPage";
+import NavPage from "../pages/NavPage/NavPage";
 
 function Router() {
   return (
@@ -36,6 +37,7 @@ function Router() {
         <Route path="/certificationnaver" element={<CertificationNaver />} />
         <Route path="/account" element={<AccountBook />} />
         <Route path="/testpage" element={<TestPage />} />
+        <Route path="/navpage" element={<NavPage />} />
       </Routes>
     </>
   );
