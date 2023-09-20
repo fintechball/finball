@@ -3,6 +3,7 @@ package com.finball.mydata.controller;
 import com.finball.mydata.dto.Response;
 import com.finball.mydata.dto.account.AccountTransferDto;
 import com.finball.mydata.dto.account.BankAccountListDto;
+import com.finball.mydata.dto.tradeHistory.FinBallTradeHistoryListDto;
 import com.finball.mydata.entity.Member;
 import com.finball.mydata.security.auth.PrincipalDetails;
 import com.finball.mydata.service.AccountService;
@@ -34,9 +35,11 @@ public class AccountController {
         accountService.createAccount(memberId);
     }
 
-    @PostMapping("/mydata/transfer")
+    @PostMapping("/myData/transfer")
     public AccountTransferDto.Response accountTransfer(
             @RequestBody AccountTransferDto.Request request) {
+
+        System.out.println(request);
 
         AccountTransferDto.Response response = accountService.accountTransfer(request);
 
