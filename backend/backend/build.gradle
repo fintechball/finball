@@ -30,6 +30,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -63,6 +64,9 @@ dependencies {
 
 	// json 파싱
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+	// PathVariable Validation
+	implementation 'org.hibernate.validator:hibernate-validator'
 }
 
 // Querydsl 설정부

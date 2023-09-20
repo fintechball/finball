@@ -22,15 +22,6 @@ public class BankController {
 
     private final BankService bankService;
 
-    @GetMapping("bank")
-    public Response<BankListDto> getBank(@AuthenticationPrincipal UserDetailsImpl userDetails)
-            throws JsonProcessingException {
-
-        BankListDto.Response response = bankService.getBank(userDetails.getUsername());
-
-        return new Response(200, "은행 목록을 성공적으로 반환하였습니다.", response);
-    }
-
     @PostMapping("bank/account")
     public Response<BankAccountListDto> getBankAccount(
             @RequestBody BankAccountListDto.Request request,
