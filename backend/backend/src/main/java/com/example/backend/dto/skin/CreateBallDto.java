@@ -1,17 +1,27 @@
 package com.example.backend.dto.skin;
 
 import com.example.backend.entity.Skin;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 public class CreateBallDto {
 
     @Data
-    @AllArgsConstructor
-    public class Request {
+    @NoArgsConstructor
+    public static class Request {
 
-        Skin skin;
+        String name;
+        String image;
+        int value;
+
+        public Skin toSkin() {
+            return Skin.builder()
+                    .name(this.name)
+                    .image(this.image)
+                    .value(this.value).build();
+        }
     }
+
 
 }

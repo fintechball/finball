@@ -1,11 +1,13 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.inventory.InventoryListDto;
 import com.example.backend.dto.inventory.InventoryDto;
-import com.example.backend.dto.inventory.InventoryInfo;
 import com.example.backend.dto.skin.PurchaseBallDto;
 import com.example.backend.entity.Inventory;
 import com.example.backend.entity.Member;
 import com.example.backend.entity.Skin;
+import com.example.backend.error.ErrorCode;
+import com.example.backend.exception.CustomException;
 import com.example.backend.repository.inventory.InventoryCustomRepository;
 import com.example.backend.repository.inventory.InventoryRepository;
 import com.example.backend.repository.member.MemberRepository;
@@ -25,20 +27,26 @@ public class InventoryService {
     private final MemberRepository memberRepository;
     private final InventoryCustomRepository inventoryCustomRepository;
 
-    public InventoryDto.Response getInventory(String userId) {
+    public InventoryListDto.Response getInventory(String userId) {
 
-        List<InventoryInfo> response = new ArrayList<>();
+        List<InventoryDto> response = new ArrayList<>();
         List<Inventory> inventoryList = inventoryCustomRepository.findAllByMemberId(userId);
 
         for (Inventory inventory : inventoryList) {
             response.add(inventory.toSkinInfo());
         }
 
-        return new InventoryDto.Response(response);
+        return new InventoryListDto.Response(response);
 
     }
 
     public void purchaseBall(Long id, String userId) {
+
+        List<Inventory> inventoryList = inventoryCustomRepository.findBySkinIdAndMemberId(id, userId);
+
+        if(inventoryList.size() > 0 ) {
+            throw new CustomException(ErrorCode.ALREADY_IN_USE);
+        }
 
         Skin skin = skinRepository.findById(id).get();
         Member member = memberRepository.findByUserId(userId).get();
@@ -49,12 +57,18 @@ public class InventoryService {
     }
 
     @Transactional
-    public void selectBall(Long id, String userId) {
+    public void selectBall(Long SkinId, String userId) {
 
-        List<Inventory> inventoryList =  inventoryCustomRepository.findByMemberIdAndSkinId(id, userId);
+        List<Inventory> selectedInventoryList =  inventoryCustomRepository.findSelectedBallByMemberId(userId);
+        List<Inventory> selectingInventoryList =  inventoryCustomRepository.findBySkinIdAndMemberId(SkinId, userId);
 
-        Inventory inventory = inventoryList.get(0);
+        if(selectedInventoryList.size() != 1 || selectingInventoryList.size() != 1) {
+            throw new CustomException(ErrorCode.DATA_NOT_FOUND);
+        }
 
-        inventory.setSelected(true);
+        Inventory selectedInventory = selectedInventoryList.get(0);
+        selectedInventory.setSelected(false);
+        Inventory selectingInventory = selectingInventoryList.get(0);
+        selectingInventory.setSelected(true);
     }
 }

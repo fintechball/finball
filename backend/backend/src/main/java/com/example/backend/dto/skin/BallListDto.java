@@ -11,7 +11,7 @@ public class BallListDto {
     @Data
     @AllArgsConstructor
     public static class response {
-        List<SkinInfo> skin;
+        List<SkinDto> skin;
     }
 
 }

@@ -56,9 +56,14 @@ function NavPage() {
           네이버 인증서
         </Link>
       </p>
-      {/* <p>
-        <Link to="/account" className={styles.link}>
-          account는뭐고accounts는뭔가요
+      <p>
+        <Link to="/accounts" className={styles.link}>
+          계좌조회
+        </Link>
+      </p>
+      <p>
+        <Link to="/accountbook" className={styles.link}>
+          가계부
         </Link>
       </p> */}
       <p>

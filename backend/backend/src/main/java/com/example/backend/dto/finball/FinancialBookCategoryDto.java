@@ -13,6 +13,7 @@ public class FinancialBookCategoryDto {
     private Long id;
     private String name;
     private Long value;
+    private Long usedValue;
     private Long balance;
     private int percent;
 

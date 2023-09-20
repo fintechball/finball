@@ -14,35 +14,27 @@ public class RegistFinballBookDto {
     @Data
     public static class Request {
 
-        private Long value; //가계부에 넣을 돈
         private ArrayList<FinancialBookCategoryDto> category;
+        private int refreshDate;
 
         public ArrayList<Category> toCategory(FinBallAccount finBallAccount) {
-            long valueSum = 0L;
-
+            long valueSum = 0L; //카테고리 value 총합(기타도 포함되어 있음)
             ArrayList<Category> list = new ArrayList<>();
-            for (FinancialBookCategoryDto bookCategory : this.category) {
+
+            for (FinancialBookCategoryDto bookCategory : this.category) { //카테고리 요청 정보
                 valueSum += bookCategory.getValue();
+
                 list.add(Category.builder()
                         .finBallAccount(finBallAccount)
                         .name(bookCategory.getName())
                         .value(bookCategory.getValue())
-                        .balance(bookCategory.getValue())
-                        .updatedAt(LocalDateTime.now())
+                        .usedValue(0L)
                         .build());
             }
 
-            if (valueSum > this.value) {
+            if (valueSum > finBallAccount.getBalance()) {
                 throw new CustomException(ErrorCode.OUT_OF_RANGE);
             }
-
-            list.add(Category.builder()
-                    .finBallAccount(finBallAccount)
-                    .name("기타")
-                    .value(this.value - valueSum)
-                    .balance(this.value - valueSum)
-                    .updatedAt(LocalDateTime.now())
-                    .build());
 
             return list;
         }
