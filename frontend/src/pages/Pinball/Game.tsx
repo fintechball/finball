@@ -5,8 +5,9 @@ import Modal from 'react-modal';
 import finball from "../../assets/finball.png" 
 import styles from './Game.module.css';
 import decomp from 'poly-decomp';
-const width = window.innerWidth;
-const height = window.innerWidth*5;
+import { Float } from '@react-three/drei';
+const width = 360;
+const height = 1800;
 const Payment = 10;
 const theme = '#4C4499';
   const dummy=
@@ -171,13 +172,14 @@ useEffect(() => {
         frameRate:10,
       }});
     render = Render.create({
-      element: document.body,
+      element: document.getElementById('canvas'),
       engine: engine,
       options: {
-        width: window.innerWidth,
-        height: window.innerWidth * 5,
+        width: 360,
+        height: 1800,
         wireframes: false,
         background: 'white',
+        position:"absoulte"
       },
     });
     Common.setDecomp(decomp);
@@ -185,7 +187,7 @@ useEffect(() => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (isMobile) {
-      engine.gravity.y = 0.25
+      engine.gravity.y = 0.20
     } else {
       engine.gravity.y = 0.25
     }
@@ -890,7 +892,7 @@ useEffect(() => {
       let cnt=0;
       let dir=[1,-1]
       Events.on(engine, 'beforeUpdate', () => {
-        angle2 += 0.02*dir[(Math.round(cnt/50))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
+        angle2 += 0.02*dir[(Math.round(cnt/75))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
         Body.setAngle(stick1, -angle2); // rot1 요소의 각도를 변경
         Body.setAngle(stick2, angle2); // rot1 요소의 각도를 변경
       });
@@ -931,11 +933,7 @@ useEffect(() => {
             setOrangeCount(Pay.filter(ball => ball.render.fillStyle === "orange").length)
             setPurpleCount(Pay.filter(ball => ball.render.fillStyle === "purple").length)
             if (Pay.length==Payment){
-              console.log(Pay.length,Payment)
-              console.log(Pay)
-              // openModal()
               setIsModalOpen(true)
-              console.log(isModalOpen)
               return;
             }
           }
@@ -945,7 +943,7 @@ useEffect(() => {
           const scrollDiff = targetScrollTop - currentScrollTop;
   
           if (Math.abs(scrollDiff) > 1) {
-            window.scrollTo(0, currentScrollTop + scrollDiff / 40);
+            window.scrollTo(0, currentScrollTop + scrollDiff / 20);
           }
   
           requestAnimationFrame(updateScroll);
@@ -955,7 +953,7 @@ useEffect(() => {
     }
   };
   return (
-    <div id="canvas">
+    <div id="canvas" style={{width:"360px",height:"1800px"}}>
       <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen}}>Finball!</button>
       <div
         style={{
