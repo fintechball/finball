@@ -1,10 +1,8 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.RestDto;
-import com.example.backend.dto.bank.BankAccountInfo;
+import com.example.backend.dto.bank.BankAccountDto;
 import com.example.backend.dto.bank.BankAccountListDto;
-import com.example.backend.dto.bank.BankInfo;
-import com.example.backend.dto.bank.BankListDto;
 import com.example.backend.repository.bank.BankCustomRepository;
 import com.example.backend.util.RedisUtil;
 import com.example.backend.util.RestTemplateUtil;
@@ -24,36 +22,36 @@ public class BankService {
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
 
-    public BankAccountListDto.Response getBankAccount(BankAccountListDto.Request request,
+    public BankAccountListDto.Response getBankAccountList(BankAccountListDto.Request request,
             String userId)
             throws JsonProcessingException {
 
-        List<BankAccountInfo> bankAccountInfoList = getBankAccountInfoList(request, userId);
+        List<BankAccountDto> bankAccountDtoList = getBankAccountDtoList(request, userId);
         List<String> existBankAccount = bankCustomRepository.findAccountNumberByMemberId(userId);
 
-        List<BankAccountInfo> response = new ArrayList<>();
+        List<BankAccountDto> response = new ArrayList<>();
 
-        for (BankAccountInfo bankAccountInfo : bankAccountInfoList) {
-            if (!existBankAccount.contains(bankAccountInfo.getAccount())) {
-                response.add(bankAccountInfo);
+        for (BankAccountDto bankAccountDto : bankAccountDtoList) {
+            if (!existBankAccount.contains(bankAccountDto.getAccountNumber())) {
+                response.add(bankAccountDto);
             }
         }
 
         return new BankAccountListDto.Response(response);
     }
 
-    public List<BankAccountInfo> getBankAccountInfoList(BankAccountListDto.Request request,
+    public List<BankAccountDto> getBankAccountDtoList(BankAccountListDto.Request request,
             String userId)
             throws JsonProcessingException {
 
         String myDataToken = redisUtil.getMyDataToken(userId);
 
         ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMydata(myDataToken, request, "/mydata/account", HttpMethod.POST);
-        RestDto<BankAccountInfo> restDto = new RestDto<>(BankAccountInfo.class, responseEntity);
-        List<BankAccountInfo> bankAccountInfoList = (List<BankAccountInfo>) restTemplateUtil
-                .parseListBody(restDto, "userAccountList");
+                .callMyData(myDataToken, request, "/myData/bank/account", HttpMethod.POST);
+        RestDto<BankAccountDto> restDto = new RestDto<>(BankAccountDto.class, responseEntity);
+        List<BankAccountDto> bankAccountDtoList = (List<BankAccountDto>) restTemplateUtil
+                .parseListBody(restDto, "bankAccountList");
 
-        return bankAccountInfoList;
+        return bankAccountDtoList;
     }
 }

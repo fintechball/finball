@@ -5,19 +5,19 @@ import java.util.List;
 import lombok.*;
 
 @Data
-public class GetAccountsDto {
+public class BankAccountListDto {
 
     @Getter
     @ToString
     public static class Request {
 
-        List<Long> bankCode;
+        List<Long> bankCodeList;
     }
 
     @Builder
     @Getter
     public static class Response {
 
-        List<AccountDto> userAccountList;
+        List<BankAccountDto> bankAccountList;
     }
 }

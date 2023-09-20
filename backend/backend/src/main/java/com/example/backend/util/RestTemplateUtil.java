@@ -2,12 +2,12 @@ package com.example.backend.util;
 
 import com.example.backend.dto.RestDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
+
 import java.nio.charset.Charset;
 import java.util.List;
+
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,7 +22,7 @@ public class RestTemplateUtil {
     private final String MYDATA_URL = "http://localhost:8081";
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public ResponseEntity<String> callMydata(String token, Object request, String url, HttpMethod httpMethod)
+    public ResponseEntity<String> callMyData(String token, Object request, String url, HttpMethod httpMethod)
             throws JsonProcessingException {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -48,6 +48,10 @@ public class RestTemplateUtil {
         JavaType listType = objectMapper.getTypeFactory()
                 .constructCollectionType(List.class, clazz);
 
+        // LocalDate를 처리해주기 위한 설정
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
         return objectMapper.readValue(body.toString(), listType);
     }
 
@@ -60,7 +64,6 @@ public class RestTemplateUtil {
 
     public JsonNode getBody(ResponseEntity<String> respEntity, String key)
             throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         objectMapper
                 .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);  // list deserialization 기능 활성화
         JsonNode jsonNode = objectMapper.readTree(respEntity.getBody());

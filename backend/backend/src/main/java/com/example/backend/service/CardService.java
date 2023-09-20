@@ -1,13 +1,8 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.RestDto;
-import com.example.backend.dto.bank.BankAccountInfo;
-import com.example.backend.dto.card.CardCompanyInfo;
-import com.example.backend.dto.card.CardCompanyListDto;
 import com.example.backend.dto.card.CardInfo;
 import com.example.backend.dto.card.CardListDto;
-import com.example.backend.dto.card.CardListDto.Request;
-import com.example.backend.dto.card.CardListDto.Response;
 import com.example.backend.repository.card.CardCustomRepository;
 import com.example.backend.util.RedisUtil;
 import com.example.backend.util.RestTemplateUtil;
@@ -50,7 +45,7 @@ public class CardService {
         String myDataToken = redisUtil.getMyDataToken(userId);
 
         ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMydata(myDataToken, request, "/mydata/card", HttpMethod.POST);
+                .callMyData(myDataToken, request, "/mydata/card", HttpMethod.POST);
         RestDto<CardInfo> restDto = new RestDto<>(CardInfo.class, responseEntity);
         List<CardInfo> cardInfoList = (List<CardInfo>) restTemplateUtil
                 .parseListBody(restDto, "cardList");
