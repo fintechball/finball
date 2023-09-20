@@ -19,6 +19,7 @@ public class RandomCard {
     static final String JSON_FILE_PATH = "C:\\Users\\SSAFY\\Desktop\\ssafy2\\ssafy2-2\\S09P22E106\\backend\\mydata\\src\\main\\java\\com\\finball\\mydata\\util\\json\\card.json";
 
     public RegistCardDto create() throws IOException, ParseException {
+
         JSONParser parser = new JSONParser();
         Reader reader = new FileReader(JSON_FILE_PATH);
 
@@ -30,6 +31,7 @@ public class RandomCard {
     }
 
     private RegistCardDto createCardDto(JSONObject card) {
+
         String cardNumber = createCardNumber(card);
         String name = (String) card.get("name");
         Long companyId = (Long) card.get("cp_id");
