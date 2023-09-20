@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.dto.RestDto;
 import com.example.backend.dto.card.CardDto;
 import com.example.backend.dto.card.CardListDto;
+import com.example.backend.dto.card.CardListDto.Response;
 import com.example.backend.dto.card.CardRegisterDto;
 import com.example.backend.entity.Card;
 import com.example.backend.entity.Member;
@@ -32,7 +33,7 @@ public class CardService {
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
 
-    public CardListDto.Response getCardList(CardListDto.Request request, String userId)
+    public CardListDto.Response getCard(CardListDto.Request request, String userId)
             throws JsonProcessingException {
 
         List<CardDto> cardDtoList = getCardDtoList(request, userId);
@@ -79,5 +80,20 @@ public class CardService {
         }
 
         cardRepository.saveAll(cardList);
+    }
+
+    public CardListDto.Response getCardList(String userId) {
+
+        List<Card> cardList = cardCustomRepository.findCardByMemberId(userId);
+
+        List<CardDto> cardDtoList = new ArrayList<>();
+
+        for (Card card : cardList) {
+            cardDtoList.add(CardListDto.toCardDto(card));
+        }
+
+        return new CardListDto.Response(cardDtoList);
+
+
     }
 }
