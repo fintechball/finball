@@ -12,7 +12,6 @@ import CertificationNaver from "../pages/Auth/CertificationNaver";
 
 import Pinball from "../pages/Pinball/Pinball";
 import Game from "../pages/Pinball/Game";
-// import MyComponent from "../pages/Pinball/Test";
 import Card from "../pages/Pinball/Card";
 import AccountBook from "../pages/Pinball/AccountBook";
 
