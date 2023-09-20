@@ -1,5 +1,7 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.groupaccount.GroupMemberDto;
+import com.example.backend.type.HostType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -54,11 +56,21 @@ public class GroupAccountMember {
         this.groupAccount = groupAccount;
     }
 
-    @Override
-    public String toString() {
-        return "GroupAccountMember{" +
-                "id=" + id +
-                ", toAccountNumber='" + toAccountNumber + '\'' +
-                '}';
+    public GroupMemberDto toGroupMemberDto(long hostId, long totalSum) {
+        HostType type = HostType.NORMAL;
+        if(hostId == this.member.getId()) type = HostType.HOST;
+        if(totalSum == 0) totalSum = 1;
+        long percent = balance * 100 / totalSum;
+        String profileImage = this.member.getProfileImg();
+        String name = this.member.getName();
+        return GroupMemberDto.builder()
+                .percent(percent)
+                .value(this.value)
+                .balance(this.balance)
+                .name(name)
+                .profileImage(profileImage)
+                .type(type)
+                .skinId(this.skinId)
+                .build();
     }
 }

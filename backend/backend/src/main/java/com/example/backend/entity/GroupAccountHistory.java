@@ -2,12 +2,15 @@ package com.example.backend.entity;
 
 import com.example.backend.type.DealType;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,4 +49,15 @@ public class GroupAccountHistory {
 
     @ManyToOne
     private GroupAccount groupAccount;
+
+    @OneToMany(mappedBy = "groupAccountHistory")
+    private List<GroupGameResult> games = new ArrayList<GroupGameResult>();
+
+    @Override
+    public String toString() {
+        return "GroupAccountHistory{" +
+                "id=" + id +
+                ", games=" + games +
+                '}';
+    }
 }

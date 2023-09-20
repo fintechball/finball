@@ -28,6 +28,8 @@ public class QGroupAccountHistory extends EntityPathBase<GroupAccountHistory> {
 
     public final EnumPath<com.example.backend.type.DealType> dealType = createEnum("dealType", com.example.backend.type.DealType.class);
 
+    public final ListPath<GroupGameResult, QGroupGameResult> games = this.<GroupGameResult, QGroupGameResult>createList("games", GroupGameResult.class, QGroupGameResult.class, PathInits.DIRECT2);
+
     public final QGroupAccount groupAccount;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
