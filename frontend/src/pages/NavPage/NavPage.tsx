@@ -56,11 +56,11 @@ function NavPage() {
           네이버 인증서
         </Link>
       </p>
-      <p>
+      {/* <p>
         <Link to="/account" className={styles.link}>
           account는뭐고accounts는뭔가요
         </Link>
-      </p>
+      </p> */}
       <p>
         <Link to="/testpage" className={styles.link}>
           프론트 테스트페이지
