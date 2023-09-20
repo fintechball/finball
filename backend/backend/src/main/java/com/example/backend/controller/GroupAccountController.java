@@ -22,8 +22,8 @@ public class GroupAccountController {
     private final GroupAccountService groupAccountService;
 
     @GetMapping("/group/account/{groupAccountId}")
-    public Response<GroupAccountDto> getGroupAccount(@PathVariable String groupAccountId) {
-        GroupAccountDto response = groupAccountService.findByGroupAccountId(groupAccountId);
+    public Response<GroupAccountDto.Response> getGroupAccount(@PathVariable String groupAccountId) {
+        GroupAccountDto.Response response = groupAccountService.findByGroupAccountId(groupAccountId);
         return new Response<>(200, "그룹 계좌 조회 완료", response);
     }
 

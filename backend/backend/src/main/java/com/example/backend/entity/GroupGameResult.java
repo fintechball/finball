@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.groupaccount.GroupGameResultDto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,4 +28,12 @@ public class GroupGameResult {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private GroupAccountMember groupAccountMember;
+
+
+    public GroupGameResultDto toGroupGameResultDto() {
+        return GroupGameResultDto.builder()
+                .value(this.lose)
+                .name(this.groupAccountMember.getMember().getName())
+                .build();
+    }
 }

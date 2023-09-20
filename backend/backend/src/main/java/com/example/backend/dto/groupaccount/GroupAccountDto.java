@@ -16,7 +16,8 @@ public class GroupAccountDto {
         private List<GroupMemberDto> member;
         private List<GroupTradeHistoryDto> tradeHistory;
 
-        public GroupAccountDto.Response toGroupAccountDto(GroupAccount groupAccount, List<GroupMemberDto> member, List<GroupTradeHistoryDto> tradeHistory) {
+        public static GroupAccountDto.Response toGroupAccountDto(GroupAccount groupAccount,
+                List<GroupMemberDto> member, List<GroupTradeHistoryDto> tradeHistory) {
             String accountNumber = groupAccount.getAccountNumber();
             long balance = groupAccount.getBalance();
             return Response

@@ -1,9 +1,12 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.groupaccount.GroupGameResultDto;
+import com.example.backend.dto.groupaccount.GroupTradeHistoryDto;
 import com.example.backend.type.DealType;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,6 +55,19 @@ public class GroupAccountHistory {
 
     @OneToMany(mappedBy = "groupAccountHistory")
     private List<GroupGameResult> games = new ArrayList<GroupGameResult>();
+
+    public GroupTradeHistoryDto toGroupTradeHistoryDto() {
+        List<GroupGameResultDto> games = this.games.stream()
+                .map(GroupGameResult::toGroupGameResultDto).collect(
+                        Collectors.toList());
+        return GroupTradeHistoryDto.builder()
+                .id(this.id)
+                .name(this.target)
+                .value(this.value)
+                .type(this.dealType)
+                .result(games)
+                .build();
+    }
 
     @Override
     public String toString() {

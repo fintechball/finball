@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
 import com.example.backend.dto.groupaccount.GroupAccountDto;
 import com.example.backend.dto.groupaccount.GroupMemberDto;
+import com.example.backend.dto.groupaccount.GroupTradeHistoryDto;
 import com.example.backend.dto.groupaccount.RegistGroupAccountDto.Request;
 import com.example.backend.entity.GroupAccount;
 import com.example.backend.entity.GroupAccountHistory;
@@ -51,27 +52,23 @@ public class GroupAccountService {
                 .build();
     }
 
-    public GroupAccountDto findByGroupAccountId(String groupAccountId) {
+    public GroupAccountDto.Response findByGroupAccountId(String groupAccountId) {
         GroupAccount groupAccount = (GroupAccount) groupAccountCustomRepository.getGroupAccountWithMembers(
                 groupAccountId);
         if (groupAccount == null) {
             throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
         }
         long hostId = groupAccount.getMember().getId();
-        String name = groupAccount.getName();
-        String accountNumber = groupAccount.getAccountNumber();
         long totalSum = groupAccount.getBalance();
         List<GroupMemberDto> groupAccountMemberList = groupAccountCustomRepository.getGroupAccountMemberListWithMembers(
                         groupAccountId).stream()
                 .map(groupAccountMember -> groupAccountMember.toGroupMemberDto(hostId, totalSum))
                 .collect(
                         Collectors.toList());
-        System.out.println(groupAccountMemberList.toString());
+        List<GroupTradeHistoryDto> groupAccountHistoryList = groupAccountCustomRepository.getGroupAccountHistoryListWithGameResult(
+                groupAccountId).stream().map(GroupAccountHistory::toGroupTradeHistoryDto).collect(
+                Collectors.toList());
 
-        List<GroupAccountHistory> groupAccountHistoryList = groupAccountCustomRepository.getGroupAccountHistoryListWithGameResult(
-                groupAccountId);
-        System.out.println(groupAccountHistoryList);
-
-        return null;
+        return GroupAccountDto.Response.toGroupAccountDto(groupAccount, groupAccountMemberList, groupAccountHistoryList);
     }
 }
