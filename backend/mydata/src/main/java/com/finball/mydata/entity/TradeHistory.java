@@ -1,7 +1,7 @@
 package com.finball.mydata.entity;
 
-import com.finball.mydata.dto.tradeHistory.AccountHistoryInfoDto;
-import com.finball.mydata.dto.tradeHistory.OppositeBankInfo;
+import com.finball.mydata.dto.tradeHistory.AccountHistoryDto;
+import com.finball.mydata.dto.tradeHistory.OppositeBankDto;
 import com.finball.mydata.type.DealType;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,10 +18,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Getter
 @Builder
@@ -60,39 +56,22 @@ public class TradeHistory {
 
     private String opBankName;
 
-    @Builder
-    public TradeHistory(Company company, Account account, Long value, Long remain,
-                        LocalDate date, LocalTime time, DealType type, String target, String nickname,
-                        String opAccount, String opBankName) {
-        this.company = company;
-        this.account = account;
-        this.value = value;
-        this.remain = remain;
-        this.date = date;
-        this.time = time;
-        this.type = type;
-        this.target = target;
-        this.nickname = nickname;
-        this.opAccount = opAccount;
-        this.opBankName = opBankName;
-    }
-
-    public AccountHistoryInfoDto toAccountHistoryInfoDto() {
-        OppositeBankInfo oppositeBankInfo = OppositeBankInfo.builder()
+    public AccountHistoryDto toAccountHistoryInfoDto() {
+        OppositeBankDto oppositeBankDto = OppositeBankDto.builder()
                 .bankName(this.opBankName)
                 .account(this.opAccount)
                 .nickname(this.nickname)
                 .target(this.target)
                 .build();
 
-        return AccountHistoryInfoDto.builder()
+        return AccountHistoryDto.builder()
                 .id(this.id)
                 .value(this.value)
                 .date(this.date)
                 .time(this.time)
                 .type(this.type)
                 .remain(this.remain)
-                .oppositeBankInfo(oppositeBankInfo)
+                .oppositeBankDto(oppositeBankDto)
                 .build();
     }
 }
