@@ -1,7 +1,14 @@
-.pincontainer {
-    width : 80%;
-    height: 20%;
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 30px;
+  text-align: left;
 }
-.canvas{
+
+.minicontainer {
+  margin-top: 10px;
+}
+
+/* .canvas{
 	width: 20vh;
-}
+} */
