@@ -32,6 +32,8 @@ public class QAccount extends EntityPathBase<Account> {
 
     public final DateTimePath<java.time.LocalDateTime> createdDt = createDateTime("createdDt", java.time.LocalDateTime.class);
 
+    public final BooleanPath isFavorite = createBoolean("isFavorite");
+
     public final QMember member;
 
     public final StringPath name = createString("name");
