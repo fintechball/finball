@@ -25,7 +25,6 @@ function App() {
   const [balls, setBalls] = useState([]);
   const [isGroundRemoved, setIsGroundRemoved] = useState(false);
   const [ballCount, setBallCount] = useState(0);
-  const [ballCountPosition] = useState({ top: '20px', right: '20px' });
   const Pay=[];
   const [redCount, setRedCount] = useState(0);
   const [blueCount, setBlueCount] = useState(0);
@@ -35,6 +34,7 @@ function App() {
   const [orangeCount, setOrangeCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isButtonOpen, setisButtonOpen] = useState('visible');
+  const [once,setOnce]=useState(false);
   const [finx,finy]=[102,103];
   const word=width*0.013+'px';
   const [userColor, setUserColor] = useState({
@@ -74,9 +74,7 @@ function App() {
   let angle=0;
   const Color = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
   function openModal() {
-    console.log('asdfasdfasdf')
     setIsModalOpen(true);
-    console.log(isModalOpen)
   }
   // 모달 닫기 함수
   const closeModal = () => {
@@ -129,6 +127,15 @@ const setColor = () => {
   const shuffledBall = shuffleArray(B);
   setBalllist(shuffledBall);
 };
+const setGravity = () => {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  if (isMobile) {
+    engine.gravity.y = 0.20
+  } else {
+    engine.gravity.y = 0.25
+  }
+};
+
 function start() {
   for (let i = 0; i < totalCnt; i++) {
     const ball = Bodies.circle(X[Math.floor(Math.random() * X.length)], Y[Math.floor(Math.random() * Y.length)], width/70, {
@@ -684,7 +691,7 @@ useEffect(() => {
       }, true);
       const rot1 = Bodies.rectangle(height*0.0866, height*0.13,width *0.2, width *0.2, {
         isStatic: true,
-        label:"TEST",
+        angle: Math.PI /3, 
         render: {
           fillStyle: theme,
           strokeStyle: 'transparent',
@@ -692,6 +699,7 @@ useEffect(() => {
       });
       const rot2 = Bodies.rectangle(width*3/4, height*0.0888, width *0.2, width *0.2, {
         isStatic: true,
+        angle: Math.PI /3, 
         render: {
           fillStyle:theme,
           strokeStyle: 'transparent',
@@ -757,6 +765,14 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
+      const stick3 = Bodies.rectangle(height*0.0866, height*0.13, width  *0.4 , width  *0.02, {
+        isStatic: true,
+        angle: Math.PI /3, 
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
     const clickEvent = (function() {
       if ('ontouchstart' in document.documentElement === true) {
         return 'touchstart';
@@ -765,7 +781,7 @@ useEffect(() => {
       }
     })();
     const Boundary = [
-      wall4,rot1,rot2,rot3,rot4,rot5,rot6,rot7,rot8,stick1,stick2, wall1, wall2, wall3,
+      wall4,rot1,rot2,rot3,rot4,rot5,rot6,rot7,rot8,stick1,stick2,stick3, wall1, wall2, wall3,
       block,wall5,dia1,dia2,dia3,dia4,wall6,wall7,wall8,wall9,dia5,dia6,dia7,dia8,FinBallLogo,borderBody,little2,little3,little4,
       little5,little1,middle1,middle2,middle3,middle4,middle5,middle6,little6,little7,little8,little9,little10,
       middle7,middle8,middle9,middle10,middle11,middle12,little11,little12,little13,little14,little15,sShape1,sShape2,aShape,fShape,yShape];
@@ -782,7 +798,7 @@ useEffect(() => {
   const removeGround = () => {
     setisButtonOpen("hidden")
     if (!isGroundRemoved) {
-      for (let i=0;i<11;i++){
+      for (let i=0;i<12;i++){
       World.remove(engine.world, engine.world.bodies[0]);}
       setIsGroundRemoved(true);
   
@@ -869,6 +885,14 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
+      const stick3 = Bodies.rectangle(height*0.0866, height*0.13, width  *0.4 , width  *0.02, {
+        isStatic: true,
+        angle: Math.PI /4, 
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
       // Engine 객체에 각도를 변경하는 함수를 등록
       let angle1 = 0;
       let angle2 = 0;
@@ -880,6 +904,7 @@ useEffect(() => {
         Body.setAngle(rot3, -angle1); // rot1 요소의 각도를 변경
         Body.setAngle(rot4, angle1); // rot1 요소의 각도를 변경
         Body.setAngle(rot5, -angle1+1); // rot1 요소의 각도를 변경
+        Body.setAngle(stick3, angle1); // rot1 요소의 각도를 변경
 
       });
   
@@ -888,6 +913,7 @@ useEffect(() => {
       World.add(engine.world, rot3);
       World.add(engine.world, rot4);
       World.add(engine.world, rot5);
+      World.add(engine.world, stick3);
 
       let cnt=0;
       let dir=[1,-1]
@@ -919,11 +945,13 @@ useEffect(() => {
   
           if (!Pay.includes(highestYBall) && highestYBall.position.y >= height) {
             Pay.push(highestYBall);
+
             // 복사한 배열에서 해당 공 제거
             const indexToRemove = updatedBalls.findIndex(ball => ball.id === highestYBall.id);
             if (indexToRemove !== -1) {
               updatedBalls.splice(indexToRemove, 1);
             }
+            World.remove(engine.world, highestYBall);
             setBalls(updatedBalls);
             setBallCount(Pay.length);
             setRedCount(Pay.filter(ball => ball.render.fillStyle === "red").length)
@@ -932,6 +960,15 @@ useEffect(() => {
             setYellowCount(Pay.filter(ball => ball.render.fillStyle === "yellow").length)
             setOrangeCount(Pay.filter(ball => ball.render.fillStyle === "orange").length)
             setPurpleCount(Pay.filter(ball => ball.render.fillStyle === "purple").length)
+            //반중력효과
+            // if (Pay.length==Math.round(Payment/2)&&once == false){
+            //   setOnce(true)
+            //   engine.gravity.y=-0.01
+            //   setTimeout(() => {
+            //     setGravity()
+            //   }, 3000);
+            //   console.log('half')
+            // }
             if (Pay.length==Payment){
               setIsModalOpen(true)
               return;
@@ -958,12 +995,14 @@ useEffect(() => {
       <div
         style={{
           position: 'fixed',
+          top:"60px",
+          left:innerWidth/2+100,
           zIndex:3,
           background: 'grey',
           padding: '5px 10px',
           borderRadius: '5px',
           fontSize:word,
-          ...ballCountPosition, // ballCountPosition의 위치를 적용
+          // ...ballCountPosition, // ballCountPosition의 위치를 적용
         }}
       >
         <div style={{color:"white"}}>지불금액: {ballCount}</div>

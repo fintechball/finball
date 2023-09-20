@@ -56,7 +56,7 @@ function AccountBook() {
         <button onClick={Plus}>+</button>
         <button onClick={Minus}>-</button>
             {selectedbtn["btn1"] && (
-                    <div id="home-canvas" style={{ width: "70vh", height: "70vh", position: "relative" }}>
+                    <div id="home-canvas" style={{ width: "360px", height: "70vh", position: "relative" }}>
                         <div style={{fontSize:'4vh',fontWeight:'bold'}}>우리 계좌</div>
                         <Pinball />
                         <TextField
@@ -89,13 +89,13 @@ function AccountBook() {
                 <div style={{fontSize:'4vh',fontWeight:'bold'}}>{balance}원</div>
                 <button style={{ width: '30%', color: 'white', aspectRatio: 5, fontSize: '2vh', backgroundColor: '#4C4499', marginRight: '5%' }}>채우기</button>
                 <button style={{ width: '30%', color: 'white', aspectRatio: 5, fontSize: '2vh', backgroundColor: '#7165E3' }}>보내기</button>
-                <div style={{ position: "relative",width:'70vh',height:'70vh' }}>
-                <div style={{fontSize:'2vh',fontWeight:'bold',textAlign:'start',marginLeft:'10%'}}>전체</div>
+                <div style={{ position: "relative",width:'360px',height:'70vh' }}>
+                <div style={{fontSize:'2vh',fontWeight:'bold',textAlign:'start',marginLeft:'10px'}}>전체</div>
                 {dummy.reduce((acc: React.ReactNode[], item, i) => {
                     // 첫 번째 아이템이거나 이전 아이템과 날짜가 다를 경우 새로운 구역 생성
                     if (i === 0 || item.date !== dummy[i - 1].date) {
                     acc.push(
-                        <div key={`date-${item.date}`} style={{ fontWeight: 'bold',fontSize:'1%',textAlign:'start',marginLeft:'10%' }}>
+                        <div key={`date-${item.date}`} style={{ fontWeight: 'bold',fontSize:'1%',textAlign:'start',marginLeft:'10px' }}>
                         {item.date}
                         </div>
                     );
@@ -103,9 +103,9 @@ function AccountBook() {
                     
                     // 현재 아이템 출력
                     acc.push(
-                    <div key={`item-${i}`} style={{ display: 'flex', width: '80%', alignContent: 'center', justifyContent: 'center', marginLeft: '10%',marginBottom:'3%' ,justifyContent: 'space-between' }}>
+                    <div key={`item-${i}`} style={{ display: 'flex', width: '340px', alignContent: 'center', justifyContent: 'center', marginLeft: '10px',marginBottom:'3px' ,justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex',alignItems: 'center'}}>
-                        <img src={cash} style={{ width: "7vh",height:'7vh',marginRight:'10%' }} />
+                        <img src={cash} style={{ width: "7vh",height:'7vh',marginRight:'10px' }} />
                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ fontSize: '2vh', fontWeight: 'bold' }}>{item.name}</div>
                         <div style={{ fontSize: '0.5vh', opacity: 0.7 }}>{item.time}</div>
@@ -120,7 +120,7 @@ function AccountBook() {
                     
                     return acc;
                 }, [])}
-                <div id="home-canvas" style={{ width: "70vh", height: "70vh", position: "absolute", top: 0, left: 0, zIndex: -1, opacity: 0.1 }}>
+                <div id="home-canvas" style={{ width: "360px", height: "70vh", position: "absolute", top: 0, left: 0, zIndex: -1, opacity: 0.1 }}>
                     <Pinball />
                 </div>
                 </div>
@@ -131,16 +131,16 @@ function AccountBook() {
 
 
             {selectedbtn["btn3"] && (
-                <div style={{ position: "relative", width: "70vh", height: "70vh" }}>
+                <div style={{ position: "relative", width: "360px", height: "70vh" }}>
                 {/* Canvas */}
-                <div id="home-canvas" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}>
+                <div id="home-canvas" style={{ position: "absolute", top: 0, left: 0, width: "360px", height: "100%" }}>
                 <div style={{fontSize:'4vh',fontWeight:'bold'}}>가계부</div>
                 <Pinball />
                 </div>
     
                 {/* Circular Progress Bars */}
-                <div style={{ position: "absolute", top: '10%', left: "55%", width: "100%", height: "100%", display: "flex" }}>
-                <div style={{ width: "10vh", height: "10vh" }}>
+                <div style={{ position: "absolute", top: "50px",left:"215px" , width: "22vh", height: "100%", display: "flex" }}>
+                <div style={{ width: "6vh", height: "6vh",marginRight:"5px" }}>
                     <CircularProgressbar
                     value={percentage}
                     text={`${percentage}%`}
@@ -151,7 +151,7 @@ function AccountBook() {
                     <div>식비</div>
                 </div>
                 
-                <div style={{ width: "10vh", height: "10vh" }}>
+                <div style={{  width: "6vh", height: "6vh",marginRight:"5px" }}>
                     <CircularProgressbar
                     value={percentage}
                     text={`${percentage}%`}
@@ -162,7 +162,7 @@ function AccountBook() {
                     <div>게임</div>
                 </div>
                 
-                <div style={{ width: "10vh", height: "10vh" }}>
+                <div style={{  width: "6vh", height: "6vh",marginRight:"5px" }}>
                     <CircularProgressbar
                     value={percentage}
                     text={`${percentage}%`}
