@@ -1,8 +1,9 @@
 package com.example.backend.dto.finball;
 
-import java.time.LocalDateTime;
+import com.example.backend.entity.Category;
 import java.util.ArrayList;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 public class FinancialBookDto {
@@ -10,17 +11,29 @@ public class FinancialBookDto {
     @Data
     public static class Response {
 
-        private Long balance; //가계부 잔고
-        private ArrayList<FinancialBookCategoryDto> category = new ArrayList<>();
+        private Long value;     //가계부 value 합
+        private Long usedValue; //가계부 총 사용 금액
+        private Long balance;   //가계부 잔고
+        private ArrayList<FinancialBookCategoryDto> category;
 
-        public void setBalance() {
+        public Response(ArrayList<Category> categories){
+            ArrayList<FinancialBookCategoryDto> category = new ArrayList<>();
+            Long value = 0L;
+            Long usedValue = 0L;
             Long balance = 0L;
 
-            for (FinancialBookCategoryDto category : this.category) {
-                balance += category.getBalance();
+            for(Category categoryEntity :  categories){
+                category.add(categoryEntity.toCategoryDto());
+
+                value += categoryEntity.getValue();
+                usedValue += categoryEntity.getUsedValue();
+                balance += categoryEntity.getBalance();
             }
 
+            this.value = value;
+            this.usedValue = usedValue;
             this.balance = balance;
+            this.category = category;
         }
     }
 

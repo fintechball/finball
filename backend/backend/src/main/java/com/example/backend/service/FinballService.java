@@ -32,32 +32,36 @@ public class FinballService {
     }
 
     public void createCategory(RegistFinballBookDto.Request request, Member member) {
-        FinBallAccount account = finBallAccountRepository.findByMemberId(member.getId())
-                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND)
-                );
+        //핀볼 계좌 없는 경우의 예외
+        FinBallAccount account = getFinballAccount(member);
 
+        //이미 가계부가 있는 경우에 대한 예외
         ArrayList<Category> categoryCheckList = categoryRepository.findAllByFinBallAccount(account);
         if (categoryCheckList.size() > 0) {
             throw new CustomException(ErrorCode.ALREADY_IN_USE);
         }
 
         ArrayList<Category> categories = request.toCategory(account);
+        account.setRefreshDate(request.getRefreshDate());
+
         categoryRepository.saveAll(categories);
+        finBallAccountRepository.save(account);
     }
 
     public FinancialBookDto.Response readFinancialBook(Member member) {
-        FinancialBookDto.Response response = new FinancialBookDto.Response();
+        FinBallAccount account = getFinballAccount(member);
 
+        ArrayList<Category> categories = categoryRepository.findAllByFinBallAccount(account);
+        FinancialBookDto.Response response = new FinancialBookDto.Response(categories);
+
+        return response;
+    }
+
+    //핀볼 계좌 체크하는 공통 로직 분리
+    private FinBallAccount getFinballAccount(Member member) {
         FinBallAccount account = finBallAccountRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND)
                 );
-
-        ArrayList<Category> categories = categoryRepository.findAllByFinBallAccount(account);
-        for (Category category : categories) {
-            response.getCategory().add(category.toCategoryDto());
-        }
-
-        response.setBalance();
-        return response;
+        return account;
     }
 }

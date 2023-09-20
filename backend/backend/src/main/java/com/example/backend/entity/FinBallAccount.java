@@ -46,4 +46,8 @@ public class FinBallAccount {
     @Column
     private Integer bookRefreshDate; //가계부 refresh 날짜 (5일)
 
+    public void setRefreshDate(int refreshDate){
+        this.bookRefreshDate = refreshDate;
+    }
+
 }
