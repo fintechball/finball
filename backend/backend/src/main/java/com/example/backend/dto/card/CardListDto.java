@@ -20,8 +20,8 @@ public class CardListDto {
     }
 
     public static CardDto toCardDto(Card card) {
-        // companyCode 해줘야됨
-        return CardDto.builder().cardImage(card.getImage())
+        return CardDto.builder()
+                .cardImage(card.getImage())
                 .cardName(card.getName())
                 .cardNumber(card.getCardNumber())
                 .companyName(card.getCpName())
