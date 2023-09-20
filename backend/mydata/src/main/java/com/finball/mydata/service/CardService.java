@@ -1,9 +1,7 @@
 package com.finball.mydata.service;
 
-import com.finball.mydata.dto.card.CardInfoDto;
-import com.finball.mydata.dto.card.GetCardsDto;
-import com.finball.mydata.dto.card.GetCardsDto.Request;
-import com.finball.mydata.dto.card.GetCardsDto.Response;
+import com.finball.mydata.dto.card.CardDto;
+import com.finball.mydata.dto.card.CardListDto;
 import com.finball.mydata.dto.card.RegistCardDto;
 import com.finball.mydata.entity.Card;
 import com.finball.mydata.entity.Company;
@@ -42,18 +40,18 @@ public class CardService {
 
     }
 
-    public GetCardsDto.Response getCardList(GetCardsDto.Request request, Member member) {
+    public CardListDto.Response getCardList(CardListDto.Request request, Long id) {
 
         List<Long> cardCompanyList = request.getCardCompanyCodeList();
-        List<Card> cards = cardCustomRepository.findAllByMemberIdAndCompanyIdInWithFetchJoin(member.getId(), cardCompanyList);
+        List<Card> cardList = cardCustomRepository.findAllByMemberIdAndCompanyIdInWithFetchJoin(id, cardCompanyList);
 
-        List<CardInfoDto> cardInfoList = new ArrayList<>();
-        for(Card card :cards){
+        List<CardDto> cardInfoList = new ArrayList<>();
+        for(Card card :cardList){
             cardInfoList.add(card.toCardInfoDto());
         }
 
-        return GetCardsDto.Response.builder()
-                .cardList(cardInfoList)
+        return CardListDto.Response.builder()
+                .cardDtoList(cardInfoList)
                 .build();
     }
 }

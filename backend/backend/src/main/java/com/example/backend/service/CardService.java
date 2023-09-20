@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.RestDto;
-import com.example.backend.dto.card.CardInfo;
+import com.example.backend.dto.card.CardDto;
 import com.example.backend.dto.card.CardListDto;
 import com.example.backend.repository.card.CardCustomRepository;
 import com.example.backend.util.RedisUtil;
@@ -22,34 +22,34 @@ public class CardService {
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
 
-    public CardListDto.Response getCard(CardListDto.Request request, String userId)
+    public CardListDto.Response getCardList(CardListDto.Request request, String userId)
             throws JsonProcessingException {
 
-        List<CardInfo> cardInfoList = getCardInfoList(request, userId);
+        List<CardDto> cardDtoList = getCardDtoList(request, userId);
         List<String> existCardNumber = cardCustomRepository.findCardNumberByMemberId(userId);
 
-        List<CardInfo> response = new ArrayList<>();
+        List<CardDto> response = new ArrayList<>();
 
-        for (CardInfo cardInfo : cardInfoList) {
-            if (!existCardNumber.contains(cardInfo.getCardNumber())) {
-                response.add(cardInfo);
+        for (CardDto cardDto : cardDtoList) {
+            if (!existCardNumber.contains(cardDto.getCardNumber())) {
+                response.add(cardDto);
             }
         }
 
         return new CardListDto.Response(response);
     }
 
-    private List<CardInfo> getCardInfoList(CardListDto.Request request, String userId)
+    private List<CardDto> getCardDtoList(CardListDto.Request request, String userId)
             throws JsonProcessingException {
 
         String myDataToken = redisUtil.getMyDataToken(userId);
 
         ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMyData(myDataToken, request, "/mydata/card", HttpMethod.POST);
-        RestDto<CardInfo> restDto = new RestDto<>(CardInfo.class, responseEntity);
-        List<CardInfo> cardInfoList = (List<CardInfo>) restTemplateUtil
-                .parseListBody(restDto, "cardList");
+                .callMyData(myDataToken, request, "/myData/card", HttpMethod.POST);
+        RestDto<CardDto> restDto = new RestDto<>(CardDto.class, responseEntity);
+        List<CardDto> cardDtoList = (List<CardDto>) restTemplateUtil
+                .parseListBody(restDto, "cardDtoList");
 
-        return cardInfoList;
+        return cardDtoList;
     }
 }

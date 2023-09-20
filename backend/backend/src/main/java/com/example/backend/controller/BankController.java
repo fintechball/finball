@@ -26,7 +26,6 @@ public class BankController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
 
         String userId = userDetails.getUsername();
-
         BankAccountListDto.Response response = bankService.getBankAccountList(request, userId);
 
         return new Response(200, "은행 계좌 목록을 성공적으로 반환하였습니다.", response);
