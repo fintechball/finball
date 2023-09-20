@@ -3,6 +3,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
 import com.example.backend.dto.card.CardListDto;
+import com.example.backend.dto.card.CardRegisterDto;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.CardService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,6 +31,18 @@ public class CardController {
 
         return new Response(200, "사용자 카드 목록을 성공적으로 반환하였습니다.", response);
     }
+
+    @PostMapping("/user/card")
+    public Response<?> registerCard(
+            @RequestBody CardRegisterDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+
+        String userId = userDetails.getUsername();
+        cardService.registerCard(request, userId);
+
+        return new Response(200, "사용자 카드를 성공적으로 저장하였습니다.");
+    }
+
 
 
 }
