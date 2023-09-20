@@ -19,6 +19,11 @@ import AccountBook from "../pages/Pinball/AccountBook";
 import Accounts from "../pages/Account/Accounts";
 
 import TestPage from "../pages/Test/TestPage";
+import NavPage from "../pages/NavPage/NavPage";
+
+import Chatbot from "../pages/ChatBot/ChatBot";
+import Quiz from "../pages/Quiz/Quiz";
+import Shop from "../pages/Shop/Shop";
 
 function Router() {
   return (
@@ -38,6 +43,14 @@ function Router() {
         <Route path="/accountbook" element={<AccountBook />} />
         <Route path="/testpage" element={<TestPage />} />
         {/* <Route path="/test" element={<MyComponent />} /> */}
+
+        <Route path="/account" element={<AccountBook />} />
+
+        <Route path="/testpage" element={<TestPage />} />
+        <Route path="/navpage" element={<NavPage />} />
+        <Route path="/chatbot" element={<Chatbot />} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/shop" element={<Shop />} />
       </Routes>
     </>
   );

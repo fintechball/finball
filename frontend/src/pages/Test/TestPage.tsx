@@ -2,6 +2,11 @@ import { useEffect } from "react";
 import type { RootState, AppDispatch } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchTest } from "../../store/slices/testSlice";
+import { StylesProvider } from "@material-ui/core";
+
+import styles from "./TestPage.module.scss";
+
+import UrlPath from "../../routes/UrlPath";
 
 function TestPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,7 +28,8 @@ function TestPage() {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
+      <UrlPath />
       {test.map((t, index) => (
         <div key={index}>
           <h1>{t.title}</h1>
