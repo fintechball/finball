@@ -4,6 +4,7 @@ package com.example.backend.controller;
 import com.example.backend.dto.Response;
 import com.example.backend.dto.card.CardListDto;
 import com.example.backend.dto.card.CardRegisterDto;
+import com.example.backend.dto.card.GetCardListDto;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.CardService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,10 +46,10 @@ public class CardController {
     }
 
     @GetMapping("/user/card")
-    public Response<CardListDto.Response> getCardList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public Response<GetCardListDto.Response> getCardList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         String userId = userDetails.getUsername();
-        CardListDto.Response response = cardService.getCardList(userId);
+        GetCardListDto.Response response = cardService.getCardList(userId);
 
         return new Response(200, "DB의 사용자 카드 목록을 성공적으로 반환하였습니다.", response);
     }
