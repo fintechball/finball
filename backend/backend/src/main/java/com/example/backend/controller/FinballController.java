@@ -43,7 +43,7 @@ public class FinballController {
         return new Response<>(200, "가계부가 생성되었습니다.");
     }
 
-    @GetMapping("/financialbook")
+    @GetMapping("/financialbook") //가계부 불러오기
     public Response readFinancialBook(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
 

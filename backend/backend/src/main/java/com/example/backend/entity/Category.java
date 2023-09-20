@@ -33,27 +33,27 @@ public class Category {
     private String name;
 
     @Column
-    private Long value; //최초 금액
+    private Long value; //사용할 금액
 
     @Column
-    private Long balance; //잔액
-
-    @Column
-    private LocalDateTime updatedAt; //수정일
-
-    @PreUpdate
-    public void updateTimeStamps() {
-        updatedAt = LocalDateTime.now();
-    }
+    private Long usedValue; //사용금액
 
     public FinancialBookCategoryDto toCategoryDto() {
-        int percent = (int) (this.balance / this.value);
+        Long balance = getBalance();
+
+        int percent = (int) (balance / this.value);
+
         return FinancialBookCategoryDto.builder()
                 .id(this.id)
                 .name(this.name)
                 .value(this.value)
-                .balance(this.balance)
+                .usedValue(this.usedValue)
+                .balance(balance)
                 .percent(percent * 100)
                 .build();
+    }
+
+    public Long getBalance(){
+        return this.value - this.usedValue;
     }
 }
