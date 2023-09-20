@@ -21,11 +21,11 @@ function NavPage() {
           회원가입
         </Link>
       </p>
-      <p>
+      {/* <p>
         <Link to="/pinball" className={styles.link}>
           핀볼
         </Link>
-      </p>
+      </p> */}
       <p>
         <Link to="/card" className={styles.link}>
           카드
@@ -65,7 +65,7 @@ function NavPage() {
         <Link to="/accountbook" className={styles.link}>
           가계부
         </Link>
-      </p> */}
+      </p>
       <p>
         <Link to="/testpage" className={styles.link}>
           프론트 테스트페이지
