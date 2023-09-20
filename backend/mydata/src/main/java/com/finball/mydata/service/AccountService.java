@@ -102,15 +102,10 @@ public class AccountService {
 
         if (plusAccount == null) {
             OppositeBankDto oppositeBankDto = request.toOppositeBankDto(company.getCpName(), request.getMinusBank());
-
             FinBallTradeHistoryDto finBallTradeHistoryDto = request.toFinBallTradeHistoryDto(request.getPlusBank(), oppositeBankDto, DealType.입금, request.getMinusBank().getBalance() + request.getValue());
-//            FinBallTradeHistoryDto finBallTradeHistoryDto = new FinBallTradeHistoryDto(request.getPlusBank().getAccountNumber(), request.getValue(),
-//                    LocalDate.now(), LocalTime.now(), DealType.입금,
-//                    request.getValue() + request.getPlusBank().getBalance(), oppositeBankDto);
             finBallTradeHistoryDtoList.add(finBallTradeHistoryDto);
         } else {
             TradeHistory tradeHistory = request.toTradeHistory(plusAccount, company, DealType.입금);
-
             tradeHistoryRepository.save(tradeHistory);
             // 계좌갱신
             Long value = request.getValue();
@@ -127,16 +122,11 @@ public class AccountService {
 
         if (minusAccount == null) {
             OppositeBankDto oppositeBankDto = request.toOppositeBankDto(company.getCpName(), request.getPlusBank());
-
             FinBallTradeHistoryDto finBallTradeHistoryDto = request.toFinBallTradeHistoryDto(request.getMinusBank(), oppositeBankDto, DealType.출금, request.getMinusBank().getBalance() - request.getValue());
-//            FinBallTradeHistoryDto finBallTradeHistoryDto = new FinBallTradeHistoryDto(request.getMinusBank().getAccountNumber(), request.getValue(),
-//                    LocalDate.now(), LocalTime.now(), DealType.출금,
-//                    request.getMinusBank().getBalance() - request.getValue(), oppositeBankDto);
             finBallTradeHistoryDtoList.add(finBallTradeHistoryDto);
 
         } else {
             TradeHistory tradeHistory = request.toTradeHistory(minusAccount, company, DealType.출금);
-
             tradeHistoryRepository.save(tradeHistory);
             // 계좌갱신
             Long value = request.getValue();
