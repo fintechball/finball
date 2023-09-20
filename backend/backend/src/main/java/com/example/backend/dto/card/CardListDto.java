@@ -18,14 +18,4 @@ public class CardListDto {
 
         private List<CardDto> cardDtoList;
     }
-
-    public static CardDto toCardDto(Card card) {
-        return CardDto.builder()
-                .cardImage(card.getImage())
-                .cardName(card.getName())
-                .cardNumber(card.getCardNumber())
-                .companyName(card.getCpName())
-                .build();
-    }
-
 }
