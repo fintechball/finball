@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.finball.DeleteFinancialBookCategoryDto;
 import com.example.backend.dto.finball.FinancialBookDto;
-import com.example.backend.dto.finball.FinancialBookDto.Response;
 import com.example.backend.dto.finball.RegisterFinBallBookDto;
 import com.example.backend.dto.finball.RegistFinballDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
@@ -10,12 +10,14 @@ import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.Member;
 import com.example.backend.error.ErrorCode;
 import com.example.backend.exception.CustomException;
+import com.example.backend.repository.category.CategoryCustomRepository;
 import com.example.backend.repository.category.CategoryRepository;
 import com.example.backend.repository.finballaccount.FinBallAccountRepository;
 import java.util.ArrayList;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class FinBallService {
 
     private final FinBallAccountRepository finBallAccountRepository;
     private final CategoryRepository categoryRepository;
+    private final CategoryCustomRepository categoryCustomRepository;
 
     public void createAccount(RegistFinballDto.Request request, Member member) {
 
@@ -61,13 +64,26 @@ public class FinBallService {
         return response;
     }
 
-    public Response addFinancialBookCategory(RegisterFinancialBookCategoryDto.Request request,
+    public FinancialBookDto.Response addFinancialBookCategory(RegisterFinancialBookCategoryDto.Request request,
             Member member) {
 
         FinBallAccount account = getFinballAccount(member);
 
         ArrayList<Category> categories = request.toCategory(account);
         categoryRepository.saveAll(categories);
+
+        return readFinancialBook(member);
+    }
+
+    @Transactional
+    public FinancialBookDto.Response deleteFinancialBookCategory(DeleteFinancialBookCategoryDto.Request request,
+            Member member) {
+
+        FinBallAccount account = getFinballAccount(member);
+
+        ArrayList<Category> deleteCategoryList = request.deleteCategory(
+                categoryRepository.findAllByFinBallAccount(account), account);
+        categoryCustomRepository.deleteAllByCategoryId(deleteCategoryList);
 
         return readFinancialBook(member);
     }
