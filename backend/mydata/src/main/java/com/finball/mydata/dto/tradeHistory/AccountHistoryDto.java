@@ -1,30 +1,23 @@
 package com.finball.mydata.dto.tradeHistory;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import com.finball.mydata.type.DealType;
+import lombok.*;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AccountHistoryDto {
 
-
-    @Data
-    @RequiredArgsConstructor
-    public static class Request {
-        String accountId;
-
-    }
-
-    @Data
-    @Builder
-    public static class Response {
-        List<AccountHistoryInfoDto> tradeHistoryList;
-
-        public static Response toTradeHistoryList(List<AccountHistoryInfoDto> tradeHistoryList) {
-            return Response.builder().tradeHistoryList(tradeHistoryList).build();
-        }
-    }
+    private Long id;
+    private Long value;
+    private LocalDate date;
+    private LocalTime time;
+    private DealType type;
+    private Long remain;
+    private OppositeBankDto oppositeBankDto;
 
 }
