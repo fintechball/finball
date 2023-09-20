@@ -1,6 +1,6 @@
 package com.finball.mydata.entity;
 
-import com.finball.mydata.dto.account.AccountDto;
+import com.finball.mydata.dto.account.BankAccountDto;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,13 +52,15 @@ public class Account {
         this.accountClose = accountClose;
     }
 
-    public AccountDto toAccountDto() {
-        return AccountDto.builder()
-                .account(this.accountNo)
+    public BankAccountDto toAccountDto() {
+        return BankAccountDto.builder()
+                .accountNumber(this.accountNo)
                 .bankName(this.company.getCpName())
                 .bankImage(this.company.getCpLogo())
-                .name(this.name)
-                .balance(this.balance)
+                .accountName(this.name)
+                .accountRegist(this.accountRegist)
+                .accountClose(this.accountClose)
+                .bankCode(this.company.getCpCode())
                 .build();
     }
 }

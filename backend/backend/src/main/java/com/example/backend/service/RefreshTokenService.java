@@ -16,13 +16,13 @@ public class RefreshTokenService {
     private final JwtDecoder jwtDecoder;
     private final JwtTokenUtils jwtTokenUtils;
 
-    public TokenDto reissue(HttpServletRequest request) throws IllegalAccessException {
+    public TokenDto.Response reissue(HttpServletRequest request) throws IllegalAccessException {
         String tokenPayLoad = request.getHeader("Authorization");
         String token = extractor.extract(tokenPayLoad, request);
         String userId = jwtDecoder.decodeUsername(token);
-        TokenDto newToken = jwtTokenUtils.reissueToken(userId, token);
+        TokenDto.Response response = jwtTokenUtils.reissueToken(userId, token);
 
-        return newToken;
+        return response;
     }
 
 

@@ -39,8 +39,6 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
             String username = requestBody.get("username").asText();
             String password = requestBody.get("password").asText();
 
-            System.out.println(password);
-
             authRequest = new UsernamePasswordAuthenticationToken(username, password);
         } catch (IOException e) {
             e.printStackTrace();

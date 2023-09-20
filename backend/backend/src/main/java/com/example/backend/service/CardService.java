@@ -1,13 +1,8 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.RestDto;
-import com.example.backend.dto.bank.BankAccountInfo;
-import com.example.backend.dto.card.CardCompanyInfo;
-import com.example.backend.dto.card.CardCompanyListDto;
-import com.example.backend.dto.card.CardInfo;
+import com.example.backend.dto.card.CardDto;
 import com.example.backend.dto.card.CardListDto;
-import com.example.backend.dto.card.CardListDto.Request;
-import com.example.backend.dto.card.CardListDto.Response;
 import com.example.backend.repository.card.CardCustomRepository;
 import com.example.backend.util.RedisUtil;
 import com.example.backend.util.RestTemplateUtil;
@@ -27,60 +22,34 @@ public class CardService {
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
 
-    public CardCompanyListDto.Response getCardCompanies(String userId)
+    public CardListDto.Response getCardList(CardListDto.Request request, String userId)
             throws JsonProcessingException {
 
-        List<CardCompanyInfo> cardCompanyInfoList = getCardCompanyInfoList();
-        List<String> existCardCompanyName = cardCustomRepository.findCpCodeByMemberId(userId);
-
-        for (CardCompanyInfo cardCompanyInfo : cardCompanyInfoList) {
-            if (existCardCompanyName.contains(cardCompanyInfo.getName())) {
-                cardCompanyInfo.setConnected(true);
-            }
-        }
-
-        return new CardCompanyListDto.Response(cardCompanyInfoList);
-    }
-
-    private List<CardCompanyInfo> getCardCompanyInfoList() throws JsonProcessingException {
-
-        ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMydata(null, null, "/mydata/cardCompany", HttpMethod.GET);
-        RestDto<CardCompanyInfo> restDto = new RestDto<>(CardCompanyInfo.class, responseEntity);
-        List<CardCompanyInfo> cardCompanyInfoList = (List<CardCompanyInfo>) restTemplateUtil
-                .parseListBody(restDto, "companyInfoDtoList");
-
-        return cardCompanyInfoList;
-    }
-
-    public CardListDto.Response getCard(CardListDto.Request request, String userId)
-            throws JsonProcessingException {
-
-        List<CardInfo> cardInfoList = getCardInfoList(request, userId);
+        List<CardDto> cardDtoList = getCardDtoList(request, userId);
         List<String> existCardNumber = cardCustomRepository.findCardNumberByMemberId(userId);
 
-        List<CardInfo> response = new ArrayList<>();
+        List<CardDto> response = new ArrayList<>();
 
-        for (CardInfo cardInfo : cardInfoList) {
-            if (!existCardNumber.contains(cardInfo.getCardNumber())) {
-                response.add(cardInfo);
+        for (CardDto cardDto : cardDtoList) {
+            if (!existCardNumber.contains(cardDto.getCardNumber())) {
+                response.add(cardDto);
             }
         }
 
         return new CardListDto.Response(response);
     }
 
-    private List<CardInfo> getCardInfoList(CardListDto.Request request, String userId)
+    private List<CardDto> getCardDtoList(CardListDto.Request request, String userId)
             throws JsonProcessingException {
 
         String myDataToken = redisUtil.getMyDataToken(userId);
 
         ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMydata(myDataToken, request, "/mydata/card", HttpMethod.POST);
-        RestDto<CardInfo> restDto = new RestDto<>(CardInfo.class, responseEntity);
-        List<CardInfo> cardInfoList = (List<CardInfo>) restTemplateUtil
-                .parseListBody(restDto, "cardList");
+                .callMyData(myDataToken, request, "/myData/card", HttpMethod.POST);
+        RestDto<CardDto> restDto = new RestDto<>(CardDto.class, responseEntity);
+        List<CardDto> cardDtoList = (List<CardDto>) restTemplateUtil
+                .parseListBody(restDto, "cardDtoList");
 
-        return cardInfoList;
+        return cardDtoList;
     }
 }

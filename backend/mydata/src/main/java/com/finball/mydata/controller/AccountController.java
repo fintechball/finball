@@ -2,7 +2,7 @@ package com.finball.mydata.controller;
 
 import com.finball.mydata.dto.Response;
 import com.finball.mydata.dto.account.AccountTransferDto;
-import com.finball.mydata.dto.account.GetAccountsDto;
+import com.finball.mydata.dto.account.BankAccountListDto;
 import com.finball.mydata.entity.Member;
 import com.finball.mydata.security.auth.PrincipalDetails;
 import com.finball.mydata.service.AccountService;
@@ -20,12 +20,12 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @PostMapping("/mydata/account")
-    public Response<GetAccountsDto.Response> getAccounts(
-            @RequestBody GetAccountsDto.Request request,
+    @PostMapping("/myData/bank/account")
+    public Response<BankAccountListDto.Response> getBankAccountList(
+            @RequestBody BankAccountListDto.Request request,
             @AuthenticationPrincipal PrincipalDetails userDetails) {
-        Member member = userDetails.getMember();
-        GetAccountsDto.Response response = accountService.getAccounts(member, request);
+        Long id = userDetails.getMember().getId();
+        BankAccountListDto.Response response = accountService.getBankAccountList(id, request);
         return new Response<>(200, "계좌 조회 완료", response);
     }
 

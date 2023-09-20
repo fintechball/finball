@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SkinInfo {
+public class SkinDto {
 
     private Long id;
     private String image;
