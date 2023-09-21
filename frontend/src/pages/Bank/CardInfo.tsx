@@ -4,26 +4,26 @@ import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import Logo from "./Logo"
+import CardLogo from "./CardLogo"
 import  Button from "@mui/material/Button";
 import styles from "./BankInfo.module.css"
 import axios from 'axios';
 
-export default function BankInfo() {
+export default function CardInfo() {
     interface INfo{
       name:string;
-      img:string;
       code:number;
+      img:string;
       connected:boolean;
     }
   const [state, setState] = useState<INfo[]>([]);
   const [cnt,setCnt]=useState(0)
   const [loading,setLoading]=useState(true)
 
-  const  findBank = async() => {
+  const  findCard = async() => {
     await axios({
       method: "get",
-      url: `https://j9e106.p.ssafy.io/company/bank`,
+      url: `https://j9e106.p.ssafy.io/company/card`,
       headers: {
         Authorization:'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFWFBJUkVEX0RBVEUiOjE2OTUzMDU0NzksImlzcyI6ImZpbkJhbGwiLCJVU0VSX05BTUUiOiJ0ZXN0dGVzdDEifQ.p6EwTYL0O5O3BTK1rZmuJZrIh5ZsIdhv1y5P_9u30l0'
       },
@@ -36,14 +36,14 @@ export default function BankInfo() {
       });
   }
   useEffect(()=>{
-    findBank()
+    findCard()
   },[])
   useEffect(()=>{
 
     if (state.length>0){
       setLoading(false)
       let count=0;
-      for (let i=0;i<21;i++){
+      for (let i=0;i<9;i++){
           if (state[Object.keys(state)[i]].connected){
               count+=1
           }
@@ -69,32 +69,32 @@ export default function BankInfo() {
       });
     };
     const handlereset = () => {
-      findBank()
+        findCard()
     };
   return (
     <>
     {loading ? "Lodaing...":
       <FormControl component="fieldset" variant="standard">
         <div className={styles.head}>
-            <div style={{fontSize:'3vh',fontWeight:'bold'}}> 은행</div>
+            <div style={{fontSize:'3vh',fontWeight:'bold'}}> 카드</div>
             <div style={{fontSize:'1vh',alignItems:'center'}} onClick={handlereset}>선택 해제</div>
             </div>
-        <div style={{fontSize:'2vh',color:'grey',textAlign:'start'}}>한 곳에서 계좌 잔액을 확인하세요!</div>
-      <FormGroup style={{height:"210vh"}}>
+        <div style={{fontSize:'2vh',color:'grey',textAlign:'start'}}>신용·체크카드의 사용 내역을 한 눈에 확인하세요!</div>
+      <FormGroup style={{height:"100vh"}}>
       {state.map((v,i) => (
          <div className={styles.labelbox} key={i}>
          <FormControlLabel
            control={
              <Switch checked={v.connected} onChange={handleChange} name={v.name} />
            }
-           label={<Logo value={v}/>}
+           label={<CardLogo value={v}/>}
            labelPlacement="start"
            />
        </div>
     ))}
 
       </FormGroup>
-      <Button variant="contained" color="success" style={{position:"sticky",bottom:"62px",right:"15px"}} >{cnt}개 은행 선택</Button>
+      <Button variant="contained" color="success" style={{position:"sticky",bottom:"62px",right:"15px"}} >{cnt}개 카드사 선택</Button>
     </FormControl>
   }
   </>
