@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Engine, Render, World, Bodies, MouseConstraint, Mouse, Body,Events,Common } from 'matter-js';
 
 import Modal from 'react-modal';
-import finball from "../../assets/finball.png" 
+import finball from "./assets/finball.png" 
 import styles from './Game.module.css';
 import decomp from 'poly-decomp';
 import { Float } from '@react-three/drei';
@@ -1014,23 +1014,22 @@ useEffect(() => {
         <div style={{color:"purple"}}>{userColor["purple"]} : {purpleCount}</div>
       </div>
           <Modal
-            ariaHideApp={false}
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            contentLabel="Custom Modal" // 모달의 레이블 설정
-            style={{
-              overlay: {
-                background: 'grey',
-              },
-              content: {
-                width: '50%', // 모달의 너비
-                height: '50%', // 모달의 높이
-                top: '25%', // 모달을 수직으로 가운데 정렬
-                left: '25%', // 모달을 수평으로 가운데 정렬
-                zIndex:30,
-              },
-            }}
-        >
+      ariaHideApp={false}
+  isOpen={isModalOpen}
+  onRequestClose={closeModal}
+  contentLabel="Custom Modal" // 모달의 레이블 설정
+  style={{
+    overlay: {
+      background: 'grey',
+    },
+    content: {
+      width: '50%', // 모달의 너비
+      height: '50%', // 모달의 높이
+      top: '25%', // 모달을 수직으로 가운데 정렬
+      left: '25%', // 모달을 수평으로 가운데 정렬
+    },
+  }}
+>
         <h2>게임결과</h2>
         <p style={{fontSize:word}}>다음 사람들은 돈을 지불하시오</p>
         <div style={{fontSize:word,color:"red"}}>{userColor["red"]} : {redCount}</div>

@@ -105,7 +105,6 @@ export default function BankInfo() {
           {cnt}개 은행 선택
         </label>
       </Link>
-
     </FormControl>
   }
   </>

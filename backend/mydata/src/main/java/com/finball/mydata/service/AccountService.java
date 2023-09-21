@@ -163,4 +163,16 @@ public class AccountService {
         GetMemberAccountDto.Response response = new GetMemberAccountDto.Response(list);
         return response;
     }
+
+    public Response getMemberAccount(List<String> accountNumberList, Member member) {
+        List<Account> accountList = accountCustomRepository.findByAccountNo(accountNumberList, member.getId());
+        List<MemberAccountInfoDto> list = new ArrayList<>();
+
+        for(Account account : accountList) {
+            list.add(MemberAccountInfoDto.parseDto(account));
+        }
+
+        GetMemberAccountDto.Response response = new GetMemberAccountDto.Response(list);
+        return response;
+    }
 }
