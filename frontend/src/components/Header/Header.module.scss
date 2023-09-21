@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  height: 60px;
+  background-color: rgb(255, 255, 255);
+  width: 360px;
+  border-bottom: 1px solid rgb(235, 235, 235);
+  position: fixed;
+  top: 0;
+  z-index: 10;
+
+  h1,
+  p {
+    margin: 0;
+  }
+
+  img {
+    width: 100px;
+    margin: 0px 15px;
+  }
+}

@@ -1,13 +1,15 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
-import com.example.backend.dto.bank.BankListDto;
+import com.example.backend.dto.bank.BankAccountListDto;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.BankService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -18,12 +20,15 @@ public class BankController {
 
     private final BankService bankService;
 
-    @GetMapping("bank")
-    public Response<BankListDto> getBank(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @PostMapping("/bank/account")
+    public Response<BankAccountListDto> getBankAccount(
+            @RequestBody BankAccountListDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
 
-        BankListDto.Response response = bankService.getBank(userDetails.getUsername());
+        String userId = userDetails.getUsername();
+        BankAccountListDto.Response response = bankService.getBankAccountList(request, userId);
 
-        return new Response(200, "은행 목록을 성공적으로 반환하였습니다.", response);
+        return new Response(200, "은행 계좌 목록을 성공적으로 반환하였습니다.", response);
     }
 
 }

@@ -12,6 +12,8 @@ import lombok.ToString;
 @ToString
 public class TransferInfoDto {
 
-    Long code;
-    String accountNumber;
+    private Long code;
+    private String accountNumber;
+    private String target;
+    private int balance;
 }

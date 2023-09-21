@@ -1,6 +1,6 @@
 package com.finball.mydata.entity;
 
-import com.finball.mydata.dto.card.CardInfoDto;
+import com.finball.mydata.dto.card.CardDto;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -35,12 +35,12 @@ public class Card {
 
     private String image;
 
-    public CardInfoDto toCardInfoDto() {
-        return CardInfoDto.builder()
-                .name(this.name)
-                .image(this.image)
-                .code(String.valueOf(this.company.getCpCode()))
-                .cardCompanyName(this.company.getCpName())
+    public CardDto toCardInfoDto() {
+        return CardDto.builder()
+                .cardName(this.name)
+                .cardImage(this.image)
+                .companyCode(String.valueOf(this.company.getCpCode()))
+                .companyName(this.company.getCpName())
                 .cardNumber(this.cardNo)
                 .build();
     }

@@ -22,7 +22,6 @@ public class BankCustomRepository extends QuerydslRepositorySupport {
     public List<String> findCpCodeByMemberId(String userId) {
 
         QAccount account = QAccount.account;
-//        QMember member = QMember.member;
 
         return queryFactory
                 .selectDistinct(account.cpName)
@@ -32,4 +31,15 @@ public class BankCustomRepository extends QuerydslRepositorySupport {
 
     }
 
+    public List<String> findAccountNumberByMemberId(String userId) {
+
+        QAccount account = QAccount.account;
+
+        return queryFactory
+                .select(account.accountNumber)
+                .from(account)
+                .where(account.member.userId.eq(userId))
+                .fetch();
+
+    }
 }

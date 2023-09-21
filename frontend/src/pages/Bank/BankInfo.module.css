@@ -1,0 +1,12 @@
+.head{
+    display: flex;
+    justify-content: space-between;
+    align-items:end
+}
+.labelbox{
+ display: flex;
+}
+.btn_bank{
+	background-color: #4C4499;
+
+}
