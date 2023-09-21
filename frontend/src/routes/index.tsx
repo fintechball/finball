@@ -24,6 +24,9 @@ import Chatbot from "../pages/ChatBot/ChatBot";
 import Quiz from "../pages/Quiz/Quiz";
 import Shop from "../pages/Shop/Shop";
 
+import Transfering from "../pages/Transfer/Transfering";
+import ReceivingMoney from "../pages/Transfer/Receive";
+
 function Router() {
   return (
     <>
@@ -45,6 +48,8 @@ function Router() {
         <Route path="/chatbot" element={<Chatbot />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/transfering" element={<Transfering />} />
+        <Route path="/receive" element={<ReceivingMoney />} />
       </Routes>
     </>
   );

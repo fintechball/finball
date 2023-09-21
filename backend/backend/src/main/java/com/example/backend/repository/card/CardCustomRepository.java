@@ -2,6 +2,7 @@ package com.example.backend.repository.card;
 
 import com.example.backend.entity.Card;
 import com.example.backend.entity.QCard;
+import com.example.backend.entity.QMember;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
@@ -37,6 +38,20 @@ public class CardCustomRepository extends QuerydslRepositorySupport {
                 .selectDistinct(card.cardNumber)
                 .from(card)
                 .where(card.member.userId.eq(userId))
+                .fetch();
+    }
+
+    public List<Card> findCardByMemberId(String userId) {
+
+        QCard card = QCard.card;
+        QMember member = QMember.member;
+
+        return queryFactory
+                .select(card)
+                .from(card)
+                .leftJoin(card.member, member)
+                .fetchJoin()
+                .where(member.userId.eq(userId))
                 .fetch();
     }
 }

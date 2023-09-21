@@ -6,17 +6,43 @@ canvas{
 .btn {
 	background-color: #4C4499;
 	border-radius: 50%;
-	border: 2px solid white; /* 흰색 테두리 추가 */
-	width: 33.3%;
+	border: 2px solid white;
 	aspect-ratio: 1;
 	position: absolute;
 	top: 180px;
-	left: 33%;
-	color: white; /* 버튼 글자색 */
-	font-size: 4vw; /* 가로 비율에 따라 글자 크기 조절 */
+	color: white;
+	font-size: 4vw;
 	cursor: pointer;
-	z-index: 2; /* 버튼을 화면 위로 올림 */
+	z-index: 2;
   }
+  
+  /* 화면 폭이 768px 이하일 때 스타일 적용 */
+  @media screen and (max-width: 768px) {
+	.btn {
+	  width: 33%;
+	  left: 33.3%;
+	  font-size: 4vw;
+	}
+  }
+  
+  /* 화면 폭이 768px 초과이고 1024px 이하일 때 스타일 적용 */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+	.btn {
+	  width:15%;
+	  left: 42.5%;
+	  font-size: 3vw;
+	}
+  }
+  
+  /* 화면 폭이 1024px 초과일 때 스타일 적용 */
+  @media screen and (min-width: 1025px) {
+	.btn {
+	  width: 10%;
+	  left: 45%;
+	  font-size: 2vw;
+	}
+  }
+  
   
 #score {
 	position: sticky;

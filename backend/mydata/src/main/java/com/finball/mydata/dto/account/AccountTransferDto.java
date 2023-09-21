@@ -1,5 +1,8 @@
 package com.finball.mydata.dto.account;
 
+import com.finball.mydata.dto.tradeHistory.AccountHistoryDto;
+import com.finball.mydata.dto.tradeHistory.FinBallTradeHistoryDto;
+import com.finball.mydata.dto.tradeHistory.OppositeBankDto;
 import com.finball.mydata.entity.Account;
 import com.finball.mydata.entity.Company;
 import com.finball.mydata.entity.TradeHistory;
@@ -23,64 +26,14 @@ public class AccountTransferDto {
         private TransferInfoDto minusBank;
         private Long value;
 
-//        @Builder
-//        public TradeHistory toTradeHistory(Account account, Account opAccount, Company company,
-//                DealType type) {
-//            return TradeHistory.builder()
-//                    .company(company)
-//                    .account(account)
-//                    .date(LocalDate.now())
-//                    .nickname(null)
-//                    .opAccount(opAccount == null ? (type == DealType.입금 ? this.minusBank
-//                            .getAccountNumber() : this.plusBank.getAccountNumber())
-//                            : opAccount.getAccountNo())
-//                    .opBankName(opAccount == null ? "findBall" : opAccount.getCompany().getCpName())
-//                    .type(type)
-//                    .remain(account.getBalance() + (type == DealType.입금 ? this.value : -this.value))
-//                    .value(this.value)
-//                    .time(LocalTime.now())
-//                    .target(null)
-//                    .build();
-//        }
-
         @Builder
-        public TradeHistory toTradeHistory(Account account, Account opAccount, Company company,
-                DealType type) {
+        public TradeHistory toTradeHistory(Account account, Company company, DealType type) {
 
             Long value = this.value;
+            String accountNumber = this.minusBank.getAccountNumber();
             if (type == DealType.출금) {
                 value = -value;
-            }
-
-            return TradeHistory.builder()
-                    .company(company)
-                    .account(account)
-                    .date(LocalDate.now())
-                    .nickname(null)
-                    .opAccount(opAccount.getAccountNo())
-                    .opBankName(opAccount.getCompany().getCpName())
-                    .type(type)
-                    .remain(account.getBalance() + value)
-                    .value(this.value)
-                    .time(LocalTime.now())
-                    .target(null)
-                    .build();
-        }
-
-        @Builder
-        public TradeHistory toTradeHistoryNoOpAccount(Account account, Account opAccount,
-                Company company,
-                DealType type) {
-
-            String accountNumber;
-            Long value = this.value;
-            if (type == DealType.입금) {
-                accountNumber = this.minusBank
-                        .getAccountNumber();
-            } else {
-                accountNumber = this.plusBank
-                        .getAccountNumber();
-                value = -value;
+                accountNumber = this.plusBank.getAccountNumber();
             }
 
             return TradeHistory.builder()
@@ -89,13 +42,39 @@ public class AccountTransferDto {
                     .date(LocalDate.now())
                     .nickname(null)
                     .opAccount(accountNumber)
-                    .opBankName("findBall")
+                    .opBankName(company.getCpName())
                     .type(type)
                     .remain(account.getBalance() + value)
                     .value(this.value)
                     .time(LocalTime.now())
                     .target(null)
                     .build();
+        }
+
+        public OppositeBankDto toOppositeBankDto(String cpName, TransferInfoDto transferInfoDto) {
+
+            return OppositeBankDto.builder()
+                    .bankName(cpName)
+                    .account(transferInfoDto.getAccountNumber())
+                    .target(transferInfoDto.getTarget()).build();
+        }
+
+        public FinBallTradeHistoryDto toFinBallTradeHistoryDto(TransferInfoDto transferInfoDto, OppositeBankDto oppositeBankDto, DealType type, Long remain) {
+
+//            return new FinBallTradeHistoryDto(transferInfoDto.getAccountNumber(), this.getValue(),
+//                    LocalDate.now(), LocalTime.now(), type,
+//                    transferInfoDto.getBalance() - this.getValue(), oppositeBankDto);
+
+            return FinBallTradeHistoryDto.builder()
+                    .accountNumber(transferInfoDto.getAccountNumber())
+                    .value(this.getValue())
+                    .date(LocalDate.now())
+                    .time(LocalTime.now())
+                    .type(type)
+                    .remain(remain)
+                    .oppositeBankDto(oppositeBankDto)
+                    .build();
+
         }
 
     }
@@ -105,6 +84,6 @@ public class AccountTransferDto {
     @AllArgsConstructor
     public static class Response {
 
-        private List<TransferResponseDto> list;
+        private List<FinBallTradeHistoryDto> list;
     }
 }
