@@ -11,8 +11,10 @@
 .header h1,
 .header p {
   margin: 0;
+
 }
 .header img {
   width: 100px;
   margin: 0px 15px;
+
 }

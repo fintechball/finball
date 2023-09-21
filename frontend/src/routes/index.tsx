@@ -44,6 +44,11 @@ function Router() {
         <Route path="/certificationnaver" element={<CertificationNaver />} />
         <Route path="/accountbook" element={<AccountBook />} />
         <Route path="/testpage" element={<TestPage />} />
+        {/* <Route path="/test" element={<MyComponent />} /> */}
+
+        <Route path="/account" element={<AccountBook />} />
+
+        <Route path="/testpage" element={<TestPage />} />
         <Route path="/navpage" element={<NavPage />} />
         <Route path="/chatbot" element={<Chatbot />} />
         <Route path="/quiz" element={<Quiz />} />
