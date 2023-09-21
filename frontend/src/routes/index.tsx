@@ -16,7 +16,9 @@ import Card from "../pages/Pinball/Card";
 import AccountBook from "../pages/Pinball/AccountBook";
 
 import BankInfo from "../pages/Bank/BankInfo";
+import BankConnect from "../pages/Bank/BankConnect";
 import CardInfo from "../pages/Bank/CardInfo";
+import CardConnect from "../pages/Bank/CardConnect";
 
 import TestPage from "../pages/Test/TestPage";
 import NavPage from "../pages/NavPage/NavPage";
@@ -37,7 +39,7 @@ function Router() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/pinball" element={<Pinball />} />
-        <Route path="/card" element={<Card />} />
+        {/* <Route path="/card" element={<Card />} /> */}
         <Route path="/game" element={<Game />} />
         <Route path="/signupconfrim" element={<SignUpConfrim />} />
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
@@ -52,7 +54,9 @@ function Router() {
         <Route path="/receive" element={<ReceivingMoney />} />
         {/* 카드,은행조회 */}
         <Route path="/company/bank" element={<BankInfo />} />
+        <Route path="/bank/account" element={<BankConnect />} />
         <Route path="/company/card" element={<CardInfo />} />
+        <Route path="/card" element={<CardConnect />} />
       </Routes>
     </>
   );
