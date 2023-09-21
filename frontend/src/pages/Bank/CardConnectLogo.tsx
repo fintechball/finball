@@ -25,9 +25,9 @@ const Logo: React.FC<LogoProps> = ({ value }) => {
 
   return (
     <div style={{ textAlign: "center", alignItems: "center", display: "flex", width: '295px', height: '10vh' }}>
-      <img src={value.img} alt="" style={{ width: '55px',height:'55px',marginLeft:"0px" }}/>
+      <img src={value.cardImage} alt="" style={{ width: '55px',height:'55px',marginLeft:"0px" }}/>
       <div style={{ width: '30vh',position: 'absolute'}}>
-        {logo[value.code]}
+        {value.cardName}
       </div>
     </div>
   );

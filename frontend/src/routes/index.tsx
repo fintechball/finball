@@ -18,7 +18,9 @@ import Card from "../pages/Pinball/Card";
 import AccountBook from "../pages/Pinball/AccountBook";
 
 import BankInfo from "../pages/Bank/BankInfo";
+import BankConnect from "../pages/Bank/BankConnect";
 import CardInfo from "../pages/Bank/CardInfo";
+import CardConnect from "../pages/Bank/CardConnect";
 
 import TestPage from "../pages/Test/TestPage";
 import NavPage from "../pages/NavPage/NavPage";
@@ -26,6 +28,7 @@ import NavPage from "../pages/NavPage/NavPage";
 import Chatbot from "../pages/ChatBot/ChatBot";
 import Quiz from "../pages/Quiz/Quiz";
 import Shop from "../pages/Shop/Shop";
+import InventoryAll from "../pages/Shop/InventoryAll";
 import Inventory from "../pages/Shop/Inventory";
 
 import Transfering from "../pages/Transfer/Transfering";
@@ -42,7 +45,7 @@ function Router() {
         <Route path="/signupcerti" element={<SignUpCerti />} />
 
         <Route path="/pinball" element={<Pinball />} />
-        <Route path="/card" element={<Card />} />
+        {/* <Route path="/card" element={<Card />} /> */}
         <Route path="/game" element={<Game />} />
         <Route path="/signupconfrim" element={<SignUpConfrim />} />
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
@@ -59,12 +62,15 @@ function Router() {
         <Route path="/chatbot" element={<Chatbot />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/inventoryAll" element={<InventoryAll />} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/transfering" element={<Transfering />} />
         <Route path="/receive" element={<ReceivingMoney />} />
         {/* 카드,은행조회 */}
         <Route path="/company/bank" element={<BankInfo />} />
+        <Route path="/bank/account" element={<BankConnect />} />
         <Route path="/company/card" element={<CardInfo />} />
+        <Route path="/card" element={<CardConnect />} />
       </Routes>
     </>
   );
