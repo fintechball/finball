@@ -14,6 +14,7 @@ import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.repository.skin.SkinRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,18 +58,18 @@ public class InventoryService {
     }
 
     @Transactional
-    public void selectBall(Long SkinId, String userId) {
+    public void selectBall(Long id, String userId) {
 
         List<Inventory> selectedInventoryList =  inventoryCustomRepository.findSelectedBallByMemberId(userId);
-        List<Inventory> selectingInventoryList =  inventoryCustomRepository.findBySkinIdAndMemberId(SkinId, userId);
+        Optional<Inventory> selectingInventoryOptinal =  inventoryRepository.findById(id);
 
-        if(selectedInventoryList.size() != 1 || selectingInventoryList.size() != 1) {
+        if(selectedInventoryList.size() != 1 || !selectingInventoryOptinal.isPresent()) {
             throw new CustomException(ErrorCode.DATA_NOT_FOUND);
         }
 
         Inventory selectedInventory = selectedInventoryList.get(0);
         selectedInventory.setSelected(false);
-        Inventory selectingInventory = selectingInventoryList.get(0);
+        Inventory selectingInventory = selectingInventoryOptinal.get();
         selectingInventory.setSelected(true);
     }
 }

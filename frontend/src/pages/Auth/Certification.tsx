@@ -64,7 +64,7 @@ export default function Password({value}) {
   }, [state]); // dependency 에 state 를 넣음으로써, state의 값이 변경될 때마다 리렌더링
 
   return (
-    <div>
+    <div style={{width:"360px"}}>
       <div className={styles.certi}>
         <label className={styles.ball} style={{background:valueColorActive(state.value1) ? '#7165E3':'grey'}}>
           <input

@@ -44,7 +44,7 @@ public class SmsService {
         Long time = System.currentTimeMillis();
         List<MessagesDto> messages = new ArrayList<>();
         String certificationNumber = generateNumber();
-        String content = "[SOLUP] 인증번호 [" + certificationNumber + "]를 입력해주세요.";
+        String content = "[FinBall] 인증번호 [" + certificationNumber + "]를 입력해주세요.";
         messages.add(new MessagesDto(recipientPhoneNumber, content));
 
 

@@ -52,13 +52,23 @@ function NavPage() {
         </Link>
       </p>
       <p>
-        <Link to="/accounts" className={styles.link}>
+        <Link to="/company/bank" className={styles.link}>
           계좌조회
+        </Link>
+      </p>
+      <p>
+        <Link to="/company/card" className={styles.link}>
+          카드조회
         </Link>
       </p>
       <p>
         <Link to="/accountbook" className={styles.link}>
           가계부
+        </Link>
+      </p>
+      <p>
+        <Link to="/transfering" className={styles.link}>
+          송금
         </Link>
       </p>
       <p>
