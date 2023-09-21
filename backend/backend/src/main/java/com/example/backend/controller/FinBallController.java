@@ -91,4 +91,13 @@ public class FinBallController {
 
         return new Response<>(200, "가계부 카테고리가 수정되었습니다.", data);
     }
+
+    @DeleteMapping("/financial-book")
+    public Response deleteFinancialBook(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        Member member = userDetails.getMember();
+        finballService.deleteFinancialBook(member);
+
+        return new Response<>(200, "가계부가 삭제되었습니다.");
+    }
 }

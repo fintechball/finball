@@ -105,6 +105,13 @@ public class FinBallService {
 
     }
 
+    @Transactional
+    public void deleteFinancialBook(Member member) {
+
+        FinBallAccount account = getFinballAccount(member);
+        categoryCustomRepository.deleteAllCategories(account);
+    }
+
     //핀볼 계좌 체크하는 공통 로직 분리
     private FinBallAccount getFinballAccount(Member member) {
 
@@ -114,5 +121,4 @@ public class FinBallService {
 
         return account;
     }
-
 }
