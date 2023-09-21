@@ -5,6 +5,7 @@ import com.example.backend.dto.finball.FinancialBookDto;
 import com.example.backend.dto.finball.RegisterFinBallBookDto;
 import com.example.backend.dto.finball.RegistFinballDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
+import com.example.backend.dto.finball.UpdateFinancialBookCategoryDto;
 import com.example.backend.entity.Category;
 import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.Member;
@@ -64,7 +65,8 @@ public class FinBallService {
         return response;
     }
 
-    public FinancialBookDto.Response addFinancialBookCategory(RegisterFinancialBookCategoryDto.Request request,
+    public FinancialBookDto.Response addFinancialBookCategory(
+            RegisterFinancialBookCategoryDto.Request request,
             Member member) {
 
         FinBallAccount account = getFinballAccount(member);
@@ -76,7 +78,8 @@ public class FinBallService {
     }
 
     @Transactional
-    public FinancialBookDto.Response deleteFinancialBookCategory(DeleteFinancialBookCategoryDto.Request request,
+    public FinancialBookDto.Response deleteFinancialBookCategory(
+            DeleteFinancialBookCategoryDto.Request request,
             Member member) {
 
         FinBallAccount account = getFinballAccount(member);
@@ -88,6 +91,27 @@ public class FinBallService {
         return readFinancialBook(member);
     }
 
+    public FinancialBookDto.Response updateFinancialBookCategory(
+            UpdateFinancialBookCategoryDto.Request request, Member member) {
+
+        FinBallAccount account = getFinballAccount(member);
+
+        Category savedCategory = categoryRepository.findById(request.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
+        Category updateCategory = request.updateCategory(savedCategory);
+        categoryRepository.save(updateCategory);
+
+        return readFinancialBook(member);
+
+    }
+
+    @Transactional
+    public void deleteFinancialBook(Member member) {
+
+        FinBallAccount account = getFinballAccount(member);
+        categoryCustomRepository.deleteAllCategories(account);
+    }
+
     //핀볼 계좌 체크하는 공통 로직 분리
     private FinBallAccount getFinballAccount(Member member) {
 
@@ -97,5 +121,4 @@ public class FinBallService {
 
         return account;
     }
-
 }
