@@ -10,10 +10,26 @@ interface IFormInput {
   passwordConfirm: string;
 }
 
-const schema = yup.object().shape({
+const schema = yup.object({
   name: yup.string().required("이름은 필수 입력 항목입니다."),
-  userId: yup.string().required("아이디는 필수 입력 항목입니다"),
-  password: yup.string().required("비밀번호는 필수 입력 항목입니다"),
+  userId: yup
+    .string()
+    .required("아이디는 필수 입력 항목입니다")
+    .min(6, "최소 6자리를 입력해주세요.")
+    .max(20, "최대 20자리까지 가능합니다.")
+    .matches(
+      /^[a-z0-9]{6,20}$/,
+      "영문, 숫자를 포함한 6자리 이상을 입력해주세요."
+    ),
+  password: yup
+    .string()
+    .required("비밀번호는 필수 입력 항목입니다")
+    .min(8, "최소 8자리를 입력해주세요.")
+    .max(20, "최대 20자리까지 가능합니다.")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
+      "영문, 숫자, 특수문자를 포함한 8자리 이상을 입력해주세요."
+    ),
   passwordConfirm: yup
     .string()
     .oneOf([yup.ref("password")], "비밀번호가 다릅니다."),
@@ -26,12 +42,13 @@ function SignUp() {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
-  } = useForm<IFormInput>({ resolver: yupResolver(schema) });
+    // getValues,
+  } = useForm<IFormInput>({ mode: "onChange", resolver: yupResolver(schema) });
 
   const onSubmit = (data: IFormInput) => {
-    console.log(data);
-    navigate("/signupcerti", { state: { formData: getValues() } });
+    const { passwordConfirm, ...signupData } = data;
+    console.log(signupData);
+    navigate("/signupcerti", { state: { formData: signupData } });
   };
 
   return (

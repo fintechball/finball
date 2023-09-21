@@ -9,7 +9,6 @@ interface FormData {
   name: string;
   userId: string;
   password: string;
-  passwordConfirm: string;
   phoneNumber: string;
 }
 
