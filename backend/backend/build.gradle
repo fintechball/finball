@@ -71,6 +71,9 @@ dependencies {
 	// java8 LocalDate
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
+	// sms
+	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+
 }
 
 // Querydsl 설정부

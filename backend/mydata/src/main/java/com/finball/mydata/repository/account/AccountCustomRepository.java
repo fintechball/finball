@@ -50,4 +50,21 @@ public class AccountCustomRepository extends QuerydslRepositorySupport {
                 .fetch();
 
     }
+
+    public List<Account> findByAccountNo(List<String> accountList, Long memberId) {
+        QAccount account = QAccount.account;
+        QCompany company = QCompany.company;
+        QMember member = QMember.member;
+
+        return queryFactory
+                .select(account)
+                .from(account)
+                .leftJoin(account.member, member) // 카드와 회사 조인
+                .fetchJoin()
+                .leftJoin(account.company, company) // 카드와 멤버 조인
+                .fetchJoin()
+                .where(account.accountNo.in(accountList).and(member.id.eq(memberId)))
+                .orderBy(account.accountNo.asc())
+                .fetch();
+    }
 }

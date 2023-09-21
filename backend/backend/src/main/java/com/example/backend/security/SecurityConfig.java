@@ -112,6 +112,9 @@ public class SecurityConfig {
         // HealthCheck
         skipPathList.add(new Path(HttpMethod.GET, "/actuator/health"));
 
+        // sms
+        skipPathList.add(new Path(HttpMethod.POST, "/user/sms"));
+
         FilterSkipMatcher matcher = new FilterSkipMatcher(skipPathList, "/**");
         JwtAuthFilter filter = new JwtAuthFilter(matcher, extractor);
         filter.setAuthenticationManager(authenticationManager);
