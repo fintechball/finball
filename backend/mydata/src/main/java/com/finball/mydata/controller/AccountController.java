@@ -3,6 +3,7 @@ package com.finball.mydata.controller;
 import com.finball.mydata.dto.Response;
 import com.finball.mydata.dto.account.AccountTransferDto;
 import com.finball.mydata.dto.account.BankAccountListDto;
+import com.finball.mydata.dto.account.GetMemberAccountDto;
 import com.finball.mydata.dto.tradeHistory.FinBallTradeHistoryListDto;
 import com.finball.mydata.entity.Member;
 import com.finball.mydata.security.auth.PrincipalDetails;
@@ -46,5 +47,17 @@ public class AccountController {
         return response;
     }
 
+    @PostMapping("/my-data/member/account")
+    public Response<GetMemberAccountDto.Response> getMemberAccount(
+            @RequestBody GetMemberAccountDto.Request request,
+            @AuthenticationPrincipal PrincipalDetails userDetails) {
 
+        System.out.println(request);
+
+        GetMemberAccountDto.Response response = accountService.getMemberAccount(
+                request.getAccountList(), userDetails.getMember());
+
+        System.out.println(response);
+        return new Response<>(200, "해당 사용자가 원하는 계좌 정보를 불러왔습니다.", response);
+    }
 }

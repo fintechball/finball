@@ -4,6 +4,9 @@ import com.finball.mydata.dto.account.AccountTransferDto;
 import com.finball.mydata.dto.account.AccountTransferDto.Request;
 import com.finball.mydata.dto.account.BankAccountDto;
 import com.finball.mydata.dto.account.BankAccountListDto;
+import com.finball.mydata.dto.account.GetMemberAccountDto;
+import com.finball.mydata.dto.account.GetMemberAccountDto.Response;
+import com.finball.mydata.dto.account.MemberAccountInfoDto;
 import com.finball.mydata.dto.account.RegistAccountDto;
 import com.finball.mydata.dto.account.TransferInfoDto;
 import com.finball.mydata.dto.tradeHistory.AccountHistoryDto;
@@ -147,5 +150,17 @@ public class AccountService {
             throw new NoSuchElementException("해당 계좌는 존재하지 않습니다.");
         }
         return accountList.get(0);
+    }
+
+    public Response getMemberAccount(List<String> accountNumberList, Member member) {
+        List<Account> accountList = accountCustomRepository.findByAccountNo(accountNumberList, member.getId());
+        List<MemberAccountInfoDto> list = new ArrayList<>();
+
+        for(Account account : accountList) {
+            list.add(MemberAccountInfoDto.parseDto(account));
+        }
+
+        GetMemberAccountDto.Response response = new GetMemberAccountDto.Response(list);
+        return response;
     }
 }

@@ -21,6 +21,7 @@ public class AccountRegisterInfoDto {
                 .name(accountName)
                 .cpLogo(bankImage)
                 .cpName(bankName)
+                .isFavorite(false)
                 .createdDt(LocalDateTime.now())
                 .member(member)
                 .build();
