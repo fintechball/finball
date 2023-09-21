@@ -6,6 +6,7 @@ import com.example.backend.dto.finball.FinancialBookDto;
 import com.example.backend.dto.finball.RegisterFinBallBookDto;
 import com.example.backend.dto.finball.RegistFinballDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
+import com.example.backend.dto.finball.UpdateFinancialBookCategoryDto;
 import com.example.backend.entity.Member;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.FinBallService;
@@ -15,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,7 +48,8 @@ public class FinBallController {
     }
 
     @GetMapping("/financial-book") //가계부 불러오기
-    public Response readFinancialBook(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public Response<FinancialBookDto.Response> readFinancialBook(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         Member member = userDetails.getMember();
         FinancialBookDto.Response data = finballService.readFinancialBook(member);
@@ -55,7 +58,7 @@ public class FinBallController {
     }
 
     @PostMapping("/financial-book/category")
-    public Response addFinancialBookCategory(
+    public Response<FinancialBookDto.Response> addFinancialBookCategory(
             @RequestBody RegisterFinancialBookCategoryDto.Request request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
@@ -66,13 +69,26 @@ public class FinBallController {
     }
 
     @DeleteMapping("/financial-book/category")
-    public Response deleteFinancialBookCategory(
+    public Response<FinancialBookDto.Response> deleteFinancialBookCategory(
             @RequestBody DeleteFinancialBookCategoryDto.Request request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         Member member = userDetails.getMember();
-        FinancialBookDto.Response data = finballService.deleteFinancialBookCategory(request, member);
+        FinancialBookDto.Response data = finballService.deleteFinancialBookCategory(request,
+                member);
 
         return new Response<>(200, "가계부에 카테고리가 삭제되었습니다.", data);
+    }
+
+    @PutMapping("/financial-book/category")
+    public Response<FinancialBookDto.Response> updateFinancialBookCategory(
+            @RequestBody UpdateFinancialBookCategoryDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        Member member = userDetails.getMember();
+        FinancialBookDto.Response data = finballService.updateFinancialBookCategory(request,
+                member);
+
+        return new Response<>(200, "가계부 카테고리가 수정되었습니다.", data);
     }
 }
