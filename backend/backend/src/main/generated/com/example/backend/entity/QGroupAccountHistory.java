@@ -5,7 +5,7 @@ import static com.querydsl.core.types.PathMetadataFactory.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
 
@@ -27,6 +27,8 @@ public class QGroupAccountHistory extends EntityPathBase<GroupAccountHistory> {
     public final DateTimePath<java.time.LocalDateTime> dealDt = createDateTime("dealDt", java.time.LocalDateTime.class);
 
     public final EnumPath<com.example.backend.type.DealType> dealType = createEnum("dealType", com.example.backend.type.DealType.class);
+
+    public final ListPath<GroupGameResult, QGroupGameResult> games = this.<GroupGameResult, QGroupGameResult>createList("games", GroupGameResult.class, QGroupGameResult.class, PathInits.DIRECT2);
 
     public final QGroupAccount groupAccount;
 
