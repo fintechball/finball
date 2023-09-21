@@ -53,7 +53,12 @@ public class Category {
                 .build();
     }
 
-    public Long getBalance(){
+    public Long getBalance() {
         return this.value - this.usedValue;
+    }
+
+    public void updateEntity(String name, Long value) {
+        this.name = name;
+        this.value = value;
     }
 }
