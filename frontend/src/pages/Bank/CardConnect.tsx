@@ -9,6 +9,7 @@ import  Button from "@mui/material/Button";
 import styles from "./BankInfo.module.css"
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { Link } from "react-router-dom";
 export default function BankConnect() {
     interface INfo{
       name:string;
@@ -21,7 +22,14 @@ export default function BankConnect() {
   const [state, setState] = useState([]);
   const [cnt,setCnt]=useState(0)
   const [loading,setLoading]=useState(true)
+  const [toggledItems, setToggledItems] = useState({})
+  // const checkselect= () => {
+  //   const newData = state.map(item => {
+  //     return { ...item, selected: true };
+  // });
+  //   setState(newData);
 
+  // }
   const  findCard = async() => {
     await axios({
       method: "post",
@@ -33,53 +41,54 @@ export default function BankConnect() {
         {
             "cardCompanyCodeList" : List
         }
-    })
+    })  
       .then((res) => {
         setState(res.data.data.cardDtoList)
-        // setLoading(false)
-        console.log(res.data.data.cardDtoList);
+        const initialToggledItems = {};
+        res.data.data.cardDtoList.map((item) => {
+          initialToggledItems[item.cardName] = true; // 예를 들어, 항목의 고유 ID를 사용
+        });
+        setToggledItems(initialToggledItems);
       })
       .catch((err) => {
         console.log("삐빅", err);
       });
+
   }
   useEffect(()=>{
     findCard()
   },[])
-  useEffect(()=>{
 
-    if (state.length>0){
+  useEffect(() => {
+    if (state.length > 0) { // 길이 일치 확인
       setLoading(false)
-      let count=0;
-      for (let i=0;i<state.length;i++){
-        //   if (state[Object.keys(state)[i]].connected){
-        //       count+=1
-        //   }
+      let count = 0;
+      for (let i = 0; i < state.length; i++) {
+        const Name = state[i]; // 회사 이름 가져오기
+        if (toggledItems[Name.cardName] === true) {
+          count += 1;
+        }
       }
-      setCnt(count)
+      setCnt(count);
     }
-
-  },[state])
+  }, [toggledItems, state, List]); // 종속성 목록에 List 추가
+  
+  // useEffect(()=>{
+  //   if (state.length>0){
+  //     checkselect()
+  //   }
+  // },[loading])
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
-      setState((prevState) => {
-        // 새로운 배열을 생성하고 이전 상태를 복사
-        const updatedState = prevState.map((item) => {
-          // 원하는 항목을 찾아서 업데이트
-          if (item.name === event.target.name) {
-            return { ...item, connected:true }; // img 프로퍼티를 업데이트
-          }
+      setToggledItems((state) => {
+        const Name=event.target.name
+            return { ...state, [Name]:!state[Name] };
           // 변경할 필요가 없는 항목은 그대로 반환
-          return item;
-        });
-    
-        return updatedState; // 업데이트된 배열을 반환하여 상태를 업데이트
       });
     };
     const handlereset = () => {
         findCard()
     };
-    console.log(state[0])
+
   return (
     <>
     {loading ? "Lodaing...":
@@ -94,7 +103,7 @@ export default function BankConnect() {
          <div className={styles.labelbox} key={i}>
          <FormControlLabel
            control={
-             <Switch checked={true} onChange={handleChange} name={v.cardName} />
+             <Switch checked={toggledItems[v.cardName ]} onChange={handleChange} name={v.cardName} />
            }
            label={<Logo value={v}/>}
            labelPlacement="start"
@@ -103,7 +112,13 @@ export default function BankConnect() {
     ))}
 
       </FormGroup>
-      <Button variant="contained" color="success" style={{position:"sticky",bottom:"62px",right:"15px"}} >{cnt}개 연결하기</Button>
+      <Link to='/'
+      style={{ color: 'white', position: "sticky", bottom: "62px", backgroundColor: '#7165E3', height: "40px", borderRadius: "10px", display: "flex", alignItems: "center",justifyItems:"center" }}>
+        <label style={{ backgroundColor: "#7165E3", margin: "0", paddingLeft: "130px", display: "inline-block"}}>
+          {cnt}개 카드 선택
+        </label>
+      </Link>
+      {/* <Button variant="contained" color="success" style={{position:"sticky",bottom:"62px",right:"15px"}} >{cnt}개 연결하기</Button> */}
     </FormControl>
   }
   </>
