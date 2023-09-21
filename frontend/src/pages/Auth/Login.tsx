@@ -19,12 +19,14 @@ function Login() {
   };
 
   const doLogin = () => {
-    axios.post(`${BASE_HTTP_URL}/user/login`, {
-      "username" : "spor1998",
-      "password" : "spor0227!"
-  } ).then((response) => {
+    axios
+      .post(`${BASE_HTTP_URL}/user/login`, {
+        username: "spor1998",
+        password: "spor0227!",
+      })
+      .then((response) => {
         console.log(response);
-    });
+      });
   };
 
   const goSignup = () => {
