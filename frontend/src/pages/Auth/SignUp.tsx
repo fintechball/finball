@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
+import { useState } from "react";
 
 interface IFormInput {
   name: string;
@@ -38,6 +39,7 @@ const schema = yup.object({
 
 function SignUp() {
   const navigate = useNavigate();
+  const [isIdValid, setIsIdValid] = useState(false);
 
   const {
     register,
@@ -46,10 +48,42 @@ function SignUp() {
     // getValues,
   } = useForm<IFormInput>({ mode: "onChange", resolver: yupResolver(schema) });
 
+  const idCheck = async () => {
+    try {
+      const requestBody = JSON.stringify(register("userId"));
+
+      const response = await fetch(
+        `https://j9e106.p.ssafy.io/user/authentication/id`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: requestBody,
+        }
+      );
+      console.log(requestBody);
+      console.log(response);
+      if (response.status === 200) {
+        const responseData = await response.json();
+        alert(responseData.message);
+        setIsIdValid(true);
+      } else {
+        alert("사용 불가능한 아이디입니다.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onSubmit = (data: IFormInput) => {
-    const { passwordConfirm, ...signupData } = data;
-    console.log(signupData);
-    navigate("/signupcerti", { state: { formData: signupData } });
+    if (isIdValid) {
+      const { passwordConfirm, ...signupData } = data;
+      console.log(signupData);
+      navigate("/signupcerti", { state: { formData: signupData } });
+    } else {
+      alert("아이디 중복 확인을 완료해주세요.");
+    }
   };
 
   return (
@@ -60,9 +94,13 @@ function SignUp() {
       <br />
 
       <p>아이디</p>
-      <input placeholder="ID" {...register("userId")} />
+      <input placeholder="ID" disabled={isIdValid} {...register("userId")} />
       {errors.userId && <p>{errors.userId.message}</p>}
       <br />
+
+      <button type="button" onClick={idCheck}>
+        중복확인
+      </button>
 
       <p>비밀번호</p>
       <input type="password" placeholder="Password" {...register("password")} />
