@@ -8,7 +8,6 @@ import Logo from "./Logo"
 import  Button from "@mui/material/Button";
 import styles from "./BankInfo.module.css"
 import axios from 'axios';
-
 export default function BankInfo() {
     interface INfo{
       name:string;
