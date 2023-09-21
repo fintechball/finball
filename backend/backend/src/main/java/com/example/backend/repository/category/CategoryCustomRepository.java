@@ -1,6 +1,7 @@
 package com.example.backend.repository.category;
 
 import com.example.backend.entity.Category;
+import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.QCategory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.ArrayList;
@@ -25,5 +26,11 @@ public class CategoryCustomRepository extends QuerydslRepositorySupport {
                 .delete(category)
                 .where(category.in(deleteCategoryList))
                 .execute();
+    }
+
+    public void deleteAllCategories(FinBallAccount account) {
+        QCategory category = QCategory.category;
+
+        queryFactory.delete(category).where(category.finBallAccount.eq(account)).execute();
     }
 }
