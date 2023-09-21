@@ -15,6 +15,9 @@ function Card() {
       })
       .then((response) => {
         setCardList(response.data.data.getCardDtoList);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }, []);
 
