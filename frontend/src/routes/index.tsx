@@ -6,6 +6,8 @@ import Counter from "../pages/Test/Counter";
 
 import Login from "../pages/Auth/Login";
 import SignUp from "../pages/Auth/SignUp";
+import SignUpCerti from "../pages/Auth/SignUpCerti";
+
 import SignUpConfrim from "../pages/Auth/SignUpConfrim";
 import SecurityKeypad from "../pages/Auth/SecurityKeypad";
 import CertificationNaver from "../pages/Auth/CertificationNaver";
@@ -37,6 +39,8 @@ function Router() {
         <Route path="/counter" element={<Counter />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/signupcerti" element={<SignUpCerti />} />
+
         <Route path="/pinball" element={<Pinball />} />
         <Route path="/card" element={<Card />} />
         <Route path="/game" element={<Game />} />
