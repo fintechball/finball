@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function BankAccount() {
   const [accountList, setAccountList] = useState<any>(null);
+  const token = useSelector((state) => state.token);
 
   useEffect(() => {
     axios
       .get(`${BASE_HTTP_URL}/user/account`, {
         headers: {
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: token.accessToken,
         },
       })
       .then((response) => {
-        console.log(response);
         setAccountList(response.data.data.getCardDtoList);
       })
       .catch((error) => {

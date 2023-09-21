@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function Card() {
   const [cardList, setCardList] = useState<any>(null);
 
+  const token = useSelector((state) => state.token);
+
   useEffect(() => {
     axios
       .get(`${BASE_HTTP_URL}/user/card`, {
         headers: {
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: token.accessToken,
         },
       })
       .then((response) => {
@@ -19,7 +22,7 @@ function Card() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [token]);
 
   return (
     <div>

@@ -6,7 +6,9 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { OutlinedInput, Button } from "@material-ui/core";
 // import { relative } from "path";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setTokens } from "../../store/slices/tokenSlice";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
@@ -17,22 +19,27 @@ function Login() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const doLogin = () => {
-    axios.post(`${BASE_HTTP_URL}/user/login`, {
-      "username" : userId,
-      "password" : password
-  } ).then((response) => {    
-    localStorage.setItem("accessToken", response.data.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.data.refreshToken);
-    navigate("/");
-  }).catch((error) => {
-    console.log(error);
-    });
+    axios
+      .post(`${BASE_HTTP_URL}/user/login`, {
+        username: userId,
+        password: password,
+      })
+      .then((response) => {
+        dispatch(setTokens(response.data.data));
+        // localStorage.setItem("accessToken", response.data.data.accessToken);
+        // localStorage.setItem("refreshToken", response.data.data.refreshToken);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const goSignup = () => {
     navigate("/signup");
@@ -67,7 +74,7 @@ function Login() {
               onFocus={focusId}
               onBlur={defaultId}
               value={userId}
-            onChange={(event) => setUserId(event.target.value)}
+              onChange={(event) => setUserId(event.target.value)}
             />
           </div>
           <div className={styles.innerinput_box}>
