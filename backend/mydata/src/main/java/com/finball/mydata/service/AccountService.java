@@ -94,8 +94,6 @@ public class AccountService {
 
         AccountTransferDto.Response response = new AccountTransferDto.Response(finBallTradeHistoryDtoList);
 
-        System.out.println(response);
-
         return response;
     }
 
@@ -124,9 +122,6 @@ public class AccountService {
 
         Long cpCode = request.getPlusBank().getCode();
         Company company = companyRepository.findByCpCodeAndCpType(cpCode, CompanyType.은행사);
-
-        System.out.println(request.getMinusBank());
-        System.out.println(request.getPlusBank());
 
         if (minusAccount == null) {
             OppositeBankDto oppositeBankDto = request.toOppositeBankDto(company.getCpName(), request.getPlusBank());
