@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
+import com.example.backend.dto.groupaccount.DeleteGroupAccountDto;
 import com.example.backend.dto.groupaccount.GameEndDto;
 import com.example.backend.dto.groupaccount.GroupAccountDto;
 import com.example.backend.dto.groupaccount.RegistGroupAccountDto;
@@ -10,6 +11,7 @@ import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.GroupAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,5 +50,11 @@ public class GroupAccountController {
     public Response endGame(@RequestBody GameEndDto.Request request) {
         groupAccountService.endGame(request);
         return new Response<>(201, "게임 결과 반영 완료");
+    }
+
+    @DeleteMapping("/group/account")
+    public Response deleteGroupAccount(@RequestBody DeleteGroupAccountDto.Request request) {
+        groupAccountService.delete(request);
+        return new Response<>(204, "그룹 계좌 삭제 완료");
     }
 }

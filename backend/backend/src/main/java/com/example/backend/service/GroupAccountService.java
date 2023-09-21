@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
+import com.example.backend.dto.groupaccount.DeleteGroupAccountDto;
 import com.example.backend.dto.groupaccount.GameEndDto;
 import com.example.backend.dto.groupaccount.GroupAccountDto;
 import com.example.backend.dto.groupaccount.GroupMemberDto;
@@ -16,6 +17,7 @@ import com.example.backend.exception.CustomException;
 import com.example.backend.repository.groupaccount.GroupAccountCustomRepository;
 import com.example.backend.repository.groupaccount.GroupAccountRepository;
 import com.example.backend.repository.groupaccounthistory.GroupAccountHistoryRepository;
+import com.example.backend.repository.groupaccountmember.GroupAccountMemberCustomRepository;
 import com.example.backend.repository.groupaccountmember.GroupAccountMemberRepository;
 import com.example.backend.repository.groupgameresult.GroupGameResultRepository;
 import java.util.HashMap;
@@ -30,6 +32,7 @@ public class GroupAccountService {
 
     private final GroupAccountRepository groupAccountRepository;
     private final GroupAccountCustomRepository groupAccountCustomRepository;
+    private final GroupAccountMemberCustomRepository groupAccountMemberCustomRepository;
     private final GroupAccountMemberRepository groupAccountMemberRepository;
     private final GroupAccountHistoryRepository groupAccountHistoryRepository;
     private final GroupGameResultRepository groupGameResultRepository;
@@ -51,10 +54,7 @@ public class GroupAccountService {
         }
         GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount);
         groupAccountMemberRepository.save(groupAccountMember);
-        return AcceptGroupAccountDto.Response.builder()
-                .accountName(groupAccount.getName())
-                .ownerName(groupAccount.getMember().getName())
-                .build();
+        return AcceptGroupAccountDto.Response.toAcceptGroupAccountDtoResponse(groupAccount);
     }
 
     public GroupAccountDto.Response findByGroupAccountId(String groupAccountId) {
@@ -64,10 +64,9 @@ public class GroupAccountService {
             throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
         }
         long hostId = groupAccount.getMember().getId();
-        long totalSum = groupAccount.getBalance();
         List<GroupMemberDto> groupAccountMemberList = groupAccountCustomRepository.getGroupAccountMemberListWithMembers(
                         groupAccountId).stream()
-                .map(groupAccountMember -> groupAccountMember.toGroupMemberDto(hostId, totalSum))
+                .map(groupAccountMember -> groupAccountMember.toGroupMemberDto(hostId))
                 .collect(
                         Collectors.toList());
         List<GroupTradeHistoryDto> groupAccountHistoryList = groupAccountCustomRepository.getGroupAccountHistoryListWithGameResult(
@@ -95,6 +94,9 @@ public class GroupAccountService {
             if (groupAccountMember == null) {
                 throw new CustomException(ErrorCode.GROUP_ACCOUNT_MEMBER_NOT_FOUND);
             }
+
+            groupAccountMember.setBalance(groupAccountMember.getBalance() - lose);
+
             GroupGameResult groupGameResult = GroupGameResult.builder()
                     .groupAccountHistory(groupAccountHistory)
                     .groupAccountMember(groupAccountMember)
@@ -103,5 +105,26 @@ public class GroupAccountService {
 
             groupGameResultRepository.save(groupGameResult);
         });
+    }
+
+    public void delete(DeleteGroupAccountDto.Request request) {
+        String groupAccountId = request.getGroupAccountId();
+
+        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountId).get();
+
+        if (groupAccount == null) {
+            throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
+        }
+
+        List<GroupAccountMember> groupAccountMemberList = groupAccountMemberCustomRepository.getGroupAccountMemberWithMembers(
+                groupAccountId);
+
+        for (GroupAccountMember groupAccountMember : groupAccountMemberList
+        ) {
+            if(groupAccountMember.getBalance() != 0){
+                long balance = groupAccountMember.getBalance();
+
+            }
+        }
     }
 }
