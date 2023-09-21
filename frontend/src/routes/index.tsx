@@ -15,7 +15,7 @@ import Game from "../pages/Pinball/Game";
 import Card from "../pages/Pinball/Card";
 import AccountBook from "../pages/Pinball/AccountBook";
 
-import Accounts from "../pages/Account/Accounts";
+import BankInfo from "../pages/Bank/BankInfo";
 
 import TestPage from "../pages/Test/TestPage";
 import NavPage from "../pages/NavPage/NavPage";
@@ -40,7 +40,7 @@ function Router() {
         <Route path="/game" element={<Game />} />
         <Route path="/signupconfrim" element={<SignUpConfrim />} />
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
-        <Route path="/accounts" element={<Accounts />} />
+        <Route path="/comapny/bank" element={<BankInfo />} />
         <Route path="/certificationnaver" element={<CertificationNaver />} />
         <Route path="/accountbook" element={<AccountBook />} />
         <Route path="/testpage" element={<TestPage />} />

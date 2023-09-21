@@ -1,5 +1,5 @@
 import React, { useState, MouseEvent, useEffect,useCallback } from "react"
-import "./SecurityKeypad.module.css"
+import styles from "./SecurityKeypad.module.css"
 import Password from "./Certification"
 
 const PASSWORD_MAX_LENGTH = 6 // 비밀번호 입력길이 제한 설정
@@ -8,7 +8,6 @@ const shuffle = (nums: number[]) => {
   // 배열 섞는 함수
   let num_length = nums.length
   while (num_length) {
-    console.log("here")
     let random_index = Math.floor(num_length-- * Math.random())
     let temp = nums[random_index]
     nums[random_index] = nums[num_length]
@@ -21,7 +20,7 @@ const SecurityKeypad = () => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k)
   const [nums, setNums] = useState(nums_init)
   const [password, setPassword] = useState("")
-
+  console.log(nums)
   const handlePasswordChange = useCallback(
     (num) => {
       if (password.length === PASSWORD_MAX_LENGTH) {
@@ -63,21 +62,23 @@ const SecurityKeypad = () => {
   }
   return (
     <>
-      <Password value={password}/>
+      <Password value={password} />
       <div className='inputter__flex'>
   {[
     ...nums.map((n) => (
       <button
-        className='num-button__flex spread-effect fantasy-font__2_3rem'
+        className='num_button'
         value={n}
         onClick={shuffleNums(n)}
         key={n}
+        style={{padding:"0.6em 1.2em"}}
       >
         {n}
       </button>
     )),
+    <button className='num-button'key={11}></button>,
     <button
-      className='num-button__flex spread-effect fantasy-font__2_3rem'
+      className='num-button'
       onClick={erasePasswordAll}
       key="eraseAll"
     >
@@ -85,7 +86,7 @@ const SecurityKeypad = () => {
     </button>,
   ]}
   <button
-    className='num-button__flex spread-effect fantasy-font__2_3rem'
+    className='num-button__flex spread-effect'
     onClick={erasePasswordOne}
     key="eraseOne"
   >
@@ -95,7 +96,7 @@ const SecurityKeypad = () => {
 
       <div>
         <button type='submit' className='submit-button' onClick={onClickSubmitButton}>
-          Submit
+          제출
         </button>
       </div>
     </>

@@ -24,7 +24,7 @@ function Pinball() {
 
     // 중력 설정
     newEngine.world.gravity.x = 0;
-    newEngine.world.gravity.y = 0.3;
+    newEngine.world.gravity.y = 0.1;
 
     // Create a renderer
     const newRender = Render.create({
