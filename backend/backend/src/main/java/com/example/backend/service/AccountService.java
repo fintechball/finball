@@ -55,7 +55,29 @@ public class AccountService {
         List<MemberAccountInfoDto> memberAccountInfoDtoList = (List<MemberAccountInfoDto>) restTemplateUtil.parseListBody(
                 restDto, "memberAccountList");
 
-        System.out.println(memberAccountInfoDtoList);
-        return new GetUserAccountDto.Response(null);
+        // TODO isFavorite을 추가한다.
+        addIsFavorite(accountList, memberAccountInfoDtoList);
+        Long sum = sumBalance(memberAccountInfoDtoList);
+
+        return new GetUserAccountDto.Response(memberAccountInfoDtoList, sum);
+    }
+
+    public void addIsFavorite(List<Account> accountList, List<MemberAccountInfoDto> restResponseList) {
+        for(MemberAccountInfoDto response : restResponseList) {
+            for(Account account : accountList) {
+                if(response.getAccountNo().equals(account.getAccountNumber())){
+                    response.setIsFavorite(account.isFavorite());
+                }
+            }
+        }
+    }
+
+    public Long sumBalance(List<MemberAccountInfoDto> restResponseList){
+        Long sum = 0L;
+        for(MemberAccountInfoDto response : restResponseList) {
+            sum += response.getBalance();
+        }
+
+        return sum;
     }
 }

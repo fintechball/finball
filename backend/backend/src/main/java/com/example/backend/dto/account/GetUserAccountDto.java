@@ -1,5 +1,6 @@
 package com.example.backend.dto.account;
 
+import com.example.backend.dto.mydata.MemberAccountInfoDto;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +12,7 @@ public class GetUserAccountDto {
     @Data
     @AllArgsConstructor
     public static class Response {
-        private List<UserAccountInfoDto> userAccountList;
+        private List<MemberAccountInfoDto> userAccountList;
+        private Long totalBalance;
     }
 }

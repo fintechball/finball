@@ -16,4 +16,9 @@ public class MemberAccountInfoDto {
     private String name;
     private LocalDateTime accountRegist;
     private CompanyInfoForMemberDto company;
+    private boolean isFavorite;
+
+    public void setIsFavorite(boolean isFavorite){
+        this.isFavorite = isFavorite;
+    }
 }
