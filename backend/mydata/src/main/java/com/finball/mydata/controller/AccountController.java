@@ -37,14 +37,14 @@ public class AccountController {
     }
 
     @PostMapping("/myData/transfer")
-    public AccountTransferDto.Response accountTransfer(
+    public Response<AccountTransferDto.Response> accountTransfer(
             @RequestBody AccountTransferDto.Request request) {
 
         System.out.println(request);
 
         AccountTransferDto.Response response = accountService.accountTransfer(request);
 
-        return response;
+        return new Response<>(200, "이체에 성공했습니다.", response);
     }
 
     @PostMapping("/my-data/member/account")
@@ -57,7 +57,6 @@ public class AccountController {
         GetMemberAccountDto.Response response = accountService.getMemberAccount(
                 request.getAccountList(), userDetails.getMember());
 
-        System.out.println(response);
         return new Response<>(200, "해당 사용자가 원하는 계좌 정보를 불러왔습니다.", response);
     }
 }

@@ -94,6 +94,8 @@ public class AccountService {
 
         AccountTransferDto.Response response = new AccountTransferDto.Response(finBallTradeHistoryDtoList);
 
+        System.out.println(response);
+
         return response;
     }
 
@@ -105,7 +107,7 @@ public class AccountService {
 
         if (plusAccount == null) {
             OppositeBankDto oppositeBankDto = request.toOppositeBankDto(company.getCpName(), request.getMinusBank());
-            FinBallTradeHistoryDto finBallTradeHistoryDto = request.toFinBallTradeHistoryDto(request.getPlusBank(), oppositeBankDto, DealType.입금, request.getMinusBank().getBalance() + request.getValue());
+            FinBallTradeHistoryDto finBallTradeHistoryDto = request.toFinBallTradeHistoryDto(request.getPlusBank(), oppositeBankDto, DealType.입금, request.getPlusBank().getBalance() + request.getValue());
             finBallTradeHistoryDtoList.add(finBallTradeHistoryDto);
         } else {
             TradeHistory tradeHistory = request.toTradeHistory(plusAccount, company, DealType.입금);
@@ -122,6 +124,9 @@ public class AccountService {
 
         Long cpCode = request.getPlusBank().getCode();
         Company company = companyRepository.findByCpCodeAndCpType(cpCode, CompanyType.은행사);
+
+        System.out.println(request.getMinusBank());
+        System.out.println(request.getPlusBank());
 
         if (minusAccount == null) {
             OppositeBankDto oppositeBankDto = request.toOppositeBankDto(company.getCpName(), request.getPlusBank());
