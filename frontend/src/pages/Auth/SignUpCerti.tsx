@@ -1,6 +1,4 @@
 import { useLocation } from "react-router-dom";
-import axios from "axios";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -12,12 +10,11 @@ interface FormData {
   phoneNumber: string;
 }
 
-const schema = yup.object().shape({
-  phoneNumber: yup.string().required("휴대폰 번호는 필수 입력 항목입니다"),
-  // .matches(
-  //   /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
-  //   "올바른 형식이 아닙니다."
-  // ),
+const schema = yup.object({
+  phoneNumber: yup
+    .string()
+    .required("휴대폰 번호는 필수 입력 항목입니다.")
+    .matches(/^\d{11}$/, "정확한 휴대폰 번호를 입력해 주세요."),
 });
 
 function SignUpCerti() {
@@ -28,7 +25,9 @@ function SignUpCerti() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: yupResolver(schema) });
+  } = useForm<FormData>({ mode: "onChange", resolver: yupResolver(schema) });
+
+  const getCode = () => {};
 
   const onSubmit = async (data: FormData) => {
     console.log(data);
@@ -36,13 +35,25 @@ function SignUpCerti() {
       ...formData,
       phoneNumber: data.phoneNumber,
     };
+    try {
+      const requestBody = JSON.stringify(updatedFormData);
 
-    // try {
-    //   const response = await axios.post('서버 엔드포인트 URL', updatedFormData);
-    //   console.log('데이터 전송 성공', response);
-    // } catch (error) {
-    //   console.error('데이터 전송 실패', error);
-    // }
+      const response = await fetch(`https://j9e106.p.ssafy.io/user`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: requestBody,
+      });
+
+      console.log(response);
+      if (response.status === 200) {
+        const responseData = await response.json();
+        alert(responseData.message);
+      }
+    } catch (error) {
+      console.error("데이터 전송 실패", error);
+    }
 
     console.log(updatedFormData);
   };
@@ -50,18 +61,17 @@ function SignUpCerti() {
   return (
     <div>
       <h2>휴대폰 인증</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label>휴대폰 번호</label>
-        <input {...register("phoneNumber")} />
-        {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
-        <br />
+      <p>휴대폰 번호</p>
+      <input placeholder="Phone" {...register("phoneNumber")} />
+      {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
 
-        <input
-          type="button"
-          value="가입하기"
-          onClick={handleSubmit(onSubmit)}
-        />
-      </form>
+      <button type="button" onClick={getCode}>
+        인증번호 전송
+      </button>
+
+      <button type="button" onClick={handleSubmit(onSubmit)}>
+        가입하기
+      </button>
     </div>
   );
 }

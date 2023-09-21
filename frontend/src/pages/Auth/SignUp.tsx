@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import styles from "./SignUp.module.css";
 
 interface IFormInput {
   name: string;
@@ -52,30 +53,34 @@ function SignUp() {
   };
 
   return (
-    <div>
-      <form>
-        <label>이름</label>
-        <input {...register("name")} />
-        {errors.name && <p>{errors.name.message}</p>}
-        <br />
+    <div className={styles.signupform}>
+      <p>이름</p>
+      <input placeholder="Name" {...register("name")} />
+      {errors.name && <p>{errors.name.message}</p>}
+      <br />
 
-        <label>아이디</label>
-        <input {...register("userId")} />
-        {errors.userId && <p>{errors.userId.message}</p>}
-        <br />
+      <p>아이디</p>
+      <input placeholder="ID" {...register("userId")} />
+      {errors.userId && <p>{errors.userId.message}</p>}
+      <br />
 
-        <label>비밀번호</label>
-        <input {...register("password")} />
-        {errors.password && <p>{errors.password.message}</p>}
-        <br />
+      <p>비밀번호</p>
+      <input type="password" placeholder="Password" {...register("password")} />
+      {errors.password && <p>{errors.password.message}</p>}
+      <br />
 
-        <label>비밀번호 확인</label>
-        <input {...register("passwordConfirm")} />
-        {errors.passwordConfirm && <p>{errors.passwordConfirm.message}</p>}
-        <br />
+      <p>비밀번호 확인</p>
+      <input
+        type="password"
+        placeholder="Password Confirm"
+        {...register("passwordConfirm")}
+      />
+      {errors.passwordConfirm && <p>{errors.passwordConfirm.message}</p>}
+      <br />
 
-        <input type="button" value="다음" onClick={handleSubmit(onSubmit)} />
-      </form>
+      <button type="button" onClick={handleSubmit(onSubmit)}>
+        다음
+      </button>
     </div>
   );
 }
