@@ -5,6 +5,9 @@ import finballImage from "../../assets/Logo.png";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { OutlinedInput, Button } from "@material-ui/core";
 import { relative } from "path";
+import axios from "axios";
+
+const BASE_HTTP_URL = "http://localhost:8080";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,6 +16,15 @@ function Login() {
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const doLogin = () => {
+    axios.post(`${BASE_HTTP_URL}/user/login`, {
+      "username" : "spor1998",
+      "password" : "spor0227!"
+  } ).then((response) => {
+        console.log(response);
+    });
   };
 
   const goSignup = () => {
@@ -86,6 +98,7 @@ function Login() {
           className={styles.login_btn}
           variant="contained"
           style={{ backgroundColor: "#7165E3" }}
+          onClick={doLogin}
         >
           로그인
         </Button>

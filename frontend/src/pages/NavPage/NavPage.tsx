@@ -47,11 +47,6 @@ function NavPage() {
         </Link>
       </p>
       <p>
-        <Link to="/accounts" className={styles.link}>
-          계좌
-        </Link>
-      </p>
-      <p>
         <Link to="/certificationnaver" className={styles.link}>
           네이버 인증서
         </Link>
@@ -65,7 +60,7 @@ function NavPage() {
         <Link to="/accountbook" className={styles.link}>
           가계부
         </Link>
-      </p> */}
+      </p>
       <p>
         <Link to="/testpage" className={styles.link}>
           프론트 테스트페이지

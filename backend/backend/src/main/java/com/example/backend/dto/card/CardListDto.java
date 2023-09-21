@@ -1,5 +1,6 @@
 package com.example.backend.dto.card;
 
+import com.example.backend.entity.Card;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +18,4 @@ public class CardListDto {
 
         private List<CardDto> cardDtoList;
     }
-
 }

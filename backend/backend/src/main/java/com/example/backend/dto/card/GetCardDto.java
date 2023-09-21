@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CardDto {
-
+public class GetCardDto {
 
     private String cardName;
     private String cardImage;
     private String cardNumber;
-    private Long companyCode;
     private String companyName;
 
 }
