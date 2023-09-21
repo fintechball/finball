@@ -7,6 +7,7 @@ import lombok.Data;
 @Builder
 @Data
 public class GroupMemberDto {
+
     private String name;
     private String profileImage;
     private long value;

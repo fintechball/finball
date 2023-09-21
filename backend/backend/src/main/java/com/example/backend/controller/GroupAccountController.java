@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
+import com.example.backend.dto.groupaccount.GameEndDto;
 import com.example.backend.dto.groupaccount.GroupAccountDto;
 import com.example.backend.dto.groupaccount.RegistGroupAccountDto;
 import com.example.backend.entity.Member;
@@ -41,5 +42,11 @@ public class GroupAccountController {
         Member member = userDetails.getMember();
         AcceptGroupAccountDto.Response response = groupAccountService.acceptInvite(request, member);
         return new Response<>(201, "그룹 계좌 가입 완료", response);
+    }
+
+    @PostMapping("/group/account/adjustment")
+    public Response endGame(@RequestBody GameEndDto.Request request) {
+        groupAccountService.endGame(request);
+        return new Response<>(201, "게임 결과 반영 완료");
     }
 }

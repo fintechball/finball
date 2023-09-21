@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 @Data
 public class GroupTradeHistoryDto {
+
     private long id;
     private String name;
     private long value;

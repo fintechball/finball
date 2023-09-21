@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,5 +36,13 @@ public class GroupGameResult {
                 .value(this.lose)
                 .name(this.groupAccountMember.getMember().getName())
                 .build();
+    }
+
+    @Builder
+    public GroupGameResult(long lose, GroupAccountHistory groupAccountHistory,
+            GroupAccountMember groupAccountMember) {
+        this.lose = lose;
+        this.groupAccountHistory = groupAccountHistory;
+        this.groupAccountMember = groupAccountMember;
     }
 }

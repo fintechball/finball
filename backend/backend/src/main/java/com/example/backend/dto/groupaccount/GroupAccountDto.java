@@ -11,6 +11,7 @@ public class GroupAccountDto {
     @Builder
     @Data
     public static class Response {
+
         private long balance;
         private String accountNumber;
         private List<GroupMemberDto> member;
