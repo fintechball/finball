@@ -56,7 +56,8 @@ function AccountBook() {
         <button onClick={Plus}>+</button>
         <button onClick={Minus}>-</button>
             {selectedbtn["btn1"] && (
-                    <div id="home-canvas" style={{ width: "360px", height: "70vh", position: "relative" }}>
+                <div style={{ position: "relative", width: "360px", height: "70vh" }}>
+                    <div id="home-canvas" style={{ position: "absolute", top: 0, left: 0, width: "360px", height: "93%" }}>
                         <div style={{fontSize:'4vh',fontWeight:'bold'}}>우리 계좌</div>
                         <Pinball />
                         <TextField
@@ -79,14 +80,15 @@ function AccountBook() {
                         />
 
                             <button style={{width:'20%', height: '10%',color:'white',aspectRatio:5,fontSize:'2vh',backgroundColor:'#7165E3'}}>송금</button>
-                        <img src={safe} style={{width:'15%',height:'15%',position:'absolute',left:'80%',top:'20%'}} />
+                        <img src={safe} style={{width:'15%',height:'15%',position:'absolute',left:'80%',top:'25%'}} />
+                    </div>
                     </div>
             )}
-
-
+                
             {selectedbtn["btn2"] && (
             <div>
-                <div style={{fontSize:'4vh',fontWeight:'bold'}}>{balance}원</div>
+                <div style={{fontSize:'1vh',fontWeight:"lighter",textAlign:'start'}}>핀볼 53291021163807</div>
+                <div style={{fontSize:'4vh',fontWeight:'bold',textAlign:'start'}}>{balance}원</div>
                 <button style={{ width: '30%', color: 'white', aspectRatio: 5, fontSize: '2vh', backgroundColor: '#4C4499', marginRight: '5%' }}>채우기</button>
                 <button style={{ width: '30%', color: 'white', aspectRatio: 5, fontSize: '2vh', backgroundColor: '#7165E3' }}>보내기</button>
                 <div style={{ position: "relative",width:'360px',height:'70vh' }}>
@@ -120,15 +122,12 @@ function AccountBook() {
                     
                     return acc;
                 }, [])}
-                <div id="home-canvas" style={{ width: "360px", height: "70vh", position: "absolute", top: 0, left: 0, zIndex: -1, opacity: 0.1 }}>
+                <div id="home-canvas" style={{ position: "absolute", top: 0, left: 0, width: "360px", height: "93%" , zIndex: -1, opacity: 0.1 }}>
                     <Pinball />
                 </div>
                 </div>
             </div>
             )}
-
-
-
 
             {selectedbtn["btn3"] && (
                 <div style={{ position: "relative", width: "360px", height: "70vh" }}>
