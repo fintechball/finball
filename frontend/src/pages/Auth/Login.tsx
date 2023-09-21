@@ -4,15 +4,19 @@ import finballImage from "../../assets/Logo.png";
 // import { Button } from 'react-bootstrap';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { OutlinedInput, Button } from "@material-ui/core";
-import { relative } from "path";
+// import { relative } from "path";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
-const BASE_HTTP_URL = "http://localhost:8080";
+const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [idcolor, setIdcolor] = useState("");
   const [pwcolor, setPwcolor] = useState("");
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -20,15 +24,18 @@ function Login() {
 
   const doLogin = () => {
     axios.post(`${BASE_HTTP_URL}/user/login`, {
-      "username" : "spor1998",
-      "password" : "spor0227!"
-  } ).then((response) => {
-        console.log(response);
+      "username" : userId,
+      "password" : password
+  } ).then((response) => {    
+    localStorage.setItem("accessToken", response.data.data.accessToken);
+    localStorage.setItem("refreshToken", response.data.data.refreshToken);
+    navigate("/");
+  }).catch((error) => {
+    console.log(error);
     });
   };
-
   const goSignup = () => {
-    console.log("회원가입");
+    navigate("/signup");
   };
   const focusId = () => {
     setIdcolor("#d1c4e9");
@@ -59,6 +66,8 @@ function Login() {
               style={{ backgroundColor: `${idcolor}` }}
               onFocus={focusId}
               onBlur={defaultId}
+              value={userId}
+            onChange={(event) => setUserId(event.target.value)}
             />
           </div>
           <div className={styles.innerinput_box}>
@@ -70,6 +79,8 @@ function Login() {
               style={{ backgroundColor: `${pwcolor}` }}
               onFocus={focusPw}
               onBlur={defaultPW}
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
               endAdornment={
                 <Button
                   onClick={handleTogglePasswordVisibility}
