@@ -68,7 +68,8 @@ public class GroupAccountController {
         groupAccountTransferService.transferGroupAccount(request, member);
 
         return new Response<>(200, "이체가 완료되었습니다.");
-
+    }
+    
     @DeleteMapping("/group/account")
     public Response deleteGroupAccount(@RequestBody DeleteGroupAccountDto.Request request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
