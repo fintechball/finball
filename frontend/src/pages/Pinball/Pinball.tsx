@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Engine, Render, World, Bodies } from "matter-js";
 import "./Pinball.module.css";
-import test from "../../assets/defalutball.png"
+import test from "../../assets/defalutball.png";
 
 function Pinball() {
   const [engine, setEngine] = useState(null);
   const [render, setRender] = useState(null);
-  const [balls,setBalls]=useState([]);
-  const [ballcnt,setBallcnt]=useState(40);
+  const [balls, setBalls] = useState([]);
+  const [ballcnt, setBallcnt] = useState(40);
 
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
@@ -115,8 +115,8 @@ function Pinball() {
               //''히먄 스프라이트 적용x
               texture: test,
               xScale: 0.5,
-              yScale: 0.5
-          }
+              yScale: 0.5,
+            },
           },
         }
       );
@@ -133,13 +133,13 @@ function Pinball() {
       const sortedBalls = [...balls].sort(
         (a, b) => b.position.y - a.position.y
       );
-      setBalls(sortedBalls)
+      setBalls(sortedBalls);
       const ball = [];
       for (let i = 1; i < 11; i++) {
         ball.push(balls[balls.length - 1]);
-        balls.splice(balls.length - 1,1)
+        balls.splice(balls.length - 1, 1);
       }
-      setBallcnt(sortedBalls.length)
+      setBallcnt(sortedBalls.length);
       // 페이드 아웃 효과 추가
       fadeOutBodies(ball);
     });
@@ -161,7 +161,7 @@ function Pinball() {
         for (let i = 0; i < 5; i++) {
           const ball = Bodies.circle(
             Math.random() * parentSize.width,
-            parentSize.height/10,
+            parentSize.height / 10,
             Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
             {
               restitution: 0.1,
@@ -176,8 +176,8 @@ function Pinball() {
                   //''하면 스프라이트 적용x
                   texture: test,
                   xScale: 0.5,
-                  yScale: 0.5
-              }
+                  yScale: 0.5,
+                },
               },
             }
           );
@@ -207,7 +207,23 @@ function Pinball() {
     };
   }, []);
 
-  return <div id="pinball-canvas"></div>;
+  return (
+    <div id="pinball-canvas">
+      <div
+        style={{
+          position: "absolute",
+          margin: "opx",
+          fontWeight: "bold",
+          fontSize: "15px",
+          width: "90px",
+          left: "50%",
+          transform: "translate(50%,0)",
+        }}
+      >
+        5,000,000원
+      </div>
+    </div>
+  );
 }
 
 export default Pinball;
