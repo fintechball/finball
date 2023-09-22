@@ -2,6 +2,8 @@ package com.example.backend.dto.transfer;
 
 import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.FinBallHistory;
+import com.example.backend.entity.GroupAccount;
+import com.example.backend.entity.GroupAccountHistory;
 import com.example.backend.type.DealType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,6 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FinBallTradeHistoryDto {
+
     private String accountNumber;
     private Long value;
     private LocalDate date;
@@ -32,6 +35,19 @@ public class FinBallTradeHistoryDto {
                 .opAccount(oppositeBankDto.getAccount())
                 .opBankName(oppositeBankDto.getBankName())
                 .finBallAccount(finBallAccount)
+                .build();
+    }
+
+    public GroupAccountHistory toGroupAccountHistory(GroupAccount groupAccount) {
+        return GroupAccountHistory.builder()
+                .value(this.value)
+                .balance(this.remain)
+                .dealDt(LocalDateTime.now())
+                .dealType(this.type)
+                .target(oppositeBankDto.getTarget())
+                .opAccount(oppositeBankDto.getAccount())
+                .opBankName(oppositeBankDto.getBankName())
+                .groupAccount(groupAccount)
                 .build();
     }
 }

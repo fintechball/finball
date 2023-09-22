@@ -28,7 +28,7 @@ function Inventory() {
 
   const getInventory = () => {
     axios
-      .get(`${BASE_HTTP_URL}/ball/inventory`, {
+      .get(`${BASE_HTTP_URL}/api/ball/inventory`, {
         headers: {
           // Authorization: token.accessToken,
           Authorization: localStorage.getItem("accessToken"),
@@ -42,7 +42,7 @@ function Inventory() {
   const selectSkin = (skinId: any) => {
     axios
       .post(
-        `${BASE_HTTP_URL}/ball/select`,
+        `${BASE_HTTP_URL}/api/ball/select`,
         {
           id: skinId,
         },
