@@ -37,7 +37,11 @@ function AccountDetail() {
           <div>{account.balance}원</div>
           <div>
             <button>채우기</button>
-            <button onClick={() => navigate("/")}>보내기</button>
+            <button
+              onClick={() => navigate("/transferAccount", { state: account })}
+            >
+              보내기
+            </button>
           </div>
 
           <p>전체</p>
