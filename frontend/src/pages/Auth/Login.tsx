@@ -28,7 +28,7 @@ function Login() {
 
   const doLogin = () => {
     axios
-      .post(`${BASE_HTTP_URL}/user/login`, {
+      .post(`${BASE_HTTP_URL}/api/user/login`, {
         username: userId,
         password: password,
       })
@@ -85,15 +85,15 @@ function Login() {
           onBlur={defaultPW}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          endAdornment={
-            <Button onClick={handleTogglePasswordVisibility}>
-              {showPassword ? (
-                <VisibilityOff style={{ fontSize: "5vh" }} />
-              ) : (
-                <Visibility style={{ fontSize: "5vh" }} />
-              )}
-            </Button>
-          }
+          // endAdornment={
+          //   <Button onClick={handleTogglePasswordVisibility}>
+          //     {showPassword ? (
+          //       <VisibilityOff style={{ fontSize: "5vh" }} />
+          //     ) : (
+          //       <Visibility style={{ fontSize: "5vh" }} />
+          //     )}
+          //   </Button>
+          // }
         />
       </div>
       <Button type="primary" onClick={doLogin}>

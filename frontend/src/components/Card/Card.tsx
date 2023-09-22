@@ -14,7 +14,7 @@ function Card() {
 
   useEffect(() => {
     axios
-      .get(`${BASE_HTTP_URL}/user/card`, {
+      .get(`${BASE_HTTP_URL}/api/user/card`, {
         headers: {
           // Authorization: token.accessToken,
           Authorization: localStorage.getItem("accessToken"),

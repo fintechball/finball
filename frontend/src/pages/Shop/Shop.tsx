@@ -37,7 +37,7 @@ function Shop() {
 
   const getSkin = () => {
     axios
-      .get(`${BASE_HTTP_URL}/ball`, {
+      .get(`${BASE_HTTP_URL}/api/ball`, {
         headers: {
           // Authorization: token.accessToken,
           Authorization: localStorage.getItem("accessToken"),
@@ -58,7 +58,7 @@ function Shop() {
   const buySkin = (skin) => {
     axios
       .post(
-        `${BASE_HTTP_URL}/ball/purchase`,
+        `${BASE_HTTP_URL}/api/ball/purchase`,
         {
           id: skin.id,
         },

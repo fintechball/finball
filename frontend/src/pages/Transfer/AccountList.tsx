@@ -15,7 +15,7 @@ function AccountList() {
 
   useEffect(() => {
     axios
-      .get(`${BASE_HTTP_URL}/user/account`, {
+      .get(`${BASE_HTTP_URL}/api/user/account`, {
         headers: {
           // Authorization: token.accessToken,
           Authorization: localStorage.getItem("accessToken"),
