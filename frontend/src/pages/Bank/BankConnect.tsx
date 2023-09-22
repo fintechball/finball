@@ -81,7 +81,8 @@ export default function BankConnect() {
     };
   return (
     <>
-    {loading ? "Lodaing...":
+    {loading ? "Lodaing...":state.length == 0 ?<div>계좌가 없어요</div>
+    :
       <FormControl component="fieldset" variant="standard" style={{width:"100%"}}>
         <div className={styles.head}>
             <div style={{fontSize:'3vh',fontWeight:'bold'}}> 은행</div>

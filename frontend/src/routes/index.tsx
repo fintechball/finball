@@ -28,10 +28,13 @@ import NavPage from "../pages/NavPage/NavPage";
 import Chatbot from "../pages/ChatBot/ChatBot";
 import Quiz from "../pages/Quiz/Quiz";
 import Shop from "../pages/Shop/Shop";
+import InventoryAll from "../pages/Shop/InventoryAll";
 import Inventory from "../pages/Shop/Inventory";
 
 import Transfering from "../pages/Transfer/Transfering";
 import ReceivingMoney from "../pages/Transfer/Receive";
+import AccountList from "../pages/Transfer/AccountList";
+import AccountDetail from "../pages/Transfer/AccountDetail";
 
 function Router() {
   return (
@@ -55,6 +58,7 @@ function Router() {
         <Route path="/chatbot" element={<Chatbot />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/inventoryAll" element={<InventoryAll />} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/transfering" element={<Transfering />} />
         <Route path="/receive" element={<ReceivingMoney />} />
@@ -63,6 +67,9 @@ function Router() {
         <Route path="/bank/account" element={<BankConnect />} />
         <Route path="/company/card" element={<CardInfo />} />
         <Route path="/card" element={<CardConnect />} />
+        {/* 계좌 이체 */}
+        <Route path="/accountList" element={<AccountList />} />
+        <Route path="/accountDetail" element={<AccountDetail />} />
       </Routes>
     </>
   );

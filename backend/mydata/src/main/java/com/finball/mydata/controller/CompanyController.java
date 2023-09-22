@@ -1,6 +1,7 @@
 package com.finball.mydata.controller;
 
 import com.finball.mydata.dto.Response;
+import com.finball.mydata.dto.company.CompanyCodeDto;
 import com.finball.mydata.dto.company.CompanyListDto;
 import com.finball.mydata.service.CompanyService;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,9 @@ public class CompanyController {
         return new Response<>(200, "성공적으로 회사 정보를 불러왔습니다.", response);
     }
 
-
+    @GetMapping("/myData/company/name/{cpName}")
+    public Response<?> getCpCode(@PathVariable String cpName) {
+        CompanyCodeDto.Response response = companyService.getCpCode(cpName);
+        return new Response<>(200, "성공적으로 회사 이름을 불러왔습니다.", response);
+    }
 }

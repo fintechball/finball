@@ -16,7 +16,7 @@ export default function BankInfo() {
       code:number;
       connected:boolean;
     }
-  const [state, setState] = useState<INfo[]>([]);
+  const [state, setState] = useState([]);
   const [cnt,setCnt]=useState(0)
   const [loading,setLoading]=useState(true)
   const [choose,setChoose]=useState([])
@@ -78,13 +78,13 @@ export default function BankInfo() {
   return (
     <>
     {loading ? "Lodaing...":
-      <FormControl component="fieldset" variant="standard">
+      <FormControl component="fieldset" variant="standard" >
         <div className={styles.head}>
             <div style={{fontSize:'3vh',fontWeight:'bold'}}> 은행</div>
             <div style={{fontSize:'1vh',alignItems:'center'}} onClick={handlereset}>선택 해제</div>
             </div>
-        <div style={{fontSize:'2vh',color:'grey',textAlign:'start'}}>한 곳에서 계좌 잔액을 확인하세요!</div>
-      <FormGroup style={{height:"220vh"}}>
+        <div style={{fontSize:'1vh',color:'grey',textAlign:'start'}}>한 곳에서 계좌 잔액을 확인하세요!</div>
+      <FormGroup style={{height:"220vh",width:"360px",marginLeft:"0px"}}>
       {state.map((v,i) => (
          <div className={styles.labelbox} key={i}>
          <FormControlLabel

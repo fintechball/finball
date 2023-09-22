@@ -46,4 +46,8 @@ public class Account {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
+    public void setFavorite() {
+        this.isFavorite = !this.isFavorite;
+    }
 }

@@ -8,6 +8,8 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button, Input } from "antd";
+import { useDispatch } from "react-redux";
+import { setTokens } from "../../store/slices/tokenSlice";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
@@ -18,6 +20,7 @@ function Login() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);

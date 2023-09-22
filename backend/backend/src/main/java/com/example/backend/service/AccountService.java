@@ -3,7 +3,11 @@ package com.example.backend.service;
 import com.example.backend.dto.RestDto;
 import com.example.backend.dto.account.AccountRegisterDto;
 import com.example.backend.dto.account.AccountRegisterInfoDto;
+import com.example.backend.dto.account.FavoriteAccountDto;
 import com.example.backend.dto.account.GetUserAccountDto;
+import com.example.backend.dto.account.GetUserAccountSimpleDto;
+import com.example.backend.dto.account.GetUserAccountSimpleDto.Response;
+import com.example.backend.dto.account.UserAccountSimpleDto;
 import com.example.backend.dto.mydata.GetMemberAccountDto;
 import com.example.backend.dto.mydata.MemberAccountInfoDto;
 import com.example.backend.entity.Account;
@@ -15,6 +19,7 @@ import com.example.backend.util.RestTemplateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -45,21 +50,25 @@ public class AccountService {
             accountNumberList.add(account.getAccountNumber());
         }
 
-        String token = redisUtil.getMyDataToken(member.getUserId());
+        List<MemberAccountInfoDto> memberAccountInfoDtoList = getMydataAccount(accountNumberList, member.getUserId());
+
+        addIsFavorite(accountList, memberAccountInfoDtoList);
+        Long sum = sumBalance(memberAccountInfoDtoList);
+
+        return new GetUserAccountDto.Response(memberAccountInfoDtoList, sum);
+    }
+
+    public List<MemberAccountInfoDto> getMydataAccount(List<String> accountNumberList, String memberId)
+            throws JsonProcessingException {
+        String token = redisUtil.getMyDataToken(memberId);
 
         ResponseEntity<String> response = restTemplateUtil.callMyData(token,
                 new GetMemberAccountDto.Request(accountNumberList), "/my-data/member/account",
                 HttpMethod.POST);
         RestDto<MemberAccountInfoDto> restDto = new RestDto<>(MemberAccountInfoDto.class, response);
 
-        List<MemberAccountInfoDto> memberAccountInfoDtoList = (List<MemberAccountInfoDto>) restTemplateUtil.parseListBody(
+        return (List<MemberAccountInfoDto>) restTemplateUtil.parseListBody(
                 restDto, "memberAccountList");
-
-        // TODO isFavorite을 추가한다.
-        addIsFavorite(accountList, memberAccountInfoDtoList);
-        Long sum = sumBalance(memberAccountInfoDtoList);
-
-        return new GetUserAccountDto.Response(memberAccountInfoDtoList, sum);
     }
 
     public void addIsFavorite(List<Account> accountList, List<MemberAccountInfoDto> restResponseList) {
@@ -79,5 +88,29 @@ public class AccountService {
         }
 
         return sum;
+    }
+
+    public GetUserAccountSimpleDto.Response getAccountSimpleList(Member member) {
+
+        List<Account> accountList = accountCustomRepository.findByIdOrderByIsFavorite(
+                member.getId());
+
+        List<UserAccountSimpleDto> userAccountSimpleDtoList = new ArrayList<>();
+
+        for(Account account : accountList) {
+            userAccountSimpleDtoList.add(UserAccountSimpleDto.parseDto(account));
+        }
+
+        return new GetUserAccountSimpleDto.Response(userAccountSimpleDtoList);
+    }
+
+    @Transactional
+    public void updateFavorite(FavoriteAccountDto.Request request) {
+        Account account = accountRepository.findById(request.getAccountNo()).orElseThrow(
+                () -> new IllegalArgumentException("해당되는 계좌가 존재하지 않습니다.")
+        );
+
+        account.setFavorite();
+        accountRepository.save(account);
     }
 }
