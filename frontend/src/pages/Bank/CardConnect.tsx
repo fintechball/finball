@@ -11,12 +11,6 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
 export default function CardConnect() {
-    interface INfo{
-      name:string;
-      img:string;
-      code:string;
-      connected:boolean;
-    }
   const location = useLocation();
   const List = location.state?.cardCompanyCodeList;
   const [state, setState] = useState([]);
@@ -90,10 +84,14 @@ export default function CardConnect() {
       });
     };
     const handlereset = () => {
-        findCard()
-    };
+      for (let i = 0; i <toggledItems.length; i++) {
+        setToggledItems((state)=>{
+          const Name = state[i].name
+          return {...state, [Name]:!state[Name]}
+        })
+      }
+    }
     const registerCard = async() => {
-      console.log(chooseItems)
       await axios({
         method: "post",
         url: `https://j9e106.p.ssafy.io/user/card`,
@@ -115,7 +113,7 @@ export default function CardConnect() {
     }
   return (
     <>
-    {loading ? "Lodaing...":state.length == 0 ?<div>계좌가 없어요</div>
+    {loading ? "Lodaing...":state.length == 0 ?<div>카드가 없어요</div>
     :
       <FormControl component="fieldset" variant="standard" style={{width:"100%"}}>
         <div className={styles.head}>
