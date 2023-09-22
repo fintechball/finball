@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
+import com.example.backend.dto.groupaccount.DeleteGroupAccountDto;
 import com.example.backend.dto.groupaccount.GameEndDto;
 import com.example.backend.dto.groupaccount.GroupAccountDto;
 import com.example.backend.dto.groupaccount.RegistGroupAccountDto;
@@ -13,13 +14,16 @@ import com.example.backend.service.GroupAccountTransferService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
+@RequestMapping("/api")
 @RestController
 public class GroupAccountController {
 
@@ -64,5 +68,13 @@ public class GroupAccountController {
         groupAccountTransferService.transferGroupAccount(request, member);
 
         return new Response<>(200, "이체가 완료되었습니다.");
+
+    @DeleteMapping("/group/account")
+    public Response deleteGroupAccount(@RequestBody DeleteGroupAccountDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+        Member member = userDetails.getMember();
+        groupAccountService.delete(request, member);
+        return new Response<>(204, "그룹 계좌 삭제 완료");
+
     }
 }

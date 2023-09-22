@@ -15,8 +15,8 @@ public class TradeHistoryController {
     private final TradeHistoryService tradeHistoryService;
 
     @PostMapping("/myData/account/history")
-    public Response<AccountHistoryListDto.Request> getAccountHistory(@RequestBody AccountHistoryListDto.Request request) {
-
+    public Response<AccountHistoryListDto.Response> getAccountHistory(@RequestBody AccountHistoryListDto.Request request) {
+        System.out.println(request);
         AccountHistoryListDto.Response response = tradeHistoryService.getAccountHistory(request);
 
         return new Response(200, "거래 목록 조회 완료", response);

@@ -1,12 +1,14 @@
 #root {
   width: 360px;
-  height: 640px;
+  /* height: 640px; */
   padding-top: 60px;
   padding-bottom: 60px;
   max-width: 1280px;
   margin: 0 auto;
   /* padding: 2rem; */
   text-align: center;
+  /* box-shadow: 0 2px 10px 5px rgba(49, 49, 49, 0.2); */
+  /* background-color: antiquewhite; */
 }
 
 .logo {

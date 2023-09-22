@@ -7,6 +7,8 @@
   border-bottom: 1px solid rgb(235, 235, 235);
   position: fixed;
   top: 0;
+  z-index: 10;
+  justify-content: space-between;
 }
 .header h1,
 .header p {
@@ -15,4 +17,15 @@
 .header img {
   width: 100px;
   margin: 0px 15px;
+}
+.header button {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0px 12px;
+  background-color: rgb(89, 47, 255);
+  color: white;
+  width: 80px;
+  font-size: 14px;
+  font-weight: normal;
 }

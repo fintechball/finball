@@ -6,7 +6,6 @@ import static com.example.backend.entity.QGroupAccountMember.groupAccountMember;
 import static com.example.backend.entity.QGroupGameResult.groupGameResult;
 import static com.example.backend.entity.QMember.member;
 
-import com.example.backend.entity.Account;
 import com.example.backend.entity.GroupAccount;
 import com.example.backend.entity.GroupAccountHistory;
 import com.example.backend.entity.GroupAccountMember;
@@ -22,7 +21,7 @@ public class GroupAccountCustomRepository extends QuerydslRepositorySupport {
     private final JPAQueryFactory queryFactory;
 
     public GroupAccountCustomRepository(JPAQueryFactory queryFactory) {
-        super(Account.class);
+        super(GroupAccount.class);
         this.queryFactory = queryFactory;
     }
 

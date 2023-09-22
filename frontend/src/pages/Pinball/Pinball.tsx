@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Engine, Render, World, Bodies } from "matter-js";
 import "./Pinball.module.css";
+import test from "../../assets/defalutball.png"
 
 function Pinball() {
   const [engine, setEngine] = useState(null);
   const [render, setRender] = useState(null);
+  const [balls,setBalls]=useState([]);
+  const [ballcnt,setBallcnt]=useState(40);
 
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
@@ -94,14 +97,13 @@ function Pinball() {
     );
 
     // Create balls array
-    const balls = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < ballcnt; i++) {
       const ball = Bodies.circle(
         Math.random() * parentSize.width,
         Math.random() * parentSize.height,
-        Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 40,
+        Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
         {
-          restitution: 0.01,
+          restitution: 0.1,
           friction: 0.001,
           density: 10,
           isStatic: false,
@@ -109,6 +111,12 @@ function Pinball() {
             fillStyle: "#05CD01",
             strokeStyle: "white",
             lineWidth: 3,
+            sprite: {
+              //''히먄 스프라이트 적용x
+              texture: test,
+              xScale: 0.5,
+              yScale: 0.5
+          }
           },
         }
       );
@@ -125,10 +133,13 @@ function Pinball() {
       const sortedBalls = [...balls].sort(
         (a, b) => b.position.y - a.position.y
       );
-      let ball = [];
+      setBalls(sortedBalls)
+      const ball = [];
       for (let i = 1; i < 11; i++) {
-        ball.push(sortedBalls[sortedBalls.length - i]);
+        ball.push(balls[balls.length - 1]);
+        balls.splice(balls.length - 1,1)
       }
+      setBallcnt(sortedBalls.length)
       // 페이드 아웃 효과 추가
       fadeOutBodies(ball);
     });
@@ -143,29 +154,37 @@ function Pinball() {
             }
           }
         });
-      }, 50); // 100ms마다 투명도 조절
+      }, 50); // 50ms마다 투명도 조절
     };
     newRender.canvas.addEventListener(clickEvent, () => {
-      for (let i = 0; i < 10; i++) {
-        const ball = Bodies.circle(
-          Math.random() * parentSize.width,
-          Math.random() * parentSize.height,
-          Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 40,
-          {
-            restitution: 0.01,
-            friction: 0.001,
-            density: 10,
-            isStatic: false,
-            render: {
-              fillStyle: "#05CD01",
-              strokeStyle: "white",
-              lineWidth: 3,
-            },
-          }
-        );
-        balls.push(ball);
-        World.add(newEngine.world, ball);
-      }
+      setTimeout(() => {
+        for (let i = 0; i < 5; i++) {
+          const ball = Bodies.circle(
+            Math.random() * parentSize.width,
+            parentSize.height/10,
+            Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
+            {
+              restitution: 0.1,
+              friction: 0.001,
+              density: 10,
+              isStatic: false,
+              render: {
+                fillStyle: "#05CD01",
+                strokeStyle: "white",
+                lineWidth: 3,
+                sprite: {
+                  //''하면 스프라이트 적용x
+                  texture: test,
+                  xScale: 0.5,
+                  yScale: 0.5
+              }
+              },
+            }
+          );
+          balls.push(ball);
+          World.add(newEngine.world, ball);
+        }
+      }, 1000);
     });
     const Boundary = [ground, wall1, wall2, wall3];
     World.add(newEngine.world, [...Boundary, ...balls]);

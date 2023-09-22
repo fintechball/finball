@@ -4,16 +4,20 @@ import GroupAccountContainer from "../../components/GroupAccount/GroupAccountCon
 
 import Pinball from "../Pinball/Pinball";
 import styles from "./Home.module.css";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   const width = window.innerWidth;
   const height = window.innerHeight;
   return (
     <div className={styles.container}>
       <div className={styles.minicontainer}>
         <h2>우리 계좌</h2>
-        <div id="home-canvas" style={{ width: "300px", height: "300px" }}>
+
+        <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
           <Pinball />
+          <div style={{position:"relative",top:"25px",left:"200px",margin:"opx",fontWeight:"bold",fontSize:"15px",width:"90px"}}>5,000,000원</div>
         </div>
       </div>
 
@@ -23,7 +27,7 @@ function Home() {
       </div>
 
       <div className={styles.minicontainer}>
-        <h2>연결된 타행계좌 목록</h2>
+        <h2 onClick={() => navigate("/accountList")}>연결된 타행계좌 목록</h2>
         <BankAccountContainer />
       </div>
 

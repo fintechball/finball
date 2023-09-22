@@ -36,6 +36,9 @@ public class GroupAccount {
     private GameType gameType;
 
     @Column
+    private boolean valid;
+
+    @Column
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,6 +55,10 @@ public class GroupAccount {
         this.balance = balance;
         this.url = url;
         this.member = member;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
     public void setBalance(Long balance) {

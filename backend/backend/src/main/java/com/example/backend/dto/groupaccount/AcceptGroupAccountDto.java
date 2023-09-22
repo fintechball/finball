@@ -36,5 +36,13 @@ public class AcceptGroupAccountDto {
 
         private String ownerName;
         private String accountName;
+
+        public static AcceptGroupAccountDto.Response toAcceptGroupAccountDtoResponse(
+                GroupAccount groupAccount) {
+            return AcceptGroupAccountDto.Response.builder()
+                    .accountName(groupAccount.getName())
+                    .ownerName(groupAccount.getMember().getName())
+                    .build();
+        }
     }
 }

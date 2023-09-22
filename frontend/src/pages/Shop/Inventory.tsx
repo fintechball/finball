@@ -8,6 +8,7 @@ import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import { useSelector } from "react-redux";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -15,6 +16,7 @@ function Inventory() {
   const [inventoryList, setInventoryList] = useState<any>(null);
   const [isDetail, setIsDetail] = useState<boolean>(false);
   const navigate = useNavigate();
+  const token = useSelector((state) => state.token);
 
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
@@ -22,12 +24,13 @@ function Inventory() {
 
   useEffect(() => {
     getInventory();
-  }, []);
+  }, [token]);
 
   const getInventory = () => {
     axios
       .get(`${BASE_HTTP_URL}/ball/inventory`, {
         headers: {
+          // Authorization: token.accessToken,
           Authorization: localStorage.getItem("accessToken"),
         },
       })
@@ -45,6 +48,7 @@ function Inventory() {
         },
         {
           headers: {
+            // Authorization: token.accessToken,
             Authorization: localStorage.getItem("accessToken"),
           },
         }
@@ -54,7 +58,8 @@ function Inventory() {
       });
   };
 
-  const viewDetail = () => {
+  const viewDetail = (index) => {
+    setActiveStep(index);
     setIsDetail(true);
   };
 
@@ -149,7 +154,11 @@ function Inventory() {
             >
               {[...inventoryList].map((inventory, index) => (
                 <Grid xs={2} sm={4} md={4} key={index}>
-                  <img src={inventory.image} width={50} onClick={viewDetail} />
+                  <img
+                    src={inventory.image}
+                    width={50}
+                    onClick={() => viewDetail(index)}
+                  />
                   <p>{inventory.name}</p>
                   {inventory.selected ? (
                     <button>착용 중</button>

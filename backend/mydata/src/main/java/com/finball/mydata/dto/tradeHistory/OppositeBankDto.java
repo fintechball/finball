@@ -14,6 +14,5 @@ public class OppositeBankDto {
     private String bankName;
     private String account;
     private String target;
-    private String nickname;
 
 }
