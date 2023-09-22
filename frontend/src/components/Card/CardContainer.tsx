@@ -2,8 +2,7 @@ import Card from "./Card";
 
 function CardContainer() {
   return (
-    <div>
-      <h2>CardContainer</h2>
+    <div style={{ textAlign: "center" }}>
       <Card />
     </div>
   );

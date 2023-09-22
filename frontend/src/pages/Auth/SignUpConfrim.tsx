@@ -1,15 +1,14 @@
 import { useState } from "react";
-import styles from "./SignUp.module.css";
+// import styles from "./SignUp.module.css";
 import finballImage from "../../assets/Logo.png";
 // import { Button } from 'react-bootstrap';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { OutlinedInput, Button } from "@material-ui/core";
 import { relative } from "path";
-import Password from "./Certification"
+import Password from "./Certification";
 
 function SignupConfirm() {
   const [namecolor, setNamecolor] = useState("");
-
 
   const goNext = () => {
     console.log("회원가입");
@@ -38,19 +37,11 @@ function SignupConfirm() {
               onFocus={focusName}
               onBlur={defaultName}
             />
-            <Button
-            variant="contained"
-            >
-                인증번호 전송
-            </Button>
+            <Button variant="contained">인증번호 전송</Button>
           </div>
           <div> 인증번호를 입력하세요.</div>
-          <Password value={""}/>
-          <Button
-          variant="contained"
-        >
-          인증하기
-        </Button>
+          <Password value={""} />
+          <Button variant="contained">인증하기</Button>
         </div>
         <Button
           className={styles.login_btn}
@@ -60,7 +51,6 @@ function SignupConfirm() {
           가입하기
         </Button>
       </div>
-
     </div>
   );
 }

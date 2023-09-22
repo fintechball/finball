@@ -21,61 +21,71 @@ function NavPage() {
           회원가입
         </Link>
       </p>
-      <p>
+
+      {/* <p>
         <Link to="/pinball" className={styles.link}>
           핀볼
         </Link>
-      </p>
-      <p>
+      </p> */}
+
+      {/* <p>
         <Link to="/card" className={styles.link}>
           카드
         </Link>
-      </p>
+      </p> */}
+
       <p>
         <Link to="/game" className={styles.link}>
           게임
         </Link>
       </p>
-      <p>
+      {/* <p>
         <Link to="/signupconfrim" className={styles.link}>
           회원가입 확인
         </Link>
-      </p>
-      <p>
+      </p> */}
+
+      {/* <p>
         <Link to="/securitykeypad" className={styles.link}>
           인증 키패드
         </Link>
-      </p>
+      </p> */}
+
       <p>
         <Link to="/certificationnaver" className={styles.link}>
           네이버 인증서
         </Link>
       </p>
+
       <p>
         <Link to="/company/bank" className={styles.link}>
           계좌조회
         </Link>
       </p>
+
       <p>
         <Link to="/company/card" className={styles.link}>
           카드조회
         </Link>
       </p>
+
       <p>
         <Link to="/accountbook" className={styles.link}>
           가계부
         </Link>
       </p>
+
       <p>
         <Link to="/transfering" className={styles.link}>
           송금
         </Link>
       </p>
-      <p>
+
+      {/* <p>
         <Link to="/testpage" className={styles.link}>
           프론트 테스트페이지
         </Link>
-      </p>
+      </p> */}
     </div>
   );
 }
