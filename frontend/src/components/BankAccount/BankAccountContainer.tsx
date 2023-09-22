@@ -1,9 +1,9 @@
+import { Center } from "@react-three/drei";
 import BankAccount from "./BankAccount";
 
 function BankAccountContainer() {
   return (
-    <div>
-      <h2>BankAccountContainer</h2>
+    <div style={{ textAlign: "center" }}>
       <BankAccount />
     </div>
   );

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import styles from "./BankAccount.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function BankAccount() {
+  const navigate = useNavigate();
   const [accountList, setAccountList] = useState<any>(null);
 
   useEffect(() => {
@@ -23,8 +26,8 @@ function BankAccount() {
   }, []);
 
   return (
-    <div>
-      {accountList ? (
+    <div className={styles.container}>
+      {accountList && accountList.length !== 0 ? (
         [...accountList].map((account, index) => (
           <div key={index}>
             <img src={account.cardImage} width={200} />
@@ -34,7 +37,9 @@ function BankAccount() {
       ) : (
         <>
           <div>연결된 계좌가 없습니다.</div>
-          <button>계좌 연결하기</button>
+          <button onClick={() => navigate("/company/bank")}>
+            계좌 연결하기
+          </button>
         </>
       )}
     </div>
