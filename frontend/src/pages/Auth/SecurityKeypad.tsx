@@ -20,7 +20,6 @@ const SecurityKeypad = () => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k)
   const [nums, setNums] = useState([...nums_init,'',' '])
   const [password, setPassword] = useState("")
-  console.log(nums)
   const handlePasswordChange = useCallback(
     (num) => {
       if (password.length === PASSWORD_MAX_LENGTH) {
@@ -30,6 +29,10 @@ const SecurityKeypad = () => {
     },
     [password],
     )
+    useEffect(()=>{
+      let nums_random = Array.from({ length: 10 }, (v, k) => k) // 이 배열을 변경해 입력문자 변경 가능
+      setNums(shuffle([...nums_random,"",""]))
+    },[])
 
   const erasePasswordOne = useCallback(
     (e: MouseEvent) => {
@@ -45,8 +48,8 @@ const SecurityKeypad = () => {
   const shuffleNums = useCallback(
     (num: number) => (e: MouseEvent) => {
       // 0 ~ 9 섞어주기
-      let nums_random = Array.from({ length: 10 }, (v, k) => k) // 이 배열을 변경해 입력문자 변경 가능
-      setNums(shuffle([...nums_random,"",""]))
+      // let nums_random = Array.from({ length: 10 }, (v, k) => k) // 이 배열을 변경해 입력문자 변경 가능
+      // setNums(shuffle([...nums_random,"",""]))
       handlePasswordChange(num)
     },
     [handlePasswordChange],
@@ -65,11 +68,11 @@ const SecurityKeypad = () => {
       <Password value={password} />
       <div className={styles.inputer}>
   {[
-    ...nums.map((n) => (
+    ...nums.map((n,i) => (
       <button
         value={n}
         onClick={shuffleNums(n)}
-        key={n}
+        key={i}
         className={styles.btn}
       >
         {n}
