@@ -1,157 +1,126 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
-import finballImage from "../../assets/Logo.png";
-// import { Button } from 'react-bootstrap';
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { OutlinedInput, Button } from "@material-ui/core";
-import { relative } from "path";
+import { useState } from "react";
 
-function Signup() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-  const [namecolor, setNamecolor] = useState("");
-  const [Ecolor, setEcolor] = useState("");
-  const [pwcolor, setPwcolor] = useState("");
-  const [pwccolor, setPwccolor] = useState("");
+interface IFormInput {
+  name: string;
+  userId: string;
+  password: string;
+  passwordConfirm: string;
+}
 
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-  const handleTogglePasswordConfirmVisibility = () => {
-    setShowPasswordConfirm(!showPasswordConfirm);
+const schema = yup.object({
+  name: yup.string().required("이름은 필수 입력 항목입니다."),
+  userId: yup
+    .string()
+    .required("아이디는 필수 입력 항목입니다")
+    .min(6, "최소 6자리를 입력해주세요.")
+    .max(20, "최대 20자리까지 가능합니다.")
+    .matches(
+      /^[a-z0-9]{6,20}$/,
+      "영문, 숫자를 포함한 6자리 이상을 입력해주세요."
+    ),
+  password: yup
+    .string()
+    .required("비밀번호는 필수 입력 항목입니다")
+    .min(8, "최소 8자리를 입력해주세요.")
+    .max(20, "최대 20자리까지 가능합니다.")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/,
+      "영문, 숫자, 특수문자를 포함한 8자리 이상을 입력해주세요."
+    ),
+  passwordConfirm: yup
+    .string()
+    .oneOf([yup.ref("password")], "비밀번호가 다릅니다."),
+});
+
+function SignUp() {
+  const navigate = useNavigate();
+  const [isIdValid, setIsIdValid] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    // getValues,
+  } = useForm<IFormInput>({ mode: "onChange", resolver: yupResolver(schema) });
+
+  const idCheck = async () => {
+    try {
+      const requestBody = JSON.stringify(register("userId"));
+
+      const response = await fetch(
+        `https://j9e106.p.ssafy.io/user/authentication/id`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: requestBody,
+        }
+      );
+      console.log(requestBody);
+      console.log(response);
+      if (response.status === 200) {
+        const responseData = await response.json();
+        alert(responseData.message);
+        setIsIdValid(true);
+      } else {
+        alert("사용 불가능한 아이디입니다.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const goNext = () => {
-    console.log("회원가입");
+  const onSubmit = (data: IFormInput) => {
+    if (isIdValid) {
+      const { passwordConfirm, ...signupData } = data;
+      console.log(signupData);
+      navigate("/signupcerti", { state: { formData: signupData } });
+    } else {
+      alert("아이디 중복 확인을 완료해주세요.");
+    }
   };
-  const focusName = () => {
-    setNamecolor("#d1c4e9");
-  };
-  const defaultName = () => {
-    setNamecolor("");
-  };
-  const focusEmail = () => {
-    setEcolor("#d1c4e9");
-  };
-  const defaultEmail = () => {
-    setEcolor("");
-  };
-  const focusPw = () => {
-    setPwcolor("#d1c4e9");
-  };
-  const defaultPW = () => {
-    setPwcolor("");
-  };
-  const focusPwc = () => {
-    setPwccolor("#d1c4e9");
-  };
-  const defaultPWc = () => {
-    setPwccolor("");
-  };
+
   return (
-    <div>
-      <div className={styles.title_box}>회원가입</div>
-      <div className={styles.main_container}>
-        <div className={styles.logo_box}>
-          <img src={finballImage} alt="pinball" className={styles.Logo} />
-        </div>
-        <div className={styles.input_box}>
-          <div className={styles.innerinput_box}>
-            <div className={styles.input_title}> 이름</div>
-            <OutlinedInput
-              placeholder="Full Name"
-              type="text"
-              className={styles.passwordIcon}
-              style={{ backgroundColor: `${namecolor}` }}
-              onFocus={focusName}
-              onBlur={defaultName}
-            />
-          </div>
-          <div className={styles.innerinput_box}>
-            <div className={styles.input_title}>이메일</div>
-            <OutlinedInput
-              placeholder="Email Address"
-              type="text"
-              className={styles.passwordIcon}
-              style={{ backgroundColor: `${Ecolor}` }}
-              onFocus={focusEmail}
-              onBlur={defaultEmail}
-            />
-          </div>
+    <div className={styles.signupform}>
+      <p>이름</p>
+      <input placeholder="Name" {...register("name")} />
+      {errors.name && <p>{errors.name.message}</p>}
+      <br />
 
-          <div className={styles.innerinput_box}>
-            <div className={styles.input_title}>비밀번호</div>
-            <OutlinedInput
-              placeholder="Password"
-              type={showPassword ? "text" : "password"}
-              className={styles.passwordIcon}
-              style={{ backgroundColor: `${pwcolor}` }}
-              onFocus={focusPw}
-              onBlur={defaultPW}
-              endAdornment={
-                <Button
-                  onClick={handleTogglePasswordVisibility}
-                  style={{
-                    position: "absolute",
-                    right: 0,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "5vh",
-                    height: "100%",
-                  }}
-                >
-                  {showPassword ? (
-                    <VisibilityOff style={{ fontSize: "5vh" }} />
-                  ) : (
-                    <Visibility style={{ fontSize: "5vh" }} />
-                  )}
-                </Button>
-              }
-            />
-          </div>
-          <div className={styles.innerinput_box}>
-            <div className={styles.input_title}>비밀번호 확인</div>
-            <OutlinedInput
-              placeholder="Password Confirm"
-              type={showPasswordConfirm ? "text" : "password"}
-              className={styles.passwordIcon}
-              style={{ backgroundColor: `${pwccolor}` }}
-              onFocus={focusPwc}
-              onBlur={defaultPWc}
-              endAdornment={
-                <Button
-                  onClick={handleTogglePasswordConfirmVisibility}
-                  style={{
-                    position: "absolute",
-                    right: 0,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "5vh",
-                    height: "100%",
-                  }}
-                >
-                  {showPasswordConfirm ? (
-                    <VisibilityOff style={{ fontSize: "5vh" }} />
-                  ) : (
-                    <Visibility style={{ fontSize: "5vh" }} />
-                  )}
-                </Button>
-              }
-            />
-          </div>
-        </div>
-        <Button
-          className={styles.login_btn}
-          variant="contained"
-          style={{ backgroundColor: "#7165E3" }}
-        >
-          다음
-        </Button>
-      </div>
+      <p>아이디</p>
+      <input placeholder="ID" disabled={isIdValid} {...register("userId")} />
+      {errors.userId && <p>{errors.userId.message}</p>}
+      <br />
+
+      <button type="button" onClick={idCheck}>
+        중복확인
+      </button>
+
+      <p>비밀번호</p>
+      <input type="password" placeholder="Password" {...register("password")} />
+      {errors.password && <p>{errors.password.message}</p>}
+      <br />
+
+      <p>비밀번호 확인</p>
+      <input
+        type="password"
+        placeholder="Password Confirm"
+        {...register("passwordConfirm")}
+      />
+      {errors.passwordConfirm && <p>{errors.passwordConfirm.message}</p>}
+      <br />
+
+      <button type="button" onClick={handleSubmit(onSubmit)}>
+        다음
+      </button>
     </div>
   );
 }
 
-export default Signup;
+export default SignUp;

@@ -4,15 +4,21 @@ import com.example.backend.type.DealType;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class FinBallHistory {
@@ -31,6 +37,7 @@ public class FinBallHistory {
     private LocalDateTime date = LocalDateTime.now();
 
     @Column
+    @Enumerated(EnumType.STRING)
     private DealType dealType;
 
     @Column
