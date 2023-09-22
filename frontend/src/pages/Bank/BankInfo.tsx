@@ -7,7 +7,6 @@ import Switch from '@mui/material/Switch';
 import Logo from "./Logo"
 import  Button from "@mui/material/Button";
 import styles from "./BankInfo.module.css"
-import axios from 'axios';
 import { Link } from "react-router-dom";
 export default function BankInfo() {
     interface INfo{

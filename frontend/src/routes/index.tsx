@@ -49,8 +49,14 @@ function Router() {
         <Route path="/game" element={<Game />} />
         <Route path="/signupconfrim" element={<SignUpConfrim />} />
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
+        <Route path="/comapny/bank" element={<BankInfo />} />
         <Route path="/certificationnaver" element={<CertificationNaver />} />
         <Route path="/accountbook" element={<AccountBook />} />
+        <Route path="/testpage" element={<TestPage />} />
+        {/* <Route path="/test" element={<MyComponent />} /> */}
+
+        <Route path="/account" element={<AccountBook />} />
+
         <Route path="/testpage" element={<TestPage />} />
         <Route path="/navpage" element={<NavPage />} />
         <Route path="/chatbot" element={<Chatbot />} />

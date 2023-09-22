@@ -37,6 +37,8 @@
     "react-three": "^0.9.7",
     "redux-logger": "^3.0.6",
     "require": "^2.4.20",
+    "svg-path-parser": "^1.1.0",
+    "svg-path-properties": "^1.2.0",
     "styled-components": "^6.0.8",
     "three": "^0.156.1",
     "yup": "^1.2.0"
