@@ -5,7 +5,7 @@ import static com.querydsl.core.types.PathMetadataFactory.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
-import javax.annotation.processing.Generated;
+import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
 
@@ -35,6 +35,8 @@ public class QGroupAccount extends EntityPathBase<GroupAccount> {
     public final DateTimePath<java.time.LocalDateTime> refreshDt = createDateTime("refreshDt", java.time.LocalDateTime.class);
 
     public final StringPath url = createString("url");
+
+    public final BooleanPath valid = createBoolean("valid");
 
     public QGroupAccount(String variable) {
         this(GroupAccount.class, forVariable(variable), INITS);
