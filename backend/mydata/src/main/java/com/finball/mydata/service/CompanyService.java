@@ -1,5 +1,7 @@
 package com.finball.mydata.service;
 
+import com.finball.mydata.dto.company.CompanyCodeDto;
+import com.finball.mydata.dto.company.CompanyCodeDto.Response;
 import com.finball.mydata.dto.company.CompanyDto;
 import com.finball.mydata.dto.company.CompanyListDto;
 import com.finball.mydata.entity.Company;
@@ -39,13 +41,14 @@ public class CompanyService {
         return CompanyType.카드사;
     }
 
-    public Long getCpCode(String cpName) {
+    public CompanyCodeDto.Response getCpCode(String cpName) {
         Company company = companyRepository.findByCpName(cpName);
 
         if (company == null) {
             throw new NoSuchElementException("존재하지 않는 은행입니다");
         }
 
-        return company.getCpCode();
+        CompanyCodeDto.Response response = new CompanyCodeDto.Response(company.getCpCode());
+        return response;
     }
 }
