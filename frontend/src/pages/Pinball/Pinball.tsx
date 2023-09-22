@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Engine, Render, World, Bodies } from "matter-js";
 import "./Pinball.module.css";
+import test from "../../assets/defalutball.png"
 
 function Pinball() {
   const [engine, setEngine] = useState(null);
@@ -95,13 +96,13 @@ function Pinball() {
 
     // Create balls array
     const balls = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 40; i++) {
       const ball = Bodies.circle(
         Math.random() * parentSize.width,
         Math.random() * parentSize.height,
-        Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 40,
+        Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
         {
-          restitution: 0.01,
+          restitution: 0.1,
           friction: 0.001,
           density: 10,
           isStatic: false,
@@ -109,6 +110,12 @@ function Pinball() {
             fillStyle: "#05CD01",
             strokeStyle: "white",
             lineWidth: 3,
+            sprite: {
+              //''히먄 스프라이트 적용x
+              texture: test,
+              xScale: 0.5,
+              yScale: 0.5
+          }
           },
         }
       );
@@ -146,13 +153,13 @@ function Pinball() {
       }, 50); // 100ms마다 투명도 조절
     };
     newRender.canvas.addEventListener(clickEvent, () => {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 5; i++) {
         const ball = Bodies.circle(
           Math.random() * parentSize.width,
           Math.random() * parentSize.height,
-          Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 40,
+          Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
           {
-            restitution: 0.01,
+            restitution: 0.1,
             friction: 0.001,
             density: 10,
             isStatic: false,
@@ -160,6 +167,12 @@ function Pinball() {
               fillStyle: "#05CD01",
               strokeStyle: "white",
               lineWidth: 3,
+              sprite: {
+                //''히먄 스프라이트 적용x
+                texture: test,
+                xScale: 0.5,
+                yScale: 0.5
+            }
             },
           }
         );

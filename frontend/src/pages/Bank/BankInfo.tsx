@@ -16,7 +16,7 @@ export default function BankInfo() {
       code:number;
       connected:boolean;
     }
-  const [state, setState] = useState<INfo[]>([]);
+  const [state, setState] = useState([]);
   const [cnt,setCnt]=useState(0)
   const [loading,setLoading]=useState(true)
   const [choose,setChoose]=useState([])
