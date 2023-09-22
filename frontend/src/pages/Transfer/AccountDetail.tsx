@@ -13,7 +13,7 @@ function AccountDetail() {
 
   useEffect(() => {
     axios
-      .get(`${BASE_HTTP_URL}/user/account/${account.accountNo}`, {
+      .get(`${BASE_HTTP_URL}/api/user/account/${account.accountNo}`, {
         headers: {
           // Authorization: token.accessToken,
           Authorization: localStorage.getItem("accessToken"),
