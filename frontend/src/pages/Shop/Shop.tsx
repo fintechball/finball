@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function Shop() {
   const [skinList, setSkinList] = useState<any>(null);
+  const token = useSelector((state) => state.token);
 
   useEffect(() => {
     axios
       .get(`${BASE_HTTP_URL}/ball`, {
         headers: {
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: token.accessToken,
         },
       })
       .then((response) => {
-        console.log(response);
         setSkinList(response.data.data.skin);
       });
-  }, []);
+  }, [token]);
 
   return (
     <div>
