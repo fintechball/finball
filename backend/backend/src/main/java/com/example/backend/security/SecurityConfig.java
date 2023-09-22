@@ -110,7 +110,7 @@ public class SecurityConfig {
         skipPathList.add(new Path(HttpMethod.GET, "/api/profile"));
 
         // HealthCheck
-        skipPathList.add(new Path(HttpMethod.GET, "/api/actuator/health"));
+        skipPathList.add(new Path(HttpMethod.GET, "/actuator/health"));
 
         // sms
         skipPathList.add(new Path(HttpMethod.POST, "/api/user/sms"));
