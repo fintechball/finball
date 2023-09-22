@@ -4,6 +4,8 @@ import com.example.backend.type.GameType;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -30,6 +32,7 @@ public class GroupAccount {
     private String name;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private GameType gameType;
 
     @Column
@@ -50,5 +53,8 @@ public class GroupAccount {
         this.url = url;
         this.member = member;
     }
-}
 
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+}
