@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import styles from "./Card.module.css";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -25,14 +26,20 @@ function Card() {
   }, [token]);
 
   return (
-    <div>
+    <div className={styles.container}>
       {cardList ? (
-        [...cardList].map((card, index) => (
-          <div key={index}>
-            <img src={card.cardImage} width={200} />
-            <p>{card.cardName}</p>
-          </div>
-        ))
+        <div className={styles.test}>
+          {[...cardList].map((card, index) => (
+            <div key={index} className={styles.tpfh}>
+              <img
+                src={card.cardImage}
+                width={300}
+                className={styles.rotatedImage}
+              />
+              <p>{card.cardName}</p>
+            </div>
+          ))}
+        </div>
       ) : (
         <>
           <div>연결된 카드가 없습니다.</div>
