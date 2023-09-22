@@ -9,6 +9,7 @@ import com.example.backend.dto.groupaccount.RegistGroupAccountDto;
 import com.example.backend.entity.Member;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.GroupAccountService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,8 @@ public class GroupAccountController {
 
     @GetMapping("/group/account/{groupAccountId}")
     public Response<GroupAccountDto.Response> getGroupAccount(@PathVariable String groupAccountId) {
-        GroupAccountDto.Response response = groupAccountService.findByGroupAccountId(groupAccountId);
+        GroupAccountDto.Response response = groupAccountService.findByGroupAccountId(
+                groupAccountId);
         return new Response<>(200, "그룹 계좌 조회 완료", response);
     }
 
@@ -39,7 +41,8 @@ public class GroupAccountController {
     }
 
     @PostMapping("/group/account/invite/agree")
-    public Response<AcceptGroupAccountDto.Response> acceptInvite(@RequestBody AcceptGroupAccountDto.Request request,
+    public Response<AcceptGroupAccountDto.Response> acceptInvite(
+            @RequestBody AcceptGroupAccountDto.Request request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         AcceptGroupAccountDto.Response response = groupAccountService.acceptInvite(request, member);
@@ -53,8 +56,10 @@ public class GroupAccountController {
     }
 
     @DeleteMapping("/group/account")
-    public Response deleteGroupAccount(@RequestBody DeleteGroupAccountDto.Request request) {
-        groupAccountService.delete(request);
+    public Response deleteGroupAccount(@RequestBody DeleteGroupAccountDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+        Member member = userDetails.getMember();
+        groupAccountService.delete(request, member);
         return new Response<>(204, "그룹 계좌 삭제 완료");
     }
 }
