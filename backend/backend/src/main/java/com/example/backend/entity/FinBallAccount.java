@@ -1,6 +1,6 @@
 package com.example.backend.entity;
 
-import com.example.backend.type.DealType;
+import com.example.backend.dto.finball.ReadFinBallDto;
 import com.example.backend.type.MoneySource;
 import com.example.backend.type.Usage;
 import java.time.LocalDateTime;
@@ -53,5 +53,15 @@ public class FinBallAccount {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public ReadFinBallDto.Response toReadFinBallDto() {
+        return ReadFinBallDto.Response.builder()
+                .accountNumber(this.accountNumber)
+                .balance(this.balance)
+                .moneySource(this.moneySource.toString())
+                .usage(this.usage.toString())
+                .bookRefreshDate(this.bookRefreshDate)
+                .build();
     }
 }
