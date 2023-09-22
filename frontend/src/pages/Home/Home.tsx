@@ -17,7 +17,6 @@ function Home() {
 
         <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
           <Pinball />
-          <div style={{position:"relative",top:"25px",left:"200px",margin:"opx",fontWeight:"bold",fontSize:"15px",width:"90px"}}>5,000,000원</div>
         </div>
       </div>
 

@@ -3,7 +3,6 @@ import axios from "axios";
 // import styles from "./BankAccount.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import styles from "./BankAccount.module.css";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -29,7 +28,7 @@ function BankAccount() {
   }, [token]);
 
   return (
-    <div className={styles.container}>
+    <>
       {accountList && accountList.length !== 0 ? (
         [...accountList].map((account, index) => (
           <div className={styles.container} key={index}>
@@ -43,13 +42,15 @@ function BankAccount() {
         ))
       ) : (
         <>
-          <div>연결된 계좌가 없습니다.</div>
-          <button onClick={() => navigate("/company/bank")}>
-            계좌 연결하기
-          </button>
+          <div className={styles.noncontainer}>
+            <div>연결된 계좌가 없습니다.</div>
+            <button onClick={() => navigate("/company/bank")}>
+              계좌 연결하기
+            </button>
+          </div>
         </>
       )}
-    </div>
+    </>
   );
 }
 

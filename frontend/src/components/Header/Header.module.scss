@@ -1,4 +1,4 @@
-$maincolor: rgb(89, 47, 255);
+// $maincolor: rgb(89, 47, 255);
 
 .header {
   display: flex;
@@ -29,8 +29,8 @@ $maincolor: rgb(89, 47, 255);
     justify-content: center;
     text-align: center;
     margin: 0px 12px;
-    background-color: $maincolor;
-    color: white;
+    // background-color: $maincolor;
+    // color: white;
     width: 80px;
     font-size: 14px;
     font-weight: normal;
