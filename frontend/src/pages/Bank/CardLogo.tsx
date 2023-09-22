@@ -1,15 +1,6 @@
 import * as React from 'react';
 
-type LogoValue = "hana" | "kb" | "toss" | "shinhan" | "nh" | "kakao" | "woori" | "ibk"
-|"sh"|"ct"|"daegu"|"busan"|"gwangju"|"jeju"|"jeonbook"|"kn"|"newtown"|"k"|"sc"|"postbank"|"finball"
-;
-
-interface LogoProps {
-  value: LogoValue;
-  image:string;
-}
-
-const Logo: React.FC<LogoProps> = ({ value }) => {
+const Logo: React.FC = ({ value }) => {
   // console.log({value},image)
   const logo = {
     2:"KB카드",
@@ -24,9 +15,9 @@ const Logo: React.FC<LogoProps> = ({ value }) => {
   };
 
   return (
-    <div style={{ textAlign: "center", alignItems: "center", display: "flex", width: '295px', height: '10vh' }}>
+    <div style={{ textAlign: "center", alignItems: "center", display: "flex", width: '275px', height: '10vh' }}>
       <img src={value.img} alt="" style={{ width: '55px',height:'55px',marginLeft:"0px" }}/>
-      <div style={{ width: '30vh',position: 'absolute'}}>
+      <div style={{ width: '220px',position: 'absolute'}}>
         {logo[value.code]}
       </div>
     </div>

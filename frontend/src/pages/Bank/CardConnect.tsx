@@ -10,7 +10,7 @@ import styles from "./BankInfo.module.css"
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
-export default function BankConnect() {
+export default function CardConnect() {
     interface INfo{
       name:string;
       img:string;
@@ -23,13 +23,7 @@ export default function BankConnect() {
   const [cnt,setCnt]=useState(0)
   const [loading,setLoading]=useState(true)
   const [toggledItems, setToggledItems] = useState({})
-  // const checkselect= () => {
-  //   const newData = state.map(item => {
-  //     return { ...item, selected: true };
-  // });
-  //   setState(newData);
-
-  // }
+  const [chooseItems, setchooseItems] = useState([])
   const  findCard = async() => {
     await axios({
       method: "post",
@@ -44,11 +38,16 @@ export default function BankConnect() {
     })  
       .then((res) => {
         setState(res.data.data.cardDtoList)
+        console.log(res.data.data.cardDtoList)
         const initialToggledItems = {};
+        let initialChooseItems=[];
         res.data.data.cardDtoList.map((item) => {
           initialToggledItems[item.cardName] = true; // 예를 들어, 항목의 고유 ID를 사용
+          initialChooseItems.push(item)
         });
+        
         setToggledItems(initialToggledItems);
+        setchooseItems(initialChooseItems)
       })
       .catch((err) => {
         console.log("삐빅", err);
@@ -60,24 +59,29 @@ export default function BankConnect() {
   },[])
 
   useEffect(() => {
-    if (state.length > 0) { // 길이 일치 확인
+    if (state.length >= 0) { // 길이 일치 확인
       setLoading(false)
       let count = 0;
       for (let i = 0; i < state.length; i++) {
-        const Name = state[i]; // 회사 이름 가져오기
+        const Name = state[i];
         if (toggledItems[Name.cardName] === true) {
           count += 1;
+          let cnt=0;
+          var index = chooseItems.findIndex(e => e.cardName === Name.cardName);
+          if (index==-1){
+              cnt++
+            }
+        if (cnt!=0){
+          chooseItems.push(state[i])
         }
+      }
+      else{
+        chooseItems.splice(i,1)
       }
       setCnt(count);
     }
-  }, [toggledItems, state, List]); // 종속성 목록에 List 추가
+  }}, [toggledItems, state, List]); // 종속성 목록에 List 추가
   
-  // useEffect(()=>{
-  //   if (state.length>0){
-  //     checkselect()
-  //   }
-  // },[loading])
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setToggledItems((state) => {
         const Name=event.target.name
@@ -88,17 +92,38 @@ export default function BankConnect() {
     const handlereset = () => {
         findCard()
     };
-
+    const registerCard = async() => {
+      console.log(chooseItems)
+      await axios({
+        method: "post",
+        url: `https://j9e106.p.ssafy.io/user/card`,
+        headers: {
+         Authorization: localStorage.getItem("accessToken"),
+                },
+        data:
+          {
+              "cardDtoList" : chooseItems
+          }
+      })  
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log("삐빅", err);
+        });
+  
+    }
   return (
     <>
-    {loading ? "Lodaing...":
+    {loading ? "Lodaing...":state.length == 0 ?<div>계좌가 없어요</div>
+    :
       <FormControl component="fieldset" variant="standard" style={{width:"100%"}}>
         <div className={styles.head}>
             <div style={{fontSize:'3vh',fontWeight:'bold'}}> 카드</div>
             <div style={{fontSize:'1vh',alignItems:'center'}} onClick={handlereset}>선택 해제</div>
             </div>
         <div style={{fontSize:'2vh',color:'grey',textAlign:'start'}}>연결할 카드를 선택해주세요</div>
-      <FormGroup style={{height:"210vh"}}>
+      <FormGroup>
       {state.map((v,i) => (
          <div className={styles.labelbox} key={i}>
          <FormControlLabel
@@ -113,12 +138,13 @@ export default function BankConnect() {
 
       </FormGroup>
       <Link to='/'
-      style={{ color: 'white', position: "sticky", bottom: "62px", backgroundColor: '#7165E3', height: "40px", borderRadius: "10px", display: "flex", alignItems: "center",justifyItems:"center" }}>
+      style={{ color: 'white', position: "sticky", bottom: "62px", backgroundColor: '#7165E3', height: "40px", borderRadius: "10px", display: "flex", alignItems: "center",justifyItems:"center" }}
+      onClick={registerCard}
+      >
         <label style={{ backgroundColor: "#7165E3", margin: "0", paddingLeft: "130px", display: "inline-block"}}>
-          {cnt}개 카드 선택
+          {cnt}개 연결하기
         </label>
       </Link>
-      {/* <Button variant="contained" color="success" style={{position:"sticky",bottom:"62px",right:"15px"}} >{cnt}개 연결하기</Button> */}
     </FormControl>
   }
   </>
