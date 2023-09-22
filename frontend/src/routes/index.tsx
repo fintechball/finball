@@ -37,6 +37,8 @@ import ReceivingMoney from "../pages/Transfer/Receive";
 import AccountList from "../pages/Transfer/AccountList";
 import AccountDetail from "../pages/Transfer/AccountDetail";
 
+import GroupAccount from "../pages/GroupAccount/GroupAccount";
+
 function Router() {
   return (
     <>
@@ -72,6 +74,8 @@ function Router() {
         {/* 계좌 이체 */}
         <Route path="/accountList" element={<AccountList />} />
         <Route path="/accountDetail" element={<AccountDetail />} />
+        {/* 모임통장 */}
+        <Route path="/groupaccount" element={<GroupAccount />} />
       </Routes>
     </>
   );
