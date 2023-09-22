@@ -14,7 +14,7 @@ function Home() {
         <h2>우리 계좌</h2>
 
         <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
-          <div style={{position:"absolute",right:"45px",fontWeight:"bold"}}>5,000,000원</div>
+          <div style={{position:"absolute",right:"45px",fontWeight:"bold",fontSize:"15px"}}>5,000,000원</div>
           <Pinball />
         </div>
       </div>
