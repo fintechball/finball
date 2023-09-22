@@ -21,7 +21,7 @@ public class InventoryController {
 
     private final InventoryService inventoryService;
 
-    @GetMapping("ball/inventory")
+    @GetMapping("/ball/inventory")
     public Response<InventoryListDto.Response> getInventory(@AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         String userId = userDetails.getUsername();

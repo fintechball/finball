@@ -27,8 +27,9 @@ function Login() {
   };
 
   const doLogin = () => {
+    console.log("asdf");
     axios
-      .post(`${BASE_HTTP_URL}/user/login`, {
+      .post(`${BASE_HTTP_URL}/api/user/login`, {
         username: userId,
         password: password,
       })
