@@ -20,5 +20,9 @@ public class CompanyController {
         return new Response<>(200, "성공적으로 회사 정보를 불러왔습니다.", response);
     }
 
-
+    @GetMapping("/myData/company/name/{cpName}")
+    public Response<?> getCpCode(@PathVariable String cpName) {
+        Long response = companyService.getCpCode(cpName);
+        return new Response<>(200, "성공적으로 회사 이름을 불러왔습니다.", response);
+    }
 }

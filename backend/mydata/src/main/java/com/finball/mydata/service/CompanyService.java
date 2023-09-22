@@ -7,6 +7,7 @@ import com.finball.mydata.repository.CompanyRepository;
 import com.finball.mydata.type.CompanyType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +37,15 @@ public class CompanyService {
             return CompanyType.은행사;
         }
         return CompanyType.카드사;
+    }
+
+    public Long getCpCode(String cpName) {
+        Company company = companyRepository.findByCpName(cpName);
+
+        if (company == null) {
+            throw new NoSuchElementException("존재하지 않는 은행입니다");
+        }
+
+        return company.getCpCode();
     }
 }
