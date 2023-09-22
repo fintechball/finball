@@ -43,6 +43,8 @@ const SecurityKeypad = () => {
 
   const erasePasswordAll = useCallback((e: MouseEvent) => {
     setPassword("")
+    let nums_random = Array.from({ length: 10 }, (v, k) => k) // 이 배열을 변경해 입력문자 변경 가능
+    setNums(shuffle([...nums_random,"",""]))
   }, [])
 
   const shuffleNums = useCallback(
@@ -86,6 +88,7 @@ const SecurityKeypad = () => {
       className='num-button'
       onClick={erasePasswordAll}
       key="eraseAll"
+      className={styles.bottom_btm}
     >
       X
     </button>
@@ -93,10 +96,11 @@ const SecurityKeypad = () => {
     className='num-button'
     onClick={erasePasswordOne}
     key="eraseOne"
+    className={styles.bottom_btm}
   >
     ←
   </button>
-        <button type='submit' className='submit-button' onClick={onClickSubmitButton}>
+        <button type='submit' className={styles.bottom_btm} onClick={onClickSubmitButton}>
           제출
         </button>
       </div>

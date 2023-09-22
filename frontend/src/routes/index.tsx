@@ -21,6 +21,7 @@ import BankInfo from "../pages/Bank/BankInfo";
 import BankConnect from "../pages/Bank/BankConnect";
 import CardInfo from "../pages/Bank/CardInfo";
 import CardConnect from "../pages/Bank/CardConnect";
+import Agreement from "../pages/Bank/Agreement";
 
 import TestPage from "../pages/Test/TestPage";
 import NavPage from "../pages/NavPage/NavPage";
@@ -67,6 +68,7 @@ function Router() {
         <Route path="/bank/account" element={<BankConnect />} />
         <Route path="/company/card" element={<CardInfo />} />
         <Route path="/card" element={<CardConnect />} />
+        <Route path="/agreement" element={<Agreement />} />
         {/* 계좌 이체 */}
         <Route path="/accountList" element={<AccountList />} />
         <Route path="/accountDetail" element={<AccountDetail />} />
