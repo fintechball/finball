@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.type.DealType;
 import com.example.backend.type.MoneySource;
 import com.example.backend.type.Usage;
 import java.time.LocalDateTime;
@@ -50,4 +51,7 @@ public class FinBallAccount {
         this.bookRefreshDate = refreshDate;
     }
 
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
 }

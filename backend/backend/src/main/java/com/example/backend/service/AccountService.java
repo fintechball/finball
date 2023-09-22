@@ -45,21 +45,25 @@ public class AccountService {
             accountNumberList.add(account.getAccountNumber());
         }
 
-        String token = redisUtil.getMyDataToken(member.getUserId());
+        List<MemberAccountInfoDto> memberAccountInfoDtoList = getMydataAccount(accountNumberList, member.getUserId());
+
+        addIsFavorite(accountList, memberAccountInfoDtoList);
+        Long sum = sumBalance(memberAccountInfoDtoList);
+
+        return new GetUserAccountDto.Response(memberAccountInfoDtoList, sum);
+    }
+
+    public List<MemberAccountInfoDto> getMydataAccount(List<String> accountNumberList, String memberId)
+            throws JsonProcessingException {
+        String token = redisUtil.getMyDataToken(memberId);
 
         ResponseEntity<String> response = restTemplateUtil.callMyData(token,
                 new GetMemberAccountDto.Request(accountNumberList), "/my-data/member/account",
                 HttpMethod.POST);
         RestDto<MemberAccountInfoDto> restDto = new RestDto<>(MemberAccountInfoDto.class, response);
 
-        List<MemberAccountInfoDto> memberAccountInfoDtoList = (List<MemberAccountInfoDto>) restTemplateUtil.parseListBody(
+        return (List<MemberAccountInfoDto>) restTemplateUtil.parseListBody(
                 restDto, "memberAccountList");
-
-        // TODO isFavorite을 추가한다.
-        addIsFavorite(accountList, memberAccountInfoDtoList);
-        Long sum = sumBalance(memberAccountInfoDtoList);
-
-        return new GetUserAccountDto.Response(memberAccountInfoDtoList, sum);
     }
 
     public void addIsFavorite(List<Account> accountList, List<MemberAccountInfoDto> restResponseList) {

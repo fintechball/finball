@@ -17,9 +17,9 @@ public class TradeHistoryService {
 
     public AccountHistoryListDto.Response getAccountHistory(AccountHistoryListDto.Request request) {
 
-        String accountId = request.getAccountId();
+        String accountNo = request.getAccountNo();
         List<TradeHistory> tradeHistoryList = tradeHistoryCustomRepository
-                .findByAccountId(accountId);
+                .findByAccountId(accountNo);
         List<AccountHistoryDto> accountHistoryList = new ArrayList<>();
 
         for (TradeHistory tradeHistory : tradeHistoryList) {
