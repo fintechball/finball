@@ -54,7 +54,7 @@ function SignUp() {
       const requestBody = JSON.stringify(register("userId"));
 
       const response = await fetch(
-        `https://j9e106.p.ssafy.io/user/authentication/id`,
+        `https://j9e106.p.ssafy.io/api/user/authentication/id`,
         {
           method: "POST",
           headers: {
@@ -104,11 +104,11 @@ function SignUp() {
             disabled={isIdValid}
             {...register("userId")}
           />
-          {errors.userId && <p>{errors.userId.message}</p>}
           <Button className={styles.checkbutton} onClick={idCheck}>
             중복확인
           </Button>
         </div>
+        {errors.userId && <p>{errors.userId.message}</p>}
       </div>
 
       <div className={styles.smallbox}>

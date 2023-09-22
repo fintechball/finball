@@ -1,3 +1,20 @@
+@charset "UTF-8";
+.container {
+  display: flex;
+  justify-content: space-between;
+}
 .container button {
   margin: 10px;
+}
+
+.noncontainer {
+  flex-direction: column;
+  justify-content: center;
+}
+.noncontainer button {
+  margin: 10px;
+}
+
+.rightAlign {
+  margin-left: auto; /* 오른쪽으로 정렬 */
 }

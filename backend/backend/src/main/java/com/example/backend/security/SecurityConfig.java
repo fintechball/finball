@@ -72,7 +72,7 @@ public class SecurityConfig {
     FormLoginFilter formLoginFilter(AuthenticationManager authenticationManager) {
         FormLoginFilter formLoginFilter = new FormLoginFilter(authenticationManager);
 
-        formLoginFilter.setFilterProcessesUrl("/user/login"); // 해당 URL로 접근하면 Filter를 실행할 것이다.
+        formLoginFilter.setFilterProcessesUrl("/api/user/login"); // 해당 URL로 접근하면 Filter를 실행할 것이다.
         formLoginFilter.setAuthenticationSuccessHandler(
                 new FormLoginSuccessHandler(jwtTokenUtils)
         ); // filter를 실행해서 성공되는 경우 커스텀한 Handler 실행
@@ -101,19 +101,19 @@ public class SecurityConfig {
         List<Path> skipPathList = new ArrayList<>();
 
         // User
-        skipPathList.add(new Path(HttpMethod.POST, "/user"));
-        skipPathList.add(new Path(HttpMethod.POST, "/user/login"));
-        skipPathList.add(new Path(HttpMethod.POST, "/user/authentication/id"));
+        skipPathList.add(new Path(HttpMethod.POST, "/api/user"));
+        skipPathList.add(new Path(HttpMethod.POST, "/api/user/login"));
+        skipPathList.add(new Path(HttpMethod.POST, "/api/user/authentication/id"));
 
 
         // Deploy
-        skipPathList.add(new Path(HttpMethod.GET, "/profile"));
+        skipPathList.add(new Path(HttpMethod.GET, "/api/profile"));
 
         // HealthCheck
         skipPathList.add(new Path(HttpMethod.GET, "/actuator/health"));
 
         // sms
-        skipPathList.add(new Path(HttpMethod.POST, "/user/sms"));
+        skipPathList.add(new Path(HttpMethod.POST, "/api/user/sms"));
 
         FilterSkipMatcher matcher = new FilterSkipMatcher(skipPathList, "/**");
         JwtAuthFilter filter = new JwtAuthFilter(matcher, extractor);

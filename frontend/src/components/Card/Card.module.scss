@@ -1,5 +1,28 @@
 .container {
+  overflow: scroll;
+  overflow: auto;
+  white-space: nowrap;
   button {
     margin: 10px;
   }
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.test {
+  display: flex;
+  justify-content: space-between; /* 왼쪽과 오른쪽에 공간을 남김 */
+}
+
+.tpfh {
+  display: "flex";
+  flex-direction: "column"; /* 자식 요소들을 세로로 배치 */
+  align-items: "center"; /* 수직 중앙 정렬 */
+  justify-content: "center", /* 수평 중앙 정렬 */;
+}
+
+.rotatedImage {
+  transform: rotate(90deg) scale(0.5);
 }
