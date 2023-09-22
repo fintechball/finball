@@ -39,7 +39,8 @@ function Shop() {
     axios
       .get(`${BASE_HTTP_URL}/ball`, {
         headers: {
-          Authorization: token.accessToken,
+          // Authorization: token.accessToken,
+          Authorization: localStorage.getItem("accessToken"),
         },
       })
       .then((response) => {

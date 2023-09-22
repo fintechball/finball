@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "./BankAccount.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import styles from "./BankAccount.module.css";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -31,10 +32,13 @@ function BankAccount() {
     <div className={styles.container}>
       {accountList && accountList.length !== 0 ? (
         [...accountList].map((account, index) => (
-          <div key={index}>
-            <img src={account.bankImage} width={50} />
-            <p>{account.name}</p>
-            <p>{account.account}</p>
+          <div className={styles.container} key={index}>
+            <img src={account.bankImage} width={50} height={50} />
+            <div>
+              <p>{account.name}</p>
+              <p>{account.account}</p>
+            </div>
+            <button>송금</button>
           </div>
         ))
       ) : (
