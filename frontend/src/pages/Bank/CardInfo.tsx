@@ -8,6 +8,7 @@ import CardLogo from "./CardLogo"
 import  Button from "@mui/material/Button";
 import styles from "./BankInfo.module.css"
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 export default function CardInfo() {
     interface INfo{
@@ -19,14 +20,14 @@ export default function CardInfo() {
   const [state, setState] = useState<INfo[]>([]);
   const [cnt,setCnt]=useState(0)
   const [loading,setLoading]=useState(true)
+  const [choose,setChoose]=useState([])
 
   const  findCard = async() => {
     await axios({
       method: "get",
       url: `https://j9e106.p.ssafy.io/company/card`,
       headers: {
-        Authorization:'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFWFBJUkVEX0RBVEUiOjE2OTUzMDU0NzksImlzcyI6ImZpbkJhbGwiLCJVU0VSX05BTUUiOiJ0ZXN0dGVzdDEifQ.p6EwTYL0O5O3BTK1rZmuJZrIh5ZsIdhv1y5P_9u30l0'
-      },
+        Authorization: localStorage.getItem("accessToken"),      },
     })
       .then((res) => {
         setState(res.data.data.companyDtoList)
@@ -43,12 +44,15 @@ export default function CardInfo() {
     if (state.length>0){
       setLoading(false)
       let count=0;
-      for (let i=0;i<9;i++){
+      let L=[];
+      for (let i=0;i<state.length;i++){
           if (state[Object.keys(state)[i]].connected){
               count+=1
+              L=[...L,String(state[Object.keys(state)[i]].code)]
           }
       }
       setCnt(count)
+      setChoose(L)
     }
 
   },[state])
@@ -59,7 +63,7 @@ export default function CardInfo() {
         const updatedState = prevState.map((item) => {
           // 원하는 항목을 찾아서 업데이트
           if (item.name === event.target.name) {
-            return { ...item, connected:true }; // img 프로퍼티를 업데이트
+            return { ...item, connected:!item.connected  }; // img 프로퍼티를 업데이트
           }
           // 변경할 필요가 없는 항목은 그대로 반환
           return item;
@@ -94,7 +98,14 @@ export default function CardInfo() {
     ))}
 
       </FormGroup>
-      <Button variant="contained" color="success" style={{position:"sticky",bottom:"62px",right:"15px"}} >{cnt}개 카드사 선택</Button>
+      <Link to='/card'
+        state= {{ cardCompanyCodeList: choose }}
+      style={{ color: 'white', position: "sticky", bottom: "62px", backgroundColor: '#7165E3', height: "40px", borderRadius: "10px", display: "flex", alignItems: "center",justifyItems:"center" }}>
+        <label style={{ backgroundColor: "#7165E3", margin: "0", paddingLeft: "130px", display: "inline-block"}}>
+          {cnt}개 카드사 선택
+        </label>
+      </Link>
+      {/* <Button variant="contained" color="success" style={{position:"sticky",bottom:"62px",right:"15px"}} >{cnt}개 카드사 선택</Button> */}
     </FormControl>
   }
   </>

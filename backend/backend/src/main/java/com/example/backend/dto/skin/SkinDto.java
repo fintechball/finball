@@ -9,8 +9,8 @@ import lombok.Data;
 public class SkinDto {
 
     private Long id;
-    private String image;
     private String name;
+    private String image;
     private int value;
     private boolean isInvented;
 

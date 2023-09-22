@@ -64,11 +64,11 @@ export default function Password({value}) {
   }, [state]); // dependency 에 state 를 넣음으로써, state의 값이 변경될 때마다 리렌더링
 
   return (
-    <div style={{width:"360px"}}>
+    <div style={{width:"360px",marginBottom:"90px"}}>
       <div className={styles.certi}>
         <label className={styles.ball} style={{background:valueColorActive(state.value1) ? '#7165E3':'grey'}}>
           <input
-            type="text"
+            type="number"
             value={state.value1}
             className={styles.invisible}
             name="value1"
@@ -82,7 +82,7 @@ export default function Password({value}) {
         </label>
         <label className={styles.ball} style={{background:valueColorActive(state.value2) ? '#7165E3':'grey'}}>
           <input
-            type="text"
+            type="number"
             value={state.value2}
             className={styles.invisible}
             name="value2"
@@ -96,7 +96,7 @@ export default function Password({value}) {
         </label>
         <label className={styles.ball} style={{background:valueColorActive(state.value3) ? '#7165E3':'grey'}}>
           <input
-            type="text"
+            type="number"
             value={state.value3}
             className={styles.invisible}
             name="value3"
@@ -110,7 +110,7 @@ export default function Password({value}) {
         </label>
         <label className={styles.ball} style={{background:valueColorActive(state.value4) ? '#7165E3':'grey'}}>
           <input
-            type="text"
+            type="number"
             value={state.value4}
             className={styles.invisible}
             name="value4"
@@ -124,7 +124,7 @@ export default function Password({value}) {
         </label>
         <label className={styles.ball} style={{background:valueColorActive(state.value5) ? '#7165E3':'grey'}}>
           <input
-            type="text"
+            type="number"
             value={state.value5}
             className={styles.invisible}
             name="value5"
@@ -138,7 +138,7 @@ export default function Password({value}) {
         </label>
         <label className={styles.ball} style={{background:valueColorActive(state.value6) ? '#7165E3':'grey'}}>
           <input
-            type="text"
+            type="number"
             value={state.value6}
             className={styles.invisible}
             name="value6"
