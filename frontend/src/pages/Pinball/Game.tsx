@@ -996,12 +996,12 @@ useEffect(() => {
         style={{
           position: 'fixed',
           top:"60px",
-          left:innerWidth/2+100,
           zIndex:3,
           background: 'grey',
           padding: '5px 10px',
           borderRadius: '5px',
           fontSize:word,
+          transform:"translate(450%,0)"
           // ...ballCountPosition, // ballCountPosition의 위치를 적용
         }}
       >

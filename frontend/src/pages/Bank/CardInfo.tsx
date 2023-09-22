@@ -25,7 +25,7 @@ export default function CardInfo() {
   const  findCard = async() => {
     await axios({
       method: "get",
-      url: `https://j9e106.p.ssafy.io/company/card`,
+      url: `https://j9e106.p.ssafy.io/api/company/card`,
       headers: {
         Authorization: localStorage.getItem("accessToken"),      },
     })

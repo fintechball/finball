@@ -57,7 +57,7 @@ function AccountBook() {
         <button onClick={Minus}>-</button>
             {selectedbtn["btn1"] && (
                 <div style={{ position: "relative", width: "360px", height: "70vh" }}>
-                    <div id="home-canvas" style={{ position: "absolute", top: 0, left: 0, width: "360px", height: "93%" }}>
+                    <div id="home-canvas" style={{ position: "absolute", top: 0, left: 25, width: "310px", height: "65%" }}>
                         <div style={{fontSize:'4vh',fontWeight:'bold'}}>우리 계좌</div>
                         <Pinball />
                         <TextField
@@ -122,7 +122,7 @@ function AccountBook() {
                     
                     return acc;
                 }, [])}
-                <div id="home-canvas" style={{ position: "absolute", top: 0, left: 0, width: "360px", height: "93%" , zIndex: -1, opacity: 0.1 }}>
+                <div id="home-canvas" style={{ position: "absolute", top: 0, left: 30,width: "310px", height: "65%"  , zIndex: -1, opacity: 0.1 }}>
                     <Pinball />
                 </div>
                 </div>
@@ -132,7 +132,7 @@ function AccountBook() {
             {selectedbtn["btn3"] && (
                 <div style={{ position: "relative", width: "360px", height: "70vh" }}>
                 {/* Canvas */}
-                <div id="home-canvas" style={{ position: "absolute", top: 0, left: 0, width: "360px", height: "100%" }}>
+                <div id="home-canvas" style={{ position: "absolute", top: 0, left: 30, width: "310px", height: "65%"  }}>
                 <div style={{fontSize:'4vh',fontWeight:'bold'}}>가계부</div>
                 <Pinball />
                 </div>

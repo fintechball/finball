@@ -24,7 +24,7 @@ export default function BankInfo() {
   const  findBank = async() => {
     await axios({
       method: "get",
-      url: `https://j9e106.p.ssafy.io/company/bank`,
+      url: `https://j9e106.p.ssafy.io/api/company/bank`,
       headers: {
         Authorization: localStorage.getItem("accessToken"),
             },

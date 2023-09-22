@@ -207,7 +207,10 @@ function Pinball() {
     };
   }, []);
 
-  return <div id="pinball-canvas"></div>;
+  return <div id="pinball-canvas">
+  <div style={{position:"absolute",fontWeight:"bold",fontSize:"15px",width:"90px",transform:"translate(230%,0)"}}>5,000,000원</div>
+
+  </div>;
 }
 
 export default Pinball;

@@ -21,7 +21,7 @@ export default function CardConnect() {
   const  findCard = async() => {
     await axios({
       method: "post",
-      url: `https://j9e106.p.ssafy.io/card`,
+      url: `https://j9e106.p.ssafy.io/api/card`,
       headers: {
        Authorization: localStorage.getItem("accessToken"),
               },
@@ -94,7 +94,7 @@ export default function CardConnect() {
     const registerCard = async() => {
       await axios({
         method: "post",
-        url: `https://j9e106.p.ssafy.io/user/card`,
+        url: `https://j9e106.p.ssafy.io/api/user/card`,
         headers: {
          Authorization: localStorage.getItem("accessToken"),
                 },
@@ -105,6 +105,7 @@ export default function CardConnect() {
       })  
         .then((res) => {
           console.log(res)
+          window.location.reload()
         })
         .catch((err) => {
           console.log("삐빅", err);

@@ -80,6 +80,11 @@ function NavPage() {
           송금
         </Link>
       </p>
+      <p>
+        <Link to="/groupaccount" className={styles.link}>
+          모임통장
+        </Link>
+      </p>
 
       {/* <p>
         <Link to="/testpage" className={styles.link}>

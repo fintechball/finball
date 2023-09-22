@@ -22,7 +22,7 @@ export default function BankConnect() {
   const  findAccount = async() => {
     await axios({
       method: "post",
-      url: `https://j9e106.p.ssafy.io/bank/account`,
+      url: `https://j9e106.p.ssafy.io/api/bank/account`,
       headers: {
        Authorization: localStorage.getItem("accessToken"),
               },
@@ -92,7 +92,7 @@ export default function BankConnect() {
     const registerAccount = async() => {
       await axios({
         method: "post",
-        url: `https://j9e106.p.ssafy.io/user/account`,
+        url: `https://j9e106.p.ssafy.io/api/user/account`,
         headers: {
          Authorization: localStorage.getItem("accessToken"),
                 },
@@ -103,6 +103,7 @@ export default function BankConnect() {
       })  
         .then((res) => {
           console.log(res)
+          window.location.reload()
         })
         .catch((err) => {
           console.log("삐빅", err);
