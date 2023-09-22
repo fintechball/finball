@@ -18,9 +18,8 @@ const shuffle = (nums: number[]) => {
 
 const SecurityKeypad = () => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k)
-  const [nums, setNums] = useState(nums_init)
+  const [nums, setNums] = useState([...nums_init,'',' '])
   const [password, setPassword] = useState("")
-  console.log(nums)
   const handlePasswordChange = useCallback(
     (num) => {
       if (password.length === PASSWORD_MAX_LENGTH) {
@@ -30,6 +29,10 @@ const SecurityKeypad = () => {
     },
     [password],
     )
+    useEffect(()=>{
+      let nums_random = Array.from({ length: 10 }, (v, k) => k) // 이 배열을 변경해 입력문자 변경 가능
+      setNums(shuffle([...nums_random,"",""]))
+    },[])
 
   const erasePasswordOne = useCallback(
     (e: MouseEvent) => {
@@ -45,8 +48,8 @@ const SecurityKeypad = () => {
   const shuffleNums = useCallback(
     (num: number) => (e: MouseEvent) => {
       // 0 ~ 9 섞어주기
-      let nums_random = Array.from({ length: 10 }, (v, k) => k) // 이 배열을 변경해 입력문자 변경 가능
-      setNums(shuffle(nums_random))
+      // let nums_random = Array.from({ length: 10 }, (v, k) => k) // 이 배열을 변경해 입력문자 변경 가능
+      // setNums(shuffle([...nums_random,"",""]))
       handlePasswordChange(num)
     },
     [handlePasswordChange],
@@ -63,38 +66,36 @@ const SecurityKeypad = () => {
   return (
     <>
       <Password value={password} />
-      <div className='inputter__flex'>
+      <div className={styles.inputer}>
   {[
-    ...nums.map((n) => (
+    ...nums.map((n,i) => (
       <button
-        className='num_button'
         value={n}
         onClick={shuffleNums(n)}
-        key={n}
-        style={{padding:"0.6em 1.2em"}}
+        key={i}
+        className={styles.btn}
       >
         {n}
       </button>
     )),
-    <button className='num-button'key={11}></button>,
-    <button
+  ]}
+</div>
+
+      <div>
+      <button
       className='num-button'
       onClick={erasePasswordAll}
       key="eraseAll"
     >
       X
-    </button>,
-  ]}
+    </button>
   <button
-    className='num-button__flex spread-effect'
+    className='num-button'
     onClick={erasePasswordOne}
     key="eraseOne"
   >
     ←
   </button>
-</div>
-
-      <div>
         <button type='submit' className='submit-button' onClick={onClickSubmitButton}>
           제출
         </button>
