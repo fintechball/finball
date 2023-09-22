@@ -10,14 +10,13 @@ function BankAccount() {
 
   useEffect(() => {
     axios
-      .get(`${BASE_HTTP_URL}/user/account`, {
+      .get(`${BASE_HTTP_URL}/user/account/simple`, {
         headers: {
           Authorization: token.accessToken,
         },
       })
       .then((response) => {
-        console.log(response);
-        setAccountList(response.data.data.getCardDtoList);
+        setAccountList(response.data.data.userAccountSimpleList);
       })
       .catch((error) => {
         console.log(error);
@@ -29,8 +28,9 @@ function BankAccount() {
       {accountList ? (
         [...accountList].map((account, index) => (
           <div key={index}>
-            <img src={account.cardImage} width={200} />
-            <p>{account.cardName}</p>
+            <img src={account.bankImage} width={50} />
+            <p>{account.name}</p>
+            <p>{account.account}</p>
           </div>
         ))
       ) : (
