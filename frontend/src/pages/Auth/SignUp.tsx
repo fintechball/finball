@@ -54,7 +54,7 @@ function SignUp() {
       const requestBody = JSON.stringify(register("userId"));
 
       const response = await fetch(
-        `https://j9e106.p.ssafy.io/user/authentication/id`,
+        `https://j9e106.p.ssafy.io/api/user/authentication/id`,
         {
           method: "POST",
           headers: {

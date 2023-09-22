@@ -23,7 +23,7 @@ function SignUpCerti() {
         recipientPhoneNumber: phoneNumber,
       });
 
-      const response = await fetch(`https://j9e106.p.ssafy.io/user/sms`, {
+      const response = await fetch(`https://j9e106.p.ssafy.io/api/user/sms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ function SignUpCerti() {
       try {
         const requestBody = JSON.stringify(updatedFormData);
 
-        const response = await fetch(`https://j9e106.p.ssafy.io/user`, {
+        const response = await fetch(`https://j9e106.p.ssafy.io/api/user`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

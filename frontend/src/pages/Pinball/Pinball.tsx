@@ -212,12 +212,10 @@ function Pinball() {
       <div
         style={{
           position: "absolute",
-          margin: "opx",
           fontWeight: "bold",
           fontSize: "15px",
           width: "90px",
-          left: "50%",
-          transform: "translate(50%,0)",
+          transform: "translate(230%,0)",
         }}
       >
         5,000,000원

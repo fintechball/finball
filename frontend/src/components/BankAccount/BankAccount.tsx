@@ -13,7 +13,7 @@ function BankAccount() {
 
   useEffect(() => {
     axios
-      .get(`${BASE_HTTP_URL}/user/account/simple`, {
+      .get(`${BASE_HTTP_URL}/api/user/account/simple`, {
         headers: {
           // Authorization: token.accessToken,
           Authorization: localStorage.getItem("accessToken"),
