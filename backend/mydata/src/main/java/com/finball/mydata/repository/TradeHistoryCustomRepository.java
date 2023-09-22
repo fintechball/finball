@@ -30,8 +30,8 @@ public class TradeHistoryCustomRepository extends QuerydslRepositorySupport {
                 .leftJoin(tradeHistory.account, account) // 카드와 멤버 조인
                 .fetchJoin()
                 .where(tradeHistory.account.accountNo.eq(accountId))
-                .orderBy(tradeHistory.date.asc())
-                .orderBy(tradeHistory.time.asc())
+                .orderBy(tradeHistory.date.desc())
+                .orderBy(tradeHistory.time.desc())
                 .fetch();
     }
 }

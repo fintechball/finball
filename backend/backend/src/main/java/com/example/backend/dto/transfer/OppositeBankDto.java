@@ -1,5 +1,6 @@
 package com.example.backend.dto.transfer;
 
+import com.example.backend.entity.FinBallHistory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,5 +12,10 @@ public class OppositeBankDto {
     private String bankName;
     private String account;
     private String target;
-    private String nickname;
+
+    public OppositeBankDto(FinBallHistory finBallHistory) {
+        this.bankName = finBallHistory.getOpBankName();
+        this.account = finBallHistory.getOpAccount();
+        this.target = finBallHistory.getTarget();
+    }
 }
