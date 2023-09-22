@@ -1,34 +1,36 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function BankAccount() {
   const [accountList, setAccountList] = useState<any>(null);
+  const token = useSelector((state) => state.token);
 
   useEffect(() => {
     axios
-      .get(`${BASE_HTTP_URL}/user/account`, {
+      .get(`${BASE_HTTP_URL}/user/account/simple`, {
         headers: {
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: token.accessToken,
         },
       })
       .then((response) => {
-        console.log(response);
-        setAccountList(response.data.data.getCardDtoList);
+        setAccountList(response.data.data.userAccountSimpleList);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [token]);
 
   return (
     <div>
       {accountList ? (
         [...accountList].map((account, index) => (
           <div key={index}>
-            <img src={account.cardImage} width={200} />
-            <p>{account.cardName}</p>
+            <img src={account.bankImage} width={50} />
+            <p>{account.name}</p>
+            <p>{account.account}</p>
           </div>
         ))
       ) : (

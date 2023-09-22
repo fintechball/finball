@@ -11,4 +11,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     List<Company> findAllByCpType(CompanyType companyType);
 
     Company findByCpCodeAndCpType(Long cpCode, CompanyType 은행사);
+
+    Company findByCpName(String cpName);
 }
