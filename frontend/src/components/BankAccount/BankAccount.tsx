@@ -12,7 +12,8 @@ function BankAccount() {
     axios
       .get(`${BASE_HTTP_URL}/user/account/simple`, {
         headers: {
-          Authorization: token.accessToken,
+          // Authorization: token.accessToken,
+          Authorization: localStorage.getItem("accessToken"),
         },
       })
       .then((response) => {
