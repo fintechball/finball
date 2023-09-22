@@ -4,7 +4,6 @@ import com.example.backend.dto.RestDto;
 import com.example.backend.dto.mydata.history.AccountHistoryDto;
 import com.example.backend.dto.mydata.history.AccountHistoryListDto;
 import com.example.backend.dto.mydata.history.AccountHistoryListDto.Request;
-import com.example.backend.dto.mydata.history.AccountHistoryListDto.Response;
 import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.FinBallHistory;
 import com.example.backend.entity.Member;

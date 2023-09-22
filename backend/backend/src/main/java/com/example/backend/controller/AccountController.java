@@ -2,9 +2,10 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
 import com.example.backend.dto.account.AccountRegisterDto;
+import com.example.backend.dto.account.FavoriteAccountDto;
 import com.example.backend.dto.account.GetUserAccountDto;
-import com.example.backend.dto.mydata.history.AccountHistoryListDto;
 import com.example.backend.dto.account.GetUserAccountSimpleDto;
+import com.example.backend.dto.mydata.history.AccountHistoryListDto;
 import com.example.backend.dto.transfer.AccountTransferDto;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.AccountService;
@@ -58,12 +59,21 @@ public class AccountController {
         AccountHistoryListDto.Response response = historyService.getHistory(accountNo,
                 userDetails.getMember());
         return new Response<>(200, "성공적으로 계좌 상세를 불러왔습니다.", response);
+    }
 
     @GetMapping("/user/account/simple")
-    public Response<GetUserAccountSimpleDto.Response> getAccountSimple(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public Response<GetUserAccountSimpleDto.Response> getAccountSimple(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        GetUserAccountSimpleDto.Response response = accountService.getAccountSimpleList(userDetails.getMember());
+        GetUserAccountSimpleDto.Response response = accountService.getAccountSimpleList(
+                userDetails.getMember());
 
         return new Response(200, "정상적으로 사용자의 타행 계좌를 불러왔습니다.", response);
+    }
+
+    @PostMapping("/user/account/favorite")
+    public Response<?> updateFavoriteAccount(@RequestBody FavoriteAccountDto.Request request) {
+        accountService.updateFavorite(request);
+        return new Response(200, "정상적으로 사용자의 타행 계좌를 불러왔습니다.", null);
     }
 }

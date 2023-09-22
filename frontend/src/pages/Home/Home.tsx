@@ -4,8 +4,10 @@ import GroupAccountContainer from "../../components/GroupAccount/GroupAccountCon
 
 import Pinball from "../Pinball/Pinball";
 import styles from "./Home.module.css";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   const width = window.innerWidth;
   const height = window.innerHeight;
   return (
@@ -25,7 +27,7 @@ function Home() {
       </div>
 
       <div className={styles.minicontainer}>
-        <h2>연결된 타행계좌 목록</h2>
+        <h2 onClick={() => navigate("/accountList")}>연결된 타행계좌 목록</h2>
         <BankAccountContainer />
       </div>
 
