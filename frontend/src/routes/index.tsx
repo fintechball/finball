@@ -33,6 +33,8 @@ import Inventory from "../pages/Shop/Inventory";
 
 import Transfering from "../pages/Transfer/Transfering";
 import ReceivingMoney from "../pages/Transfer/Receive";
+import AccountList from "../pages/Transfer/AccountList";
+import AccountDetail from "../pages/Transfer/AccountDetail";
 
 function Router() {
   return (
@@ -65,6 +67,9 @@ function Router() {
         <Route path="/bank/account" element={<BankConnect />} />
         <Route path="/company/card" element={<CardInfo />} />
         <Route path="/card" element={<CardConnect />} />
+        {/* 계좌 이체 */}
+        <Route path="/accountList" element={<AccountList />} />
+        <Route path="/accountDetail" element={<AccountDetail />} />
       </Routes>
     </>
   );

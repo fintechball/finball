@@ -32,6 +32,8 @@ function Login() {
         password: password,
       })
       .then((response) => {
+        localStorage.setItem("accessToken", response.data.data.accessToken);
+        localStorage.setItem("refreshToken", response.data.data.refreshToken);
         dispatch(setTokens(response.data.data));
         navigate("/");
       })

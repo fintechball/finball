@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: space-between; /* 왼쪽과 오른쪽에 공간을 남김 */
+}
+
+.leftAlign {
+  /* 왼쪽 정렬 스타일 */
+  /* flex: 0; 남은 공간을 골고루 차지하도록 설정 */
+}
+
+.rightAlign {
+  margin-left: auto; /* 오른쪽으로 정렬 */
+}
