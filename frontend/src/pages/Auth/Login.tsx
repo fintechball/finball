@@ -1,12 +1,13 @@
 import { useState } from "react";
-import styles from "./Login.module.css";
+import styles from "./Login.module.scss";
 import finballImage from "../../assets/Logo.png";
 // import { Button } from 'react-bootstrap';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { OutlinedInput, Button } from "@material-ui/core";
+// import { OutlinedInput, Button } from "@material-ui/core";
 // import { relative } from "path";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Button, Input } from "antd";
 import { useDispatch } from "react-redux";
 import { setTokens } from "../../store/slices/tokenSlice";
 
@@ -32,9 +33,11 @@ function Login() {
         password: password,
       })
       .then((response) => {
+        console.log(response.data.data);
         localStorage.setItem("accessToken", response.data.data.accessToken);
         localStorage.setItem("refreshToken", response.data.data.refreshToken);
-        dispatch(setTokens(response.data.data));
+        localStorage.setItem("name", response.data.data.name);
+        localStorage.setItem("userId", response.data.data.userId);
         navigate("/");
       })
       .catch((error) => {
@@ -57,81 +60,48 @@ function Login() {
     setPwcolor("");
   };
   return (
-    <div>
-      <div className={styles.title_box}>로그인</div>
-      <div className={styles.main_container}>
-        <div className={styles.logo_box}>
-          <img src={finballImage} alt="pinball" className={styles.Logo} />
-        </div>
-        <div className={styles.input_box}>
-          <div className={styles.innerinput_box}>
-            <div className={styles.input_title}>아이디</div>
-            <OutlinedInput
-              placeholder="ID"
-              type="text"
-              className={styles.passwordIcon}
-              style={{ backgroundColor: `${idcolor}` }}
-              onFocus={focusId}
-              onBlur={defaultId}
-              value={userId}
-              onChange={(event) => setUserId(event.target.value)}
-            />
-          </div>
-          <div className={styles.innerinput_box}>
-            <div className={styles.input_title}>비밀번호</div>
-            <OutlinedInput
-              placeholder="Password"
-              type={showPassword ? "text" : "password"}
-              className={styles.passwordIcon}
-              style={{ backgroundColor: `${pwcolor}` }}
-              onFocus={focusPw}
-              onBlur={defaultPW}
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              endAdornment={
-                <Button
-                  onClick={handleTogglePasswordVisibility}
-                  style={{
-                    position: "absolute",
-                    right: 0,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "5vh",
-                    height: "100%",
-                  }}
-                >
-                  {showPassword ? (
-                    <VisibilityOff style={{ fontSize: "5vh" }} />
-                  ) : (
-                    <Visibility style={{ fontSize: "5vh" }} />
-                  )}
-                </Button>
-              }
-            />
-          </div>
-        </div>
-        {/* <div> */}
-        <Button
-          className={styles.login_btn}
-          variant="contained"
-          style={{ backgroundColor: "#7165E3" }}
-          onClick={doLogin}
-        >
-          로그인
-        </Button>
-        <div
-          onClick={goSignup}
-          style={{
-            width: "100%",
-            textAlign: "center",
-            position: "relative",
-            bottom: "200%",
-          }}
-        >
-          회원가입하러가기
-        </div>
-        {/* </div> */}
+    <div className={styles.container}>
+      <h1>LOGIN</h1>
+      <div className={styles.smallbox}>
+        <div className={styles.label}>아이디</div>
+        <Input
+          placeholder="ID"
+          type="text"
+          className={styles.input}
+          onFocus={focusId}
+          onBlur={defaultId}
+          value={userId}
+          onChange={(event) => setUserId(event.target.value)}
+        />
+      </div>
+      <div className={styles.smallbox}>
+        <div className={styles.label}>비밀번호</div>
+        <Input
+          placeholder="Password"
+          type={showPassword ? "text" : "password"}
+          className={styles.input}
+          // style={{ backgroundColor: `${pwcolor}` }}
+          onFocus={focusPw}
+          onBlur={defaultPW}
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          endAdornment={
+            <Button onClick={handleTogglePasswordVisibility}>
+              {showPassword ? (
+                <VisibilityOff style={{ fontSize: "5vh" }} />
+              ) : (
+                <Visibility style={{ fontSize: "5vh" }} />
+              )}
+            </Button>
+          }
+        />
+      </div>
+      <Button type="primary" onClick={doLogin}>
+        로그인
+      </Button>
+      <div onClick={goSignup} className={styles.signupbox}>
+        <span>아직 회원이 아니신가요?</span>
+        <p>회원가입하러 가기</p>
       </div>
     </div>
   );

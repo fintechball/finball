@@ -1,3 +1,5 @@
+$maincolor: rgb(89, 47, 255);
+
 .header {
   display: flex;
   // justify-content: center;
@@ -10,6 +12,8 @@
   top: 0;
   z-index: 10;
 
+  justify-content: space-between;
+
   h1,
   p {
     margin: 0;
@@ -18,5 +22,17 @@
   img {
     width: 100px;
     margin: 0px 15px;
+  }
+
+  button {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0px 12px;
+    background-color: $maincolor;
+    color: white;
+    width: 80px;
+    font-size: 14px;
+    font-weight: normal;
   }
 }

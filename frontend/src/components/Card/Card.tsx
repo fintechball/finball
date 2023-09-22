@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import styles from "./Card.module.scss";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styles from "./Card.module.css";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function Card() {
+  const navigate = useNavigate();
+
   const [cardList, setCardList] = useState<any>(null);
   const token = useSelector((state) => state.token);
 
@@ -27,23 +31,19 @@ function Card() {
 
   return (
     <div className={styles.container}>
-      {cardList ? (
-        <div className={styles.test}>
-          {[...cardList].map((card, index) => (
-            <div key={index} className={styles.tpfh}>
-              <img
-                src={card.cardImage}
-                width={300}
-                className={styles.rotatedImage}
-              />
-              <p>{card.cardName}</p>
-            </div>
-          ))}
-        </div>
+      {cardList && cardList.length !== 0 ? (
+        [...cardList].map((card, index) => (
+          <div key={index}>
+            <img src={card.cardImage} width={200} />
+            <p>{card.cardName}</p>
+          </div>
+        ))
       ) : (
         <>
           <div>연결된 카드가 없습니다.</div>
-          <button>카드 연결하기</button>
+          <button onClick={() => navigate("/company/card")}>
+            카드 연결하기
+          </button>
         </>
       )}
     </div>
