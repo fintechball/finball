@@ -62,7 +62,6 @@ public class TradeHistory {
         OppositeBankDto oppositeBankDto = OppositeBankDto.builder()
                 .bankName(this.opBankName)
                 .account(this.opAccount)
-                .nickname(this.nickname)
                 .target(this.target)
                 .build();
 
