@@ -36,6 +36,8 @@ public class QGroupAccount extends EntityPathBase<GroupAccount> {
 
     public final StringPath url = createString("url");
 
+    public final BooleanPath valid = createBoolean("valid");
+
     public QGroupAccount(String variable) {
         this(GroupAccount.class, forVariable(variable), INITS);
     }

@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+// import styles from "./BankAccount.module.scss";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import styles from "./BankAccount.module.css";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function BankAccount() {
+  const navigate = useNavigate();
   const [accountList, setAccountList] = useState<any>(null);
   const token = useSelector((state) => state.token);
 
@@ -25,19 +29,24 @@ function BankAccount() {
   }, [token]);
 
   return (
-    <div>
-      {accountList ? (
+    <div className={styles.container}>
+      {accountList && accountList.length !== 0 ? (
         [...accountList].map((account, index) => (
-          <div key={index}>
-            <img src={account.bankImage} width={50} />
-            <p>{account.name}</p>
-            <p>{account.account}</p>
+          <div className={styles.container} key={index}>
+            <img src={account.bankImage} width={50} height={50} />
+            <div>
+              <p>{account.name}</p>
+              <p>{account.account}</p>
+            </div>
+            <button>송금</button>
           </div>
         ))
       ) : (
         <>
           <div>연결된 계좌가 없습니다.</div>
-          <button>계좌 연결하기</button>
+          <button onClick={() => navigate("/company/bank")}>
+            계좌 연결하기
+          </button>
         </>
       )}
     </div>

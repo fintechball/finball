@@ -30,7 +30,8 @@ function Inventory() {
     axios
       .get(`${BASE_HTTP_URL}/ball/inventory`, {
         headers: {
-          Authorization: token.accessToken,
+          // Authorization: token.accessToken,
+          Authorization: localStorage.getItem("accessToken"),
         },
       })
       .then((response) => {
@@ -47,7 +48,8 @@ function Inventory() {
         },
         {
           headers: {
-            Authorization: token.accessToken,
+            // Authorization: token.accessToken,
+            Authorization: localStorage.getItem("accessToken"),
           },
         }
       )
@@ -56,7 +58,8 @@ function Inventory() {
       });
   };
 
-  const viewDetail = () => {
+  const viewDetail = (index) => {
+    setActiveStep(index);
     setIsDetail(true);
   };
 
@@ -151,7 +154,11 @@ function Inventory() {
             >
               {[...inventoryList].map((inventory, index) => (
                 <Grid xs={2} sm={4} md={4} key={index}>
-                  <img src={inventory.image} width={50} onClick={viewDetail} />
+                  <img
+                    src={inventory.image}
+                    width={50}
+                    onClick={() => viewDetail(index)}
+                  />
                   <p>{inventory.name}</p>
                   {inventory.selected ? (
                     <button>착용 중</button>

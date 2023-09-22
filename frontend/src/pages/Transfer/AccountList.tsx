@@ -37,40 +37,42 @@ function AccountList() {
 
   return (
     <>
-      <div>총자산</div>
       <div>
-        {totalBalance}
-        <button>분석</button>
-      </div>
+        <div>총자산</div>
+        <div>
+          {totalBalance}
+          <button>분석</button>
+        </div>
 
-      <div>입출금</div>
-      {accountList.length != 0 ? (
-        [...accountList].map((account, index) => (
-          <div className={styles.container} key={index}>
-            <img
-              className={styles.leftAlign}
-              src={account.company.cpLogo}
-              width={50}
-              height={50}
-            />
-            <div className={styles.leftAlign}>
-              <p>{account.name}</p>
-              <p>{account.balance}</p>
+        <div>입출금</div>
+        {accountList.length != 0 ? (
+          [...accountList].map((account, index) => (
+            <div className={styles.container} key={index}>
+              <img
+                className={styles.leftAlign}
+                src={account.company.cpLogo}
+                width={50}
+                height={50}
+              />
+              <div className={styles.leftAlign}>
+                <p>{account.name}</p>
+                <p>{account.balance}</p>
+              </div>
+              <button
+                className={styles.rightAlign}
+                onClick={() => navigate("/accountDetail", { state: account })}
+              >
+                송금
+              </button>
             </div>
-            <button
-              className={styles.rightAlign}
-              onClick={() => navigate("/accountDetail", { state: account })}
-            >
-              송금
-            </button>
-          </div>
-        ))
-      ) : (
-        <>
-          <div>연결된 계좌가 없습니다.</div>
-          <button>계좌 연결하기</button>
-        </>
-      )}
+          ))
+        ) : (
+          <>
+            <div>연결된 계좌가 없습니다.</div>
+            <button>계좌 연결하기</button>
+          </>
+        )}
+      </div>
     </>
   );
 }

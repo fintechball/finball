@@ -2,8 +2,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import styles from "./SignUp.module.css";
+import styles from "./SignUp.module.scss";
 import { useState } from "react";
+import { Button, Input } from "antd";
 
 interface IFormInput {
   name: string;
@@ -87,38 +88,52 @@ function SignUp() {
   };
 
   return (
-    <div className={styles.signupform}>
-      <p>이름</p>
-      <input placeholder="Name" {...register("name")} />
-      {errors.name && <p>{errors.name.message}</p>}
-      <br />
+    <div className={styles.container}>
+      <h1>SIGNUP</h1>
+      <div className={styles.smallbox}>
+        <p>이름</p>
+        <input placeholder="Name" {...register("name")} />
+        {errors.name && <p>{errors.name.message}</p>}
+      </div>
 
-      <p>아이디</p>
-      <input placeholder="ID" disabled={isIdValid} {...register("userId")} />
-      {errors.userId && <p>{errors.userId.message}</p>}
-      <br />
+      <div className={styles.smallbox}>
+        <p>아이디</p>
+        <div className={styles.flexcontainer}>
+          <input
+            placeholder="ID"
+            disabled={isIdValid}
+            {...register("userId")}
+          />
+          {errors.userId && <p>{errors.userId.message}</p>}
+          <Button className={styles.checkbutton} onClick={idCheck}>
+            중복확인
+          </Button>
+        </div>
+      </div>
 
-      <button type="button" onClick={idCheck}>
-        중복확인
-      </button>
+      <div className={styles.smallbox}>
+        <p>비밀번호</p>
+        <input
+          type="password"
+          placeholder="Password"
+          {...register("password")}
+        />
+        {errors.password && <p>{errors.password.message}</p>}
+      </div>
 
-      <p>비밀번호</p>
-      <input type="password" placeholder="Password" {...register("password")} />
-      {errors.password && <p>{errors.password.message}</p>}
-      <br />
+      <div className={styles.smallbox}>
+        <p>비밀번호 확인</p>
+        <input
+          type="password"
+          placeholder="Password Confirm"
+          {...register("passwordConfirm")}
+        />
+        {errors.passwordConfirm && <p>{errors.passwordConfirm.message}</p>}
+      </div>
 
-      <p>비밀번호 확인</p>
-      <input
-        type="password"
-        placeholder="Password Confirm"
-        {...register("passwordConfirm")}
-      />
-      {errors.passwordConfirm && <p>{errors.passwordConfirm.message}</p>}
-      <br />
-
-      <button type="button" onClick={handleSubmit(onSubmit)}>
+      <Button type="primary" onClick={handleSubmit(onSubmit)}>
         다음
-      </button>
+      </Button>
     </div>
   );
 }
