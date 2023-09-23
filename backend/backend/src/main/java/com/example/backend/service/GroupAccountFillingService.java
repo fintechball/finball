@@ -1,7 +1,6 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.RestDto;
-import com.example.backend.dto.transfer.AccountTransferDto;
 import com.example.backend.dto.transfer.AccountTransferDto.Request;
 import com.example.backend.dto.transfer.FinBallTradeHistoryDto;
 import com.example.backend.dto.transfer.TransferInfoDto;
@@ -27,80 +26,68 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GroupAccountTransferService {
+public class GroupAccountFillingService {
 
     private final Long FIN_BALL_CODE = 106L;
 
     private final GroupAccountRepository groupAccountRepository;
     private final FinBallAccountRepository finBallAccountRepository;
     private final FinBallHistoryRepository finBallHistoryRepository;
+    private final GroupAccountHistoryRepository groupAccountHistoryRepository;
 
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
 
-    private final GroupAccountHistoryRepository groupAccountHistoryRepository;
-
-    public void transferGroupAccount(AccountTransferDto.Request request, Member member)
+    public void transferGroupAccount(Request request, Member member)
             throws JsonProcessingException {
 
-        GroupAccount groupAccount = getGroupAccount(request, member);
+        GroupAccount groupAccount = getGroupAccount(request); //모임 계좌 있는지 체크
 
-        if (balanceCheck(request, groupAccount)) {
-            init(request, groupAccount);
-            List<FinBallTradeHistoryDto> historyDtoList = getMyDataResponse(request,
-                    member.getUserId());
-            save(historyDtoList, request.getMinusBank().getAccountNumber());
-        }
+        init(request, groupAccount);
+        List<FinBallTradeHistoryDto> historyDtoList = getMyDataResponse(request,
+                member.getUserId());
+        save(historyDtoList, request.getPlusBank().getAccountNumber()); //plusBank : 그룹 통장
     }
 
     public void init(Request request, GroupAccount groupAccount) {
         TransferInfoDto plus = request.getPlusBank();
         TransferInfoDto minus = request.getMinusBank();
 
-        minus.setCode(FIN_BALL_CODE);
-        minus.setTarget(groupAccount.getName());
-        minus.setBalance(groupAccount.getBalance());
+        // 모임통장 전처리
+        plus.setCode(FIN_BALL_CODE);
+        plus.setTarget(groupAccount.getName());
+        plus.setBalance(groupAccount.getBalance());
 
-        if (Objects.equals(plus.getCode(), FIN_BALL_CODE)) { // 상대방이 핀볼 은행이라면
-            request.getPlusBank().setBalance(getAccountBalance(plus));
+        if (Objects.equals(minus.getCode(), FIN_BALL_CODE)) { // 내 은행이 핀볼 은행이라면
+            request.getMinusBank().setBalance(getAccountBalance(minus, request.getValue()));
         }
     }
 
-    public Long getAccountBalance(TransferInfoDto info) {
+    public Long getAccountBalance(TransferInfoDto info, Long value) {
         FinBallAccount finBallAccount = finBallAccountRepository.findById(info.getAccountNumber())
                 .orElseThrow(() -> new IllegalArgumentException("해당되는 계좌가 존재하지 않습니다."));
 
-        return finBallAccount.getBalance();
-    }
-
-    private boolean balanceCheck(AccountTransferDto.Request request, GroupAccount groupAccount) {
-
-        if (request.getValue() <= groupAccount.getBalance()) {
-            return true; //보낼 돈이 있다면 보냄
+        Long balance = finBallAccount.getBalance();
+        if (balance < value) { //보낼 금액이 작은 상황
+            throw new CustomException(ErrorCode.OUT_OF_RANGE);
         }
-
-        throw new CustomException(ErrorCode.OUT_OF_RANGE);
+        return balance;
     }
 
-    private GroupAccount getGroupAccount(AccountTransferDto.Request request, Member member) {
+    private GroupAccount getGroupAccount(Request request) {
 
         // 요청한 그룹 계좌가 있는지 조회
         GroupAccount groupAccount = groupAccountRepository.findById(
-                request.getMinusBank().getAccountNumber()).orElseThrow(
+                request.getPlusBank().getAccountNumber()).orElseThrow(
                 () -> new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND)
         );
 
-        // 실제 주인이 요청을 보냈는지 조회
-        if (groupAccount.getMember().getId() != member.getId()) {
-            throw new CustomException(ErrorCode.OWNER_NOT_CORRESPOND);
-        }
         return groupAccount;
     }
 
-    public List<FinBallTradeHistoryDto> getMyDataResponse(AccountTransferDto.Request request,
+    public List<FinBallTradeHistoryDto> getMyDataResponse(Request request,
             String memberId)
             throws JsonProcessingException {
-
         String token = redisUtil.getMyDataToken(memberId);
 
         ResponseEntity<String> response = restTemplateUtil.callMyData(token,
@@ -118,11 +105,11 @@ public class GroupAccountTransferService {
     public void save(List<FinBallTradeHistoryDto> historyDtoList, String groupAccountNumber) {
 
         for (FinBallTradeHistoryDto historyDto : historyDtoList) {
-
-            // minusBank 처리 => 그룹 계좌는 출금
+            // plusAccount 처리(그룹Account)
             if (historyDto.getAccountNumber().equals(groupAccountNumber)) {
                 saveGroupAccount(historyDto);
-            } else {// plusBank 처리 => 핀볼 계좌는 입금
+            } else {
+                // minusAccount가 핀볼 계좌인 경우에 대한 처리
                 saveFinBallAccount(historyDto);
             }
         }
@@ -142,7 +129,6 @@ public class GroupAccountTransferService {
 
     @Transactional
     public void saveGroupAccount(FinBallTradeHistoryDto historyDto) {
-
         GroupAccount groupAccount = groupAccountRepository.findById(
                         historyDto.getAccountNumber())
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 계좌가 없습니다."));
