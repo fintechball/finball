@@ -88,6 +88,34 @@ export default function BankConnect() {
         const Name = state[i].name;
         return { ...state, [Name]: !state[Name] };
       });
+    };
+    const handlereset = () => {
+      for (let i = 0; i <toggledItems.length; i++) {
+        setToggledItems((state)=>{
+          const Name = state[i].name
+          return {...state, [Name]:!state[Name]}
+        })
+      }
+    }
+    const registerAccount = async() => {
+      await axios({
+        method: "post",
+        url: `https://j9e106.p.ssafy.io/api/user/account`,
+        headers: {
+         Authorization: localStorage.getItem("accessToken"),
+                },
+        data:
+          {
+              "bankAccountDtoList" : chooseItems
+          }
+      })  
+        .then((res) => {
+          console.log(res)
+          window.location.reload()
+        })
+        .catch((err) => {
+          console.log("삐빅", err);
+        });
     }
   };
   const registerAccount = async () => {

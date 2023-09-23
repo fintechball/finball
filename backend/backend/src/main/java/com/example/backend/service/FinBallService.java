@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.dto.finball.DeleteFinancialBookCategoryDto;
 import com.example.backend.dto.finball.FinancialBookDto;
+import com.example.backend.dto.finball.ReadFinBallDto;
 import com.example.backend.dto.finball.RegisterFinBallBookDto;
 import com.example.backend.dto.finball.RegistFinballDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
@@ -35,6 +36,15 @@ public class FinBallService {
             throw new CustomException(ErrorCode.ALREADY_IN_USE);
         }
         finBallAccountRepository.save(request.toFinballAccount(member));
+    }
+
+    public ReadFinBallDto.Response readFinBall(Member member) {
+
+        FinBallAccount account = finBallAccountRepository.findByMemberId(member.getId()).orElseThrow(
+                () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+        );
+
+        return account.toReadFinBallDto();
     }
 
     public void createCategory(RegisterFinBallBookDto.Request request, Member member) {
@@ -121,4 +131,5 @@ public class FinBallService {
 
         return account;
     }
+
 }
