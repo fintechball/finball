@@ -37,7 +37,7 @@ function BankAccount() {
       })
       .then((response) => {
         const userAccountList = response.data.data.userAccountList;
-        navigate("/transferAccount", {
+        navigate("/accountDetail", {
           state: userAccountList.find((item) => item.accountNo === accountId),
         });
       })
