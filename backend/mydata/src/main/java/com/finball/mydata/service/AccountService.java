@@ -9,9 +9,7 @@ import com.finball.mydata.dto.account.GetMemberAccountDto.Response;
 import com.finball.mydata.dto.account.MemberAccountInfoDto;
 import com.finball.mydata.dto.account.RegistAccountDto;
 import com.finball.mydata.dto.account.TransferInfoDto;
-import com.finball.mydata.dto.tradeHistory.AccountHistoryDto;
 import com.finball.mydata.dto.tradeHistory.FinBallTradeHistoryDto;
-import com.finball.mydata.dto.tradeHistory.FinBallTradeHistoryListDto;
 import com.finball.mydata.dto.tradeHistory.OppositeBankDto;
 import com.finball.mydata.entity.Account;
 import com.finball.mydata.entity.Company;
@@ -26,8 +24,6 @@ import com.finball.mydata.type.CompanyType;
 import com.finball.mydata.type.DealType;
 import com.finball.mydata.util.RandomAccount;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -49,6 +45,7 @@ public class AccountService {
     private final RandomAccount randomAccount;
     private final static int FINBALL_ACCOUNT_CODE = 106;
 
+    //Done
     public BankAccountListDto.Response getBankAccountList(Long id,
             BankAccountListDto.Request request) {
 
@@ -58,10 +55,10 @@ public class AccountService {
                         id,
                         bankCodeList);
         List<BankAccountDto> bankAccountDtoList = accountList
-                .stream().map(Account::toAccountDto).collect(Collectors.toList());
+                .stream().map(Account::toBankAccountDto).collect(Collectors.toList());
 
         return BankAccountListDto.Response.builder()
-                .bankAccountList(bankAccountDtoList).build();
+                .bankAccountDtoList(bankAccountDtoList).build();
     }
 
     public void createAccount(Long id) throws IOException, ParseException {
@@ -101,7 +98,7 @@ public class AccountService {
             List<FinBallTradeHistoryDto> finBallTradeHistoryDtoList) {
 
         Long cpCode = request.getMinusBank().getCode();
-        Company company = companyRepository.findByCpCodeAndCpType(cpCode, CompanyType.은행사);
+        Company company = companyRepository.findByCodeAndCpType(cpCode, CompanyType.은행사);
 
         if (plusAccount == null) {
             OppositeBankDto oppositeBankDto = request.toOppositeBankDto(company.getCpName(), request.getMinusBank());
@@ -121,7 +118,7 @@ public class AccountService {
             List<FinBallTradeHistoryDto> finBallTradeHistoryDtoList) {
 
         Long cpCode = request.getPlusBank().getCode();
-        Company company = companyRepository.findByCpCodeAndCpType(cpCode, CompanyType.은행사);
+        Company company = companyRepository.findByCodeAndCpType(cpCode, CompanyType.은행사);
 
         if (minusAccount == null) {
             OppositeBankDto oppositeBankDto = request.toOppositeBankDto(company.getCpName(), request.getPlusBank());

@@ -22,12 +22,12 @@ public class AccountCustomRepository extends QuerydslRepositorySupport {
     }
 
     public List<Account> findAllByMemberIdAndCompanyIdInWithFetchJoin(long memberId,
-            List<Long> companyIds) {
+            List<Long> companyCodes) {
         return queryFactory
                 .selectFrom(account)
                 .leftJoin(account.member).fetchJoin()
                 .leftJoin(account.company).fetchJoin()
-//                .where(account.member.id.eq(memberId).and(account.company.id.in(companyIds)))
+                .where(account.member.id.eq(memberId).and(account.company.code.in(companyCodes)))
                 .fetch();
     }
 
