@@ -58,8 +58,8 @@ public class GroupAccountService {
 
     public AcceptGroupAccountDto.Response acceptInvite(
             AcceptGroupAccountDto.Request request, Member member) {
-        String groupAccountId = request.getId();
-        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountId).get();
+        String groupAccountNo = request.getGroupAccountNo();
+        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountNo).get();
         if (groupAccount == null) {
             throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
         }
@@ -71,9 +71,9 @@ public class GroupAccountService {
         return AcceptGroupAccountDto.Response.toAcceptGroupAccountDtoResponse(groupAccount);
     }
 
-    public GroupAccountDto.Response findByGroupAccountId(String groupAccountId) {
+    public GroupAccountDto.Response findByGroupAccountId(String groupAccountNo) {
         GroupAccount groupAccount = (GroupAccount) groupAccountCustomRepository.getGroupAccountWithMembers(
-                groupAccountId);
+                groupAccountNo);
         if (groupAccount == null) {
             throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
         }
@@ -82,12 +82,12 @@ public class GroupAccountService {
         }
         long hostId = groupAccount.getMember().getId();
         List<GroupMemberDto> groupAccountMemberList = groupAccountCustomRepository.getGroupAccountMemberListWithMembers(
-                        groupAccountId).stream()
+                        groupAccountNo).stream()
                 .map(groupAccountMember -> groupAccountMember.toGroupMemberDto(hostId))
                 .collect(
                         Collectors.toList());
         List<GroupTradeHistoryDto> groupAccountHistoryList = groupAccountCustomRepository.getGroupAccountHistoryListWithGameResult(
-                groupAccountId).stream().map(GroupAccountHistory::toGroupTradeHistoryDto).collect(
+                groupAccountNo).stream().map(GroupAccountHistory::toGroupTradeHistoryDto).collect(
                 Collectors.toList());
 
         return GroupAccountDto.Response.toGroupAccountDto(groupAccount, groupAccountMemberList,
@@ -127,10 +127,10 @@ public class GroupAccountService {
     public void delete(DeleteGroupAccountDto.Request request, Member member)
             throws JsonProcessingException {
         String memberId = member.getUserId();
-        String groupAccountId = request.getGroupAccountId();
+        String groupAccountNo = request.getGroupAccountNo();
         Long finballCode = (long) 106;
 
-        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountId).get();
+        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountNo).get();
 
         // 송금하는 모임 통장
         TransferInfoDto minusBank = buildTransferInfoDto(finballCode,
@@ -145,7 +145,7 @@ public class GroupAccountService {
         }
 
         List<GroupAccountMember> groupAccountMemberList = groupAccountMemberCustomRepository.getGroupAccountMemberWithMembers(
-                groupAccountId);
+                groupAccountNo);
 
         for (GroupAccountMember groupAccountMember : groupAccountMemberList
         ) {
@@ -155,11 +155,11 @@ public class GroupAccountService {
                 String token = redisUtil.getMyDataToken(memberId);
                 Long cpCode = getCode(token, request, bankName);
 
-                String toAccountNumber = groupAccountMember.getToAccountNo();
+                String toAccountNo = groupAccountMember.getToAccountNo();
                 String toName = groupAccountMember.getMember().getName();
                 long balance = groupAccountMember.getBalance();
 
-                TransferInfoDto plusBank = buildTransferInfoDto(cpCode, toAccountNumber, toName);
+                TransferInfoDto plusBank = buildTransferInfoDto(cpCode, toAccountNo, toName);
 
                 AccountTransferDto.Request sendRequest = buildTransferDto(minusBank, plusBank,
                         balance);
@@ -187,10 +187,10 @@ public class GroupAccountService {
         return companyCodeDto.getCpCode();
     }
 
-    private TransferInfoDto buildTransferInfoDto(Long code, String accountNumber, String target) {
+    private TransferInfoDto buildTransferInfoDto(Long code, String accountNo, String target) {
         return TransferInfoDto.builder()
                 .code(code)
-                .accountNumber(accountNumber)
+                .accountNumber(accountNo)
                 .target(target)
                 .build();
     }

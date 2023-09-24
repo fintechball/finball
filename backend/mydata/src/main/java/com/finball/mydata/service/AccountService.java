@@ -1,16 +1,10 @@
 package com.finball.mydata.service;
 
-import com.finball.mydata.dto.account.AccountTransferDto;
+import com.finball.mydata.dto.account.*;
 import com.finball.mydata.dto.account.AccountTransferDto.Request;
-import com.finball.mydata.dto.account.BankAccountDto;
-import com.finball.mydata.dto.account.BankAccountListDto;
-import com.finball.mydata.dto.account.GetMemberAccountDto;
 import com.finball.mydata.dto.account.GetMemberAccountDto.Response;
-import com.finball.mydata.dto.account.MemberAccountInfoDto;
-import com.finball.mydata.dto.account.RegistAccountDto;
-import com.finball.mydata.dto.account.TransferInfoDto;
-import com.finball.mydata.dto.tradeHistory.FinBallTradeHistoryDto;
-import com.finball.mydata.dto.tradeHistory.OppositeBankDto;
+import com.finball.mydata.dto.tradeHistory.AccountHistoryDto;
+import com.finball.mydata.dto.tradeHistory.OppositeDto;
 import com.finball.mydata.entity.Account;
 import com.finball.mydata.entity.Company;
 import com.finball.mydata.entity.Member;
@@ -23,15 +17,16 @@ import com.finball.mydata.repository.account.AccountRepository;
 import com.finball.mydata.type.CompanyType;
 import com.finball.mydata.type.DealType;
 import com.finball.mydata.util.RandomAccount;
+import lombok.RequiredArgsConstructor;
+import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.json.simple.parser.ParseException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -47,7 +42,7 @@ public class AccountService {
 
     //Done
     public BankAccountListDto.Response getBankAccountList(Long id,
-            BankAccountListDto.Request request) {
+                                                          BankAccountListDto.Request request) {
 
         List<Long> bankCodeList = request.getBankCodeList();
         List<Account> accountList = accountCustomRepository
@@ -75,7 +70,7 @@ public class AccountService {
     @Transactional
     public AccountTransferDto.Response accountTransfer(Request request) {
 
-        List<FinBallTradeHistoryDto> finBallTradeHistoryDtoList = new ArrayList<>();
+        List<AccountHistoryDto> accountHistoryDtoList = new ArrayList<>();
 
         TransferInfoDto plusBank = request.getPlusBank();
         TransferInfoDto minusBank = request.getMinusBank();
@@ -85,25 +80,25 @@ public class AccountService {
         Account plusAccount = getAccount(plusBank);
 
         // 출금
-        doWithdrawal(request, minusAccount, finBallTradeHistoryDtoList);
+        doWithdrawal(request, minusAccount, accountHistoryDtoList);
         // 입금
-        doDeposit(request, plusAccount, finBallTradeHistoryDtoList);
+        doDeposit(request, plusAccount, accountHistoryDtoList);
 
-        AccountTransferDto.Response response = new AccountTransferDto.Response(finBallTradeHistoryDtoList);
+        AccountTransferDto.Response response = new AccountTransferDto.Response(accountHistoryDtoList);
 
         return response;
     }
 
     private void doDeposit(Request request, Account plusAccount,
-            List<FinBallTradeHistoryDto> finBallTradeHistoryDtoList) {
+                           List<AccountHistoryDto> accountHistoryDtoList) {
 
-        Long cpCode = request.getMinusBank().getCode();
-        Company company = companyRepository.findByCodeAndCpType(cpCode, CompanyType.은행사);
+        Long companyId = request.getMinusBank().getCompanyId();
+        Company company = companyRepository.findByCodeAndCpType(companyId, CompanyType.은행사);
 
         if (plusAccount == null) {
-            OppositeBankDto oppositeBankDto = request.toOppositeBankDto(company.getCpName(), request.getMinusBank());
-            FinBallTradeHistoryDto finBallTradeHistoryDto = request.toFinBallTradeHistoryDto(request.getPlusBank(), oppositeBankDto, DealType.입금, request.getPlusBank().getBalance() + request.getValue());
-            finBallTradeHistoryDtoList.add(finBallTradeHistoryDto);
+            OppositeDto oppositeDto = request.toOppositeDto(company, request.getMinusBank());
+            AccountHistoryDto accountHistoryDto = request.toAccountHistoryDto(request.getPlusBank(), oppositeDto, DealType.입금, request.getPlusBank().getBalance() + request.getValue());
+            accountHistoryDtoList.add(accountHistoryDto);
         } else {
             TradeHistory tradeHistory = request.toTradeHistory(plusAccount, company, DealType.입금);
             tradeHistoryRepository.save(tradeHistory);
@@ -115,15 +110,15 @@ public class AccountService {
     }
 
     private void doWithdrawal(Request request, Account minusAccount,
-            List<FinBallTradeHistoryDto> finBallTradeHistoryDtoList) {
+                              List<AccountHistoryDto> accountHistoryDtoList) {
 
-        Long cpCode = request.getPlusBank().getCode();
-        Company company = companyRepository.findByCodeAndCpType(cpCode, CompanyType.은행사);
+        Long companyId = request.getPlusBank().getCompanyId();
+        Company company = companyRepository.findByCodeAndCpType(companyId, CompanyType.은행사);
 
         if (minusAccount == null) {
-            OppositeBankDto oppositeBankDto = request.toOppositeBankDto(company.getCpName(), request.getPlusBank());
-            FinBallTradeHistoryDto finBallTradeHistoryDto = request.toFinBallTradeHistoryDto(request.getMinusBank(), oppositeBankDto, DealType.출금, request.getMinusBank().getBalance() - request.getValue());
-            finBallTradeHistoryDtoList.add(finBallTradeHistoryDto);
+            OppositeDto oppositeDto = request.toOppositeDto(company, request.getPlusBank());
+            AccountHistoryDto accountHistoryDto = request.toAccountHistoryDto(request.getMinusBank(), oppositeDto, DealType.출금, request.getMinusBank().getBalance() - request.getValue());
+            accountHistoryDtoList.add(accountHistoryDto);
 
         } else {
             TradeHistory tradeHistory = request.toTradeHistory(minusAccount, company, DealType.출금);
@@ -136,12 +131,12 @@ public class AccountService {
 
     public Account getAccount(TransferInfoDto account) {
 
-        if (account.getCode() == FINBALL_ACCOUNT_CODE) {
+        if (account.getCompanyId() == FINBALL_ACCOUNT_CODE) {
             return null;
         }
 
         List<Account> accountList = accountCustomRepository
-                .findByAccountNo(account.getAccountNumber());
+                .findByAccountNo(account.getAccountNo());
 
         if (accountList.size() == 0) {
             throw new NoSuchElementException("해당 계좌는 존재하지 않습니다.");
@@ -151,10 +146,10 @@ public class AccountService {
 
     public Response getMemberAccount(List<String> accountNumberList, Member member) {
         List<Account> accountList = accountCustomRepository.findByAccountNo(accountNumberList, member.getId());
-        List<MemberAccountInfoDto> list = new ArrayList<>();
+        List<BankAccountDto> list = new ArrayList<>();
 
-        for(Account account : accountList) {
-            list.add(MemberAccountInfoDto.parseDto(account));
+        for (Account account : accountList) {
+            list.add(account.toBankAccountDto());
         }
 
         GetMemberAccountDto.Response response = new GetMemberAccountDto.Response(list);

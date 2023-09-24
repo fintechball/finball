@@ -32,6 +32,8 @@ public class QFinBallAccount extends EntityPathBase<FinBallAccount> {
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
+    public final BooleanPath isTexted = createBoolean("isTexted");
+
     public final QMember member;
 
     public final EnumPath<com.example.backend.type.MoneySource> moneySource = createEnum("moneySource", com.example.backend.type.MoneySource.class);

@@ -6,12 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class CompanyInfoDto {
+public class CardInfoDto {
     private String name;
-    private String logo;
-    private Long code;
-    private boolean connected;
+    private String image;
+    private String no;
 }

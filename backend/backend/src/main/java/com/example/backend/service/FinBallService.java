@@ -1,10 +1,10 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.finball.DeleteFinancialBookCategoryDto;
-import com.example.backend.dto.finball.FinancialBookDto;
+import com.example.backend.dto.finball.GetFinancialBookDto;
 import com.example.backend.dto.finball.ReadFinBallDto;
 import com.example.backend.dto.finball.RegisterFinBallBookDto;
-import com.example.backend.dto.finball.RegistFinballDto;
+import com.example.backend.dto.finball.RegisterFinBallDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
 import com.example.backend.dto.finball.UpdateFinancialBookCategoryDto;
 import com.example.backend.entity.Category;
@@ -29,7 +29,7 @@ public class FinBallService {
     private final CategoryRepository categoryRepository;
     private final CategoryCustomRepository categoryCustomRepository;
 
-    public void createAccount(RegistFinballDto.Request request, Member member) {
+    public void createAccount(RegisterFinBallDto.Request request, Member member) {
 
         Optional<FinBallAccount> account = finBallAccountRepository.findByMemberId(member.getId());
         if (account.isPresent()) {
@@ -40,14 +40,16 @@ public class FinBallService {
 
     public ReadFinBallDto.Response readFinBall(Member member) {
 
-        FinBallAccount account = finBallAccountRepository.findByMemberId(member.getId()).orElseThrow(
-                () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
-        );
+        FinBallAccount account = finBallAccountRepository.findByMemberId(member.getId())
+                .orElseThrow(
+                        () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+                );
 
         return account.toReadFinBallDto();
     }
 
-    public void createCategory(RegisterFinBallBookDto.Request request, Member member) {
+    public GetFinancialBookDto.Response createCategory(RegisterFinBallBookDto.Request request,
+            Member member) {
         //핀볼 계좌 없는 경우의 예외
         FinBallAccount account = getFinballAccount(member);
 
@@ -58,24 +60,26 @@ public class FinBallService {
         }
 
         ArrayList<Category> categories = request.toCategory(account);
-        account.setRefreshDate(request.getRefreshDate());
+        account.setBookRefreshDate(request.getRefreshDate());
 
         categoryRepository.saveAll(categories);
         finBallAccountRepository.save(account);
+
+        return readFinancialBook(member);
     }
 
-    public FinancialBookDto.Response readFinancialBook(Member member) {
+    public GetFinancialBookDto.Response readFinancialBook(Member member) {
 
         FinBallAccount account = getFinballAccount(member);
 
         ArrayList<Category> categories = categoryRepository.findAllByFinBallAccount(account);
-        FinancialBookDto.Response response = new FinancialBookDto.Response(categories);
+        GetFinancialBookDto.Response response = new GetFinancialBookDto.Response(categories);
         response.setRefreshDate(account.getBookRefreshDate());
 
         return response;
     }
 
-    public FinancialBookDto.Response addFinancialBookCategory(
+    public GetFinancialBookDto.Response addFinancialBookCategory(
             RegisterFinancialBookCategoryDto.Request request,
             Member member) {
 
@@ -88,7 +92,7 @@ public class FinBallService {
     }
 
     @Transactional
-    public FinancialBookDto.Response deleteFinancialBookCategory(
+    public GetFinancialBookDto.Response deleteFinancialBookCategory(
             DeleteFinancialBookCategoryDto.Request request,
             Member member) {
 
@@ -101,7 +105,7 @@ public class FinBallService {
         return readFinancialBook(member);
     }
 
-    public FinancialBookDto.Response updateFinancialBookCategory(
+    public GetFinancialBookDto.Response updateFinancialBookCategory(
             UpdateFinancialBookCategoryDto.Request request, Member member) {
 
         FinBallAccount account = getFinballAccount(member);
