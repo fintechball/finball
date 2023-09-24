@@ -2,6 +2,7 @@ package com.finball.mydata.entity;
 
 import com.finball.mydata.dto.account.AccountDto;
 import com.finball.mydata.dto.account.BankAccountDto;
+import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import lombok.*;
 
@@ -19,6 +20,9 @@ public class Account {
 
     @Id
     private String accountNo;
+
+    @Column
+    private String originNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;

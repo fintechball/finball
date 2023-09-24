@@ -31,6 +31,9 @@ public class FinBallAccount {
     private String accountNo;
 
     @Column
+    private String originNo;
+
+    @Column
     private Long balance;
 
     @Column
