@@ -1,12 +1,15 @@
 package com.finball.mydata.util;
 
 import com.finball.mydata.dto.account.RegistAccountDto;
+import com.finball.mydata.entity.Company;
 import com.finball.mydata.entity.Member;
+import com.finball.mydata.repository.CompanyRepository;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.time.LocalDateTime;
 import java.util.Random;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,10 +17,13 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class RandomAccount {
 
+    private final CompanyRepository companyRepository;
+
     Random random = new Random();
-    static final String JSON_FILE_PATH = "C:\\Users\\SSAFY\\Desktop\\S09P22E106\\backend\\mydata\\src\\main\\java\\com\\finball\\mydata\\util\\json\\account.json";
+    static final String JSON_FILE_PATH = "/Users/jeong-yeongbin/Desktop/S09P22E106/backend/mydata/src/main/java/com/finball/mydata/util/json/account.json";
 
     public RegistAccountDto create() throws IOException, ParseException {
         JSONParser parser = new JSONParser();
