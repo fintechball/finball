@@ -5,7 +5,7 @@ import static com.querydsl.core.types.PathMetadataFactory.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
-import javax.annotation.processing.Generated;
+import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
 
@@ -35,6 +35,8 @@ public class QAccount extends EntityPathBase<Account> {
     public final QMember member;
 
     public final StringPath name = createString("name");
+
+    public final StringPath originNo = createString("originNo");
 
     public QAccount(String variable) {
         this(Account.class, forVariable(variable), INITS);
