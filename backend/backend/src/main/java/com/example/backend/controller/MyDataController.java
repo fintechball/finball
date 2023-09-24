@@ -19,7 +19,7 @@ public class MyDataController {
 
     private final MyDataService myDataService;
 
-    @PostMapping("/user/mydata")
+    @PostMapping("/user/my-data")
     public Response<?> signUpMyData(@AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody MemberMyDataDto.Request request)
             throws JsonProcessingException {
