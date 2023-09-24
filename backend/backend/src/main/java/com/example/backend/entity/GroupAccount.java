@@ -51,14 +51,15 @@ public class GroupAccount {
     private Member member;
 
     @Builder
-    public GroupAccount(String accountNumber, LocalDateTime refreshDt, String name,
-            GameType gameType, long balance,
+    public GroupAccount(String accountNo, LocalDateTime refreshAt, String name,
+            GameType gameType, long balance, boolean valid,
             String url, Member member) {
-//        this.accountNumber = accountNumber;
-//        this.refreshDt = refreshDt;
+        this.accountNo = accountNo;
+        this.refreshAt = refreshAt;
         this.name = name;
         this.gameType = gameType;
         this.balance = balance;
+        this.valid = valid;
         this.url = url;
         this.member = member;
     }

@@ -21,11 +21,11 @@ public class GroupAccountMemberCustomRepository extends QuerydslRepositorySuppor
         this.queryFactory = queryFactory;
     }
 
-    public List<GroupAccountMember> getGroupAccountMemberWithMembers(String groupAccountId) {
+    public List<GroupAccountMember> getGroupAccountMemberWithMembers(String groupAccountNo) {
         List<GroupAccountMember> result = queryFactory
                 .selectFrom(groupAccountMember)
                 .join(groupAccountMember.member, member).fetchJoin()
-                .where(groupAccountMember.groupAccount.accountNo.eq(groupAccountId))
+                .where(groupAccountMember.groupAccount.accountNo.eq(groupAccountNo))
                 .fetch();
         return result;
     }

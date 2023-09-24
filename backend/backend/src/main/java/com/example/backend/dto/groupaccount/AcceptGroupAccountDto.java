@@ -12,14 +12,14 @@ public class AcceptGroupAccountDto {
     @Data
     public static class Request {
 
-        private String id;
-        private String accountNumber;
+        private String groupAccountNo;
+        private String accountNo;
         private String bankName;
 
         public GroupAccountMember toGroupAccountMember(Member member, GroupAccount groupAccount) {
             long zero = 0;
             return GroupAccountMember.builder()
-                    .toAccountNumber(this.accountNumber)
+                    .toAccountNo(this.accountNo)
                     .bankName(this.bankName)
                     .value(zero)
                     .balance(zero)

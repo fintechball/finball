@@ -23,13 +23,13 @@ public class RegistGroupAccountDto {
 
         private String name;
         private GameType gameType;
-        private String accountNumber;
+        private String accountNo;
         private String bankName;
 
         public GroupAccount toGroupAccount(Member member) {
             String url = UUID.randomUUID().toString();
-            String accountNumber = generateAccount();
-            LocalDateTime refreshDt = LocalDateTime.now();
+            String accountNo = generateAccount();
+            LocalDateTime refreshAt = LocalDateTime.now();
             boolean isValid = true;
 
             return GroupAccount.builder()
@@ -37,9 +37,9 @@ public class RegistGroupAccountDto {
                     .gameType(this.gameType)
                     .balance(0)
                     .url(url)
-                    .accountNumber(accountNumber)
-
-                    .refreshDt(refreshDt)
+                    .accountNo(accountNo)
+                    .valid(isValid)
+                    .refreshAt(refreshAt)
                     .member(member)
                     .build();
         }
@@ -47,7 +47,7 @@ public class RegistGroupAccountDto {
         public GroupAccountMember toGroupAccountMember(Member member, GroupAccount groupAccount) {
             long zero = 0;
             return GroupAccountMember.builder()
-                    .toAccountNumber(this.accountNumber)
+                    .toAccountNo(this.accountNo)
                     .bankName(this.bankName)
                     .value(zero)
                     .balance(zero)
