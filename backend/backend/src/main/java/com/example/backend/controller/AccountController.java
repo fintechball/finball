@@ -72,10 +72,4 @@ public class AccountController {
 
         return new Response(200, "정상적으로 사용자의 타행 계좌를 불러왔습니다.", response);
     }
-
-    @PostMapping("/user/account/favorite")
-    public Response<?> updateFavoriteAccount(@RequestBody FavoriteAccountDto.Request request) {
-        accountService.updateFavorite(request);
-        return new Response(200, "정상적으로 사용자의 타행 계좌를 불러왔습니다.", null);
-    }
 }

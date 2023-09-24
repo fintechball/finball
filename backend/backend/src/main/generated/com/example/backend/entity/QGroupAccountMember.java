@@ -5,7 +5,7 @@ import static com.querydsl.core.types.PathMetadataFactory.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
 
@@ -34,7 +34,7 @@ public class QGroupAccountMember extends EntityPathBase<GroupAccountMember> {
 
     public final NumberPath<Long> skinId = createNumber("skinId", Long.class);
 
-    public final StringPath toAccountNumber = createString("toAccountNumber");
+    public final StringPath toAccountNo = createString("toAccountNo");
 
     public final NumberPath<Long> value = createNumber("value", Long.class);
 

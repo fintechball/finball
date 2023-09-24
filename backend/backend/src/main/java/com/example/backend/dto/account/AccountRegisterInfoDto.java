@@ -17,12 +17,11 @@ public class AccountRegisterInfoDto {
 
     public Account toAccount(Member member){
         return Account.builder()
-                .accountNumber(accountNumber)
+//                .accountNumber(accountNumber)
                 .name(accountName)
                 .cpLogo(bankImage)
                 .cpName(bankName)
-                .isFavorite(false)
-                .createdDt(LocalDateTime.now())
+//                .createdDt(LocalDateTime.now())
                 .member(member)
                 .build();
     }

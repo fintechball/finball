@@ -24,11 +24,9 @@ public class Card {
     private String cardNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
     private Company company;
 
     private String name;

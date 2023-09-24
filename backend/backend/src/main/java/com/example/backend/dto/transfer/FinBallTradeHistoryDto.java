@@ -32,8 +32,8 @@ public class FinBallTradeHistoryDto {
                 .date(LocalDateTime.now())
                 .dealType(this.type)
                 .target(oppositeBankDto.getTarget())
-                .opAccount(oppositeBankDto.getAccount())
-                .opBankName(oppositeBankDto.getBankName())
+//                .opAccount(oppositeBankDto.getAccount())
+//                .opBankName(oppositeBankDto.getBankName())
                 .finBallAccount(finBallAccount)
                 .build();
     }
@@ -42,11 +42,11 @@ public class FinBallTradeHistoryDto {
         return GroupAccountHistory.builder()
                 .value(this.value)
                 .balance(this.remain)
-                .dealDt(LocalDateTime.now())
+//                .dealDt(LocalDateTime.now())
                 .dealType(this.type)
                 .target(oppositeBankDto.getTarget())
-                .opAccount(oppositeBankDto.getAccount())
-                .opBankName(oppositeBankDto.getBankName())
+//                .opAccount(oppositeBankDto.getAccount())
+//                .opBankName(oppositeBankDto.getBankName())
                 .groupAccount(groupAccount)
                 .build();
     }

@@ -19,13 +19,19 @@ public class Card {
 
     @Id
     @Column
-    private String cardNumber;
+    private String number;
 
     @Column
     private String name;
 
     @Column
     private String cpName;
+
+    @Column
+    private Long cpCode;
+
+    @Column
+    private String cpLogo;
 
     @Column
     private String image;

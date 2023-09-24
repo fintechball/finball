@@ -14,8 +14,8 @@ public class OppositeBankDto {
     private String target;
 
     public OppositeBankDto(FinBallHistory finBallHistory) {
-        this.bankName = finBallHistory.getOpBankName();
-        this.account = finBallHistory.getOpAccount();
+//        this.bankName = finBallHistory.getOpBankName();
+//        this.account = finBallHistory.getOpAccount();
         this.target = finBallHistory.getTarget();
     }
 }

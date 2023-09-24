@@ -25,13 +25,19 @@ public class FinBallAccount {
 
     @Id
     @Column
-    private String accountNumber;
+    private String accountNo;
 
     @Column
     private Long balance;
 
     @Column
-    private LocalDateTime refreshDt;
+    private LocalDateTime refreshAt;
+
+    @Column
+    private LocalDateTime createdAt;
+
+    @Column
+    private LocalDateTime closedAt;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -57,7 +63,7 @@ public class FinBallAccount {
 
     public ReadFinBallDto.Response toReadFinBallDto() {
         return ReadFinBallDto.Response.builder()
-                .accountNumber(this.accountNumber)
+                .accountNumber(this.accountNo)
                 .balance(this.balance)
                 .moneySource(this.moneySource.toString())
                 .usage(this.usage.toString())

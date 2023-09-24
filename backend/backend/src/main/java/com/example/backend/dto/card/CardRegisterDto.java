@@ -17,7 +17,7 @@ public class CardRegisterDto {
 
     public static Card toCard(CardDto cardDto, Member member) {
         return Card.builder()
-                .cardNumber(cardDto.getCardNumber())
+//                .cardNo(cardDto.getCardNumber())
                 .cpName(cardDto.getCompanyName())
                 .image(cardDto.getCardImage())
                 .name(cardDto.getCardName())

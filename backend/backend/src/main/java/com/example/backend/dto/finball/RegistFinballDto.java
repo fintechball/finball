@@ -29,7 +29,7 @@ public class RegistFinballDto {
             }
 
             return FinBallAccount.builder()
-                    .accountNumber(sb.toString())
+                    .accountNo(sb.toString())
                     .balance(0L)
                     .usage(Usage.valueOf(this.usage))
                     .moneySource(MoneySource.valueOf(this.moneySource))

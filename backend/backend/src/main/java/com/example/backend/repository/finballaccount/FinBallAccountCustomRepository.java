@@ -22,7 +22,7 @@ public class FinBallAccountCustomRepository extends QuerydslRepositorySupport {
 
         return jpaQueryFactory.select(finBallAccount)
                 .from(finBallAccount)
-                .where(finBallAccount.accountNumber.in(accountNoList))
+                .where(finBallAccount.accountNo.in(accountNoList))
                 .fetch();
     }
 }

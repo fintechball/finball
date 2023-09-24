@@ -23,7 +23,7 @@ public class GroupAccountMember {
     private Long id;
 
     @Column
-    private String toAccountNumber;
+    private String toAccountNo;
 
     @Column
     private Long value;
@@ -52,7 +52,7 @@ public class GroupAccountMember {
             long skinId,
             Member member,
             GroupAccount groupAccount) {
-        this.toAccountNumber = toAccountNumber;
+//        this.toAccountNumber = toAccountNumber;
         this.value = value;
         this.balance = balance;
         this.bankName = bankName;

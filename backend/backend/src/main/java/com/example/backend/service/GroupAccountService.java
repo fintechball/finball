@@ -53,7 +53,7 @@ public class GroupAccountService {
         GroupAccount savedGroupAccount = groupAccountRepository.save(groupAccount);
         GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount);
         groupAccountMemberRepository.save(groupAccountMember);
-        return savedGroupAccount.getAccountNumber();
+        return savedGroupAccount.getAccountNo();
     }
 
     public AcceptGroupAccountDto.Response acceptInvite(
@@ -134,7 +134,7 @@ public class GroupAccountService {
 
         // 송금하는 모임 통장
         TransferInfoDto minusBank = buildTransferInfoDto(finballCode,
-                groupAccount.getAccountNumber(), groupAccount.getName());
+                groupAccount.getAccountNo(), groupAccount.getName());
 
         if (groupAccount == null) {
             throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
@@ -155,7 +155,7 @@ public class GroupAccountService {
                 String token = redisUtil.getMyDataToken(memberId);
                 Long cpCode = getCode(token, request, bankName);
 
-                String toAccountNumber = groupAccountMember.getToAccountNumber();
+                String toAccountNumber = groupAccountMember.getToAccountNo();
                 String toName = groupAccountMember.getMember().getName();
                 long balance = groupAccountMember.getBalance();
 

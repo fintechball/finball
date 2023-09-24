@@ -23,7 +23,7 @@ public class MemberAccountInfoDto {
                 .accountNo(account.getAccountNo())
                 .balance(account.getBalance())
                 .name(account.getName())
-                .accountRegist(account.getAccountRegist())
+//                .accountRegist(account.getAccountRegist())
                 .company(companyInfoForMemberDto)
                 .build();
     }

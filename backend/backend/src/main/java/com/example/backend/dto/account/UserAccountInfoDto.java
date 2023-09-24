@@ -21,9 +21,8 @@ public class UserAccountInfoDto {
                 .bankName(account.getCpName())
                 .bankImage(account.getCpLogo())
                 .name(account.getName())
-                .account(account.getAccountNumber())
+                .account(account.getAccountNo())
                 .balance(1000L)
-                .isFavorite(account.isFavorite())
                 .build();
     }
 }

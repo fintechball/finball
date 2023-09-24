@@ -19,7 +19,7 @@ public class GroupAccountDto {
 
         public static GroupAccountDto.Response toGroupAccountDto(GroupAccount groupAccount,
                 List<GroupMemberDto> member, List<GroupTradeHistoryDto> tradeHistory) {
-            String accountNumber = groupAccount.getAccountNumber();
+            String accountNumber = groupAccount.getAccountNo();
             long balance = groupAccount.getBalance();
             return Response
                     .builder()

@@ -25,7 +25,7 @@ public class GroupAccountMemberCustomRepository extends QuerydslRepositorySuppor
         List<GroupAccountMember> result = queryFactory
                 .selectFrom(groupAccountMember)
                 .join(groupAccountMember.member, member).fetchJoin()
-                .where(groupAccountMember.groupAccount.accountNumber.eq(groupAccountId))
+                .where(groupAccountMember.groupAccount.accountNo.eq(groupAccountId))
                 .fetch();
         return result;
     }

@@ -24,7 +24,7 @@ public class RegistAccountDto {
     public Account toAccount(Member member, Company company) {
         return Account.builder()
                 .accountNo(this.accountNumber)
-                .accountRegist(this.registerDt)
+//                .accountRegist(this.registerDt)
                 .balance(this.balance)
                 .name(this.accountName)
                 .member(member)

@@ -33,11 +33,9 @@ public class TradeHistory {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
     private Company company;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
     private Account account;
 
     private Long value;
@@ -50,18 +48,14 @@ public class TradeHistory {
 
     private DealType type;
 
-    private String target;
+    private String target;   // 상대방 이름
 
-    private String nickname;
-
-    private String opAccount;
-
-    private String opBankName;
+    private String opAccountNo;
 
     public AccountHistoryDto toAccountHistoryInfoDto() {
         OppositeBankDto oppositeBankDto = OppositeBankDto.builder()
-                .bankName(this.opBankName)
-                .account(this.opAccount)
+//                .bankName(this.opBankName)
+                .account(this.opAccountNo)
                 .target(this.target)
                 .build();
 

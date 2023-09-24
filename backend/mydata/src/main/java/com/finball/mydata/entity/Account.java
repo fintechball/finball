@@ -23,20 +23,18 @@ public class Account {
     private String accountNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
     private Company company;
 
     private Long balance;
 
     private String name;
 
-    private LocalDateTime accountRegist;
+    private LocalDateTime createdAt;
 
-    private LocalDateTime accountClose;
+    private LocalDateTime closedAt;
 
     public void setBalance(Long balance) {
         this.balance = balance;
@@ -44,14 +42,14 @@ public class Account {
 
     @Builder
     public Account(String accountNo, Member member, Company company, Long balance, String name,
-            LocalDateTime accountRegist, LocalDateTime accountClose) {
+                   LocalDateTime createdAt, LocalDateTime closedAt) {
         this.accountNo = accountNo;
         this.member = member;
         this.company = company;
         this.balance = balance;
         this.name = name;
-        this.accountRegist = accountRegist;
-        this.accountClose = accountClose;
+        this.createdAt = createdAt;
+        this.closedAt = closedAt;
     }
 
     public BankAccountDto toAccountDto() {
@@ -60,8 +58,8 @@ public class Account {
                 .bankName(this.company.getCpName())
                 .bankImage(this.company.getCpLogo())
                 .accountName(this.name)
-                .accountRegist(this.accountRegist)
-                .accountClose(this.accountClose)
+                .accountRegist(this.createdAt)
+                .accountClose(this.closedAt)
                 .bankCode(this.company.getCpCode())
                 .build();
     }

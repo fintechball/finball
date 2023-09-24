@@ -26,14 +26,15 @@ public class Company {
 
     private String cpLogo;
 
+    private Long cpCode;
+
     @Builder
     public Company(Long id, String cpName, String cpLogo) {
         this.id = id;
         this.cpName = cpName;
         this.cpLogo = cpLogo;
     }
-    private Long cpCode;
-
+    
     @Enumerated(EnumType.STRING)
     private CompanyType cpType;
 

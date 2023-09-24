@@ -26,7 +26,7 @@ public class AccountCustomRepository extends QuerydslRepositorySupport {
                 .from(account)
                 .leftJoin(account.member, member).fetchJoin()
                 .where(member.id.eq(memberId))
-                .orderBy(account.isFavorite.desc())
+//                .orderBy(account.isFavorite.desc())
                 .fetch();
     }
 }
