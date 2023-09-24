@@ -1,7 +1,7 @@
 package com.finball.mydata.entity;
 
 import com.finball.mydata.dto.tradeHistory.AccountHistoryDto;
-import com.finball.mydata.dto.tradeHistory.OppositeBankDto;
+import com.finball.mydata.dto.tradeHistory.OppositeDto;
 import com.finball.mydata.type.DealType;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 
@@ -53,20 +52,21 @@ public class TradeHistory {
     private String opAccountNo;
 
     public AccountHistoryDto toAccountHistoryInfoDto() {
-        OppositeBankDto oppositeBankDto = OppositeBankDto.builder()
-//                .bankName(this.opBankName)
-                .account(this.opAccountNo)
-                .target(this.target)
+        OppositeDto oppositeDto = OppositeDto.builder()
+                .accountNo(this.opAccountNo)
+                .userName(target)
+                .company(this.company.toCompanyDto())
                 .build();
 
         return AccountHistoryDto.builder()
                 .id(this.id)
+                .accountNo(this.account.getAccountNo())
                 .value(this.value)
                 .date(this.date)
                 .time(this.time)
                 .type(this.type)
                 .remain(this.remain)
-                .oppositeBankDto(oppositeBankDto)
+                .oppositeDto(oppositeDto)
                 .build();
     }
 }

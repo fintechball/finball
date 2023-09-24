@@ -4,17 +4,11 @@ import com.finball.mydata.dto.Response;
 import com.finball.mydata.dto.account.AccountTransferDto;
 import com.finball.mydata.dto.account.BankAccountListDto;
 import com.finball.mydata.dto.account.GetMemberAccountDto;
-import com.finball.mydata.dto.tradeHistory.FinBallTradeHistoryListDto;
-import com.finball.mydata.entity.Member;
 import com.finball.mydata.security.auth.PrincipalDetails;
 import com.finball.mydata.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,7 +16,7 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @PostMapping("/my_data/bank/account")
+    @PostMapping("/my-data/bank/account")
     public Response<BankAccountListDto.Response> getBankAccountList(
             @RequestBody BankAccountListDto.Request request,
             @AuthenticationPrincipal PrincipalDetails userDetails) {
@@ -36,11 +30,9 @@ public class AccountController {
         accountService.createAccount(memberId);
     }
 
-    @PostMapping("/myData/transfer")
+    @PostMapping("/my-data/transfer")
     public Response<AccountTransferDto.Response> accountTransfer(
             @RequestBody AccountTransferDto.Request request) {
-
-        System.out.println(request);
 
         AccountTransferDto.Response response = accountService.accountTransfer(request);
 
@@ -51,8 +43,6 @@ public class AccountController {
     public Response<GetMemberAccountDto.Response> getMemberAccount(
             @RequestBody GetMemberAccountDto.Request request,
             @AuthenticationPrincipal PrincipalDetails userDetails) {
-
-        System.out.println(request);
 
         GetMemberAccountDto.Response response = accountService.getMemberAccount(
                 request.getAccountList(), userDetails.getMember());
