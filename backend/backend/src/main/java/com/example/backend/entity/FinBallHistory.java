@@ -1,5 +1,8 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.finball.CompanyDto;
+import com.example.backend.dto.finball.FinBallTradeHistoryDto;
+import com.example.backend.dto.finball.OppositeDto;
 import com.example.backend.type.DealType;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -60,4 +63,24 @@ public class FinBallHistory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
+
+    public FinBallTradeHistoryDto toFinBallHistoryDto() {
+        return FinBallTradeHistoryDto.builder()
+                .id(this.id)
+                .value(this.value)
+                .date(this.date.toLocalDate())
+                .time(this.date.toLocalTime())
+                .type(this.dealType)
+                .balance(this.balance)
+                .opposite(OppositeDto.builder()
+                        .userName(this.target)
+                        .accountNo(this.opAccountNo)
+                        .company(CompanyDto.builder()
+                                .code(this.opBankCpCode)
+                                .name(this.opBankCpName)
+                                .logo(this.opBankCpLogo)
+                                .build())
+                        .build())
+                .build();
+    }
 }

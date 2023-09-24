@@ -3,19 +3,24 @@ package com.example.backend.service;
 import com.example.backend.dto.finball.DeleteFinancialBookCategoryDto;
 import com.example.backend.dto.finball.GetFinancialBookDto;
 import com.example.backend.dto.finball.ReadFinBallDto;
+import com.example.backend.dto.finball.ReadFinBallHistoryDto;
+import com.example.backend.dto.finball.ReadFinBallHistoryDto.Response;
 import com.example.backend.dto.finball.RegisterFinBallBookDto;
 import com.example.backend.dto.finball.RegisterFinBallDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
 import com.example.backend.dto.finball.UpdateFinancialBookCategoryDto;
 import com.example.backend.entity.Category;
 import com.example.backend.entity.FinBallAccount;
+import com.example.backend.entity.FinBallHistory;
 import com.example.backend.entity.Member;
 import com.example.backend.error.ErrorCode;
 import com.example.backend.exception.CustomException;
 import com.example.backend.repository.category.CategoryCustomRepository;
 import com.example.backend.repository.category.CategoryRepository;
 import com.example.backend.repository.finballaccount.FinBallAccountRepository;
+import com.example.backend.repository.finballhistory.FinBallHistoryRepository;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +33,7 @@ public class FinBallService {
     private final FinBallAccountRepository finBallAccountRepository;
     private final CategoryRepository categoryRepository;
     private final CategoryCustomRepository categoryCustomRepository;
+    private final FinBallHistoryRepository finBallHistoryRepository;
 
     public void createAccount(RegisterFinBallDto.Request request, Member member) {
 
@@ -136,4 +142,15 @@ public class FinBallService {
         return account;
     }
 
+    public ReadFinBallHistoryDto.Response readFinBallHistoryList(Member member) {
+
+        FinBallAccount account = getFinballAccount(member);
+        ReadFinBallHistoryDto.Response response = new ReadFinBallHistoryDto.Response();
+
+        response.toFinBallTradeHistoryDtoList(
+                finBallHistoryRepository.findAllByFinBallAccount(account));
+        response.setAccount(account.toReadFinBallDto().getAccount());
+
+        return response;
+    }
 }
