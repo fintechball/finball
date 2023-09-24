@@ -23,7 +23,7 @@ public class FinBallTradeHistoryDto {
     private LocalTime time;
     private DealType type;
     private Long remain;
-    private OppositeBankDto oppositeBankDto;
+    private OppositeDto oppositeDto;
 
     public FinBallHistory toFinBallHistory(FinBallAccount finBallAccount) {
         return FinBallHistory.builder()
@@ -31,7 +31,7 @@ public class FinBallTradeHistoryDto {
                 .balance(this.remain)
                 .date(LocalDateTime.now())
                 .dealType(this.type)
-                .target(oppositeBankDto.getTarget())
+                .target(oppositeDto.getUserName())
 //                .opAccount(oppositeBankDto.getAccount())
 //                .opBankName(oppositeBankDto.getBankName())
                 .finBallAccount(finBallAccount)
@@ -44,7 +44,7 @@ public class FinBallTradeHistoryDto {
                 .balance(this.remain)
 //                .dealDt(LocalDateTime.now())
                 .dealType(this.type)
-                .target(oppositeBankDto.getTarget())
+                .target(oppositeDto.getUserName())
 //                .opAccount(oppositeBankDto.getAccount())
 //                .opBankName(oppositeBankDto.getBankName())
                 .groupAccount(groupAccount)
