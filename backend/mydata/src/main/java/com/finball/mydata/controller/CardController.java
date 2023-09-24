@@ -23,7 +23,7 @@ public class CardController {
         cardService.createCard(memberId);
     }
 
-    @PostMapping("/myData/card")
+    @PostMapping("/my-data/card")
     public Response<?> getCardList(@RequestBody CardListDto.Request request,
             @AuthenticationPrincipal PrincipalDetails userDetails) {
 
