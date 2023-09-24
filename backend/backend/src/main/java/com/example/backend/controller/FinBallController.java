@@ -4,6 +4,7 @@ import com.example.backend.dto.Response;
 import com.example.backend.dto.finball.DeleteFinancialBookCategoryDto;
 import com.example.backend.dto.finball.GetFinancialBookDto;
 import com.example.backend.dto.finball.ReadFinBallDto;
+import com.example.backend.dto.finball.ReadFinBallHistoryDto;
 import com.example.backend.dto.finball.RegisterFinBallBookDto;
 import com.example.backend.dto.finball.RegisterFinBallDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
@@ -115,4 +116,14 @@ public class FinBallController {
 
         return new Response<>(200, "가계부가 삭제되었습니다.");
     }
+
+    @GetMapping("/fin-ball/history")
+    public Response<ReadFinBallHistoryDto.Response> readFinBallHistoryList(@AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        Member member = userDetails.getMember();
+        ReadFinBallHistoryDto.Response data = finballService.readFinBallHistoryList(member);
+
+        return new Response(200, "가계부 히스토리를 조회했습니다.", data);
+    }
+
 }
