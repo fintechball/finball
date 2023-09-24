@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import lombok.Data;
 
 @Data
-public class FinancialBookDto {
+public class GetFinancialBookDto {
 
     @Data
     public static class Response {
@@ -13,16 +13,16 @@ public class FinancialBookDto {
         private Long value;     //가계부 value 합
         private Long usedValue; //가계부 총 사용 금액
         private Long balance;   //가계부 잔고
-        private ArrayList<FinancialBookCategoryDto> category;
+        private ArrayList<FinancialBookCategoryDto> categoryList;
         private Integer refreshDate; //가계부 갱신일 (1일)
 
-        public Response(ArrayList<Category> categories) {
+        public Response(ArrayList<Category> categoryList) {
             ArrayList<FinancialBookCategoryDto> category = new ArrayList<>();
             Long value = 0L;
             Long usedValue = 0L;
             Long balance = 0L;
 
-            for (Category categoryEntity : categories) {
+            for (Category categoryEntity : categoryList) {
                 category.add(categoryEntity.toCategoryDto());
 
                 value += categoryEntity.getValue();
@@ -33,7 +33,7 @@ public class FinancialBookDto {
             this.value = value;
             this.usedValue = usedValue;
             this.balance = balance;
-            this.category = category;
+            this.categoryList = category;
         }
     }
 

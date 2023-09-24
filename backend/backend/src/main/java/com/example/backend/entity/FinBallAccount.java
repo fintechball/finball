@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.finball.FinBallAccountInfoDto;
 import com.example.backend.dto.finball.ReadFinBallDto;
 import com.example.backend.type.MoneySource;
 import com.example.backend.type.Usage;
@@ -11,10 +12,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Builder
@@ -31,13 +34,13 @@ public class FinBallAccount {
     private Long balance;
 
     @Column
-    private LocalDateTime refreshAt;
+    private LocalDateTime refreshAt; //거래 갱신일
 
     @Column
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; //계좌 생성일
 
     @Column
-    private LocalDateTime closedAt;
+    private LocalDateTime closedAt; //??
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -53,8 +56,18 @@ public class FinBallAccount {
     @Column
     private Integer bookRefreshDate; //가계부 refresh 날짜 (5일)
 
-    public void setRefreshDate(int refreshDate){
-        this.bookRefreshDate = refreshDate;
+    @Column
+    @ColumnDefault("false")
+    private boolean isTexted;
+
+    //계좌 생성 시 자동으로 createdAt
+    @PrePersist
+    public void createTimeStamps() {
+        createdAt = LocalDateTime.now();
+    }
+
+    public void setBookRefreshDate(int bookRefreshDate) {
+        this.bookRefreshDate = bookRefreshDate;
     }
 
     public void setBalance(Long balance) {
@@ -63,11 +76,13 @@ public class FinBallAccount {
 
     public ReadFinBallDto.Response toReadFinBallDto() {
         return ReadFinBallDto.Response.builder()
-                .accountNumber(this.accountNo)
-                .balance(this.balance)
-                .moneySource(this.moneySource.toString())
-                .usage(this.usage.toString())
-                .bookRefreshDate(this.bookRefreshDate)
-                .build();
+                .account(FinBallAccountInfoDto.builder()
+                        .no(this.accountNo)
+                        .balance(this.balance)
+                        .bookRefreshDate(this.bookRefreshDate)
+                        .createdAt(this.createdAt.toLocalDate())
+                        .moneySource(this.moneySource)
+                        .usage(this.usage)
+                        .build()).build();
     }
 }
