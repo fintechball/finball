@@ -1,20 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { PURGE } from "redux-persist";
 
 interface authState {
-  currentUrl: string;
+  accessToken: string;
+  refreshToken: string;
+  name: string;
+  userId: string;
 }
 
 const initialState: authState = {
-  currentUrl: window.location.pathname, // 초기 URL 설정
+  accessToken: "",
+  refreshToken: "",
+  name: "",
+  userId: "",
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuth: (state, action) => {
-      state.currentUrl = action.payload;
+    setAuth: (state, action: PayloadAction<authState>) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+      state.name = action.payload.name;
+      state.userId = action.payload.userId;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, () => {
+      return initialState;
+    });
   },
 });
 
