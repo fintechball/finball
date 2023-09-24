@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
 import com.example.backend.dto.member.MemberMyDataDto;
+import com.example.backend.dto.mydata.MyDataAuthDto;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.MyDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,7 +20,7 @@ public class MyDataController {
 
     private final MyDataService myDataService;
 
-    @PostMapping("/user/my-data")
+    @PostMapping("/my-data/user/auth")
     public Response<?> signUpMyData(@AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody MemberMyDataDto.Request request)
             throws JsonProcessingException {

@@ -39,7 +39,7 @@ public class CompanyService {
         ResponseEntity<String> responseEntity = restTemplateUtil
                 .callMyData(null, null, url, HttpMethod.GET);
         RestDto<CompanyDto> restDto = new RestDto<>(CompanyDto.class, responseEntity);
-        return (List<CompanyDto>) restTemplateUtil.parseListBody(restDto, "companyDtoList");
+        return (List<CompanyDto>) restTemplateUtil.parseListBody(restDto, "companyList");
 
     }
 

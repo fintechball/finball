@@ -6,7 +6,7 @@ import lombok.Data;
 public class CompanyDto {
 
     String name;
-    String img;
+    String logo;
     Long code;
     boolean isConnected;
 

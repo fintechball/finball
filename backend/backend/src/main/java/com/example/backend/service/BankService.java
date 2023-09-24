@@ -27,12 +27,13 @@ public class BankService {
             throws JsonProcessingException {
 
         List<BankAccountDto> bankAccountDtoList = getBankAccountDtoList(request, userId);
+
         List<String> existBankAccount = bankCustomRepository.findAccountNumberByMemberId(userId);
 
         List<BankAccountDto> response = new ArrayList<>();
 
         for (BankAccountDto bankAccountDto : bankAccountDtoList) {
-            if (!existBankAccount.contains(bankAccountDto.getAccountNumber())) {
+            if (!existBankAccount.contains(bankAccountDto.getAccount().getNo())) {
                 response.add(bankAccountDto);
             }
         }
@@ -47,7 +48,7 @@ public class BankService {
         String myDataToken = redisUtil.getMyDataToken(userId);
 
         ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMyData(myDataToken, request, "/myData/bank/account", HttpMethod.POST);
+                .callMyData(myDataToken, request, "/my-data/bank/account", HttpMethod.POST);
         RestDto<BankAccountDto> restDto = new RestDto<>(BankAccountDto.class, responseEntity);
         List<BankAccountDto> bankAccountDtoList = (List<BankAccountDto>) restTemplateUtil
                 .parseListBody(restDto, "bankAccountList");

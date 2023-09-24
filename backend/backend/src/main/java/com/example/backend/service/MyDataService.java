@@ -1,6 +1,8 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.member.MemberMyDataDto;
+import com.example.backend.dto.mydata.MyDataAuthDto.Request;
+import com.example.backend.entity.Member;
 import com.example.backend.util.RedisUtil;
 import com.example.backend.util.RestTemplateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,5 +24,9 @@ public class MyDataService {
         ResponseEntity<String> respEntity = restTemplateUtil.callMyData(null, request, "/login",
                 HttpMethod.POST);
         redisUtil.storeMyDataToken(userId, respEntity);
+    }
+
+    public void auth(Request request, Member member) {
+
     }
 }
