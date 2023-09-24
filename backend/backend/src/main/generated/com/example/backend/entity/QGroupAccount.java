@@ -22,7 +22,7 @@ public class QGroupAccount extends EntityPathBase<GroupAccount> {
 
     public static final QGroupAccount groupAccount = new QGroupAccount("groupAccount");
 
-    public final StringPath accountNumber = createString("accountNumber");
+    public final StringPath accountNo = createString("accountNo");
 
     public final NumberPath<Long> balance = createNumber("balance", Long.class);
 

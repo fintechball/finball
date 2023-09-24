@@ -20,7 +20,7 @@ public class GroupAccount {
 
     @Id
     @Column
-    private String accountNumber;
+    private String accountNo;
 
     @Column
     private Long balance;
@@ -45,14 +45,15 @@ public class GroupAccount {
     private Member member;
 
     @Builder
-    public GroupAccount(String accountNumber, LocalDateTime refreshDt, String name,
-            GameType gameType, long balance,
+    public GroupAccount(String accountNo, LocalDateTime refreshDt, String name,
+            GameType gameType, long balance, boolean valid,
             String url, Member member) {
-        this.accountNumber = accountNumber;
+        this.accountNo = accountNo;
         this.refreshDt = refreshDt;
         this.name = name;
         this.gameType = gameType;
         this.balance = balance;
+        this.valid = valid;
         this.url = url;
         this.member = member;
     }

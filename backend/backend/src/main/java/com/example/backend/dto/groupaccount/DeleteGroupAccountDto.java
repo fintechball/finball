@@ -7,6 +7,6 @@ public class DeleteGroupAccountDto {
 
     @Data
     public static class Request {
-        String groupAccountId;
+        String groupAccountNo;
     }
 }

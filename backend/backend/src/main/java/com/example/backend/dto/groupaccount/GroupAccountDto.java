@@ -13,17 +13,17 @@ public class GroupAccountDto {
     public static class Response {
 
         private long balance;
-        private String accountNumber;
+        private String accountNo;
         private List<GroupMemberDto> member;
         private List<GroupTradeHistoryDto> tradeHistory;
 
         public static GroupAccountDto.Response toGroupAccountDto(GroupAccount groupAccount,
                 List<GroupMemberDto> member, List<GroupTradeHistoryDto> tradeHistory) {
-            String accountNumber = groupAccount.getAccountNumber();
+            String accountNo = groupAccount.getAccountNo();
             long balance = groupAccount.getBalance();
             return Response
                     .builder()
-                    .accountNumber(accountNumber)
+                    .accountNo(accountNo)
                     .balance(balance)
                     .member(member)
                     .tradeHistory(tradeHistory)
