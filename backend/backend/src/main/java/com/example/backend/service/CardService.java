@@ -39,7 +39,7 @@ public class CardService {
         List<CardDto> response = new ArrayList<>();
 
         for (CardDto cardDto : cardDtoList) {
-            if (!existCardNumber.contains(cardDto.getCardNumber())) {
+            if (!existCardNumber.contains(cardDto.getCard().getNo())) {
                 response.add(cardDto);
             }
         }
@@ -53,10 +53,10 @@ public class CardService {
         String myDataToken = redisUtil.getMyDataToken(userId);
 
         ResponseEntity<String> responseEntity = restTemplateUtil
-                .callMyData(myDataToken, request, "/myData/card", HttpMethod.POST);
+                .callMyData(myDataToken, request, "/my-data/card", HttpMethod.POST);
         RestDto<CardDto> restDto = new RestDto<>(CardDto.class, responseEntity);
         List<CardDto> cardDtoList = (List<CardDto>) restTemplateUtil
-                .parseListBody(restDto, "cardDtoList");
+                .parseListBody(restDto, "cardList");
 
         return cardDtoList;
     }
@@ -72,7 +72,7 @@ public class CardService {
         Member member = memberOptional.get();
         List<Card> cardList = new ArrayList<>();
 
-        for (CardDto cardDto : request.getCardDtoList()) {
+        for (CardDto cardDto : request.getCardList()) {
             cardList.add(CardRegisterDto.toCard(cardDto, member));
         }
 
@@ -86,7 +86,7 @@ public class CardService {
         List<GetCardDto> getCardDtoList = new ArrayList<>();
 
         for (Card card : cardList) {
-            getCardDtoList.add(GetCardListDto.toGetCardDto(card));
+            getCardDtoList.add(card.toGetCardDto());
         }
 
         return new GetCardListDto.Response(getCardDtoList);

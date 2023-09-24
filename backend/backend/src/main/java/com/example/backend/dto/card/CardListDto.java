@@ -16,6 +16,6 @@ public class CardListDto {
     @AllArgsConstructor
     public static class Response {
 
-        private List<CardDto> cardDtoList;
+        private List<CardDto> cardList;
     }
 }
