@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import styles from "./BankAccount.module.scss";
+import styles from "./BankAccount.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
