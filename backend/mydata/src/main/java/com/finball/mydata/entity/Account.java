@@ -44,9 +44,10 @@ public class Account {
     }
 
     @Builder
-    public Account(String accountNo, Member member, Company company, Long balance, String name,
+    public Account(String accountNo, String originNo, Member member, Company company, Long balance, String name,
                    LocalDateTime createdAt, LocalDateTime closedAt) {
         this.accountNo = accountNo;
+        this.originNo = originNo;
         this.member = member;
         this.company = company;
         this.balance = balance;
