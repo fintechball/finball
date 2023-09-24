@@ -2,7 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
 import com.example.backend.dto.account.AccountRegisterDto;
-import com.example.backend.dto.account.FavoriteAccountDto;
+import com.example.backend.dto.account.GetOppositeAccountDto;
 import com.example.backend.dto.account.GetUserAccountDto;
 import com.example.backend.dto.account.GetUserAccountSimpleDto;
 import com.example.backend.dto.mydata.history.AccountHistoryListDto;
@@ -14,12 +14,7 @@ import com.example.backend.service.TransferService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -32,7 +27,7 @@ public class AccountController {
 
     @PostMapping("/user/account")
     public Response<?> registerAccount(@RequestBody AccountRegisterDto.Request request,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                       @AuthenticationPrincipal UserDetailsImpl userDetails) {
         accountService.register(request, userDetails.getMember());
         return new Response<>(200, "정상적으로 사용자의 타행 계좌가 등록되었습니다.", null);
     }
@@ -48,14 +43,14 @@ public class AccountController {
 
     @PostMapping("/user/transfer")
     public Response<?> transfer(@RequestBody AccountTransferDto.Request request,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+                                @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
         transferService.send(request, userDetails.getMember());
         return new Response<>(200, "정상적으로 이체가 완료되었습니다.", null);
     }
 
     @GetMapping("/user/account/{accountNo}")
     public Response<AccountHistoryListDto.Response> getAccountDetail(@PathVariable String accountNo,
-            @AuthenticationPrincipal UserDetailsImpl userDetails)
+                                                                     @AuthenticationPrincipal UserDetailsImpl userDetails)
             throws JsonProcessingException {
         AccountHistoryListDto.Response response = historyService.getHistory(accountNo,
                 userDetails.getMember());
@@ -70,5 +65,15 @@ public class AccountController {
                 userDetails.getMember());
 
         return new Response(200, "정상적으로 사용자의 타행 계좌를 불러왔습니다.", response);
+    }
+
+    @PostMapping("/user/opposite/account")
+    public Response<GetOppositeAccountDto.Response> getOppositeAccount(@RequestBody GetOppositeAccountDto.Request request, @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+
+        String memberId = userDetails.getUsername();
+        GetOppositeAccountDto.Response response = accountService.getOppositeAccount(request, memberId);
+
+        return new Response(200, "상대방의 계좌 정보를 불러왔습니다.", response);
+
     }
 }

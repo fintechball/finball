@@ -1,9 +1,11 @@
 package com.finball.mydata.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.finball.mydata.dto.Response;
 import com.finball.mydata.dto.account.AccountTransferDto;
 import com.finball.mydata.dto.account.BankAccountListDto;
 import com.finball.mydata.dto.account.GetMemberAccountDto;
+import com.finball.mydata.dto.account.GetOppositeAccountDto;
 import com.finball.mydata.security.auth.PrincipalDetails;
 import com.finball.mydata.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -49,4 +51,17 @@ public class AccountController {
 
         return new Response<>(200, "해당 사용자가 원하는 계좌 정보를 불러왔습니다.", response);
     }
+
+
+    @PostMapping("/my-data/opposite/account")
+    public Response<GetOppositeAccountDto.Response> getOppositeAccount(@RequestBody GetOppositeAccountDto.Request request) throws JsonProcessingException {
+
+        GetOppositeAccountDto.Response response = accountService.getOppositeAccount(request);
+
+        System.out.println(response.toString());
+
+        return new Response(200, "상대방의 계좌 정보를 불러왔습니다.", response);
+
+    }
+
 }
