@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class RegistAccountDto {
 
     private String accountNumber;
+    private String originNumber;
     private LocalDateTime registerDt;
     private Long balance;
     private Long companyId;
@@ -25,6 +26,7 @@ public class RegistAccountDto {
         System.out.println(company);
         return Account.builder()
                 .accountNo(this.accountNumber)
+                .originNo(this.originNumber)
                 .createdAt(this.registerDt)
                 .balance(this.balance)
                 .name(this.accountName)
