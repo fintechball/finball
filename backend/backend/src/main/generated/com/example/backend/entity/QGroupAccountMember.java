@@ -24,7 +24,7 @@ public class QGroupAccountMember extends EntityPathBase<GroupAccountMember> {
 
     public final NumberPath<Long> balance = createNumber("balance", Long.class);
 
-    public final StringPath bankName = createString("bankName");
+    public final StringPath cpName = createString("cpName");
 
     public final QGroupAccount groupAccount;
 

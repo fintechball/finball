@@ -5,12 +5,16 @@ import com.example.backend.dto.company.CompanyCodeDto;
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
 import com.example.backend.dto.groupaccount.DeleteGroupAccountDto;
 import com.example.backend.dto.groupaccount.GameEndDto;
+import com.example.backend.dto.groupaccount.GetGroupAccountListDto;
+import com.example.backend.dto.groupaccount.GetGroupAccountListDto.Response;
 import com.example.backend.dto.groupaccount.GroupAccountDto;
+import com.example.backend.dto.groupaccount.GroupAccountListDto;
 import com.example.backend.dto.groupaccount.GroupMemberDto;
 import com.example.backend.dto.groupaccount.GroupTradeHistoryDto;
 import com.example.backend.dto.groupaccount.RegistGroupAccountDto.Request;
 import com.example.backend.dto.transfer.AccountTransferDto;
 import com.example.backend.dto.transfer.TransferInfoDto;
+import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.GroupAccount;
 import com.example.backend.entity.GroupAccountHistory;
 import com.example.backend.entity.GroupAccountMember;
@@ -18,6 +22,7 @@ import com.example.backend.entity.GroupGameResult;
 import com.example.backend.entity.Member;
 import com.example.backend.error.ErrorCode;
 import com.example.backend.exception.CustomException;
+import com.example.backend.repository.finballaccount.FinBallAccountRepository;
 import com.example.backend.repository.groupaccount.GroupAccountCustomRepository;
 import com.example.backend.repository.groupaccount.GroupAccountRepository;
 import com.example.backend.repository.groupaccounthistory.GroupAccountHistoryRepository;
@@ -45,28 +50,39 @@ public class GroupAccountService {
     private final GroupAccountMemberRepository groupAccountMemberRepository;
     private final GroupAccountHistoryRepository groupAccountHistoryRepository;
     private final GroupGameResultRepository groupGameResultRepository;
+    private final FinBallAccountRepository finBallAccountRepository;
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
 
     public String save(Request request, Member member) {
         GroupAccount groupAccount = request.toGroupAccount(member);
         GroupAccount savedGroupAccount = groupAccountRepository.save(groupAccount);
-        GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount);
+        FinBallAccount finBallAccount = finBallAccountRepository.findByMemberId(member.getId()).get();
+        if(finBallAccount == null) throw new CustomException(ErrorCode.ACCOUNT_NOT_FOUND);
+        GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount, finBallAccount);
         groupAccountMemberRepository.save(groupAccountMember);
         return savedGroupAccount.getAccountNo();
     }
 
     public AcceptGroupAccountDto.Response acceptInvite(
             AcceptGroupAccountDto.Request request, Member member) {
-        String groupAccountNo = request.getGroupAccountNo();
-        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountNo).get();
+        String url = request.getUrl();
+        System.out.println(url);
+        GroupAccount groupAccount = groupAccountRepository.findByUrl(url);
+        // 그룹계좌 확인
         if (groupAccount == null) {
             throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
         }
         if (groupAccount.isValid() == false) {
             throw new CustomException(ErrorCode.ACCOUNT_NOT_VALID);
         }
-        GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount);
+        // 핀볼 계좌 확인
+        FinBallAccount finBallAccount = finBallAccountRepository.findByMemberId(member.getId())
+                .get();
+        if (finBallAccount == null) {
+            throw new CustomException(ErrorCode.ACCOUNT_NOT_FOUND);
+        }
+        GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount, finBallAccount);
         groupAccountMemberRepository.save(groupAccountMember);
         return AcceptGroupAccountDto.Response.toAcceptGroupAccountDtoResponse(groupAccount);
     }
@@ -151,7 +167,7 @@ public class GroupAccountService {
         ) {
             if (groupAccountMember.getBalance() != 0) {
                 // 회사 코드 가져오기
-                String bankName = groupAccountMember.getBankName();
+                String bankName = groupAccountMember.getCpName();
                 String token = redisUtil.getMyDataToken(memberId);
                 Long cpCode = getCode(token, request, bankName);
 
@@ -202,5 +218,15 @@ public class GroupAccountService {
                 .plusBank(plusBank)
                 .value(value)
                 .build();
+    }
+
+    public Response getGroupAccountList(Member member) {
+        Long memberId = member.getId();
+        List<GroupAccountListDto> groupAccountList = groupAccountRepository.findAllByMemberId(
+                memberId).stream().map(GroupAccount::togroupAccountListDto).collect(
+                Collectors.toList());
+        GetGroupAccountListDto.Response response = GetGroupAccountListDto.Response.builder()
+                .groupAccountList(groupAccountList).build();
+        return response;
     }
 }

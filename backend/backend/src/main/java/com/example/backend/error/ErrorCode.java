@@ -9,6 +9,7 @@ public enum ErrorCode {
     GROUP_ACCOUNT_NOT_FOUND(500, "그룹 계좌가 존재하지 않습니다."),
     GROUP_ACCOUNT_HISTORY_NOT_FOUND(500, "그룹 계좌 거래 내역이 존재하지 않습니다."),
     GROUP_ACCOUNT_MEMBER_NOT_FOUND(500, "그룹 멤버가 존재하지 않습니다."),
+    ACCOUNT_NOT_FOUND(500, "통장이 존재하지 않습니다."),
     ACCOUNT_NOT_VALID(400, "만료된 통장입니다"),
     ALREADY_IN_USE(409, "이미 데이터가 존재합니다."),
     INTERNAL_SERVER_ERROR(500, "서버 에러입니다"),
