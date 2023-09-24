@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Engine, Render, World, Bodies, MouseConstraint, Mouse, Body,Events,Common } from 'matter-js';
+import { Engine, Render, World, Bodies, MouseConstraint, Mouse, Body,Events,Common,Constraint } from 'matter-js';
 
 import Modal from 'react-modal';
 import finball from "../../assets/finball.png" 
@@ -8,7 +8,7 @@ import decomp from 'poly-decomp';
 import { Float } from '@react-three/drei';
 const width = 360;
 const height = 1800;
-const Payment = 10;
+const Payment = 1;
 const theme = '#4C4499';
   const dummy=
     [
@@ -23,6 +23,7 @@ const theme = '#4C4499';
 function App() {
 
   const [balls, setBalls] = useState([]);
+  const [ballTexts, setBallTexts] = useState([]);
   const [isGroundRemoved, setIsGroundRemoved] = useState(false);
   const [ballCount, setBallCount] = useState(0);
   const Pay=[];
@@ -36,7 +37,7 @@ function App() {
   const [isButtonOpen, setisButtonOpen] = useState('visible');
   const [once,setOnce]=useState(false);
   const [finx,finy]=[102,103];
-  const word=width*0.013+'px';
+  const word=width*0.04+'px';
   const [userColor, setUserColor] = useState({
     "red":"unknown",
     "blue":"unknown",
@@ -130,29 +131,41 @@ const setColor = () => {
 const setGravity = () => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   if (isMobile) {
-    engine.gravity.y = 0.20
+    engine.gravity.y = 0.28
   } else {
-    engine.gravity.y = 0.25
+    engine.gravity.y = 0.28
   }
 };
 
 function start() {
   for (let i = 0; i < totalCnt; i++) {
     const ball = Bodies.circle(X[Math.floor(Math.random() * X.length)], Y[Math.floor(Math.random() * Y.length)], width/70, {
-      restitution: 0.8,
-      friction: 0.01,
-      density: 0.001,
-      label:"red",
+      restitution: 0.9,
+      friction: 0.1,
+      density: 8,
       isStatic: false,
       render: {
         fillStyle: balllist[i],
-        strokeStyle: 'black',
+        strokeStyle: 'white',
         lineWidth: 1,
       },
     });
     balls.push(ball);
-    World.add(engine.world, ball);
-  }};
+    const rootDiv = document.getElementById('canvas');
+    const textElement = document.createElement('div');
+    textElement.textContent = `${userColor[balllist[i]]}`; // 원하는 텍스트를 추가하세요.
+    textElement.id=`${balls[i].id}`
+    textElement.style.position = 'absolute';
+    textElement.style.zIndex = "1";
+    textElement.style.color = balllist[i];
+    textElement.style.top = `${ball.position.y-10}px`; // 초기 위치 설정
+    textElement.style.left = `${width/2-180-ball.position.x}px`;
+    rootDiv.appendChild(textElement);
+    // document.body.div.appendChild(textElement);
+    ballTexts.push(textElement);
+      World.add(engine.world, ball);
+    }};
+    
   function shuffleArray(array) {
     // 배열의 복사본을 만듭니다.
     const shuffledArray = [...array];
@@ -176,7 +189,7 @@ useEffect(() => {
     async function initialize() {
     const engine = Engine.create({
       timing:{
-        frameRate:30,
+        frameRate:60,
       }});
     render = Render.create({
       element: document.getElementById('canvas'),
@@ -185,8 +198,7 @@ useEffect(() => {
         width: 360,
         height: 1800,
         wireframes: false,
-        background: 'white',
-        position:"absoulte"
+        background: 'black',
       },
     });
     Common.setDecomp(decomp);
@@ -382,7 +394,7 @@ useEffect(() => {
         isStatic: true, // 이 바디를 움직이지 않도록 설정
         angle: Math.PI / 4,
         render: {
-          fillStyle:"transparent",
+          fillStyle:"white",
           strokeStyle: theme, // 테두리 색상
           lineWidth: 3, // 테두리 두께
         },
@@ -721,7 +733,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const rot5 = Bodies.rectangle(width * 0.5, height * 0.4, width  *0.2, width  *0.02, {
+      const rot5 = Bodies.rectangle(width * 0.35, height * 0.4, width  *0.25, width  *0.02, {
         isStatic: true,
         render: {
           fillStyle: theme,
@@ -730,6 +742,7 @@ useEffect(() => {
       });
       const rot6 = Bodies.rectangle(width * 0.5, height * 0.71, width  *0.28, width  *0.02, {
         isStatic: true,
+        collisionFilter: { group: -1 },
         render: {
           fillStyle: theme,
           strokeStyle: 'transparent',
@@ -767,7 +780,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const stick3 = Bodies.rectangle(height*0.0866, height*0.13, width  *0.4 , width  *0.02, {
+      const stick3 = Bodies.rectangle(height*0.0866, height*0.13, width  *0.3 , width  *0.02, {
         isStatic: true,
         angle: Math.PI /3, 
         render: {
@@ -784,15 +797,31 @@ useEffect(() => {
     })();
     const Boundary = [
       wall4,rot1,rot2,rot3,rot4,rot5,rot6,rot7,rot8,stick1,stick2,stick3, wall1, wall2, wall3,
-      block,wall5,dia1,dia2,dia3,dia4,wall6,wall7,wall8,wall9,dia5,dia6,dia7,dia8,FinBallLogo,borderBody,little2,little3,little4,
+      block,wall5,dia1,dia2,dia3,dia4,wall6,wall7,wall8,wall9,dia5,dia6,dia7,dia8,borderBody,FinBallLogo,little2,little3,little4,
       little5,little1,middle1,middle2,middle3,middle4,middle5,middle6,little6,little7,little8,little9,little10,
       middle7,middle8,middle9,middle10,middle11,middle12,little11,little12,little13,little14,little15,sShape1,sShape2,aShape,fShape,yShape];
- 
+      Events.on(engine, 'afterUpdate', () => {
+        for (let i = 0; i < balls.length; i++) {
+          const ball = balls[i];
+          const textElement = ballTexts[i];
+          // 각 공의 위치에 따라 텍스트 위치 업데이트
+          textElement.style.top = `${ball.position.y+20}px`;
+          textElement.style.left = `${innerWidth/2-205+ball.position.x}px`;
+          if (ball.position.y>height) {
+            World.remove(engine.world, ball);
+            const rootDiv = document.getElementById('canvas');
+            rootDiv.removeChild(textElement);
+            balls.splice(i, 1);
+            ballTexts.splice(i, 1);
+            i--;
+          }
+        }
+      });
     World.add(engine.world, Boundary);
     setEngine(engine);
     Engine.run(engine)
     Render.run(render);
-    await setColor()
+    setColor()
     }
     initialize()
   }, []);
@@ -841,7 +870,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const rot5 = Bodies.rectangle(width * 0.5, height * 0.4, width  *0.2, width  *0.01, {
+      const rot5 = Bodies.rectangle(width * 0.35, height * 0.4, width  *0.25, width  *0.01, {
         isStatic: true,
         render: {
           fillStyle: theme,
@@ -849,26 +878,44 @@ useEffect(() => {
         },
       });
       const rot6 = Bodies.rectangle(width * 0.5, height * 0.71, width  *0.28, width  *0.02, {
-        isStatic: true,
+        isStatic: false,
+        collisionFilter: { group: -1 },
         render: {
           fillStyle: theme,
           strokeStyle: 'transparent',
         },
       });
+      var constraint1 = Constraint.create({
+        pointA: { x: width * 0.5, y: height * 0.71 },
+        bodyB: rot6,
+        length: 0
+    });
       const rot7 = Bodies.rectangle(width * 0.18, height * 0.71, width  *0.28, width  *0.02, {
-        isStatic: true,
+        isStatic: false,
+        collisionFilter: { group: -1 },
         render: {
           fillStyle: theme,
           strokeStyle: 'transparent',
         },
       });
+      var constraint2 = Constraint.create({
+        pointA: { x: width * 0.18, y: height * 0.71 },
+        bodyB: rot7,
+        length: 0
+    });
       const rot8 = Bodies.rectangle(width * 0.82, height * 0.71, width  *0.28, width  *0.02, {
-        isStatic: true,
+        isStatic: false,
+        collisionFilter: { group: -1 },
         render: {
           fillStyle: theme,
           strokeStyle: 'transparent',
         },
       });
+      var constraint3 = Constraint.create({
+        pointA: { x: width * 0.82, y: height * 0.71 },
+        bodyB: rot8,
+        length: 0
+    });
       const stick1 = Bodies.rectangle(width*0.3, height*0.95,width *0.3+height*0.02, width  *0.02, {
         isStatic: true,
         angle: -Math.PI /4, 
@@ -887,7 +934,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const stick3 = Bodies.rectangle(height*0.0866, height*0.13, width  *0.4 , width  *0.02, {
+      const stick3 = Bodies.rectangle(height*0.0866, height*0.13, width  *0.3 , width  *0.02, {
         isStatic: true,
         angle: Math.PI /4, 
         render: {
@@ -903,9 +950,6 @@ useEffect(() => {
         angle1 += 0.03; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
         Body.setAngle(rot1, angle1); // rot1 요소의 각도를 변경
         Body.setAngle(rot2, angle1); // rot1 요소의 각도를 변경
-        Body.setAngle(rot3, -angle1); // rot1 요소의 각도를 변경
-        Body.setAngle(rot4, angle1); // rot1 요소의 각도를 변경
-        Body.setAngle(rot5, -angle1+1); // rot1 요소의 각도를 변경
         Body.setAngle(stick3, angle1); // rot1 요소의 각도를 변경
 
       });
@@ -916,26 +960,34 @@ useEffect(() => {
       World.add(engine.world, rot4);
       World.add(engine.world, rot5);
       World.add(engine.world, stick3);
+      World.add(engine.world, rot6);
+      World.add(engine.world, rot7);
+      World.add(engine.world, constraint1);
+      World.add(engine.world, constraint2);
+      World.add(engine.world, constraint3);
+      World.add(engine.world, rot8);
 
       let cnt=0;
       let dir=[1,-1]
       Events.on(engine, 'beforeUpdate', () => {
-        angle2 += 0.02*dir[(Math.round(cnt/75))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
-        Body.setAngle(stick1, -angle2); // rot1 요소의 각도를 변경
-        Body.setAngle(stick2, angle2); // rot1 요소의 각도를 변경
+        // angle2 += 0.1; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
+        angle2 += 0.08*dir[(Math.round(cnt/25))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
+        Body.setAngle(stick1, angle2); // rot1 요소의 각도를 변경
+        Body.setAngle(stick2, -angle2); // rot1 요소의 각도를 변경
       });
       World.add(engine.world, stick1);
       World.add(engine.world, stick2);
       Events.on(engine, 'beforeUpdate', () => {
         cnt+=1
-        angle3 += 0.03*dir[(Math.round(cnt/50))%2];
-        Body.setAngle(rot6,angle3)
-        Body.setAngle(rot7,-angle3)
-        Body.setAngle(rot8,angle3)
+        // angle3 += 0.15*dir[(Math.round(cnt/25))%2];
+        angle3 += 0.15;
+        Body.setAngle(rot3, -angle3); // rot1 요소의 각도를 변경
+        Body.setAngle(rot4, angle3); // rot1 요소의 각도를 변경
+        Body.setAngle(rot5, angle3+1); // rot1 요소의 각도를 변경
       });
-      World.add(engine.world, rot6);
-      World.add(engine.world, rot7);
-      World.add(engine.world, rot8);
+      World.add(engine.world, rot3);
+      World.add(engine.world, rot4);
+      World.add(engine.world, rot5);
       const updateScroll = () => {
         if (updatedBalls.length > 0) {
           let highestYBall = updatedBalls[0];
@@ -952,9 +1004,22 @@ useEffect(() => {
             const indexToRemove = updatedBalls.findIndex(ball => ball.id === highestYBall.id);
             if (indexToRemove !== -1) {
               updatedBalls.splice(indexToRemove, 1);
+        
+              // ballTexts에서도 해당 공의 텍스트 엘리먼트 제거
+              const del = ballTexts.findIndex(textElement => textElement.id === highestYBall.id);
+              if (del !== -1) {
+                const textElementToRemove = ballTexts[del];
+                ballTexts.splice(del, 1);
+                const rootDiv = document.getElementById('root')
+                rootDiv.removeChild(textElementToRemove);
+              }
+        
+              World.remove(engine.world, highestYBall);
+        
+              // 상태 업데이트
+              setBalls([...updatedBalls]); // 새로운 배열을 만들어야 합니다.
+              setBallTexts([...ballTexts]); // 새로운 배열을 만들어야 합니다.
             }
-            World.remove(engine.world, highestYBall);
-            setBalls(updatedBalls);
             setBallCount(Pay.length);
             setRedCount(Pay.filter(ball => ball.render.fillStyle === "red").length)
             setBlueCount(Pay.filter(ball => ball.render.fillStyle === "blue").length)
@@ -991,6 +1056,14 @@ useEffect(() => {
       updateScroll();
     }
   };
+window.addEventListener('beforeunload', () => {
+  // 페이지를 떠날 때 ballText 엘리먼트 삭제
+  for (let i = 0; i < ballTexts.length; i++) {
+    const textElementToRemove = ballTexts[i];
+    const rootDiv = document.getElementById('canvas')
+    rootDiv.removeChild(textElementToRemove);
+  }
+});
   return (
     <div id="canvas" style={{width:"360px",height:"1800px"}}>
       <div style={{ display: "flex",justifyContent: "center"}}>
@@ -999,20 +1072,21 @@ useEffect(() => {
       <div style={{ display: "flex",justifyContent: "flex-end"}}>
       <div
         style={{
-          zIndex:3,
-          background: 'grey',
+          background: '#F4F4F4',
           padding: '5px 10px',
-          borderRadius: '5px',
+          borderRadius: "5%",
+          opacity:0.5,
           fontSize:word,
           position:"fixed",
+          border: "1px solid black"
           // ...ballCountPosition, // ballCountPosition의 위치를 적용
         }}
         >
-        <div style={{color:"white"}}>지불금액: {ballCount}/{Payment}</div>
+        <div style={{color:"black"}}>지불금액: {ballCount}/{Payment}</div>
         <div style={{color:"red"}}>{userColor["red"]} : {redCount}</div>
         <div style={{color:"blue"}}>{userColor["blue"]} : {blueCount}</div>
         <div style={{color:"green"}}>{userColor["green"]} : {greenCount}</div>
-        <div style={{color:"yellow"}}>{userColor["yellow"]} : {yellowCount}</div>
+        <div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}>{userColor["yellow"]} : {yellowCount}</div>
         <div style={{color:"orange"}}>{userColor["orange"]} : {orangeCount}</div>
         <div style={{color:"purple"}}>{userColor["purple"]} : {purpleCount}</div>
       </div>
@@ -1024,26 +1098,33 @@ useEffect(() => {
             contentLabel="Custom Modal" // 모달의 레이블 설정
             style={{
               overlay: {
-                background: 'grey',
+                background: 'transparent',
+                zIndex:"5",
               },
               content: {
-                width: '50%', // 모달의 너비
-                height: '50%', // 모달의 높이
-                top: '25%', // 모달을 수직으로 가운데 정렬
-                left: '25%', // 모달을 수평으로 가운데 정렬
-                zIndex:30,
+                width: '200px', // 모달의 너비
+                height: '310px', // 모달의 높이
+                position:"fixed",
+                top: '50%', // 화면 상단에서 50% 위치로 이동
+                left: '50%', // 화면 왼쪽에서 50% 위치로 이동
+                transform: 'translate(-50%, -50%)', // 수직 및 수평으로 중앙에 위치시킴
+                backgroundColor:"#F4F4F4",
+                borderRadius:"5%"
               },
             }}
         >
-        <h2>게임결과</h2>
+          <div style={{width:"100%",display:"flex",flexDirection:"column",alignItems:"center",zIndex:"5"}}>
+
+        <h2 >게임결과</h2>
         <p style={{fontSize:word}}>다음 사람들은 돈을 지불하시오</p>
-        <div style={{fontSize:word,color:"red"}}>{userColor["red"]} : {redCount}</div>
-        <div style={{fontSize:word,color:"blue"}}>{userColor["blue"]} : {blueCount}</div>
-        <div style={{fontSize:word,color:"green"}}>{userColor["green"]} : {greenCount}</div>
-        <div style={{fontSize:word,color:"yellow"}}>{userColor["yellow"]} : {yellowCount}</div>
-        <div style={{fontSize:word,color:"orange"}}>{userColor["orange"]} : {orangeCount}</div>
-        <div style={{fontSize:word,color:"purple"}}>{userColor["purple"]} : {purpleCount}</div>
-        <button onClick={closeModal} style={{width:'20%',aspectRatio:5,fontSize:word,position:'absolute',left:'40%'}}>Close</button>
+        <div style={{fontSize:word,color:"red"}}>{userColor["red"]}-{'>'}{redCount}</div>
+        <div style={{fontSize:word,color:"blue"}}>{userColor["blue"]}-{'>'}{blueCount}</div>
+        <div style={{fontSize:word,color:"green"}}>{userColor["green"]}-{'>'}{greenCount}</div>
+        <div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}>{userColor["yellow"]}-{'>'}{yellowCount}</div>
+        <div style={{fontSize:word,color:"orange"}}>{userColor["orange"]}-{'>'}{orangeCount}</div>
+        <div style={{fontSize:word,color:"purple"}}>{userColor["purple"]}-{'>'}{purpleCount}</div>
+        <button onClick={closeModal} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
+          </div>
       </Modal>
     </div>
     
