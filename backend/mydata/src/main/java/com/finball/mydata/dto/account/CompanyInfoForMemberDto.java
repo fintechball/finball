@@ -13,7 +13,7 @@ public class CompanyInfoForMemberDto {
 
     public static CompanyInfoForMemberDto parseDto(Company company) {
         return CompanyInfoForMemberDto.builder()
-                .id(company.getId())
+//                .id(company.getId())
                 .cpName(company.getCpName())
                 .cpLogo(company.getCpLogo())
                 .build();

@@ -27,7 +27,7 @@ public class AccountCustomRepository extends QuerydslRepositorySupport {
                 .selectFrom(account)
                 .leftJoin(account.member).fetchJoin()
                 .leftJoin(account.company).fetchJoin()
-                .where(account.member.id.eq(memberId).and(account.company.id.in(companyIds)))
+//                .where(account.member.id.eq(memberId).and(account.company.id.in(companyIds)))
                 .fetch();
     }
 

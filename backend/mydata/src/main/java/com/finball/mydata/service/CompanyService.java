@@ -48,7 +48,8 @@ public class CompanyService {
             throw new NoSuchElementException("존재하지 않는 은행입니다");
         }
 
-        CompanyCodeDto.Response response = new CompanyCodeDto.Response(company.getCpCode());
+//        CompanyCodeDto.Response response = new CompanyCodeDto.Response(company.getCpCode());
+        CompanyCodeDto.Response response = null;
         return response;
     }
 }

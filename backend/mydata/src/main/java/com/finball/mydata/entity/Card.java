@@ -37,7 +37,7 @@ public class Card {
         return CardDto.builder()
                 .cardName(this.name)
                 .cardImage(this.image)
-                .companyCode(String.valueOf(this.company.getCpCode()))
+//                .companyCode(String.valueOf(this.company.getCpCode()))
                 .companyName(this.company.getCpName())
                 .cardNumber(this.cardNo)
                 .build();

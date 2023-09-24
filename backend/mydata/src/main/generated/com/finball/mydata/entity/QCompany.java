@@ -19,15 +19,13 @@ public class QCompany extends EntityPathBase<Company> {
 
     public static final QCompany company = new QCompany("company");
 
-    public final NumberPath<Long> cpCode = createNumber("cpCode", Long.class);
+    public final NumberPath<Long> code = createNumber("code", Long.class);
 
     public final StringPath cpLogo = createString("cpLogo");
 
     public final StringPath cpName = createString("cpName");
 
     public final EnumPath<com.finball.mydata.type.CompanyType> cpType = createEnum("cpType", com.finball.mydata.type.CompanyType.class);
-
-    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public QCompany(String variable) {
         super(Company.class, forVariable(variable));
