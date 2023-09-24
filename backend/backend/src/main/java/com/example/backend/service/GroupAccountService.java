@@ -189,9 +189,9 @@ public class GroupAccountService {
 
     private TransferInfoDto buildTransferInfoDto(Long code, String accountNo, String target) {
         return TransferInfoDto.builder()
-                .code(code)
-                .accountNumber(accountNo)
-                .target(target)
+                .companyId(code)
+                .accountNo(accountNo)
+                .userName(target)
                 .build();
     }
 

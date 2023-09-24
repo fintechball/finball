@@ -31,6 +31,7 @@ public class AccountService {
     public void register(AccountRegisterDto.Request request, Member member) {
 
         for (AccountRegisterInfoDto info : request.getBankAccountList()) {
+            System.out.println(info.toString());
             accountRepository.save(info.toAccount(member));
         }
     }
