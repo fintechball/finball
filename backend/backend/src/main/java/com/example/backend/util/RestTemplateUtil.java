@@ -57,6 +57,7 @@ public class RestTemplateUtil {
 
     public Object parseBody(RestDto<?> response, String key) throws JsonProcessingException {
         JsonNode body = getBody(response.getRespEntity(), key);
+        System.out.println(body);
         Class<?> clazz = response.getClassName();
 
         return objectMapper.readValue(body.toString(), clazz);
