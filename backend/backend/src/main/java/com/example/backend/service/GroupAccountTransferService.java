@@ -49,7 +49,7 @@ public class GroupAccountTransferService {
             init(request, groupAccount);
             List<FinBallTradeHistoryDto> historyDtoList = getMyDataResponse(request,
                     member.getUserId());
-            save(historyDtoList, request.getMinusBank().getAccountNumber());
+            save(historyDtoList, request.getMinusBank().getAccountNo());
         }
     }
 
@@ -57,17 +57,17 @@ public class GroupAccountTransferService {
         TransferInfoDto plus = request.getPlusBank();
         TransferInfoDto minus = request.getMinusBank();
 
-        minus.setCode(FIN_BALL_CODE);
-        minus.setTarget(groupAccount.getName());
+        minus.setCompanyId(FIN_BALL_CODE);
+        minus.setUserName(groupAccount.getName());
         minus.setBalance(groupAccount.getBalance());
 
-        if (Objects.equals(plus.getCode(), FIN_BALL_CODE)) { // 상대방이 핀볼 은행이라면
+        if (Objects.equals(plus.getCompanyId(), FIN_BALL_CODE)) { // 상대방이 핀볼 은행이라면
             request.getPlusBank().setBalance(getAccountBalance(plus));
         }
     }
 
     public Long getAccountBalance(TransferInfoDto info) {
-        FinBallAccount finBallAccount = finBallAccountRepository.findById(info.getAccountNumber())
+        FinBallAccount finBallAccount = finBallAccountRepository.findById(info.getAccountNo())
                 .orElseThrow(() -> new IllegalArgumentException("해당되는 계좌가 존재하지 않습니다."));
 
         return finBallAccount.getBalance();
@@ -86,7 +86,7 @@ public class GroupAccountTransferService {
 
         // 요청한 그룹 계좌가 있는지 조회
         GroupAccount groupAccount = groupAccountRepository.findById(
-                request.getMinusBank().getAccountNumber()).orElseThrow(
+                request.getMinusBank().getAccountNo()).orElseThrow(
                 () -> new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND)
         );
 

@@ -1,6 +1,8 @@
 package com.example.backend.dto.mydata;
 
 import java.time.LocalDateTime;
+
+import com.example.backend.dto.account.AccountDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberAccountInfoDto {
 
-    private String accountNo;
-    private Long balance;
-    private String name;
-    private LocalDateTime accountRegist;
+    private AccountDto account;
     private CompanyInfoForMemberDto company;
-    private boolean isFavorite;
-
-    public void setIsFavorite(boolean isFavorite){
-        this.isFavorite = isFavorite;
-    }
 }

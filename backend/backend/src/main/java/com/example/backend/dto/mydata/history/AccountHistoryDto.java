@@ -1,6 +1,6 @@
 package com.example.backend.dto.mydata.history;
 
-import com.example.backend.dto.transfer.OppositeBankDto;
+import com.example.backend.dto.transfer.OppositeDto;
 import com.example.backend.entity.FinBallHistory;
 import com.example.backend.type.DealType;
 import java.time.LocalDate;
@@ -17,21 +17,23 @@ import lombok.NoArgsConstructor;
 public class AccountHistoryDto {
 
     private Long id;
+    private String accountNo;
     private Long value;
     private LocalDate date;
     private LocalTime time;
     private DealType type;
     private Long remain;
-    private OppositeBankDto oppositeBankDto;
+    private OppositeDto oppositeDto;
 
     public AccountHistoryDto(FinBallHistory finBallHistory) {
         this.id = finBallHistory.getId();
+        this.accountNo = finBallHistory.getFinBallAccount().getAccountNo();
         this.value = finBallHistory.getValue();
         this.date = finBallHistory.getDate().toLocalDate();
         this.time = finBallHistory.getDate().toLocalTime();
         this.type = finBallHistory.getDealType();
         this.remain = finBallHistory.getBalance();
-        this.oppositeBankDto = new OppositeBankDto(finBallHistory);
+        this.oppositeDto = new OppositeDto(finBallHistory);
     }
 
 }

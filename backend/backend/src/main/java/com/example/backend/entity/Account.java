@@ -27,6 +27,9 @@ public class Account {
     private String accountNo;
 
     @Column
+    private String originNo;
+
+    @Column
     private String name;
 
     @Column

@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanyInfoForMemberDto {
-    private Long id;
-    private String cpName;
-    private String cpLogo;
+    Long code;
+    String name;
+    String logo;
+    boolean isConnected;
 }

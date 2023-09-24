@@ -46,7 +46,7 @@ public class AccountController {
         return new Response<>(200, "정상적으로 사용자의 타행 계좌를 불러왔습니다.", response);
     }
 
-    @PostMapping("/transfer")
+    @PostMapping("/user/transfer")
     public Response<?> transfer(@RequestBody AccountTransferDto.Request request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
         transferService.send(request, userDetails.getMember());
