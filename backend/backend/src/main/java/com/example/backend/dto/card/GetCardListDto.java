@@ -19,7 +19,7 @@ public class GetCardListDto {
         return GetCardDto.builder()
                 .cardImage(card.getImage())
                 .cardName(card.getName())
-                .cardNumber(card.getCardNumber())
+//                .cardNumber(card.getCardNumber())
                 .companyName(card.getCpName())
                 .build();
     }

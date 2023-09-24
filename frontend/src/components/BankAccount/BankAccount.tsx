@@ -27,6 +27,25 @@ function BankAccount() {
       });
   }, [token]);
 
+  const transfer = (accountId) => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/user/account`, {
+        headers: {
+          // Authorization: token.accessToken,
+          Authorization: localStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        const userAccountList = response.data.data.userAccountList;
+        navigate("/accountDetail", {
+          state: userAccountList.find((item) => item.accountNo === accountId),
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       {accountList && accountList.length !== 0 ? (
@@ -37,7 +56,7 @@ function BankAccount() {
               <p>{account.name}</p>
               <p>{account.account}</p>
             </div>
-            <button>송금</button>
+            <button onClick={() => transfer(account.account)}>송금</button>
           </div>
         ))
       ) : (

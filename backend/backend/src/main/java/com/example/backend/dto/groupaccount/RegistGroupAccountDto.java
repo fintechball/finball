@@ -29,7 +29,7 @@ public class RegistGroupAccountDto {
         public GroupAccount toGroupAccount(Member member) {
             String url = UUID.randomUUID().toString();
             String accountNo = generateAccount();
-            LocalDateTime refreshDt = LocalDateTime.now();
+            LocalDateTime refreshAt = LocalDateTime.now();
             boolean isValid = true;
 
             return GroupAccount.builder()
@@ -39,7 +39,7 @@ public class RegistGroupAccountDto {
                     .url(url)
                     .accountNo(accountNo)
                     .valid(isValid)
-                    .refreshDt(refreshDt)
+                    .refreshAt(refreshAt)
                     .member(member)
                     .build();
         }

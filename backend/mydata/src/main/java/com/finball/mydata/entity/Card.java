@@ -24,11 +24,9 @@ public class Card {
     private String cardNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
     private Company company;
 
     private String name;
@@ -39,7 +37,7 @@ public class Card {
         return CardDto.builder()
                 .cardName(this.name)
                 .cardImage(this.image)
-                .companyCode(String.valueOf(this.company.getCpCode()))
+//                .companyCode(String.valueOf(this.company.getCpCode()))
                 .companyName(this.company.getCpName())
                 .cardNumber(this.cardNo)
                 .build();

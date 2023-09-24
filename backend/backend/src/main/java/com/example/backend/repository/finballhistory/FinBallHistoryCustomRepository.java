@@ -26,7 +26,7 @@ public class FinBallHistoryCustomRepository extends QuerydslRepositorySupport {
         return jpaQueryFactory.select(finBallHistory)
                 .from(finBallHistory)
                 .leftJoin(finBallHistory.finBallAccount, finBallAccount).fetchJoin()
-                .where(finBallAccount.accountNumber.eq(accountNo))
+//                .where(finBallAccount.accountNumber.eq(accountNo))
                 .orderBy(finBallHistory.date.desc())
                 .fetch();
     }

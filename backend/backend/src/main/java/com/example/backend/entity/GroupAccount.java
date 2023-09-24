@@ -26,7 +26,13 @@ public class GroupAccount {
     private Long balance;
 
     @Column
-    private LocalDateTime refreshDt;
+    private LocalDateTime refreshAt;
+
+    @Column
+    private LocalDateTime createdAt;
+
+    @Column
+    private LocalDateTime closedAt;
 
     @Column
     private String name;
@@ -45,11 +51,11 @@ public class GroupAccount {
     private Member member;
 
     @Builder
-    public GroupAccount(String accountNo, LocalDateTime refreshDt, String name,
+    public GroupAccount(String accountNo, LocalDateTime refreshAt, String name,
             GameType gameType, long balance, boolean valid,
             String url, Member member) {
         this.accountNo = accountNo;
-        this.refreshDt = refreshDt;
+        this.refreshAt = refreshAt;
         this.name = name;
         this.gameType = gameType;
         this.balance = balance;

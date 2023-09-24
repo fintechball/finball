@@ -2,16 +2,12 @@ package com.finball.mydata.entity;
 
 import com.finball.mydata.dto.company.CompanyDto;
 import com.finball.mydata.type.CompanyType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Getter
 @Entity
@@ -20,24 +16,23 @@ public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long code;
 
     private String cpName;
 
     private String cpLogo;
 
-    @Builder
-    public Company(Long id, String cpName, String cpLogo) {
-        this.id = id;
-        this.cpName = cpName;
-        this.cpLogo = cpLogo;
-    }
-    private Long cpCode;
-
     @Enumerated(EnumType.STRING)
     private CompanyType cpType;
 
-    public CompanyDto toCompanyInfoDto(){
-        return new CompanyDto(this.cpName, this.cpLogo, this.cpCode, false);
+    @Builder
+    public Company(Long code, String cpName, String cpLogo) {
+        this.code = code;
+        this.cpName = cpName;
+        this.cpLogo = cpLogo;
+    }
+
+    public CompanyDto toCompanyDto() {
+        return new CompanyDto(this.code, this.cpName, this.cpLogo, false);
     }
 }

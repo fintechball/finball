@@ -10,13 +10,14 @@ function Home() {
   const navigate = useNavigate();
   const width = window.innerWidth;
   const height = window.innerHeight;
+  const state={"cost":"5,000,000","parent":"home-canvas"}
   return (
     <div className={styles.container}>
       <div className={styles.minicontainer}>
         <h2>우리 계좌</h2>
 
         <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
-          <Pinball />
+          <Pinball value={state}/>
         </div>
       </div>
 

@@ -1,13 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.RestDto;
-import com.example.backend.dto.account.AccountRegisterDto;
-import com.example.backend.dto.account.AccountRegisterInfoDto;
-import com.example.backend.dto.account.FavoriteAccountDto;
-import com.example.backend.dto.account.GetUserAccountDto;
-import com.example.backend.dto.account.GetUserAccountSimpleDto;
-import com.example.backend.dto.account.GetUserAccountSimpleDto.Response;
-import com.example.backend.dto.account.UserAccountSimpleDto;
+import com.example.backend.dto.account.*;
 import com.example.backend.dto.mydata.GetMemberAccountDto;
 import com.example.backend.dto.mydata.MemberAccountInfoDto;
 import com.example.backend.entity.Account;
@@ -17,13 +11,13 @@ import com.example.backend.repository.account.AccountRepository;
 import com.example.backend.util.RedisUtil;
 import com.example.backend.util.RestTemplateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +41,7 @@ public class AccountService {
         List<String> accountNumberList = new ArrayList<>();
 
         for (Account account : accountList) {
-            accountNumberList.add(account.getAccountNumber());
+//            accountNumberList.add(account.getAccountNumber());
         }
 
         List<MemberAccountInfoDto> memberAccountInfoDtoList = getMydataAccount(accountNumberList, member.getUserId());
@@ -74,9 +68,9 @@ public class AccountService {
     public void addIsFavorite(List<Account> accountList, List<MemberAccountInfoDto> restResponseList) {
         for(MemberAccountInfoDto response : restResponseList) {
             for(Account account : accountList) {
-                if(response.getAccountNo().equals(account.getAccountNumber())){
-                    response.setIsFavorite(account.isFavorite());
-                }
+//                if(response.getAccountNo().equals(account.getAccountNumber())){
+//                    response.setIsFavorite(account.isFavorite());
+//                }
             }
         }
     }
@@ -102,15 +96,5 @@ public class AccountService {
         }
 
         return new GetUserAccountSimpleDto.Response(userAccountSimpleDtoList);
-    }
-
-    @Transactional
-    public void updateFavorite(FavoriteAccountDto.Request request) {
-        Account account = accountRepository.findById(request.getAccountNo()).orElseThrow(
-                () -> new IllegalArgumentException("해당되는 계좌가 존재하지 않습니다.")
-        );
-
-        account.setFavorite();
-        accountRepository.save(account);
     }
 }

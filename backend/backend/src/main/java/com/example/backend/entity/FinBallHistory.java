@@ -41,16 +41,19 @@ public class FinBallHistory {
     private DealType dealType;
 
     @Column
-    private String target;
+    private String target;  // 상대방 이름
 
     @Column
-    private String nickname;
+    private String opAccountNo;
 
     @Column
-    private String opAccount;
+    private String opBankCpLogo;
 
     @Column
-    private String opBankName;
+    private String opBankCpName;
+
+    @Column
+    private Long opBankCpCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private FinBallAccount finBallAccount;

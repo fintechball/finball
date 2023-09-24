@@ -30,11 +30,7 @@ public class QTradeHistory extends EntityPathBase<TradeHistory> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath nickname = createString("nickname");
-
-    public final StringPath opAccount = createString("opAccount");
-
-    public final StringPath opBankName = createString("opBankName");
+    public final StringPath opAccountNo = createString("opAccountNo");
 
     public final NumberPath<Long> remain = createNumber("remain", Long.class);
 

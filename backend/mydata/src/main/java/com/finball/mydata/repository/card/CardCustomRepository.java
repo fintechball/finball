@@ -28,7 +28,7 @@ public class CardCustomRepository extends QuerydslRepositorySupport {
                 .selectFrom(card)
                 .leftJoin(card.company).fetchJoin()
                 .leftJoin(card.member).fetchJoin()
-                .where(card.member.id.eq(memberID).and(card.company.cpCode.in(companyCodes)))
+//                .where(card.member.id.eq(memberID).and(card.company.cpCode.in(companyCodes)))
                 .fetch();
     }
 }

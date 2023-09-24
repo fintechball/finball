@@ -1,8 +1,9 @@
 package com.finball.mydata.dto.account;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class GetMemberAccountDto {
@@ -15,6 +16,6 @@ public class GetMemberAccountDto {
     @Data
     @AllArgsConstructor
     public static class Response {
-        List<MemberAccountInfoDto> memberAccountList;
+        List<BankAccountDto> bankAccountDtoList;
     }
 }

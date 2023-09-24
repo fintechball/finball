@@ -13,8 +13,6 @@ canvas{
 	color: white;
 	font-size: 30px;
 	cursor: pointer;
-	z-index: 2;
-	transform:translate(65%,0);
   }
   
   /* 화면 폭이 768px 이하일 때 스타일 적용 */
@@ -22,7 +20,6 @@ canvas{
 	.btn {
 	  width:160px;
 	  font-size: 30px;
-	  transform:translate(65%,0);
 	}
   }
   
@@ -31,7 +28,6 @@ canvas{
 	.btn {
 	  width:160px;
 	  font-size: 30px;
-	  transform:translate(65%,0);
 	}
   }
   
@@ -40,7 +36,6 @@ canvas{
 	.btn {
 	  width: 160px;
 	  font-size: 30px;
-	  transform:translate(65%,0);
 	}
   }
   
