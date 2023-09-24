@@ -20,3 +20,9 @@
 	z-index: 2; /* 버튼을 화면 위로 올림 */
   }
   
+  .finball{
+	position: absolute;
+	font-weight: bold;
+	font-size: 15px;
+	width: 90px;
+  }
