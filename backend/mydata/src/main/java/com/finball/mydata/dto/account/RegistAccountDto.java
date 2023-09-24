@@ -22,9 +22,10 @@ public class RegistAccountDto {
     private String accountName;
 
     public Account toAccount(Member member, Company company) {
+        System.out.println(company);
         return Account.builder()
                 .accountNo(this.accountNumber)
-//                .accountRegist(this.registerDt)
+                .createdAt(this.registerDt)
                 .balance(this.balance)
                 .name(this.accountName)
                 .member(member)

@@ -2,6 +2,7 @@ package com.finball.mydata.entity;
 
 import com.finball.mydata.dto.account.AccountDto;
 import com.finball.mydata.dto.account.BankAccountDto;
+import javax.persistence.JoinColumn;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -23,6 +24,7 @@ public class Account {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="company_code")
     private Company company;
 
     private Long balance;

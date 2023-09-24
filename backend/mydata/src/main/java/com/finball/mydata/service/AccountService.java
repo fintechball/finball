@@ -68,7 +68,7 @@ public class AccountService {
         Long companyId = registAccountDto.getCompanyId();
         Company company = companyRepository.findById(companyId).get();
         Account account = registAccountDto.toAccount(member, company);
-
+        System.out.println(account.getCompany().getCode());
         accountRepository.save(account);
     }
 
