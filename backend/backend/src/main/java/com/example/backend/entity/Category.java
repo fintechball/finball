@@ -1,6 +1,8 @@
 package com.example.backend.entity;
 
 import com.example.backend.dto.finball.FinancialBookCategoryDto;
+import com.example.backend.error.ErrorCode;
+import com.example.backend.exception.CustomException;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,5 +62,16 @@ public class Category {
     public void updateEntity(String name, Long value) {
         this.name = name;
         this.value = value;
+    }
+
+    public void plusUsedValue(Long usedValue) {
+        this.usedValue += usedValue;
+    }
+
+    public void minusUsedValue(Long usedValue) {
+        if(this.usedValue - usedValue < 0){
+            throw new CustomException(ErrorCode.OUT_OF_RANGE);
+        }
+        this.usedValue -= usedValue;
     }
 }

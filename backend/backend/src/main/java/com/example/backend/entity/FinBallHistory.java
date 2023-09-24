@@ -65,7 +65,7 @@ public class FinBallHistory {
     private Category category;
 
     public FinBallTradeHistoryDto toFinBallHistoryDto() {
-        return FinBallTradeHistoryDto.builder()
+        FinBallTradeHistoryDto finBallTradeHistoryDto = FinBallTradeHistoryDto.builder()
                 .id(this.id)
                 .value(this.value)
                 .date(this.date.toLocalDate())
@@ -82,5 +82,13 @@ public class FinBallHistory {
                                 .build())
                         .build())
                 .build();
+        if(this.category != null){
+            finBallTradeHistoryDto.setCategoryName(this.category.getName());
+        }
+        return finBallTradeHistoryDto;
+    }
+
+    public void setHistory(Category requestCategory) {
+        this.category = requestCategory;
     }
 }
