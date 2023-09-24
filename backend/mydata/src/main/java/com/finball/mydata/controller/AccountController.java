@@ -22,7 +22,7 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @PostMapping("/myData/bank/account")
+    @PostMapping("/my_data/bank/account")
     public Response<BankAccountListDto.Response> getBankAccountList(
             @RequestBody BankAccountListDto.Request request,
             @AuthenticationPrincipal PrincipalDetails userDetails) {
