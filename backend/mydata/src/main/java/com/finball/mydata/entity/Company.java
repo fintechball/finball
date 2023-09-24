@@ -2,16 +2,12 @@ package com.finball.mydata.entity;
 
 import com.finball.mydata.dto.company.CompanyDto;
 import com.finball.mydata.type.CompanyType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Getter
 @Entity
@@ -36,9 +32,7 @@ public class Company {
         this.cpLogo = cpLogo;
     }
 
-
-
-    public CompanyDto toCompanyInfoDto(){
-        return new CompanyDto(this.cpName, this.cpLogo, this.code, false);
+    public CompanyDto toCompanyDto() {
+        return new CompanyDto(this.code, this.cpName, this.cpLogo, false);
     }
 }

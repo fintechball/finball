@@ -1,17 +1,15 @@
 package com.finball.mydata.entity;
 
+import com.finball.mydata.dto.account.AccountDto;
 import com.finball.mydata.dto.account.BankAccountDto;
-import java.time.LocalDateTime;
+import javax.persistence.JoinColumn;
+import lombok.*;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,6 +24,7 @@ public class Account {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="company_code")
     private Company company;
 
     private Long balance;
@@ -52,15 +51,21 @@ public class Account {
         this.closedAt = closedAt;
     }
 
-    public BankAccountDto toAccountDto() {
+    public AccountDto toAccountDto() {
+        return AccountDto.builder()
+                .name(this.name)
+                .no(this.accountNo)
+                .createdAt(this.createdAt)
+                .closedAt(this.closedAt)
+                .balance(this.balance)
+                .build();
+    }
+
+    public BankAccountDto toBankAccountDto() {
+
         return BankAccountDto.builder()
-                .accountNumber(this.accountNo)
-                .bankName(this.company.getCpName())
-                .bankImage(this.company.getCpLogo())
-                .accountName(this.name)
-                .accountRegist(this.createdAt)
-                .accountClose(this.closedAt)
-//                .bankCode(this.company.getCpCode())
+                .company(this.company.toCompanyDto())
+                .account(this.toAccountDto())
                 .build();
     }
 }

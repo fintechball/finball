@@ -7,9 +7,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class CompanyDto {
 
-    String name;
-    String img;
     Long code;
+    String name;
+    String logo;
     boolean isConnected;
 
 }
