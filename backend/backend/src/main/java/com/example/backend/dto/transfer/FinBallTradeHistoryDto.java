@@ -32,8 +32,10 @@ public class FinBallTradeHistoryDto {
                 .date(LocalDateTime.now())
                 .dealType(this.type)
                 .target(oppositeDto.getUserName())
-//                .opAccount(oppositeBankDto.getAccount())
-//                .opBankName(oppositeBankDto.getBankName())
+                .opAccountNo(oppositeDto.getAccountNo())
+                .opBankCpLogo(oppositeDto.getCompany().getLogo())
+                .opBankCpName(oppositeDto.getCompany().getName())
+                .opBankCpCode(oppositeDto.getCompany().getCode())
                 .finBallAccount(finBallAccount)
                 .build();
     }
