@@ -8,9 +8,9 @@ import com.example.backend.dto.finball.ReadFinBallHistoryDto.Response;
 import com.example.backend.dto.finball.RegisterFinBallBookDto;
 import com.example.backend.dto.finball.RegisterFinBallDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
+import com.example.backend.dto.finball.SetCategoryData;
+import com.example.backend.dto.finball.SetCategoryData.Request;
 import com.example.backend.dto.finball.UpdateFinancialBookCategoryDto;
-import com.example.backend.dto.transfer.AccountTransferDto;
-import com.example.backend.dto.transfer.AccountTransferDto.Request;
 import com.example.backend.entity.Category;
 import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.FinBallHistory;
@@ -21,8 +21,8 @@ import com.example.backend.repository.category.CategoryCustomRepository;
 import com.example.backend.repository.category.CategoryRepository;
 import com.example.backend.repository.finballaccount.FinBallAccountRepository;
 import com.example.backend.repository.finballhistory.FinBallHistoryRepository;
+import com.example.backend.type.DealType;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -152,7 +152,43 @@ public class FinBallService {
         response.toFinBallTradeHistoryDtoList(
                 finBallHistoryRepository.findAllByFinBallAccount(account));
         response.setAccount(account.toReadFinBallDto().getAccount());
+        response.setCategoryList(categoryRepository.findAllByFinBallAccount(account));
 
         return response;
+    }
+
+    public ReadFinBallHistoryDto.Response setCategory(SetCategoryData.Request request, Member member) {
+
+        FinBallAccount account = getFinballAccount(member);
+        FinBallHistory tradeHistory = finBallHistoryRepository.findByFinBallAccountAndId(account, request.getTradeHistoryId()).orElseThrow(
+                () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+        );
+        if(tradeHistory.getDealType() == DealType.입금){
+            throw new CustomException(ErrorCode.NOT_출금_ERROR);
+        }
+
+        setCategory(tradeHistory, request);
+        finBallHistoryRepository.save(tradeHistory);
+
+        return readFinBallHistoryList(member);
+    }
+
+    public void setCategory(FinBallHistory tradeHistory, SetCategoryData.Request request){
+
+        Category requestCategory = categoryRepository.findByName(request.getCategoryName()).orElseThrow(
+                () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+        );
+
+        if(tradeHistory.getCategory() != null){ //비어있지 않다 => 그 전에 있던 것 취소해야함
+            Category category = categoryRepository.findByName(tradeHistory.getCategory().getName()).orElseThrow(
+                    () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+            );
+            category.minusUsedValue(tradeHistory.getValue()); //누적 금액에서 마이너스
+            requestCategory.plusUsedValue(tradeHistory.getValue());
+        }else{
+            requestCategory.plusUsedValue(tradeHistory.getValue());
+        }
+
+        tradeHistory.setHistory(requestCategory);
     }
 }
