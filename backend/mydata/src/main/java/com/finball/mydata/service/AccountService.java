@@ -58,7 +58,7 @@ public class AccountService {
                 .stream().map(Account::toBankAccountDto).collect(Collectors.toList());
 
         return BankAccountListDto.Response.builder()
-                .bankAccountDtoList(bankAccountDtoList).build();
+                .bankAccountList(bankAccountDtoList).build();
     }
 
     public void createAccount(Long id) throws IOException, ParseException {

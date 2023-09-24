@@ -18,6 +18,6 @@ public class BankAccountListDto {
     @Getter
     public static class Response {
 
-        List<BankAccountDto> bankAccountDtoList;
+        List<BankAccountDto> bankAccountList;
     }
 }

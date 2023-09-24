@@ -30,7 +30,7 @@ public class AccountService {
 
     public void register(AccountRegisterDto.Request request, Member member) {
 
-        for (AccountRegisterInfoDto info : request.getBankAccountDtoList()) {
+        for (AccountRegisterInfoDto info : request.getBankAccountList()) {
             accountRepository.save(info.toAccount(member));
         }
     }
