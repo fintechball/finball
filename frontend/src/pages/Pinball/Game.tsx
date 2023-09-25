@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Engine, Render, World, Bodies, MouseConstraint, Mouse, Body,Events,Common,Constraint,Runner } from 'matter-js';
-
+import redball from '../../assets/redball.png';
+import greenball from '../../assets/greenball.png';
+import yellowball from '../../assets/yellowball.png';
+import blueball from '../../assets/blueball.png';
+import purpleball from '../../assets/purpleball.png';
+import whiteball from '../../assets/whiteball.png';
 import Modal from 'react-modal';
 import finball from "../../assets/finball.png" 
 import styles from './Game.module.css';
@@ -32,19 +37,32 @@ function App() {
   const [greenCount, setGreenCount] = useState(0);
   const [yellowCount, setYellowCount] = useState(0);
   const [purpleCount, setPurpleCount] = useState(0);
-  const [orangeCount, setOrangeCount] = useState(0);
+  const [whiteCount, setWhiteCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isButtonOpen, setisButtonOpen] = useState('visible');
   const [once,setOnce]=useState(false);
   const [finx,finy]=[102,103];
   const word=width*0.04+'px';
+  const [isActive, setIsActive] = useState(false);
+  // 버튼 클릭 시 상태를 변경하여 확대/축소 효과 적용
+  const toggleButton = () => {
+    setIsActive(!isActive);
+  };
   const [userColor, setUserColor] = useState({
     "red":"unknown",
     "blue":"unknown",
     "green":"unknown",
-    "orange":"unknown",
     "purple":"unknown",
+    "white":"unknown",
     "yellow":"unknown",
+  });
+  const colorSprite = useState({
+    "red":redball,
+    "blue":blueball,
+    "green":greenball,
+    "purple":purpleball,
+    "white":whiteball,
+    "yellow":yellowball,
   });
   const [balllist, setBalllist] = useState([]);
   const X = [
@@ -73,7 +91,7 @@ function App() {
   const [engine, setEngine] = useState(null); // 엔진 상태 추가
   let render;
   let angle=0;
-  const Color = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
+  const Color = ['red', 'green', 'blue', 'yellow', 'purple', 'white'];
   function openModal() {
     setIsModalOpen(true);
   }
@@ -140,7 +158,6 @@ const setGravity = () => {
     console.log(engine.gravity.scale)
   }
 };
-
 function start() {
   for (let i = 0; i < totalCnt; i++) {
     const ball = Bodies.circle(X[Math.floor(Math.random() * X.length)], Y[Math.floor(Math.random() * Y.length)], width/70, {
@@ -152,6 +169,12 @@ function start() {
         fillStyle: balllist[i],
         strokeStyle: 'white',
         lineWidth: 1,
+        sprite: {
+          //''히먄 스프라이트 적용x
+          texture: colorSprite[0][balllist[i]],
+          xScale: Math.sqrt(width ** 2 + height ** 2) / 23/300,
+          yScale: Math.sqrt(width ** 2 + height ** 2) / 23/300,
+        },
       },
     });
     balls.push(ball);
@@ -161,6 +184,7 @@ function start() {
     textElement.id=`${balls[i].id}`
     textElement.style.position = 'absolute';
     textElement.style.zIndex = "1";
+    textElement.style.fontSize = "1 px";
     textElement.style.color = balllist[i];
     textElement.style.top = `${ball.position.y-10}px`; // 초기 위치 설정
     textElement.style.left = `${width/2-180-ball.position.x}px`;
@@ -986,6 +1010,7 @@ useEffect(() => {
 
       let cnt=0;
       let dir=[1,-1]
+      
       Events.on(engine, 'beforeUpdate', () => {
         // angle2 += 0.1; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
         angle2 += 0.04*dir[(Math.round(cnt/50))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
@@ -1042,7 +1067,7 @@ useEffect(() => {
             setBlueCount(Pay.filter(ball => ball.render.fillStyle === "blue").length)
             setGreenCount(Pay.filter(ball => ball.render.fillStyle === "green").length)
             setYellowCount(Pay.filter(ball => ball.render.fillStyle === "yellow").length)
-            setOrangeCount(Pay.filter(ball => ball.render.fillStyle === "orange").length)
+            setWhiteCount(Pay.filter(ball => ball.render.fillStyle === "white").length)
             setPurpleCount(Pay.filter(ball => ball.render.fillStyle === "purple").length)
             //반중력효과
             // if (Pay.length==Math.round(Payment/2)&&once == false){
@@ -1084,12 +1109,12 @@ window.addEventListener('beforeunload', () => {
   return (
     <div id="canvas" style={{width:"360px",height:"1800px"}}>
       <div style={{ display: "flex",justifyContent: "center"}}>
-      <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen}}>Finball!</button>
+      <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen,transition: "all 0.3s ease-in-out"}}>Finball!</button>
       </div>
       <div style={{ display: "flex",justifyContent: "flex-end"}}>
       <div
         style={{
-          background: '#F4F4F4',
+          background: '#F4F4F4',  
           padding: '5px 10px',
           borderRadius: "5%",
           opacity:0.5,
@@ -1100,12 +1125,13 @@ window.addEventListener('beforeunload', () => {
         }}
         >
         <div style={{color:"black"}}>지불금액: {ballCount}/{Payment}</div>
-        <div style={{color:"red"}}>{userColor["red"]} : {redCount}</div>
-        <div style={{color:"blue"}}>{userColor["blue"]} : {blueCount}</div>
-        <div style={{color:"green"}}>{userColor["green"]} : {greenCount}</div>
-        <div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}>{userColor["yellow"]} : {yellowCount}</div>
-        <div style={{color:"orange"}}>{userColor["orange"]} : {orangeCount}</div>
-        <div style={{color:"purple"}}>{userColor["purple"]} : {purpleCount}</div>
+        <div style={{color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} : {redCount}</div>
+        
+        <div style={{color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} : {blueCount}</div>
+        <div style={{color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} : {greenCount}</div>
+        <div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} : {yellowCount}</div>
+        <div style={{color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} : {whiteCount}</div>
+        <div style={{color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} : {purpleCount}</div>
       </div>
         </div>
           <Modal
@@ -1134,12 +1160,12 @@ window.addEventListener('beforeunload', () => {
 
         <h2 >게임결과</h2>
         <p style={{fontSize:word}}>다음 사람들은 돈을 지불하시오</p>
-        <div style={{fontSize:word,color:"red"}}>{userColor["red"]}-{'>'}{redCount}</div>
-        <div style={{fontSize:word,color:"blue"}}>{userColor["blue"]}-{'>'}{blueCount}</div>
-        <div style={{fontSize:word,color:"green"}}>{userColor["green"]}-{'>'}{greenCount}</div>
-        <div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}>{userColor["yellow"]}-{'>'}{yellowCount}</div>
-        <div style={{fontSize:word,color:"orange"}}>{userColor["orange"]}-{'>'}{orangeCount}</div>
-        <div style={{fontSize:word,color:"purple"}}>{userColor["purple"]}-{'>'}{purpleCount}</div>
+        <div style={{fontSize:word,color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]}-{'>'}{redCount}</div>
+        <div style={{fontSize:word,color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]}-{'>'}{blueCount}</div>
+        <div style={{fontSize:word,color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]}-{'>'}{greenCount}</div>
+        <div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]}-{'>'}{yellowCount}</div>
+        <div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]}-{'>'}{whiteCount}</div>
+        <div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]}-{'>'}{purpleCount}</div>
         <button onClick={closeModal} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
           </div>
       </Modal>
