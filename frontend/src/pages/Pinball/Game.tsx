@@ -1,15 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  Engine,
-  Render,
-  World,
-  Bodies,
-  MouseConstraint,
-  Mouse,
-  Body,
-  Events,
-  Common,
-} from "matter-js";
+import React, { useEffect, useState } from 'react';
+import { Engine, Render, World, Bodies, MouseConstraint, Mouse, Body,Events,Common } from 'matter-js';
 
 import Modal from "react-modal";
 import finball from "../../assets/finball.png";
@@ -19,18 +9,20 @@ import { Float } from "@react-three/drei";
 const width = 360;
 const height = 1800;
 const Payment = 10;
-const theme = "#4C4499";
-const dummy = [
-  { user_name: "김정희", ball_id: 0, cnt: 10, user_color: "" },
-  { user_name: "서정희", ball_id: 3, cnt: 10, user_color: "" },
-  { user_name: "신현탁", ball_id: 1, cnt: 10, user_color: "" },
-  { user_name: "정영빈", ball_id: 2, cnt: 10, user_color: "" },
-  { user_name: "정현우", ball_id: 5, cnt: 10, user_color: "" },
-  { user_name: "하성호", ball_id: 5, cnt: 10, user_color: "" },
-];
+const theme = '#4C4499';
+  const dummy=
+    [
+    {"user_name":"김정희","ball_id":0,"cnt":10,"user_color":''},
+    {"user_name":"서정희","ball_id":3,"cnt":10,"user_color":''},
+    {"user_name":"신현탁","ball_id":1,"cnt":10,"user_color":''},
+    {"user_name":"정영빈","ball_id":2,"cnt":10,"user_color":''},
+    {"user_name":"정현우","ball_id":5,"cnt":10,"user_color":''},
+    {"user_name":"하성호","ball_id":5,"cnt":10,"user_color":''},
+      ]
 
 function App() {
   const [balls, setBalls] = useState([]);
+  const [ballTexts, setBallTexts] = useState([]);
   const [isGroundRemoved, setIsGroundRemoved] = useState(false);
   const [ballCount, setBallCount] = useState(0);
   const Pay = [];
@@ -41,10 +33,10 @@ function App() {
   const [purpleCount, setPurpleCount] = useState(0);
   const [orangeCount, setOrangeCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isButtonOpen, setisButtonOpen] = useState("visible");
-  const [once, setOnce] = useState(false);
-  const [finx, finy] = [102, 103];
-  const word = width * 0.013 + "px";
+  const [isButtonOpen, setisButtonOpen] = useState('visible');
+  const [once,setOnce]=useState(false);
+  const [finx,finy]=[102,103];
+  const word=width*0.013+'px';
   const [userColor, setUserColor] = useState({
     red: "unknown",
     blue: "unknown",
@@ -126,52 +118,43 @@ function App() {
       }));
     }
 
-    let sum = 0;
-    for (let i = 0; i < dummy.length; i++) {
-      sum += dummy[i].cnt;
-      for (let j = 0; j < dummy[i].cnt; j++) {
-        B.push(dummy[i].user_color);
-      }
-    }
-    setTotalCnt(sum);
-    const shuffledBall = shuffleArray(B);
-    setBalllist(shuffledBall);
-  };
-  const setGravity = () => {
-    const isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-    if (isMobile) {
-      engine.gravity.y = 0.2;
-    } else {
-      engine.gravity.y = 0.25;
-    }
-  };
-
-  function start() {
-    for (let i = 0; i < totalCnt; i++) {
-      const ball = Bodies.circle(
-        X[Math.floor(Math.random() * X.length)],
-        Y[Math.floor(Math.random() * Y.length)],
-        width / 70,
-        {
-          restitution: 1,
-          friction: 0.01,
-          density: 8,
-          label: "red",
-          isStatic: false,
-          render: {
-            fillStyle: balllist[i],
-            strokeStyle: "black",
-            lineWidth: 1,
-          },
-        }
-      );
-      balls.push(ball);
-      World.add(engine.world, ball);
+  let sum = 0;
+  for (let i = 0; i < dummy.length; i++) {
+    sum += dummy[i].cnt;
+    for (let j = 0; j<dummy[i].cnt;j++){
+      B.push(dummy[i].user_color)
     }
   }
+  setTotalCnt(sum);
+  const shuffledBall = shuffleArray(B);
+  setBalllist(shuffledBall);
+};
+const setGravity = () => {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  if (isMobile) {
+    engine.gravity.y = 0.20
+  } else {
+    engine.gravity.y = 0.25
+  }
+};
+
+function start() {
+  for (let i = 0; i < totalCnt; i++) {
+    const ball = Bodies.circle(X[Math.floor(Math.random() * X.length)], Y[Math.floor(Math.random() * Y.length)], width/70, {
+      restitution: 0.8,
+      friction: 0.01,
+      density: 0.001,
+      label:"red",
+      isStatic: false,
+      render: {
+        fillStyle: balllist[i],
+        strokeStyle: 'black',
+        lineWidth: 1,
+      },
+    });
+    balls.push(ball);
+    World.add(engine.world, ball);
+  }};
   function shuffleArray(array) {
     // 배열의 복사본을 만듭니다.
     const shuffledArray = [...array];
@@ -195,47 +178,45 @@ function App() {
   }, [totalCnt]);
   useEffect(() => {
     async function initialize() {
-      const engine = Engine.create({
-        timing: {
-          frameRate: 60,
-        },
-      });
-      render = Render.create({
-        element: document.getElementById("canvas"),
-        engine: engine,
-        options: {
-          frameRate: 60,
-          width: 360,
-          height: 1800,
-          wireframes: false,
-          background: "white",
-          position: "absoulte",
-        },
-      });
-      Common.setDecomp(decomp);
+    const engine = Engine.create({
+      timing:{
+        frameRate:30,
+      }});
+    render = Render.create({
+      element: document.getElementById('canvas'),
+      engine: engine,
+      options: {
+        width: 360,
+        height: 1800,
+        wireframes: false,
+        background: 'white',
+        position:"absoulte"
+      },
+    });
+    Common.setDecomp(decomp);
 
       const isMobile =
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
           navigator.userAgent
         );
 
-      if (isMobile) {
-        engine.gravity.y = 0.2;
-        console.log(engine);
-      } else {
-        engine.gravity.y = 0.2;
-        console.log(engine);
-      }
-      const mouse = Mouse.create(render.canvas);
-      const mouseConstraint = MouseConstraint.create(engine, {
-        mouse: mouse,
-        constraint: {
-          stiffness: 0.2,
-          render: {
-            visible: false,
-          },
+    if (isMobile) {
+      engine.gravity.y = 0.5
+      console.log(engine.gravity.y)
+    } else {
+      engine.gravity.y = 0.5
+      console.log(engine.gravity.y)
+    }
+    const mouse = Mouse.create(render.canvas);
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: {
+          visible: false,
         },
-      });
+      },
+    });
 
       World.add(engine.world, mouseConstraint);
 
@@ -512,399 +493,231 @@ function App() {
         }
       );
 
-      const borderBody = Bodies.rectangle(
-        width * 0.5,
-        height * 0.5,
-        width * 0.3,
-        width * 0.3,
-        {
-          isStatic: true, // 이 바디를 움직이지 않도록 설정
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: "transparent",
-            strokeStyle: theme, // 테두리 색상
-            lineWidth: 3, // 테두리 두께
-          },
-        }
-      );
-      const little1 = Bodies.rectangle(
-        width * 0.9,
-        height * 0.6,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little2 = Bodies.rectangle(
-        width * 0.5,
-        height * 0.6,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little3 = Bodies.rectangle(
-        width * 0.3,
-        height * 0.6,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little4 = Bodies.rectangle(
-        width * 0.7,
-        height * 0.6,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little5 = Bodies.rectangle(
-        width * 0.1,
-        height * 0.6,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle1 = Bodies.rectangle(
-        width * 0.2,
-        height * 0.615,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle2 = Bodies.rectangle(
-        width * 0.4,
-        height * 0.615,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle3 = Bodies.rectangle(
-        width * 0.6,
-        height * 0.615,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle4 = Bodies.rectangle(
-        width * 0.8,
-        height * 0.615,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle5 = Bodies.rectangle(
-        0,
-        height * 0.615,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle6 = Bodies.rectangle(
-        width,
-        height * 0.615,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little6 = Bodies.rectangle(
-        width * 0.9,
-        height * 0.63,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little7 = Bodies.rectangle(
-        width * 0.5,
-        height * 0.63,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little8 = Bodies.rectangle(
-        width * 0.3,
-        height * 0.63,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little9 = Bodies.rectangle(
-        width * 0.7,
-        height * 0.63,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little10 = Bodies.rectangle(
-        width * 0.1,
-        height * 0.63,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle7 = Bodies.rectangle(
-        width * 0.2,
-        height * 0.645,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle8 = Bodies.rectangle(
-        width * 0.4,
-        height * 0.645,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle9 = Bodies.rectangle(
-        width * 0.6,
-        height * 0.645,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle10 = Bodies.rectangle(
-        width * 0.8,
-        height * 0.645,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle11 = Bodies.rectangle(
-        0,
-        height * 0.645,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const middle12 = Bodies.rectangle(
-        width,
-        height * 0.645,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little11 = Bodies.rectangle(
-        width * 0.9,
-        height * 0.66,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little12 = Bodies.rectangle(
-        width * 0.5,
-        height * 0.66,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little13 = Bodies.rectangle(
-        width * 0.3,
-        height * 0.66,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little14 = Bodies.rectangle(
-        width * 0.7,
-        height * 0.66,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const little15 = Bodies.rectangle(
-        width * 0.1,
-        height * 0.66,
-        width * 0.08,
-        width * 0.08,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
+      const borderBody = Bodies.rectangle(width * 0.5, height * 0.5, width * 0.3, width * 0.3, {
+        isStatic: true, // 이 바디를 움직이지 않도록 설정
+        angle: Math.PI / 4,
+        render: {
+          fillStyle:"transparent",
+          strokeStyle: theme, // 테두리 색상
+          lineWidth: 3, // 테두리 두께
+        },
+      });
+      const little1 = Bodies.rectangle(width * 0.9, height * 0.6, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little2 = Bodies.rectangle(width * 0.5, height * 0.6, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little3 = Bodies.rectangle(width * 0.3, height * 0.6, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little4 = Bodies.rectangle(width * 0.7, height * 0.6, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little5 = Bodies.rectangle(width * 0.1, height * 0.6, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle1 = Bodies.rectangle(width * 0.2, height * 0.615, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle2 = Bodies.rectangle(width * 0.4, height * 0.615, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle3 = Bodies.rectangle(width * 0.6, height * 0.615, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle4 = Bodies.rectangle(width * 0.8, height * 0.615, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle5 = Bodies.rectangle(0, height * 0.615, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle6 = Bodies.rectangle(width, height * 0.615, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little6 = Bodies.rectangle(width * 0.9, height * 0.63, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little7 = Bodies.rectangle(width * 0.5, height * 0.63, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little8 = Bodies.rectangle(width * 0.3, height * 0.63, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little9 = Bodies.rectangle(width * 0.7, height * 0.63, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little10 = Bodies.rectangle(width * 0.1, height * 0.63, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle7 = Bodies.rectangle(width * 0.2, height * 0.645, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle8 = Bodies.rectangle(width * 0.4, height * 0.645, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle9 = Bodies.rectangle(width * 0.6, height * 0.645, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle10 = Bodies.rectangle(width * 0.8, height * 0.645, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle11 = Bodies.rectangle(0, height * 0.645, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const middle12 = Bodies.rectangle(width, height * 0.645, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little11 = Bodies.rectangle(width * 0.9, height * 0.66, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little12 = Bodies.rectangle(width * 0.5, height * 0.66, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little13 = Bodies.rectangle(width * 0.3, height * 0.66, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little14 = Bodies.rectangle(width * 0.7, height * 0.66, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const little15 = Bodies.rectangle(width * 0.1, height * 0.66, width * 0.08, width * 0.08, {
+        isStatic: true,
+        angle: Math.PI / 4,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
       const Svertices = [
         { x: 0, y: 0 },
         { x: width * 0.1, y: 0 },
@@ -1007,248 +820,116 @@ function App() {
         { x: width * 0.04, y: width * 0.1 },
         { x: width * 0.04, y: width * 0.05 },
       ];
-      const yShape = Bodies.fromVertices(
-        width * 0.9,
-        height * 0.8,
-        Yvertices,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-            lineWidth: 2,
-          },
+      const yShape = Bodies.fromVertices(width*0.9, height*0.8, Yvertices, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+          lineWidth: 2,
         },
-        true
-      );
-      const rot1 = Bodies.rectangle(
-        height * 0.0866,
-        height * 0.13,
-        width * 0.2,
-        width * 0.2,
-        {
-          isStatic: true,
-          angle: Math.PI / 3,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot2 = Bodies.rectangle(
-        (width * 3) / 4,
-        height * 0.0888,
-        width * 0.2,
-        width * 0.2,
-        {
-          isStatic: true,
-          angle: Math.PI / 3,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot3 = Bodies.rectangle(
-        width * 0.15,
-        height * 0.5,
-        width * 0.2,
-        width * 0.02,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot4 = Bodies.rectangle(
-        width * 0.85,
-        height * 0.5,
-        width * 0.2,
-        width * 0.02,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot5 = Bodies.rectangle(
-        width * 0.5,
-        height * 0.4,
-        width * 0.2,
-        width * 0.02,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot6 = Bodies.rectangle(
-        width * 0.5,
-        height * 0.71,
-        width * 0.28,
-        width * 0.02,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot7 = Bodies.rectangle(
-        width * 0.18,
-        height * 0.71,
-        width * 0.28,
-        width * 0.02,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot8 = Bodies.rectangle(
-        width * 0.82,
-        height * 0.71,
-        width * 0.28,
-        width * 0.02,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const stick1 = Bodies.rectangle(
-        width * 0.3,
-        height * 0.95,
-        width * 0.3 + height * 0.02,
-        width * 0.02,
-        {
-          isStatic: true,
-          angle: -Math.PI / 4,
-          label: "TEST",
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const stick2 = Bodies.rectangle(
-        width * 0.7,
-        height * 0.95,
-        width * 0.3 + height * 0.02,
-        width * 0.02,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          label: "TEST",
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const stick3 = Bodies.rectangle(
-        height * 0.0866,
-        height * 0.13,
-        width * 0.4,
-        width * 0.02,
-        {
-          isStatic: true,
-          angle: Math.PI / 3,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const clickEvent = (function () {
-        if ("ontouchstart" in document.documentElement === true) {
-          return "touchstart";
-        } else {
-          return "click";
-        }
-      })();
-      const Boundary = [
-        wall4,
-        rot1,
-        rot2,
-        rot3,
-        rot4,
-        rot5,
-        rot6,
-        rot7,
-        rot8,
-        stick1,
-        stick2,
-        stick3,
-        wall1,
-        wall2,
-        wall3,
-        block,
-        wall5,
-        dia1,
-        dia2,
-        dia3,
-        dia4,
-        wall6,
-        wall7,
-        wall8,
-        wall9,
-        dia5,
-        dia6,
-        dia7,
-        dia8,
-        FinBallLogo,
-        borderBody,
-        little2,
-        little3,
-        little4,
-        little5,
-        little1,
-        middle1,
-        middle2,
-        middle3,
-        middle4,
-        middle5,
-        middle6,
-        little6,
-        little7,
-        little8,
-        little9,
-        little10,
-        middle7,
-        middle8,
-        middle9,
-        middle10,
-        middle11,
-        middle12,
-        little11,
-        little12,
-        little13,
-        little14,
-        little15,
-        sShape1,
-        sShape2,
-        aShape,
-        fShape,
-        yShape,
-      ];
-
-      World.add(engine.world, Boundary);
-      setEngine(engine);
-      Engine.run(engine);
-      Render.run(render);
-      await setColor();
+      }, true);
+      const rot1 = Bodies.rectangle(height*0.0866, height*0.13,width *0.2, width *0.2, {
+        isStatic: true,
+        angle: Math.PI /3, 
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot2 = Bodies.rectangle(width*3/4, height*0.0888, width *0.2, width *0.2, {
+        isStatic: true,
+        angle: Math.PI /3, 
+        render: {
+          fillStyle:theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot3 = Bodies.rectangle(width * 0.15, height * 0.5, width  *0.2, width  *0.02, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot4 = Bodies.rectangle(width * 0.85, height * 0.5, width *0.2, width  *0.02, {
+        isStatic: true,
+        render: {
+          fillStyle: theme, 
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot5 = Bodies.rectangle(width * 0.5, height * 0.4, width  *0.2, width  *0.02, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot6 = Bodies.rectangle(width * 0.5, height * 0.71, width  *0.28, width  *0.02, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot7 = Bodies.rectangle(width * 0.18, height * 0.71, width  *0.28, width  *0.02, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot8 = Bodies.rectangle(width * 0.82, height * 0.71, width  *0.28, width  *0.02, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const stick1 = Bodies.rectangle(width*0.3, height*0.95,width *0.3+height*0.02, width  *0.02, {
+        isStatic: true,
+        angle: -Math.PI /4, 
+        label:"TEST",
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const stick2 = Bodies.rectangle(width*0.7, height*0.95,width *0.3+height*0.02, width  *0.02, {
+        isStatic: true,
+        angle: Math.PI /4, 
+        label:"TEST",
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const stick3 = Bodies.rectangle(height*0.0866, height*0.13, width  *0.4 , width  *0.02, {
+        isStatic: true,
+        angle: Math.PI /3, 
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+    const clickEvent = (function() {
+      if ('ontouchstart' in document.documentElement === true) {
+        return 'touchstart';
+      } else {
+        return 'click';
+      }
+    })();
+    const Boundary = [
+      wall4,rot1,rot2,rot3,rot4,rot5,rot6,rot7,rot8,stick1,stick2,stick3, wall1, wall2, wall3,
+      block,wall5,dia1,dia2,dia3,dia4,wall6,wall7,wall8,wall9,dia5,dia6,dia7,dia8,FinBallLogo,borderBody,little2,little3,little4,
+      little5,little1,middle1,middle2,middle3,middle4,middle5,middle6,little6,little7,little8,little9,little10,
+      middle7,middle8,middle9,middle10,middle11,middle12,little11,little12,little13,little14,little15,sShape1,sShape2,aShape,fShape,yShape];
+ 
+    World.add(engine.world, Boundary);
+    setEngine(engine);
+    Engine.run(engine)
+    Render.run(render);
+    await setColor()
     }
     initialize();
   }, []);
@@ -1266,158 +947,92 @@ function App() {
       updatedBalls.forEach((ball) => {
         Body.set(ball, { isStatic: false });
       });
-
+  
       Engine.update(engine, 1000 / 240);
-
+  
       // rot1을 함수 내부에서 정의
-      const rot1 = Bodies.rectangle(
-        height * 0.0866,
-        height * 0.13,
-        width * 0.2,
-        width * 0.2,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot2 = Bodies.rectangle(
-        (width * 3) / 4,
-        height * 0.0888,
-        width * 0.2,
-        width * 0.2,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot3 = Bodies.rectangle(
-        width * 0.15,
-        height * 0.5,
-        width * 0.2,
-        width * 0.01,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot4 = Bodies.rectangle(
-        width * 0.85,
-        height * 0.5,
-        width * 0.2,
-        width * 0.01,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot5 = Bodies.rectangle(
-        width * 0.5,
-        height * 0.4,
-        width * 0.2,
-        width * 0.01,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot6 = Bodies.rectangle(
-        width * 0.5,
-        height * 0.71,
-        width * 0.28,
-        width * 0.02,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot7 = Bodies.rectangle(
-        width * 0.18,
-        height * 0.71,
-        width * 0.28,
-        width * 0.02,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const rot8 = Bodies.rectangle(
-        width * 0.82,
-        height * 0.71,
-        width * 0.28,
-        width * 0.02,
-        {
-          isStatic: true,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const stick1 = Bodies.rectangle(
-        width * 0.3,
-        height * 0.95,
-        width * 0.3 + height * 0.02,
-        width * 0.02,
-        {
-          isStatic: true,
-          angle: -Math.PI / 4,
-          label: "TEST",
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const stick2 = Bodies.rectangle(
-        width * 0.7,
-        height * 0.95,
-        width * 0.3 + height * 0.02,
-        width * 0.02,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          label: "TEST",
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
-      const stick3 = Bodies.rectangle(
-        height * 0.0866,
-        height * 0.13,
-        width * 0.4,
-        width * 0.02,
-        {
-          isStatic: true,
-          angle: Math.PI / 4,
-          render: {
-            fillStyle: theme,
-            strokeStyle: "transparent",
-          },
-        }
-      );
+      const rot1 = Bodies.rectangle(height*0.0866, height*0.13,width *0.2, width *0.2, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot2 = Bodies.rectangle(width*3/4, height*0.0888, width *0.2, width *0.2, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot3 = Bodies.rectangle(width * 0.15, height * 0.5, width  *0.2, width  *0.01, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot4 = Bodies.rectangle(width * 0.85, height * 0.5, width *0.2, width  *0.01, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot5 = Bodies.rectangle(width * 0.5, height * 0.4, width  *0.2, width  *0.01, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot6 = Bodies.rectangle(width * 0.5, height * 0.71, width  *0.28, width  *0.02, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot7 = Bodies.rectangle(width * 0.18, height * 0.71, width  *0.28, width  *0.02, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const rot8 = Bodies.rectangle(width * 0.82, height * 0.71, width  *0.28, width  *0.02, {
+        isStatic: true,
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const stick1 = Bodies.rectangle(width*0.3, height*0.95,width *0.3+height*0.02, width  *0.02, {
+        isStatic: true,
+        angle: -Math.PI /4, 
+        label:"TEST",
+        render: {
+          fillStyle:theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const stick2 = Bodies.rectangle(width*0.7, height*0.95,width *0.3+height*0.02, width  *0.02, {
+        isStatic: true,
+        angle: Math.PI /4, 
+        label:"TEST",
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
+      const stick3 = Bodies.rectangle(height*0.0866, height*0.13, width  *0.4 , width  *0.02, {
+        isStatic: true,
+        angle: Math.PI /4, 
+        render: {
+          fillStyle: theme,
+          strokeStyle: 'transparent',
+        },
+      });
       // Engine 객체에 각도를 변경하는 함수를 등록
       let angle1 = 0;
       let angle2 = 0;
@@ -1428,7 +1043,7 @@ function App() {
         Body.setAngle(rot2, angle1); // rot1 요소의 각도를 변경
         Body.setAngle(rot3, -angle1); // rot1 요소의 각도를 변경
         Body.setAngle(rot4, angle1); // rot1 요소의 각도를 변경
-        Body.setAngle(rot5, -angle1 + 1); // rot1 요소의 각도를 변경
+        Body.setAngle(rot5, -angle1+1); // rot1 요소의 각도를 변경
         Body.setAngle(stick3, angle1); // rot1 요소의 각도를 변경
       });
 
@@ -1438,26 +1053,32 @@ function App() {
       World.add(engine.world, rot4);
       World.add(engine.world, rot5);
       World.add(engine.world, stick3);
+      World.add(engine.world, rot6);
+      World.add(engine.world, rot7);
+      World.add(engine.world, constraint1);
+      World.add(engine.world, constraint2);
+      World.add(engine.world, constraint3);
+      World.add(engine.world, rot8);
 
-      let cnt = 0;
-      let dir = [1, -1];
-      Events.on(engine, "beforeUpdate", () => {
-        angle2 += 0.02 * dir[Math.round(cnt / 75) % 2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
+      let cnt=0;
+      let dir=[1,-1]
+      Events.on(engine, 'beforeUpdate', () => {
+        angle2 += 0.02*dir[(Math.round(cnt/75))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
         Body.setAngle(stick1, -angle2); // rot1 요소의 각도를 변경
         Body.setAngle(stick2, angle2); // rot1 요소의 각도를 변경
       });
       World.add(engine.world, stick1);
       World.add(engine.world, stick2);
-      Events.on(engine, "beforeUpdate", () => {
-        cnt += 1;
-        angle3 += 0.03 * dir[Math.round(cnt / 50) % 2];
-        Body.setAngle(rot6, angle3);
-        Body.setAngle(rot7, -angle3);
-        Body.setAngle(rot8, angle3);
+      Events.on(engine, 'beforeUpdate', () => {
+        cnt+=1
+        angle3 += 0.03*dir[(Math.round(cnt/50))%2];
+        Body.setAngle(rot6,angle3)
+        Body.setAngle(rot7,-angle3)
+        Body.setAngle(rot8,angle3)
       });
-      World.add(engine.world, rot6);
-      World.add(engine.world, rot7);
-      World.add(engine.world, rot8);
+      World.add(engine.world, rot3);
+      World.add(engine.world, rot4);
+      World.add(engine.world, rot5);
       const updateScroll = () => {
         if (updatedBalls.length > 0) {
           let highestYBall = updatedBalls[0];
@@ -1479,9 +1100,22 @@ function App() {
             );
             if (indexToRemove !== -1) {
               updatedBalls.splice(indexToRemove, 1);
+        
+              // ballTexts에서도 해당 공의 텍스트 엘리먼트 제거
+              const del = ballTexts.findIndex(textElement => textElement.id === highestYBall.id);
+              if (del !== -1) {
+                const textElementToRemove = ballTexts[del];
+                ballTexts.splice(del, 1);
+                const rootDiv = document.getElementById('root')
+                rootDiv.removeChild(textElementToRemove);
+              }
+        
+              World.remove(engine.world, highestYBall);
+        
+              // 상태 업데이트
+              setBalls([...updatedBalls]); // 새로운 배열을 만들어야 합니다.
+              setBallTexts([...ballTexts]); // 새로운 배열을 만들어야 합니다.
             }
-            World.remove(engine.world, highestYBall);
-            setBalls(updatedBalls);
             setBallCount(Pay.length);
             setRedCount(
               Pay.filter((ball) => ball.render.fillStyle === "red").length
@@ -1531,6 +1165,14 @@ function App() {
       updateScroll();
     }
   };
+window.addEventListener('beforeunload', () => {
+  // 페이지를 떠날 때 ballText 엘리먼트 삭제
+  for (let i = 0; i < ballTexts.length; i++) {
+    const textElementToRemove = ballTexts[i];
+    const rootDiv = document.getElementById('canvas')
+    rootDiv.removeChild(textElementToRemove);
+  }
+});
   return (
     <div id="canvas" style={{ width: "360px", height: "1800px" }}>
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -1542,91 +1184,54 @@ function App() {
           Finball!
         </button>
       </div>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <div
-          style={{
-            zIndex: 3,
-            background: "grey",
-            padding: "5px 10px",
-            borderRadius: "5px",
-            fontSize: word,
-            position: "fixed",
-            // ...ballCountPosition, // ballCountPosition의 위치를 적용
-          }}
-        >
-          <div style={{ color: "white" }}>
-            지불금액: {ballCount}/{Payment}
-          </div>
-          <div style={{ color: "red" }}>
-            {userColor["red"]} : {redCount}
-          </div>
-          <div style={{ color: "blue" }}>
-            {userColor["blue"]} : {blueCount}
-          </div>
-          <div style={{ color: "green" }}>
-            {userColor["green"]} : {greenCount}
-          </div>
-          <div style={{ color: "yellow" }}>
-            {userColor["yellow"]} : {yellowCount}
-          </div>
-          <div style={{ color: "orange" }}>
-            {userColor["orange"]} : {orangeCount}
-          </div>
-          <div style={{ color: "purple" }}>
-            {userColor["purple"]} : {purpleCount}
-          </div>
-        </div>
-      </div>
-      <Modal
-        ariaHideApp={false}
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Custom Modal" // 모달의 레이블 설정
+      <div style={{ display: "flex",justifyContent: "flex-end"}}>
+      <div
         style={{
-          overlay: {
-            background: "grey",
-          },
-          content: {
-            width: "50%", // 모달의 너비
-            height: "50%", // 모달의 높이
-            top: "25%", // 모달을 수직으로 가운데 정렬
-            left: "25%", // 모달을 수평으로 가운데 정렬
-            zIndex: 30,
-          },
+          zIndex:3,
+          background: 'grey',
+          padding: '5px 10px',
+          borderRadius: '5px',
+          fontSize:word,
+          position:"fixed",
+          // ...ballCountPosition, // ballCountPosition의 위치를 적용
         }}
-      >
-        <h2>게임결과</h2>
-        <p style={{ fontSize: word }}>다음 사람들은 돈을 지불하시오</p>
-        <div style={{ fontSize: word, color: "red" }}>
-          {userColor["red"]} : {redCount}
-        </div>
-        <div style={{ fontSize: word, color: "blue" }}>
-          {userColor["blue"]} : {blueCount}
-        </div>
-        <div style={{ fontSize: word, color: "green" }}>
-          {userColor["green"]} : {greenCount}
-        </div>
-        <div style={{ fontSize: word, color: "yellow" }}>
-          {userColor["yellow"]} : {yellowCount}
-        </div>
-        <div style={{ fontSize: word, color: "orange" }}>
-          {userColor["orange"]} : {orangeCount}
-        </div>
-        <div style={{ fontSize: word, color: "purple" }}>
-          {userColor["purple"]} : {purpleCount}
-        </div>
-        <button
-          onClick={closeModal}
-          style={{
-            width: "20%",
-            aspectRatio: 5,
-            fontSize: word,
-            position: "absolute",
-            left: "40%",
-          }}
         >
-          Close
-        </button>
+        <div style={{color:"white"}}>지불금액: {ballCount}/{Payment}</div>
+        <div style={{color:"red"}}>{userColor["red"]} : {redCount}</div>
+        <div style={{color:"blue"}}>{userColor["blue"]} : {blueCount}</div>
+        <div style={{color:"green"}}>{userColor["green"]} : {greenCount}</div>
+        <div style={{color:"yellow"}}>{userColor["yellow"]} : {yellowCount}</div>
+        <div style={{color:"orange"}}>{userColor["orange"]} : {orangeCount}</div>
+        <div style={{color:"purple"}}>{userColor["purple"]} : {purpleCount}</div>
+      </div>
+        </div>
+          <Modal
+            ariaHideApp={false}
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            contentLabel="Custom Modal" // 모달의 레이블 설정
+            style={{
+              overlay: {
+                background: 'grey',
+              },
+              content: {
+                width: '50%', // 모달의 너비
+                height: '50%', // 모달의 높이
+                top: '25%', // 모달을 수직으로 가운데 정렬
+                left: '25%', // 모달을 수평으로 가운데 정렬
+                zIndex:30,
+              },
+            }}
+        >
+        <h2>게임결과</h2>
+        <p style={{fontSize:word}}>다음 사람들은 돈을 지불하시오</p>
+        <div style={{fontSize:word,color:"red"}}>{userColor["red"]} : {redCount}</div>
+        <div style={{fontSize:word,color:"blue"}}>{userColor["blue"]} : {blueCount}</div>
+        <div style={{fontSize:word,color:"green"}}>{userColor["green"]} : {greenCount}</div>
+        <div style={{fontSize:word,color:"yellow"}}>{userColor["yellow"]} : {yellowCount}</div>
+        <div style={{fontSize:word,color:"orange"}}>{userColor["orange"]} : {orangeCount}</div>
+        <div style={{fontSize:word,color:"purple"}}>{userColor["purple"]} : {purpleCount}</div>
+        <button onClick={closeModal} style={{width:'20%',aspectRatio:5,fontSize:word,position:'absolute',left:'40%'}}>Close</button>
       </Modal>
     </div>
   );

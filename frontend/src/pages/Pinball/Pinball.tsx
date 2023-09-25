@@ -28,7 +28,7 @@ function Pinball(value) {
 
     // 중력 설정
     newEngine.world.gravity.x = 0;
-    newEngine.world.gravity.y = 0.4;
+    newEngine.world.gravity.y = 0.6;
 
     // Create a renderer
     const newRender = Render.create({
@@ -108,10 +108,12 @@ function Pinball(value) {
         Math.random() * parentSize.height,
         Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
         {
-          restitution: 0.05,
-          friction: 0.001,
-          density: 10,
+          density: 0.0005,
+          frictionAir: 0.06,
+          restitution: 0.3,
+          friction: 0.01,
           isStatic: false,
+          isSensor:false,
           render: {
             fillStyle: "#05CD01",
             strokeStyle: "white",
@@ -136,7 +138,7 @@ function Pinball(value) {
     })();
     newRender.canvas.addEventListener(clickEvent, () => {
       const sortedBalls = [...balls].sort(
-        (a, b) => b.position.y - a.position.y
+        (a, b) => a.position.y - b.position.y
       );
       setBalls(sortedBalls);
       const ball = [];
@@ -169,10 +171,12 @@ function Pinball(value) {
             parentSize.height / 10,
             Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
             {
-              restitution: 0.1,
-              friction: 0.001,
-              density: 10,
+              density: 0.0005,
+              frictionAir: 0.06,
+              restitution: 0.3,
+              friction: 0.01, 
               isStatic: false,
+              isSensor:false,
               render: {
                 fillStyle: "#05CD01",
                 strokeStyle: "white",

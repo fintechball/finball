@@ -18,7 +18,7 @@ function Home() {
         <h2>우리 계좌</h2>
 
         <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
-          <Pinball value={state} />
+          <Pinball value={state}/>
         </div>
       </div>
 
