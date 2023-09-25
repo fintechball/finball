@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import styles from "./Card.module.scss";
+import styles from "./Card.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import styles from "./Card.module.css";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -15,7 +14,7 @@ function Card() {
 
   useEffect(() => {
     axios
-      .get(`${BASE_HTTP_URL}/user/card`, {
+      .get(`${BASE_HTTP_URL}/api/user/card`, {
         headers: {
           // Authorization: token.accessToken,
           Authorization: localStorage.getItem("accessToken"),

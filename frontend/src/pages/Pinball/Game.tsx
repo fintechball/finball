@@ -176,7 +176,7 @@ useEffect(() => {
     async function initialize() {
     const engine = Engine.create({
       timing:{
-        frameRate:10,
+        frameRate:30,
       }});
     render = Render.create({
       element: document.getElementById('canvas'),
@@ -194,9 +194,11 @@ useEffect(() => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (isMobile) {
-      engine.gravity.y = 0.20
+      engine.gravity.y = 0.5
+      console.log(engine.gravity.y)
     } else {
-      engine.gravity.y = 0.25
+      engine.gravity.y = 0.5
+      console.log(engine.gravity.y)
     }
     const mouse = Mouse.create(render.canvas);
     const mouseConstraint = MouseConstraint.create(engine, {
@@ -991,21 +993,22 @@ useEffect(() => {
   };
   return (
     <div id="canvas" style={{width:"360px",height:"1800px"}}>
+      <div style={{ display: "flex",justifyContent: "center"}}>
       <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen}}>Finball!</button>
+      </div>
+      <div style={{ display: "flex",justifyContent: "flex-end"}}>
       <div
         style={{
-          position: 'fixed',
-          top:"60px",
-          left:innerWidth/2+100,
           zIndex:3,
           background: 'grey',
           padding: '5px 10px',
           borderRadius: '5px',
           fontSize:word,
+          position:"fixed",
           // ...ballCountPosition, // ballCountPosition의 위치를 적용
         }}
-      >
-        <div style={{color:"white"}}>지불금액: {ballCount}</div>
+        >
+        <div style={{color:"white"}}>지불금액: {ballCount}/{Payment}</div>
         <div style={{color:"red"}}>{userColor["red"]} : {redCount}</div>
         <div style={{color:"blue"}}>{userColor["blue"]} : {blueCount}</div>
         <div style={{color:"green"}}>{userColor["green"]} : {greenCount}</div>
@@ -1013,6 +1016,7 @@ useEffect(() => {
         <div style={{color:"orange"}}>{userColor["orange"]} : {orangeCount}</div>
         <div style={{color:"purple"}}>{userColor["purple"]} : {purpleCount}</div>
       </div>
+        </div>
           <Modal
             ariaHideApp={false}
             isOpen={isModalOpen}

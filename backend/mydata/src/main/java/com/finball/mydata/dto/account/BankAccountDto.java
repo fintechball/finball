@@ -1,7 +1,7 @@
 package com.finball.mydata.dto.account;
 
 
-import java.time.LocalDateTime;
+import com.finball.mydata.dto.company.CompanyDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -12,12 +12,7 @@ import lombok.Getter;
 @Data
 public class BankAccountDto {
 
-    private String bankName;
-    private String bankImage;
-    private Long bankCode;
-    private String accountName;
-    private String accountNumber;
-    private LocalDateTime accountRegist;
-    private LocalDateTime accountClose;
+    private CompanyDto company;
+    private AccountDto account;
 
 }

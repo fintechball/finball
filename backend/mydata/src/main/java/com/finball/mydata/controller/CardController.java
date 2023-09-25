@@ -23,10 +23,10 @@ public class CardController {
         cardService.createCard(memberId);
     }
 
-    @PostMapping("/myData/card")
+    @PostMapping("/my-data/card")
     public Response<?> getCardList(@RequestBody CardListDto.Request request,
             @AuthenticationPrincipal PrincipalDetails userDetails) {
-
+        System.out.println(userDetails.getMember().getName());
         Long id = userDetails.getMember().getId();
         CardListDto.Response response = cardService.getCardList(request, id);
         return new Response<>(200, "성공적으로 카드목록을 불러왔습니다.", response);

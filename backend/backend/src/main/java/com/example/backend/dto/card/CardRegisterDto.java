@@ -10,17 +10,19 @@ public class CardRegisterDto {
 
     @Data
     public static class Request {
-
-        List<CardDto> cardDtoList;
+        private int updateWeek;
+        private List<CardDto> cardList;
 
     }
 
     public static Card toCard(CardDto cardDto, Member member) {
         return Card.builder()
-                .cardNumber(cardDto.getCardNumber())
-                .cpName(cardDto.getCompanyName())
-                .image(cardDto.getCardImage())
-                .name(cardDto.getCardName())
+                .number(cardDto.getCard().getNo())
+                .image(cardDto.getCard().getImage())
+                .name(cardDto.getCard().getName())
+                .cpName(cardDto.getCompany().getName())
+                .cpLogo(cardDto.getCompany().getLogo())
+                .cpCode(cardDto.getCompany().getCode())
                 .member(member)
                 .build();
     }

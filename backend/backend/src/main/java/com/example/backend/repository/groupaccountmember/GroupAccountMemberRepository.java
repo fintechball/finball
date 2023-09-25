@@ -6,5 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GroupAccountMemberRepository extends JpaRepository<GroupAccountMember, Long> {
 
-    List<GroupAccountMember> findAllByGroupAccountAccountNumber(String groupAccountId);
 }

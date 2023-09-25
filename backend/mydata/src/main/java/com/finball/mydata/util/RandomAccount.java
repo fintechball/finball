@@ -1,12 +1,14 @@
 package com.finball.mydata.util;
 
+import com.finball.mydata.dto.account.CreateAccountNameDto;
 import com.finball.mydata.dto.account.RegistAccountDto;
-import com.finball.mydata.entity.Member;
+import com.finball.mydata.repository.CompanyRepository;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.time.LocalDateTime;
 import java.util.Random;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,10 +16,13 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class RandomAccount {
 
+    private final CompanyRepository companyRepository;
+
     Random random = new Random();
-    static final String JSON_FILE_PATH = "C:\\Users\\SSAFY\\Desktop\\S09P22E106\\backend\\mydata\\src\\main\\java\\com\\finball\\mydata\\util\\json\\account.json";
+    static final String JSON_FILE_PATH = "/Users/jeong-yeongbin/Desktop/S09P22E106/backend/mydata/src/main/java/com/finball/mydata/util/json/account.json";
 
     public RegistAccountDto create() throws IOException, ParseException {
         JSONParser parser = new JSONParser();
@@ -31,13 +36,14 @@ public class RandomAccount {
     }
 
     private RegistAccountDto createAccountDto(JSONObject bank) {
-        String accountNumber = createAccountNumber(bank);
+        CreateAccountNameDto createAccountNameDto = createAccountNumber(bank);
         LocalDateTime registerDt = LocalDateTime.now();
         Long companyId = (Long) bank.get("cp_id");
         String accountName = createAccountName(bank);
 
         return RegistAccountDto.builder()
-                .accountNumber(accountNumber)
+                .accountNumber(createAccountNameDto.getAccountNumber())
+                .originNumber(createAccountNameDto.getOriginNumber())
                 .registerDt(registerDt)
                 .balance(0L)
                 .accountName(accountName)
@@ -52,28 +58,30 @@ public class RandomAccount {
         return (String) names.get(randIndex);
     }
 
-    private String createAccountNumber(JSONObject bank) {
+    private CreateAccountNameDto createAccountNumber(JSONObject bank) {
         JSONArray form = (JSONArray) bank.get("form");
         JSONArray type = (JSONArray) bank.get("type");
         Long typeIndex = (Long) bank.get("typeIndex");
 
-        String accountNumber = "";
+        StringBuilder accountNumber = new StringBuilder();
+        StringBuilder originNumber = new StringBuilder();
 
         for (int i = 0; i < form.size(); i++) {
             Long intervalSize = (Long) form.get(i);
+            String str = "";
 
             if (i == typeIndex) {
-                accountNumber += getAccountTypeNumber(type);
+                str = getAccountTypeNumber(type);
             } else {
-                accountNumber += getIntervalNumber(intervalSize);
+                str = getIntervalNumber(intervalSize);
             }
-
-            accountNumber += "-";
+            originNumber.append(str);
+            accountNumber.append(str).append("-");
         }
 
-        accountNumber = accountNumber.substring(0, accountNumber.length() - 1);
+        accountNumber = new StringBuilder(accountNumber.substring(0, accountNumber.length() - 1));
 
-        return accountNumber;
+        return new CreateAccountNameDto(accountNumber.toString(), originNumber.toString());
     }
 
     private String getAccountTypeNumber(JSONArray type) {

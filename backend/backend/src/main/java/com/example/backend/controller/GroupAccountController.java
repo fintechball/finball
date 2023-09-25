@@ -9,6 +9,7 @@ import com.example.backend.dto.groupaccount.RegistGroupAccountDto;
 import com.example.backend.dto.transfer.AccountTransferDto;
 import com.example.backend.entity.Member;
 import com.example.backend.security.UserDetailsImpl;
+import com.example.backend.service.GroupAccountFillingService;
 import com.example.backend.service.GroupAccountService;
 import com.example.backend.service.GroupAccountTransferService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,6 +30,7 @@ public class GroupAccountController {
 
     private final GroupAccountService groupAccountService;
     private final GroupAccountTransferService groupAccountTransferService; //이체 처리 service
+    private final GroupAccountFillingService groupAccountFillingService; //모임 통장으로 이체 service
 
     @GetMapping("/group/account/{groupAccountId}")
     public Response<GroupAccountDto.Response> getGroupAccount(@PathVariable String groupAccountId) {
@@ -68,13 +70,25 @@ public class GroupAccountController {
         groupAccountTransferService.transferGroupAccount(request, member);
 
         return new Response<>(200, "이체가 완료되었습니다.");
+    }
+
+    @PostMapping("/group/account/fill")
+    public Response fillGroupAccount(@RequestBody AccountTransferDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails)
+            throws JsonProcessingException {
+
+        Member member = userDetails.getMember();
+
+        groupAccountFillingService.transferGroupAccount(request, member);
+        return new Response<>(200, "모임 계좌로 이체가 완료 되었습니다.");
+    }
 
     @DeleteMapping("/group/account")
     public Response deleteGroupAccount(@RequestBody DeleteGroupAccountDto.Request request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
         Member member = userDetails.getMember();
         groupAccountService.delete(request, member);
-        return new Response<>(204, "그룹 계좌 삭제 완료");
 
+        return new Response<>(204, "그룹 계좌 삭제 완료");
     }
 }

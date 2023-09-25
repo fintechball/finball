@@ -1,7 +1,6 @@
 package com.finball.mydata.service;
 
 import com.finball.mydata.dto.company.CompanyCodeDto;
-import com.finball.mydata.dto.company.CompanyCodeDto.Response;
 import com.finball.mydata.dto.company.CompanyDto;
 import com.finball.mydata.dto.company.CompanyListDto;
 import com.finball.mydata.entity.Company;
@@ -27,7 +26,7 @@ public class CompanyService {
         List<CompanyDto> CompanyInfoDtoList = new ArrayList<>();
 
         for (Company company : companies) {
-            CompanyInfoDtoList.add(company.toCompanyInfoDto());
+            CompanyInfoDtoList.add(company.toCompanyDto());
         }
 
         return new CompanyListDto.Response(CompanyInfoDtoList);
@@ -48,7 +47,8 @@ public class CompanyService {
             throw new NoSuchElementException("존재하지 않는 은행입니다");
         }
 
-        CompanyCodeDto.Response response = new CompanyCodeDto.Response(company.getCpCode());
+//        CompanyCodeDto.Response response = new CompanyCodeDto.Response(company.getCpCode());
+        CompanyCodeDto.Response response = null;
         return response;
     }
 }

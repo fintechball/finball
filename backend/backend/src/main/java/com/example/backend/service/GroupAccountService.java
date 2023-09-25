@@ -10,7 +10,6 @@ import com.example.backend.dto.groupaccount.GroupMemberDto;
 import com.example.backend.dto.groupaccount.GroupTradeHistoryDto;
 import com.example.backend.dto.groupaccount.RegistGroupAccountDto.Request;
 import com.example.backend.dto.transfer.AccountTransferDto;
-import com.example.backend.dto.transfer.FinBallTradeHistoryDto;
 import com.example.backend.dto.transfer.TransferInfoDto;
 import com.example.backend.entity.GroupAccount;
 import com.example.backend.entity.GroupAccountHistory;
@@ -54,13 +53,13 @@ public class GroupAccountService {
         GroupAccount savedGroupAccount = groupAccountRepository.save(groupAccount);
         GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount);
         groupAccountMemberRepository.save(groupAccountMember);
-        return savedGroupAccount.getAccountNumber();
+        return savedGroupAccount.getAccountNo();
     }
 
     public AcceptGroupAccountDto.Response acceptInvite(
             AcceptGroupAccountDto.Request request, Member member) {
-        String groupAccountId = request.getId();
-        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountId).get();
+        String groupAccountNo = request.getGroupAccountNo();
+        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountNo).get();
         if (groupAccount == null) {
             throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
         }
@@ -72,9 +71,9 @@ public class GroupAccountService {
         return AcceptGroupAccountDto.Response.toAcceptGroupAccountDtoResponse(groupAccount);
     }
 
-    public GroupAccountDto.Response findByGroupAccountId(String groupAccountId) {
+    public GroupAccountDto.Response findByGroupAccountId(String groupAccountNo) {
         GroupAccount groupAccount = (GroupAccount) groupAccountCustomRepository.getGroupAccountWithMembers(
-                groupAccountId);
+                groupAccountNo);
         if (groupAccount == null) {
             throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
         }
@@ -83,12 +82,12 @@ public class GroupAccountService {
         }
         long hostId = groupAccount.getMember().getId();
         List<GroupMemberDto> groupAccountMemberList = groupAccountCustomRepository.getGroupAccountMemberListWithMembers(
-                        groupAccountId).stream()
+                        groupAccountNo).stream()
                 .map(groupAccountMember -> groupAccountMember.toGroupMemberDto(hostId))
                 .collect(
                         Collectors.toList());
         List<GroupTradeHistoryDto> groupAccountHistoryList = groupAccountCustomRepository.getGroupAccountHistoryListWithGameResult(
-                groupAccountId).stream().map(GroupAccountHistory::toGroupTradeHistoryDto).collect(
+                groupAccountNo).stream().map(GroupAccountHistory::toGroupTradeHistoryDto).collect(
                 Collectors.toList());
 
         return GroupAccountDto.Response.toGroupAccountDto(groupAccount, groupAccountMemberList,
@@ -128,17 +127,14 @@ public class GroupAccountService {
     public void delete(DeleteGroupAccountDto.Request request, Member member)
             throws JsonProcessingException {
         String memberId = member.getUserId();
-        String groupAccountId = request.getGroupAccountId();
+        String groupAccountNo = request.getGroupAccountNo();
         Long finballCode = (long) 106;
 
-        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountId).get();
+        GroupAccount groupAccount = groupAccountRepository.findById(groupAccountNo).get();
 
         // 송금하는 모임 통장
-        TransferInfoDto minusBank = TransferInfoDto.builder()
-                .code(finballCode)
-                .accountNumber(groupAccount.getAccountNumber())
-                .target(groupAccount.getName())
-                .build();
+        TransferInfoDto minusBank = buildTransferInfoDto(finballCode,
+                groupAccount.getAccountNo(), groupAccount.getName());
 
         if (groupAccount == null) {
             throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
@@ -149,7 +145,7 @@ public class GroupAccountService {
         }
 
         List<GroupAccountMember> groupAccountMemberList = groupAccountMemberCustomRepository.getGroupAccountMemberWithMembers(
-                groupAccountId);
+                groupAccountNo);
 
         for (GroupAccountMember groupAccountMember : groupAccountMemberList
         ) {
@@ -157,32 +153,16 @@ public class GroupAccountService {
                 // 회사 코드 가져오기
                 String bankName = groupAccountMember.getBankName();
                 String token = redisUtil.getMyDataToken(memberId);
-                System.out.println(bankName);
-                ResponseEntity<String> codeResponse = restTemplateUtil.callMyData(token,
-                        request, "/myData/company/name/" + bankName,
-                        HttpMethod.GET);
+                Long cpCode = getCode(token, request, bankName);
 
-                RestDto<CompanyCodeDto> codeRestDto = new RestDto<>(CompanyCodeDto.class,
-                        codeResponse);
-                CompanyCodeDto companyCodeDto = (CompanyCodeDto) restTemplateUtil.parseBody(
-                        codeRestDto, "cpCode");
-
-                Long cpCode = companyCodeDto.getCpCode();
-                String toAccountNumber = groupAccountMember.getToAccountNumber();
+                String toAccountNo = groupAccountMember.getToAccountNo();
                 String toName = groupAccountMember.getMember().getName();
                 long balance = groupAccountMember.getBalance();
 
-                TransferInfoDto plusBank = TransferInfoDto.builder()
-                        .code(cpCode)
-                        .accountNumber(toAccountNumber)
-                        .target(toName)
-                        .build();
+                TransferInfoDto plusBank = buildTransferInfoDto(cpCode, toAccountNo, toName);
 
-                AccountTransferDto.Request sendRequest = AccountTransferDto.Request.builder()
-                        .minusBank(minusBank)
-                        .plusBank(plusBank)
-                        .value(balance)
-                        .build();
+                AccountTransferDto.Request sendRequest = buildTransferDto(minusBank, plusBank,
+                        balance);
 
                 ResponseEntity<String> response = restTemplateUtil.callMyData(token,
                         sendRequest, "/myData/transfer",
@@ -191,6 +171,36 @@ public class GroupAccountService {
         }
         groupAccount.setValid(false);
         groupAccountRepository.save(groupAccount);
-        return;
+    }
+
+    private Long getCode(String token, DeleteGroupAccountDto.Request request, String bankName)
+            throws JsonProcessingException {
+        ResponseEntity<String> codeResponse = restTemplateUtil.callMyData(token,
+                request, "/myData/company/name/" + bankName,
+                HttpMethod.GET);
+
+        RestDto<CompanyCodeDto> codeRestDto = new RestDto<>(CompanyCodeDto.class,
+                codeResponse);
+        CompanyCodeDto companyCodeDto = (CompanyCodeDto) restTemplateUtil.parseBody(
+                codeRestDto, "cpCode");
+
+        return companyCodeDto.getCpCode();
+    }
+
+    private TransferInfoDto buildTransferInfoDto(Long code, String accountNo, String target) {
+        return TransferInfoDto.builder()
+                .companyId(code)
+                .accountNo(accountNo)
+                .userName(target)
+                .build();
+    }
+
+    private AccountTransferDto.Request buildTransferDto(TransferInfoDto minusBank,
+            TransferInfoDto plusBank, Long value) {
+        return AccountTransferDto.Request.builder()
+                .minusBank(minusBank)
+                .plusBank(plusBank)
+                .value(value)
+                .build();
     }
 }

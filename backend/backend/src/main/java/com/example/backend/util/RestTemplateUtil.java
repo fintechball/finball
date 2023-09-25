@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class RestTemplateUtil {
 
+//    private final String MYDATA_URL = "http://localhost:8081";
     private final String MYDATA_URL = "http://54.180.79.140:8080";
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -57,6 +58,7 @@ public class RestTemplateUtil {
 
     public Object parseBody(RestDto<?> response, String key) throws JsonProcessingException {
         JsonNode body = getBody(response.getRespEntity(), key);
+        System.out.println(body);
         Class<?> clazz = response.getClassName();
 
         return objectMapper.readValue(body.toString(), clazz);

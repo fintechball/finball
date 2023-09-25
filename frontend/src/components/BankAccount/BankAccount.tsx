@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import styles from "./BankAccount.module.scss";
+import styles from "./BankAccount.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import styles from "./BankAccount.module.css";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -14,7 +13,7 @@ function BankAccount() {
 
   useEffect(() => {
     axios
-      .get(`${BASE_HTTP_URL}/user/account/simple`, {
+      .get(`${BASE_HTTP_URL}/api/user/account/simple`, {
         headers: {
           // Authorization: token.accessToken,
           Authorization: localStorage.getItem("accessToken"),
@@ -28,8 +27,27 @@ function BankAccount() {
       });
   }, [token]);
 
+  const transfer = (accountId) => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/user/account`, {
+        headers: {
+          // Authorization: token.accessToken,
+          Authorization: localStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        const userAccountList = response.data.data.userAccountList;
+        navigate("/accountDetail", {
+          state: userAccountList.find((item) => item.accountNo === accountId),
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
-    <div className={styles.container}>
+    <>
       {accountList && accountList.length !== 0 ? (
         [...accountList].map((account, index) => (
           <div className={styles.container} key={index}>
@@ -38,18 +56,20 @@ function BankAccount() {
               <p>{account.name}</p>
               <p>{account.account}</p>
             </div>
-            <button>송금</button>
+            <button onClick={() => transfer(account.account)}>송금</button>
           </div>
         ))
       ) : (
         <>
-          <div>연결된 계좌가 없습니다.</div>
-          <button onClick={() => navigate("/company/bank")}>
-            계좌 연결하기
-          </button>
+          <div className={styles.noncontainer}>
+            <div>연결된 계좌가 없습니다.</div>
+            <button onClick={() => navigate("/company/bank")}>
+              계좌 연결하기
+            </button>
+          </div>
         </>
       )}
-    </div>
+    </>
   );
 }
 

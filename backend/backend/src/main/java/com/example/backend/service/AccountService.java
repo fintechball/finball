@@ -1,13 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.RestDto;
-import com.example.backend.dto.account.AccountRegisterDto;
-import com.example.backend.dto.account.AccountRegisterInfoDto;
-import com.example.backend.dto.account.FavoriteAccountDto;
-import com.example.backend.dto.account.GetUserAccountDto;
-import com.example.backend.dto.account.GetUserAccountSimpleDto;
-import com.example.backend.dto.account.GetUserAccountSimpleDto.Response;
-import com.example.backend.dto.account.UserAccountSimpleDto;
+import com.example.backend.dto.account.*;
 import com.example.backend.dto.mydata.GetMemberAccountDto;
 import com.example.backend.dto.mydata.MemberAccountInfoDto;
 import com.example.backend.entity.Account;
@@ -17,13 +11,13 @@ import com.example.backend.repository.account.AccountRepository;
 import com.example.backend.util.RedisUtil;
 import com.example.backend.util.RestTemplateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,29 +30,32 @@ public class AccountService {
 
     public void register(AccountRegisterDto.Request request, Member member) {
 
-        for (AccountRegisterInfoDto info : request.getBankAccountDtoList()) {
+        for (AccountRegisterInfoDto info : request.getBankAccountList()) {
+            System.out.println(info.toString());
             accountRepository.save(info.toAccount(member));
         }
     }
 
     public GetUserAccountDto.Response getAccountList(Member member) throws JsonProcessingException {
-        List<Account> accountList = accountCustomRepository.findByIdOrderByIsFavorite(
-                member.getId());
+        List<Account> accountList = accountCustomRepository.findById(member.getId());
         List<String> accountNumberList = new ArrayList<>();
 
-        for (Account account : accountList) {
-            accountNumberList.add(account.getAccountNumber());
+        for(Account account : accountList) {
+            accountNumberList.add(account.getAccountNo());
         }
 
-        List<MemberAccountInfoDto> memberAccountInfoDtoList = getMydataAccount(accountNumberList, member.getUserId());
+        System.out.println(accountNumberList.toString());
 
-        addIsFavorite(accountList, memberAccountInfoDtoList);
+        List<MemberAccountInfoDto> memberAccountInfoDtoList = getMyDataAccount(accountNumberList, member.getUserId());
+
+        System.out.println(memberAccountInfoDtoList.toString());
+
         Long sum = sumBalance(memberAccountInfoDtoList);
 
         return new GetUserAccountDto.Response(memberAccountInfoDtoList, sum);
     }
 
-    public List<MemberAccountInfoDto> getMydataAccount(List<String> accountNumberList, String memberId)
+    public List<MemberAccountInfoDto> getMyDataAccount(List<String> accountNumberList, String memberId)
             throws JsonProcessingException {
         String token = redisUtil.getMyDataToken(memberId);
 
@@ -68,23 +65,13 @@ public class AccountService {
         RestDto<MemberAccountInfoDto> restDto = new RestDto<>(MemberAccountInfoDto.class, response);
 
         return (List<MemberAccountInfoDto>) restTemplateUtil.parseListBody(
-                restDto, "memberAccountList");
+                restDto, "bankAccountDtoList");
     }
 
-    public void addIsFavorite(List<Account> accountList, List<MemberAccountInfoDto> restResponseList) {
-        for(MemberAccountInfoDto response : restResponseList) {
-            for(Account account : accountList) {
-                if(response.getAccountNo().equals(account.getAccountNumber())){
-                    response.setIsFavorite(account.isFavorite());
-                }
-            }
-        }
-    }
-
-    public Long sumBalance(List<MemberAccountInfoDto> restResponseList){
+    public Long sumBalance(List<MemberAccountInfoDto> restResponseList) {
         Long sum = 0L;
-        for(MemberAccountInfoDto response : restResponseList) {
-            sum += response.getBalance();
+        for (MemberAccountInfoDto response : restResponseList) {
+            sum += response.getAccount().getBalance();
         }
 
         return sum;
@@ -92,25 +79,43 @@ public class AccountService {
 
     public GetUserAccountSimpleDto.Response getAccountSimpleList(Member member) {
 
-        List<Account> accountList = accountCustomRepository.findByIdOrderByIsFavorite(
-                member.getId());
+//        List<Account> accountList = accountCustomRepository.findById(
+//                member.getId());
 
         List<UserAccountSimpleDto> userAccountSimpleDtoList = new ArrayList<>();
 
-        for(Account account : accountList) {
-            userAccountSimpleDtoList.add(UserAccountSimpleDto.parseDto(account));
-        }
+//        for (Account account : accountList) {
+//            userAccountSimpleDtoList.add(UserAccountSimpleDto.parseDto(account));
+//        }
 
         return new GetUserAccountSimpleDto.Response(userAccountSimpleDtoList);
     }
 
-    @Transactional
-    public void updateFavorite(FavoriteAccountDto.Request request) {
-        Account account = accountRepository.findById(request.getAccountNo()).orElseThrow(
-                () -> new IllegalArgumentException("해당되는 계좌가 존재하지 않습니다.")
-        );
+    public GetOppositeAccountDto.Response getOppositeAccount(GetOppositeAccountDto.Request request, String memberId) throws JsonProcessingException {
 
-        account.setFavorite();
-        accountRepository.save(account);
+        List<Account> accountList =  accountCustomRepository.findByOriginNo(request.getOriginNo());
+
+        if(accountList.size() == 0) {
+            GetOppositeAccountDto.Response response = getMyDataOppositeAccount(request, memberId);
+            return response;
+        }
+
+        return null;
+    }
+
+    public GetOppositeAccountDto.Response getMyDataOppositeAccount(GetOppositeAccountDto.Request request, String memberId) throws JsonProcessingException {
+
+        String token = redisUtil.getMyDataToken(memberId);
+
+        ResponseEntity<String> response = restTemplateUtil.callMyData(token,
+                request, "/my-data/opposite/account",
+                HttpMethod.POST);
+
+        RestDto<OppositeAccountDto> restDto = new RestDto<>(OppositeAccountDto.class, response);
+
+        OppositeAccountDto oppositeAccountDto = (OppositeAccountDto) restTemplateUtil.parseBody(
+                restDto, "oppositeAccountDto");
+
+        return GetOppositeAccountDto.Response.builder().oppositeAccountDto(oppositeAccountDto).build();
     }
 }

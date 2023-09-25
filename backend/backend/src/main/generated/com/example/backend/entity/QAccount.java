@@ -22,21 +22,23 @@ public class QAccount extends EntityPathBase<Account> {
 
     public static final QAccount account = new QAccount("account");
 
-    public final StringPath accountNumber = createString("accountNumber");
+    public final StringPath accountNo = createString("accountNo");
 
-    public final DateTimePath<java.time.LocalDateTime> closedDt = createDateTime("closedDt", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> closedAt = createDateTime("closedAt", java.time.LocalDateTime.class);
+
+    public final NumberPath<Long> cpCode = createNumber("cpCode", Long.class);
 
     public final StringPath cpLogo = createString("cpLogo");
 
     public final StringPath cpName = createString("cpName");
 
-    public final DateTimePath<java.time.LocalDateTime> createdDt = createDateTime("createdDt", java.time.LocalDateTime.class);
-
-    public final BooleanPath isFavorite = createBoolean("isFavorite");
+    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final QMember member;
 
     public final StringPath name = createString("name");
+
+    public final StringPath originNo = createString("originNo");
 
     public QAccount(String variable) {
         this(Account.class, forVariable(variable), INITS);

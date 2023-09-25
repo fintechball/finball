@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FinBallTradeHistoryDto {
 
-    private String accountNumber;
+    private String accountNo;
     private Long value;
     private LocalDate date;
     private LocalTime time;
     private DealType type;
     private Long remain;
-    private OppositeBankDto oppositeBankDto;
+    private OppositeDto oppositeDto;
 
     public FinBallHistory toFinBallHistory(FinBallAccount finBallAccount) {
         return FinBallHistory.builder()
@@ -31,9 +31,11 @@ public class FinBallTradeHistoryDto {
                 .balance(this.remain)
                 .date(LocalDateTime.now())
                 .dealType(this.type)
-                .target(oppositeBankDto.getTarget())
-                .opAccount(oppositeBankDto.getAccount())
-                .opBankName(oppositeBankDto.getBankName())
+                .target(oppositeDto.getUserName())
+                .opAccountNo(oppositeDto.getAccountNo())
+                .opBankCpLogo(oppositeDto.getCompany().getLogo())
+                .opBankCpName(oppositeDto.getCompany().getName())
+                .opBankCpCode(oppositeDto.getCompany().getCode())
                 .finBallAccount(finBallAccount)
                 .build();
     }
@@ -42,11 +44,11 @@ public class FinBallTradeHistoryDto {
         return GroupAccountHistory.builder()
                 .value(this.value)
                 .balance(this.remain)
-                .dealDt(LocalDateTime.now())
+//                .dealDt(LocalDateTime.now())
                 .dealType(this.type)
-                .target(oppositeBankDto.getTarget())
-                .opAccount(oppositeBankDto.getAccount())
-                .opBankName(oppositeBankDto.getBankName())
+                .target(oppositeDto.getUserName())
+//                .opAccount(oppositeBankDto.getAccount())
+//                .opBankName(oppositeBankDto.getBankName())
                 .groupAccount(groupAccount)
                 .build();
     }

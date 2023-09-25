@@ -5,7 +5,7 @@ import static com.querydsl.core.types.PathMetadataFactory.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
 
@@ -30,11 +30,7 @@ public class QTradeHistory extends EntityPathBase<TradeHistory> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath nickname = createString("nickname");
-
-    public final StringPath opAccount = createString("opAccount");
-
-    public final StringPath opBankName = createString("opBankName");
+    public final StringPath opAccountNo = createString("opAccountNo");
 
     public final NumberPath<Long> remain = createNumber("remain", Long.class);
 

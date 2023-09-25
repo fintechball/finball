@@ -1,5 +1,21 @@
 .container {
+  display: flex;
+
+  justify-content: space-between;
+
   button {
     margin: 10px;
   }
+}
+
+.noncontainer {
+  flex-direction: column;
+  justify-content: center;
+  button {
+    margin: 10px;
+  }
+}
+
+.rightAlign {
+  margin-left: auto; /* 오른쪽으로 정렬 */
 }

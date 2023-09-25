@@ -1,6 +1,7 @@
 package com.finball.mydata.service;
 
 import com.finball.mydata.dto.card.CardDto;
+import com.finball.mydata.dto.card.CardInfoDto;
 import com.finball.mydata.dto.card.CardListDto;
 import com.finball.mydata.dto.card.RegistCardDto;
 import com.finball.mydata.entity.Card;
@@ -14,6 +15,7 @@ import com.finball.mydata.util.RandomCard;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
@@ -51,7 +53,7 @@ public class CardService {
         }
 
         return CardListDto.Response.builder()
-                .cardDtoList(cardInfoList)
+                .cardList(cardInfoList)
                 .build();
     }
 }

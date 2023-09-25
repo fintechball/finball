@@ -36,7 +36,7 @@ public class BankCustomRepository extends QuerydslRepositorySupport {
         QAccount account = QAccount.account;
 
         return queryFactory
-                .select(account.accountNumber)
+                .select(account.accountNo)
                 .from(account)
                 .where(account.member.userId.eq(userId))
                 .fetch();

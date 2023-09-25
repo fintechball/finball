@@ -56,9 +56,9 @@ public class Member {
     private String email;
 
     @Column
-    private String address;
-
-    @Column
     private UserType type = UserType.USER;
 
+    public void registerEasyPassword(String easyPassword) {
+        this.easyPassword = easyPassword;
+    }
 }

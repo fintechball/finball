@@ -1,5 +1,8 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.finball.CompanyDto;
+import com.example.backend.dto.finball.FinBallTradeHistoryDto;
+import com.example.backend.dto.finball.OppositeDto;
 import com.example.backend.type.DealType;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -41,20 +44,51 @@ public class FinBallHistory {
     private DealType dealType;
 
     @Column
-    private String target;
+    private String target;  // 상대방 이름
 
     @Column
-    private String nickname;
+    private String opAccountNo;
 
     @Column
-    private String opAccount;
+    private String opBankCpLogo;
 
     @Column
-    private String opBankName;
+    private String opBankCpName;
+
+    @Column
+    private Long opBankCpCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private FinBallAccount finBallAccount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
+
+    public FinBallTradeHistoryDto toFinBallHistoryDto() {
+        FinBallTradeHistoryDto finBallTradeHistoryDto = FinBallTradeHistoryDto.builder()
+                .id(this.id)
+                .value(this.value)
+                .date(this.date.toLocalDate())
+                .time(this.date.toLocalTime())
+                .type(this.dealType)
+                .balance(this.balance)
+                .opposite(OppositeDto.builder()
+                        .userName(this.target)
+                        .accountNo(this.opAccountNo)
+                        .company(CompanyDto.builder()
+                                .code(this.opBankCpCode)
+                                .name(this.opBankCpName)
+                                .logo(this.opBankCpLogo)
+                                .build())
+                        .build())
+                .build();
+        if (this.category != null) {
+            finBallTradeHistoryDto.setCategoryName(this.category.getName());
+        }
+        return finBallTradeHistoryDto;
+    }
+
+    public void setHistory(Category requestCategory) {
+        this.category = requestCategory;
+    }
 }

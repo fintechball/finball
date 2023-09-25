@@ -7,10 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
-    public Company findByCpCode(Long code);
     List<Company> findAllByCpType(CompanyType companyType);
 
-    Company findByCpCodeAndCpType(Long cpCode, CompanyType 은행사);
+    Company findByCodeAndCpType(Long code, CompanyType 은행사);
 
     Company findByCpName(String cpName);
 }

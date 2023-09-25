@@ -8,13 +8,14 @@ import java.util.Random;
 import lombok.Data;
 
 @Data
-public class RegistFinballDto {
+public class RegisterFinBallDto {
 
     @Data
     public static class Request {
 
         private String usage;           //사용목적
         private String moneySource;     //자금출처
+        private Boolean isTexted;       //해외세금
 
         public FinBallAccount toFinballAccount(Member member) {
             Random random = new Random();
@@ -29,14 +30,13 @@ public class RegistFinballDto {
             }
 
             return FinBallAccount.builder()
-                    .accountNumber(sb.toString())
+                    .accountNo(sb.toString())
                     .balance(0L)
+                    .isTexted(this.isTexted)
                     .usage(Usage.valueOf(this.usage))
                     .moneySource(MoneySource.valueOf(this.moneySource))
                     .member(member)
                     .build();
         }
     }
-
-
 }

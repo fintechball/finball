@@ -34,7 +34,7 @@ public class QGroupAccountMember extends EntityPathBase<GroupAccountMember> {
 
     public final NumberPath<Long> skinId = createNumber("skinId", Long.class);
 
-    public final StringPath toAccountNumber = createString("toAccountNumber");
+    public final StringPath toAccountNo = createString("toAccountNo");
 
     public final NumberPath<Long> value = createNumber("value", Long.class);
 

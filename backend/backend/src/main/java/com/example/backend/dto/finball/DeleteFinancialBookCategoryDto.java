@@ -12,15 +12,17 @@ public class DeleteFinancialBookCategoryDto {
 
     @Data
     public static class Request {
+
         private ArrayList<Long> categoryList;
 
-        public ArrayList<Category> deleteCategory(ArrayList<Category> savedCategoryList, FinBallAccount account) {
+        public ArrayList<Category> deleteCategory(ArrayList<Category> savedCategoryList,
+                FinBallAccount account) {
 
             ArrayList<Category> deleteCategoryList = new ArrayList<>();
 
-            for(Category category: savedCategoryList){
-                if(categoryList.contains(category.getId())){
-                    if(category.getUsedValue() != 0){
+            for (Category category : savedCategoryList) {
+                if (categoryList.contains(category.getId())) {
+                    if (category.getUsedValue() != 0) {
                         throw new CustomException(ErrorCode.DELETE_CATEGORY_REFUSED);
                     }
                     deleteCategoryList.add(category);

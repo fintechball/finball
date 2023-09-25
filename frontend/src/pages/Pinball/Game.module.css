@@ -11,35 +11,31 @@ canvas{
 	position: absolute;
 	top: 180px;
 	color: white;
-	font-size: 4vw;
+	font-size: 30px;
 	cursor: pointer;
-	z-index: 2;
   }
   
   /* 화면 폭이 768px 이하일 때 스타일 적용 */
   @media screen and (max-width: 768px) {
 	.btn {
-	  width: 33%;
-	  left: 33.3%;
-	  font-size: 4vw;
+	  width:160px;
+	  font-size: 30px;
 	}
   }
   
   /* 화면 폭이 768px 초과이고 1024px 이하일 때 스타일 적용 */
   @media screen and (min-width: 769px) and (max-width: 1024px) {
 	.btn {
-	  width:15%;
-	  left: 42.5%;
-	  font-size: 3vw;
+	  width:160px;
+	  font-size: 30px;
 	}
   }
   
   /* 화면 폭이 1024px 초과일 때 스타일 적용 */
   @media screen and (min-width: 1025px) {
 	.btn {
-	  width: 10%;
-	  left: 45%;
-	  font-size: 2vw;
+	  width: 160px;
+	  font-size: 30px;
 	}
   }
   

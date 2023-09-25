@@ -5,7 +5,7 @@ import static com.querydsl.core.types.PathMetadataFactory.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
 
@@ -22,19 +22,21 @@ public class QAccount extends EntityPathBase<Account> {
 
     public static final QAccount account = new QAccount("account");
 
-    public final DateTimePath<java.time.LocalDateTime> accountClose = createDateTime("accountClose", java.time.LocalDateTime.class);
-
     public final StringPath accountNo = createString("accountNo");
-
-    public final DateTimePath<java.time.LocalDateTime> accountRegist = createDateTime("accountRegist", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> balance = createNumber("balance", Long.class);
 
+    public final DateTimePath<java.time.LocalDateTime> closedAt = createDateTime("closedAt", java.time.LocalDateTime.class);
+
     public final QCompany company;
+
+    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final QMember member;
 
     public final StringPath name = createString("name");
+
+    public final StringPath originNo = createString("originNo");
 
     public QAccount(String variable) {
         this(Account.class, forVariable(variable), INITS);

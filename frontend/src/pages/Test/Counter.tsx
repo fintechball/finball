@@ -1,5 +1,5 @@
 import React from "react";
-import type { RootState } from "../../store/store";
+import { RootState } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import {
   decrement,

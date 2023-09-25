@@ -1,8 +1,13 @@
 import styles from "./Header.module.scss";
 import finballLogo from "../../assets/finballLogo.png";
 import { useState, useEffect } from "react";
+import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
+
+import Logout from "../Auth/Logout";
 
 function Header() {
+  const navigate = useNavigate();
   const title = "";
   const [isLogged, setIsLogged] = useState(false);
 
@@ -18,7 +23,19 @@ function Header() {
       <div className={styles.header}>
         <img src={finballLogo} alt="Finball Logo" />
         <p>{title}</p>
-        {isLogged ? <button>Logout</button> : <button>Login</button>}
+        {/* {isLogged ?
+          <Logout /> : (
+          <Button
+            type="primary"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Login
+          </Button>
+        )} */}
+
+        <Logout />
       </div>
     </div>
   );

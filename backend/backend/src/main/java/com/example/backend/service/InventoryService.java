@@ -52,6 +52,10 @@ public class InventoryService {
         Skin skin = skinRepository.findById(id).get();
         Member member = memberRepository.findByUserId(userId).get();
 
+        if(skin.getValue() > member.getPoint()) {
+            throw new CustomException(ErrorCode.LACK_OF_POINT);
+        }
+
         Inventory inventory = new PurchaseBallDto().toInventory(skin, member);
 
         inventoryRepository.save(inventory);
