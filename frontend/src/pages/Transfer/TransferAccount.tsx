@@ -6,6 +6,15 @@ import Slide from "@mui/material/Slide";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import styles from "./TransferAccount.module.css";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
+import ListSubheader from "@mui/material/ListSubheader";
+import Avatar from "@mui/material/Avatar";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -190,6 +199,53 @@ function TransferAccount() {
         <>
           <div>내 계좌</div>
           <div>최근 보낸 계좌</div>
+          {/* <List
+            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+            component="nav"
+            subheader={<ListSubheader component="div">입출금</ListSubheader>}
+          >
+            {[...accountList].map((account, index) => {
+              return (
+                <ListItem
+                  key={index}
+                  secondaryAction={
+                    <button onClick={() => goToAccountDetail(account)}>
+                      송금
+                    </button>
+                  }
+                  disablePadding
+                >
+                  <ListItemButton>
+                    <ListItemAvatar>
+                      <Avatar src={account.company.logo} />
+                    </ListItemAvatar>
+                    <List>
+                      <ListItem style={{ padding: "0px" }}>
+                        <ListItemText>
+                          <Typography
+                            variant="body1"
+                            style={{ fontSize: "10px" }}
+                          >
+                            {account.account.name}
+                          </Typography>
+                        </ListItemText>
+                      </ListItem>
+                      <ListItem style={{ padding: "0px" }}>
+                        <ListItemText>
+                          <Typography
+                            variant="body1"
+                            style={{ fontSize: "14px", fontWeight: "bold" }}
+                          >
+                            {account.account.balance}
+                          </Typography>
+                        </ListItemText>
+                      </ListItem>
+                    </List>
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List> */}
           <img src={account.company.logo} width={50} height={50} />
           <div>
             <p>{account.account.name}</p>

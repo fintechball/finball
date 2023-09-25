@@ -4,6 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./AccountList.module.css";
 import { setAccount } from "../../store/slices/accountSlice";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
+import ListSubheader from "@mui/material/ListSubheader";
+import Avatar from "@mui/material/Avatar";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -13,6 +22,12 @@ function AccountList() {
   const [totalBalance, setTotalBalance] = useState<number>(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const listContainer = {
+    width: "100%",
+    maxWidth: 360,
+    bgcolor: "background.paper",
+  };
 
   useEffect(() => {
     const jsonString = localStorage.getItem("persist:root");
@@ -79,30 +94,78 @@ function AccountList() {
 
   return (
     <>
-      <div>
-        <div>총자산</div>
-        <div>
-          {totalBalance}
-          <button>분석</button>
-        </div>
+      <div className={styles.container}>
+        <List
+          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+          component="nav"
+          subheader={<ListSubheader component="div">총자산</ListSubheader>}
+        >
+          <ListItem
+            key="1"
+            secondaryAction={<button>분석</button>}
+            disablePadding
+          >
+            <ListItemButton>
+              <ListItemText>
+                <Typography
+                  variant="body1"
+                  style={{ fontSize: "20px", fontWeight: "bold" }}
+                >
+                  {totalBalance}원
+                </Typography>
+              </ListItemText>
+            </ListItemButton>
+          </ListItem>
+        </List>
 
-        <div>입출금</div>
         {accountList.length != 0 ? (
-          [...accountList].map((account, index) => (
-            <div className={styles.container} key={index}>
-              <img className={styles.leftAlign} src={account.company.logo} />
-              <div className={(styles.leftAlign, styles.rightAlign)}>
-                <p>{account.account.name}</p>
-                <p>{account.account.balance}</p>
-              </div>
-              <button
-                className={styles.rightAlign}
-                onClick={() => goToAccountDetail(account)}
-              >
-                송금
-              </button>
-            </div>
-          ))
+          <List
+            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+            component="nav"
+            subheader={<ListSubheader component="div">입출금</ListSubheader>}
+          >
+            {[...accountList].map((account, index) => {
+              return (
+                <ListItem
+                  key={index}
+                  secondaryAction={
+                    <button onClick={() => goToAccountDetail(account)}>
+                      송금
+                    </button>
+                  }
+                  disablePadding
+                >
+                  <ListItemButton>
+                    <ListItemAvatar>
+                      <Avatar src={account.company.logo} />
+                    </ListItemAvatar>
+                    <List>
+                      <ListItem style={{ padding: "0px" }}>
+                        <ListItemText>
+                          <Typography
+                            variant="body1"
+                            style={{ fontSize: "10px" }}
+                          >
+                            {account.account.name}
+                          </Typography>
+                        </ListItemText>
+                      </ListItem>
+                      <ListItem style={{ padding: "0px" }}>
+                        <ListItemText>
+                          <Typography
+                            variant="body1"
+                            style={{ fontSize: "14px", fontWeight: "bold" }}
+                          >
+                            {account.account.balance}
+                          </Typography>
+                        </ListItemText>
+                      </ListItem>
+                    </List>
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
         ) : (
           <>
             <div>연결된 계좌가 없습니다.</div>

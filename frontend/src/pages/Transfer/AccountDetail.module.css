@@ -1,3 +1,7 @@
 .container {
   text-align: left;
 }
+
+.button {
+  width: 50%;
+}
