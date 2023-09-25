@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FinBallTradeHistoryDto {
 
-    private String accountNumber;
+    private String accountNo;
     private Long value;
     private LocalDate date;
     private LocalTime time;
