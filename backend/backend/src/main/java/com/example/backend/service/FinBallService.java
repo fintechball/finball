@@ -1,15 +1,14 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.finball.CompanyDto;
 import com.example.backend.dto.finball.DeleteFinancialBookCategoryDto;
 import com.example.backend.dto.finball.GetFinancialBookDto;
 import com.example.backend.dto.finball.ReadFinBallDto;
 import com.example.backend.dto.finball.ReadFinBallHistoryDto;
-import com.example.backend.dto.finball.ReadFinBallHistoryDto.Response;
 import com.example.backend.dto.finball.RegisterFinBallBookDto;
 import com.example.backend.dto.finball.RegisterFinBallDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
 import com.example.backend.dto.finball.SetCategoryData;
-import com.example.backend.dto.finball.SetCategoryData.Request;
 import com.example.backend.dto.finball.UpdateFinancialBookCategoryDto;
 import com.example.backend.entity.Category;
 import com.example.backend.entity.FinBallAccount;
@@ -37,6 +36,11 @@ public class FinBallService {
     private final CategoryCustomRepository categoryCustomRepository;
     private final FinBallHistoryRepository finBallHistoryRepository;
 
+    public final Long FIN_BALL_CODE = 106L;
+    public final String FIN_BALL_LOGO = "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images/%ED%95%80%EB%B3%BC.png";
+    public final Boolean CONNECTED = true;
+    public final String FIN_BALL_NAME = "핀볼";
+
     public void createAccount(RegisterFinBallDto.Request request, Member member) {
 
         Optional<FinBallAccount> account = finBallAccountRepository.findByMemberId(member.getId());
@@ -53,7 +57,10 @@ public class FinBallService {
                         () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
                 );
 
-        return account.toReadFinBallDto();
+        ReadFinBallDto.Response response = account.toReadFinBallDto();
+        response.setCompany(FIN_BALL_CODE, FIN_BALL_LOGO, FIN_BALL_NAME, CONNECTED);
+
+        return response;
     }
 
     public GetFinancialBookDto.Response createCategory(RegisterFinBallBookDto.Request request,

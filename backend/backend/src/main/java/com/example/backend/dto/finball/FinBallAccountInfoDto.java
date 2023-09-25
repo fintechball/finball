@@ -1,8 +1,6 @@
 package com.example.backend.dto.finball;
 
-import com.example.backend.type.MoneySource;
-import com.example.backend.type.Usage;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,10 +9,10 @@ import lombok.Data;
 public class FinBallAccountInfoDto {
 
     private String no;
+    private String name;
     private Long balance;
     private Integer bookRefreshDate;
-    private LocalDate createdAt;
-    private MoneySource moneySource;
-    private Usage usage;
+    private LocalDateTime createdAt;
+    private LocalDateTime closedAt;
 
 }
