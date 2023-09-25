@@ -4,13 +4,17 @@ import styles from "./NavPage.module.scss";
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 
+import MyInfo from "../../components/User/MyInfo"
+
 function NavPage() {
   const navigate = useNavigate();
   const isLogged = useSelector((state: RootState) => state.logged.isLogged);
 
   return (
-    <div className={styles.container}>
-      <h1>NavPage</h1>
+    <div>
+      <MyInfo />
+      <div className={styles.container}>
+
       <div
         onClick={() => {
           navigate("/");
@@ -88,6 +92,7 @@ function NavPage() {
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }
