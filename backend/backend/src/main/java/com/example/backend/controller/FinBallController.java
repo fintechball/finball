@@ -130,7 +130,7 @@ public class FinBallController {
         Member member = userDetails.getMember();
         ReadFinBallHistoryDto.Response data = finballService.readFinBallHistoryList(member);
 
-        return new Response(200, "가계부 히스토리를 조회했습니다.", data);
+        return new Response(200, "핀볼 히스토리를 조회했습니다.", data);
     }
 
     @PostMapping("/fin-ball/transfer")
