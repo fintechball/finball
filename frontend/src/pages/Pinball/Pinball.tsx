@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Engine, Render, World, Bodies } from "matter-js";
+import { Engine, Render, World, Bodies, Body,Runner } from "matter-js";
 import styles from "./Pinball.module.css";
 import test from "../../assets/defalutball.png";
 import { StyleRounded } from "@mui/icons-material";
@@ -24,6 +24,11 @@ function Pinball(value) {
     const parentSize = getParentContainerSize();
     // Create a Matter.js engine
     const newEngine = Engine.create({});
+    const runner = Runner.create({
+      delta: 1000 / 60,
+      isFixed: false,
+      enabled: true
+  });
     setEngine(newEngine);
 
     // 중력 설정
@@ -105,10 +110,10 @@ function Pinball(value) {
     for (let i = 0; i < ballcnt; i++) {
       const ball = Bodies.circle(
         Math.random() * parentSize.width,
-        Math.random() * parentSize.height,
+        Math.random() * parentSize.height/5,
         Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
         {
-          density: 0.0005,
+          density: 0.5,
           frictionAir: 0.06,
           restitution: 0.3,
           friction: 0.01,
@@ -137,19 +142,43 @@ function Pinball(value) {
       }
     })();
     newRender.canvas.addEventListener(clickEvent, () => {
+      const exitVelocity = 12;
       const sortedBalls = [...balls].sort(
-        (a, b) => a.position.y - b.position.y
+        (a, b) => b.position.y - a.position.y
       );
-      setBalls(sortedBalls);
+    
+      // 각 공을 삭제하면서 새로운 배열에 추가
       const ball = [];
+      const dir = [1, -1];
       for (let i = 1; i < 11; i++) {
-        ball.push(balls[balls.length - 1]);
-        balls.splice(balls.length - 1, 1);
+        const removedBall = balls.pop();
+        removedBall.isSensor = true;
+        Body.setVelocity(removedBall, { x: exitVelocity * dir[i % 2], y: 0 });
+        ball.push(removedBall);
       }
+    
+      function update() {
+        // 각 공의 위치를 조정
+        ball.forEach(b => {
+          b.position.y += exitVelocity / 60; // 1초에 60프레임으로 가정
+          // 화면 밖으로 벗어난 공을 삭제
+          if ((b.position.y > parentSize.height + Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23)||(b.position.x > parentSize.width + Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23)||(b.position.x < -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23)) {
+            // Matter.js World에서 삭제
+            World.remove(newEngine.world, b);
+            ball.splice(ball.indexOf(b), 1);
+          }
+        });
+    
+        // 화면 갱신
+        Render.world(newRender);
+        requestAnimationFrame(update);
+      }
+    
+      // update 함수를 호출하여 화면을 갱신
+      update();
       setBallcnt(sortedBalls.length);
-      // 페이드 아웃 효과 추가
-      fadeOutBodies(ball);
     });
+    
     const fadeOutBodies = (bodies) => {
       const fadeOutInterval = setInterval(() => {
         bodies.forEach((body) => {
@@ -199,7 +228,7 @@ function Pinball(value) {
     World.add(newEngine.world, [...Boundary, ...balls]);
 
     // Run the engine and renderer
-    Engine.run(newEngine);
+    Runner.run(runner, newEngine);
     Render.run(newRender);
 
     // 윈도우 크기가 변경될 때 렌더러 크기를 업데이트

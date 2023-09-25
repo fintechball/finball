@@ -18,13 +18,16 @@ export default function BankConnect() {
   const [loading, setLoading] = useState(true);
   const [toggledItems, setToggledItems] = useState({});
   const [chooseItems, setchooseItems] = useState([]);
-
+  const response=localStorage.getItem("persist:root")
+  const jsonObject: { auth: string } = JSON.parse(response);
+  const authData = JSON.parse(jsonObject.auth);
+  const accessToken = authData.accessToken;
   const findAccount = async () => {
     await axios({
       method: "post",
       url: `https://j9e106.p.ssafy.io/api/bank/account`,
       headers: {
-        Authorization: localStorage.getItem("accessToken"),
+        Authorization: accessToken,
       },
       data: {
         bankCodeList: List,
@@ -36,7 +39,7 @@ export default function BankConnect() {
         const initialToggledItems = {};
         let initialChooseItems = [];
         res.data.data.bankAccountDtoList.map((item) => {
-          initialToggledItems[item.bankName] = true; // 예를 들어, 항목의 고유 ID를 사용
+          initialToggledItems[item.account.name] = true; // 예를 들어, 항목의 고유 ID를 사용
           initialChooseItems.push(item);
         });
 
@@ -55,12 +58,13 @@ export default function BankConnect() {
       setLoading(false);
       let count = 0;
       for (let i = 0; i < state.length; i++) {
-        const Name = state[i];
-        if (toggledItems[Name.bankName] === true) {
+        const Name = state[i].account.name;
+        console.log(Name)
+        if (toggledItems[Name] == true) {
           count += 1;
           let cnt = 0;
           var index = chooseItems.findIndex(
-            (e) => e.bankName === Name.bankName
+            (e) => e.account.name=== Name
           );
           if (index == -1) {
             cnt++;
@@ -76,9 +80,12 @@ export default function BankConnect() {
     }
   }, [toggledItems, state, List]);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setToggledItems((state) => {
+    setToggledItems((prevState) => {
       const Name = event.target.name;
-      return { ...state, [Name]: !state[Name] };
+      console.log(Name)
+      console.log(event.target.name)
+      console.log(prevState)
+      return { ...state, [Name]: !prevState[Name] };
       // 변경할 필요가 없는 항목은 그대로 반환
     });
   };
@@ -89,44 +96,18 @@ export default function BankConnect() {
         return { ...state, [Name]: !state[Name] };
       });
     };
-    const handlereset = () => {
-      for (let i = 0; i <toggledItems.length; i++) {
-        setToggledItems((state)=>{
-          const Name = state[i].name
-          return {...state, [Name]:!state[Name]}
-        })
-      }
-    }
-    const registerAccount = async() => {
-      await axios({
-        method: "post",
-        url: `https://j9e106.p.ssafy.io/api/user/account`,
-        headers: {
-         Authorization: localStorage.getItem("accessToken"),
-                },
-        data:
-          {
-              "bankAccountDtoList" : chooseItems
-          }
-      })  
-        .then((res) => {
-          console.log(res)
-          window.location.reload()
-        })
-        .catch((err) => {
-          console.log("삐빅", err);
-        });
-    }
   };
+  console.log(chooseItems)
   const registerAccount = async () => {
     await axios({
       method: "post",
       url: `https://j9e106.p.ssafy.io/api/user/account`,
       headers: {
-        Authorization: localStorage.getItem("accessToken"),
+        Authorization: accessToken,
       },
       data: {
-        bankAccountDtoList: chooseItems,
+        "updateWeek" : 1,
+        "bankAccountList": chooseItems,
       },
     })
       .then((res) => {
@@ -136,6 +117,9 @@ export default function BankConnect() {
         console.log("삐빅", err);
       });
   };
+  console.log(state)
+  console.log(toggledItems)
+  console.log(chooseItems)
   return (
     <>
       {loading ? (
@@ -166,9 +150,9 @@ export default function BankConnect() {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={toggledItems[v.bankName]}
+                      checked={toggledItems[v.account.name]}
                       onChange={handleChange}
-                      name={v.bankName}
+                      name={v.account.name}
                     />
                   }
                   label={<Logo value={v} />}
