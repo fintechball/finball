@@ -23,6 +23,10 @@ function AccountBook() {
     const [ball,setBall]=useState(-1);
     const color=["red","green","yellow","blue"]
     const now=new Date();
+    const response=localStorage.getItem("persist:root")
+    const jsonObject: { auth: string } = JSON.parse(response);
+    const authData = JSON.parse(jsonObject.auth);
+    const accessToken = authData.accessToken;
     function openModal() {
         setIsModalOpen(true);
       }
@@ -72,7 +76,6 @@ function AccountBook() {
       };
     
       const handleAmountChange = (e) => {
-        console.log(e.target.value)
         setAmount(Number(e.target.value)); // 금액 입력 값 업데이트
       };
     const [selectedBtn, setSelectedBtn] = useState("btn1");
@@ -83,6 +86,7 @@ function AccountBook() {
         {name:"ha",pay:14200,time:"21:12",date:"9-14"},
     ])
     useEffect(()=>{
+      
         findAccountBook()
     },[])
     useEffect(()=>{
@@ -98,11 +102,11 @@ function AccountBook() {
           method: "post",
           url: `https://j9e106.p.ssafy.io/api/financial-book`,
           headers: {
-            Authorization: localStorage.getItem("accessToken"),
+            Authorization:accessToken,
           },
           data:
           {	
-            "category" : [
+            "categoryList" : [
                 {
                     "name" : name,
                     "value" : amount
@@ -121,16 +125,19 @@ function AccountBook() {
           });
       };
     const findAccountBook = async () => {
+
+      console.log(accessToken)
         await axios({
           method: "get",
           url: `https://j9e106.p.ssafy.io/api/financial-book`,
           headers: {
-            Authorization: localStorage.getItem("accessToken"),
+            Authorization: accessToken
           },
         })
           .then((res) => {
             console.log(res.data.data)
             setState(res.data.data);
+
             setBall(Math.round(res.data.data.balance/1000))
           })
           .catch((err) => {
@@ -142,10 +149,10 @@ function AccountBook() {
           method: "post",
           url: `https://j9e106.p.ssafy.io/api/financial-book/category`,
           headers: {
-            Authorization: localStorage.getItem("accessToken"),
+            Authorization: accessToken,
           },
           data:{
-                "category" : [
+                "categoryList" : [
                     {
                         "name" : name,
                         "value" : amount
@@ -165,7 +172,7 @@ function AccountBook() {
           method: "delete",
           url: `https://j9e106.p.ssafy.io/api/financial-book/category`,
           headers: {
-            Authorization: localStorage.getItem("accessToken"),
+            Authorization: accessToken,
           },
           data:{
                 "categoryList" : [chooseCategoryid]
@@ -187,7 +194,7 @@ function AccountBook() {
           method: "put",
           url: `https://j9e106.p.ssafy.io/api/financial-book/category`,
           headers: {
-            Authorization: localStorage.getItem("accessToken"),
+            Authorization:accessToken,
           },
           data:{
                 "id" : chooseCategoryid,
@@ -222,7 +229,7 @@ function AccountBook() {
         method: "delete",
         url: `https://j9e106.p.ssafy.io/api/financial-book`,
         headers: {
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: accessToken,
         },
       }).then((res) => {
         console.log(res)
@@ -232,6 +239,7 @@ function AccountBook() {
       .catch((err) => {
         console.log("삐빅", err);
       });}
+      console.log(state.categoryList)
   return (
     <div>
         <Modal
@@ -377,32 +385,47 @@ function AccountBook() {
             )}
           </div>
           <div key="btn3">
-          {selectedBtn === "btn3" && (
-                        <div key="btn3">
-                          <div style={{ position: "relative", width: "360px", height: "70vh" }}>
-                            <button style={{ visibility: "isAccountBook ? hidden : visible" }} onClick={deleteAccountBook}>
-                              가계부삭제
-                            </button>
-                            <div style={{ fontSize: "30px", fontWeight: "bold" }}>가계부</div>
-                            <div style={{ display: "flex", justifyContent: "flex-end", transform: "translate(0,100%)" }}>
-                              {state.category.map((v, i) => (
-                                <div style={{ width: "30px", height: "30px", marginRight: "5px" }} key={i} onClick={() => openUpdateModal(v)}>
-                                  <CircularProgressbar
-                                    value={v.percent}
-                                    text={`${v.percent}%`}
-                                    styles={buildStyles({ pathColor: color[i % 4] })}
-                                  />
-                                  <div>{v.name}</div>
-                                </div>
-                              ))}
-                              <div id="canvas3" style={{ position: "absolute", top: 0,width: "360px", height: "360px",zIndex:-1}}>
-                              <Pinball value={{ parent: "canvas3" }} />
-                              </div>
-                                
-                            </div>
-                          </div>
-                        </div>
-                      )}
+              {loading ? (
+      "loading...."
+    ) : selectedBtn === "btn3" && state.categoryList.length === 0 ? (
+      <button onClick={openModal} style={{ width: "300px", height: "300px" }}>
+        가계부생성
+      </button>
+    ) : (
+      <div key="btn3">
+        <div style={{ position: "relative", width: "360px", height: "70vh" }}>
+          <button
+            style={{ visibility: isAccountBook ? "hidden" : "visible" }}
+            onClick={deleteAccountBook}
+          >
+            가계부삭제
+          </button>
+          <div style={{ fontSize: "30px", fontWeight: "bold" }}>가계부</div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              transform: "translate(0,100%)",
+            }}
+          >
+            {Array.isArray(state.categoryList) && state.categoryList.map((v, i) => (
+              <div style={{ width: "30px", height: "30px", marginRight: "5px" }} key={i} onClick={() => openUpdateModal(v)}>
+                <CircularProgressbar
+                  value={v.percent}
+                  text={`${v.percent}%`}
+                  styles={buildStyles({ pathColor: color[i % 4] })}
+                />
+                <div>{v.name}</div>
+              </div>
+            ))}
+            <div id="canvas3" style={{ position: "absolute", top: 0, width: "360px", height: "360px", zIndex: -1 }}>
+              <Pinball value={{ parent: "canvas3" }} />
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
           </div>
               
             </Carousel>

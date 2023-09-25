@@ -8,7 +8,7 @@ import decomp from 'poly-decomp';
 import { Float } from '@react-three/drei';
 const width = 360;
 const height = 1800;
-const Payment = 1;
+const Payment = 10;
 const theme = '#4C4499';
   const dummy=
     [
@@ -131,11 +131,11 @@ const setColor = () => {
 const setGravity = () => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   if (isMobile) {
-    engine.gravity.y = 0.20
+    engine.gravity.y = 0.3
     engine.gravity.scale=0.001
     console.log(engine.gravity.scale)
   } else {
-    engine.gravity.y = 0.20
+    engine.gravity.y = 0.3
     engine.gravity.scale=0.001
     console.log(engine.gravity.scale)
   }
@@ -194,18 +194,21 @@ useEffect(() => {
     const engine = Engine.create({
       timing:{
         // frameRate: 60,     // 초당 60프레임
-        timestamp:2000,
-      }})
-    render = Render.create({
+        timestamp:1000,
+      },
+    })
+    const runner = Runner.create({
+      delta: 1000 / 60,
+      isFixed: false,
+      enabled: true
+  });
+    const render = Render.create({
       element: document.getElementById('canvas'),
       engine: engine,
       options: {
-        fps: 30,
-        isFixed: true,
         width: 360,
         height: 1800,
         wireframes: false,
-        isFixed: true,
         background: 'black',
       },
     });
@@ -216,13 +219,13 @@ useEffect(() => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (isMobile) {
-      engine.gravity.y = 0.20
+      engine.gravity.y = 0.30
       // engine.gravity.scale=0.0001
     console.log(engine.gravity.scale)
     console.log(engine.timing)
     console.log(engine)
     } else {
-      engine.gravity.y = 0.20
+      engine.gravity.y = 0.30
     console.log(engine.gravity.scale)
 
     }
@@ -833,7 +836,7 @@ useEffect(() => {
       });
     World.add(engine.world, Boundary);
     setEngine(engine);
-    Runner.run(engine)
+    Runner.run(runner, engine);
     Render.run(render);
     setColor()
     }
