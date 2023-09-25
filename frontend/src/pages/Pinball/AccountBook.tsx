@@ -7,6 +7,8 @@ import cash from '../../assets/cash.png'
 import styles from './AccountBook.module.css'
 import axios from "axios";
 import Modal from 'react-modal';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 
 function AccountBook() {
     const [state, setState] = useState([]);
@@ -73,16 +75,7 @@ function AccountBook() {
         console.log(e.target.value)
         setAmount(Number(e.target.value)); // 금액 입력 값 업데이트
       };
-    const [selectedbtn,setSelectedbtn] = useState({
-        btn1:true,
-        btn2:false,
-        btn3:false,
-    })
-    const defaultSelected={
-        btn1:false,
-        btn2:false,
-        btn3:false,
-    }
+    const [selectedBtn, setSelectedBtn] = useState("btn1");
     const dummy=([
         {name:"kim",pay:100000,time:"12:12",date:"9-15"},
         {name:"seo",pay:43000,time:"15:12",date:"9-15"},
@@ -210,17 +203,19 @@ function AccountBook() {
             console.log("삐빅", err);
           });
       };
-      const handleClick = (e) => {
-        const S = e.target.id;
-        if (selectedbtn[S] !== true) {
-            setSelectedbtn(() => {
-                const updatedSelectedbtn = {
-                    ...defaultSelected,
-                    [S]: true
-                };
-                return updatedSelectedbtn;
-            });
-        }
+    const handleButtonClick = (btn) => {
+      setSelectedBtn(btn);
+    };
+    const handleCarouselChange = (selectedIndex) => {
+      // selectedIndex는 Carousel의 현재 선택된 슬라이드 인덱스입니다.
+      // 이 인덱스를 기반으로 selectedBtn 값을 변경합니다.
+      if (selectedIndex === 0) {
+        setSelectedBtn("btn1");
+      } else if (selectedIndex === 1) {
+        setSelectedBtn("btn2");
+      } else if (selectedIndex === 2) {
+        setSelectedBtn("btn3");
+      }
     };
     const deleteAccountBook = async () => {
       await axios({
@@ -298,28 +293,46 @@ function AccountBook() {
             <button onClick={deleteCategory}>삭제</button>
         </Modal>
     <div>
-        <button id ="btn1" style={{borderRadius:'100%',width:"10px",height:"10px",backgroundColor:selectedbtn['btn1']?'#7165E3':'#E3E3E3',padding:"0"}} onClick={handleClick}></button>
-        <button id ="btn2" style={{borderRadius:'100%',width:"10px",height:"10px",backgroundColor:selectedbtn['btn2']?'#7165E3':'#E3E3E3',padding:"0"}} onClick={handleClick}></button>
-        <button id ="btn3" style={{borderRadius:'100%',width:"10px",height:"10px",backgroundColor:selectedbtn['btn3']?'#7165E3':'#E3E3E3',padding:"0"}} onClick={handleClick}></button>
+        <div>
+        <button style={{borderRadius:'100%',width:"10px",height:"10px",backgroundColor:selectedBtn=='btn1'?'#7165E3':'#E3E3E3',padding:"0",marginRight:"10px"}} onClick={() => handleButtonClick("btn1")}></button>
+        <button style={{borderRadius:'100%',width:"10px",height:"10px",backgroundColor:selectedBtn=='btn2'?'#7165E3':'#E3E3E3',padding:"0",marginRight:"10px"}} onClick={() => handleButtonClick("btn2")}></button>
+        <button style={{borderRadius:'100%',width:"10px",height:"10px",backgroundColor:selectedBtn=='btn3'?'#7165E3':'#E3E3E3',padding:"0"}} onClick={() => handleButtonClick("btn3")}></button>
+        </div>
         <div>
         <button onClick={openCategoryModal}>category+</button>
-        <button onClick={openModal}>category-</button>
+        <button onClick={openModal}>category-</button>  
         </div>
     </div>
-              {selectedbtn["btn1"] && (
+    <Carousel
+        selectedItem={selectedBtn === "btn1" ? 0 : selectedBtn === "btn2" ? 1 : 2}
+        showThumbs={false}
+        infiniteLoop={false}
+        showIndicators={false}
+        swipeable={true}
+        showArrows={false}
+        showStatus={false}
+        onChange={handleCarouselChange}
+        >
+          <div key="btn1">
+          {selectedBtn === "btn1" && (
                 <div style={{ position: "relative", width: "360px", height: "70vh"}}>
                         <div style={{fontSize:"50px",fontWeight:'bold'}}>우리 계좌</div>
                         <input type="number" placeholder="잔액" style={{width:"130px", height: "30px"}} />
                         <button style={{width:"90px", height: "30px",color:'white',fontSize:'10px',backgroundColor:'#7165E3'}}>송금</button>
-                    <div id="canvas1" style={{  position: "absolute", top: "60px", width: "360px", height: "360px"}}>
-                        <div style={{ display: "flex",justifyContent: "flex-end",transform:"translate(0,100%)"}}>
-                        <img src={safe} style={{width:"50px",height:"50px"}} />
+                        <div id="canvas1" style={{ position: "relative", width: "360px", height: "390px" }}>
+                          <div style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "100%" }}>
+                            <Pinball value={{ parent: "canvas1" }} />
+                          </div>
+                          <div style={{ position: "absolute", top: "0", right: "0" }}>
+                            <img src={safe} style={{ width: "50px", height: "50px" }} />
+                          </div>
                         </div>
-                        <Pinball  value={{parent:"canvas1"}}/>
-                    </div>
+
                 </div>
                )}
-              {selectedbtn["btn2"] && (
+          </div>
+          <div key="btn2">
+          {selectedBtn === "btn2" && (
             <div>
                 <div style={{fontSize:'10px',fontWeight:"lighter",textAlign:'start',marginLeft:"30px"}}>핀볼 53291021163807</div>
                 <div style={{fontSize:'30px',fontWeight:'bold',textAlign:'start',marginLeft:"30px"}}>{state.balance}원</div>
@@ -362,43 +375,39 @@ function AccountBook() {
                 </div>
             </div>
             )}
-            {loading ? "loading......":
-            state.value==0 &&selectedbtn["btn3"]?
-            <button onClick={openModal} style={{width:"300px",height:"300px"}}>가계부생성</button>:
-              selectedbtn["btn3"] && (
-                <div style={{ position: "relative", width: "360px", height: "70vh" }}>
-                {/* Canvas */}
-                <div id="canvas3" style={{ position: "absolute", top: 0, width: "360px", height: "360px"}}>
-                <button style={{visibility:"isAccountBook?hidden:visible"}} onClick={deleteAccountBook}>가계부삭제</button>
-
-                <div style={{fontSize:'30px',fontWeight:'bold'}}>가계부</div>
-
-
-                <div style={{ display: "flex",justifyContent: "flex-end",transform:"translate(0,100%)"}}>
-                  
-                {state.category.map((v, i) => (
-                    <div style={{ width: "30px", height: "30px",marginRight:"5px" }} key={i} onClick={()=>openUpdateModal(v)}>
-                    <CircularProgressbar  
-                    value={v.percent}
-                    text={`${v.percent}%`}
-                    styles={buildStyles({
-                        pathColor: color[i%4],
-                    })}
-                    />
-                    <div>{v.name}</div>
-                </div>
-                 ))
-                 }
-
-                
-                <Pinball value={{parent:"canvas3"}}/>
-                </div>
-
-            </div>
-         </div>
-  
-            )}
+          </div>
+          <div key="btn3">
+          {selectedBtn === "btn3" && (
+                        <div key="btn3">
+                          <div style={{ position: "relative", width: "360px", height: "70vh" }}>
+                            <button style={{ visibility: "isAccountBook ? hidden : visible" }} onClick={deleteAccountBook}>
+                              가계부삭제
+                            </button>
+                            <div style={{ fontSize: "30px", fontWeight: "bold" }}>가계부</div>
+                            <div style={{ display: "flex", justifyContent: "flex-end", transform: "translate(0,100%)" }}>
+                              {state.category.map((v, i) => (
+                                <div style={{ width: "30px", height: "30px", marginRight: "5px" }} key={i} onClick={() => openUpdateModal(v)}>
+                                  <CircularProgressbar
+                                    value={v.percent}
+                                    text={`${v.percent}%`}
+                                    styles={buildStyles({ pathColor: color[i % 4] })}
+                                  />
+                                  <div>{v.name}</div>
+                                </div>
+                              ))}
+                              <div id="canvas3" style={{ position: "absolute", top: 0,width: "360px", height: "360px",zIndex:-1}}>
+                              <Pinball value={{ parent: "canvas3" }} />
+                              </div>
+                                
+                            </div>
+                          </div>
+                        </div>
+                      )}
+          </div>
+              
+            </Carousel>
     </div>
+
   );
 }
 

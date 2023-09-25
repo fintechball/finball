@@ -1,96 +1,93 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./NavPage.module.scss";
 
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
+
 function NavPage() {
+  const navigate = useNavigate();
+  const isLogged = useSelector((state: RootState) => state.logged.isLogged);
+
   return (
     <div className={styles.container}>
       <h1>NavPage</h1>
-      <p>
-        <Link to="/" className={styles.link}>
-          메인화면
-        </Link>
-      </p>
-      {/* <Link to="/counter"></Link> */}
-      <p>
-        <Link to="/login" className={styles.link}>
-          로그인
-        </Link>
-      </p>
-      <p>
-        <Link to="/signup" className={styles.link}>
-          회원가입
-        </Link>
-      </p>
-
-      {/* <p>
-        <Link to="/pinball" className={styles.link}>
-          핀볼
-        </Link>
-      </p> */}
-
-      {/* <p>
-        <Link to="/card" className={styles.link}>
-          카드
-        </Link>
-      </p> */}
-
-      <p>
-        <Link to="/game" className={styles.link}>
-          게임
-        </Link>
-      </p>
-      {/* <p>
-        <Link to="/signupconfrim" className={styles.link}>
-          회원가입 확인
-        </Link>
-      </p> */}
-
-      {/* <p>
-        <Link to="/securitykeypad" className={styles.link}>
-          인증 키패드
-        </Link>
-      </p> */}
-
-      <p>
-        <Link to="/certificationnaver" className={styles.link}>
-          네이버 인증서
-        </Link>
-      </p>
-
-      <p>
-        <Link to="/company/bank" className={styles.link}>
-          계좌조회
-        </Link>
-      </p>
-
-      <p>
-        <Link to="/company/card" className={styles.link}>
-          카드조회
-        </Link>
-      </p>
-
-      <p>
-        <Link to="/accountbook" className={styles.link}>
-          가계부
-        </Link>
-      </p>
-
-      <p>
-        <Link to="/transfering" className={styles.link}>
-          송금
-        </Link>
-      </p>
-      <p>
-        <Link to="/groupaccount" className={styles.link}>
-          모임통장
-        </Link>
-      </p>
-
-      {/* <p>
-        <Link to="/testpage" className={styles.link}>
-          프론트 테스트페이지
-        </Link>
-      </p> */}
+      <div
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <p>메인화면</p>
+      </div>
+      {!isLogged ? (
+        <>
+          <div
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            <p>로그인</p>
+          </div>
+          <div
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            <p>회원가입</p>
+          </div>
+        </>
+      ) : (
+        <>
+          <div
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            로그아웃
+          </div>
+          <div
+            onClick={() => {
+              navigate("/certificationnaver");
+            }}
+          >
+            <p>네이버 인증서</p>
+          </div>
+          <div
+            onClick={() => {
+              navigate("/company/bank");
+            }}
+          >
+            <p>계좌조회</p>
+          </div>
+          <div
+            onClick={() => {
+              navigate("/company/card");
+            }}
+          >
+            <p>카드조회</p>
+          </div>
+          <div
+            onClick={() => {
+              navigate("/accountbook");
+            }}
+          >
+            <p>가계부</p>
+          </div>
+          <div
+            onClick={() => {
+              navigate("/transfering");
+            }}
+          >
+            <p>송금</p>
+          </div>
+          <div
+            onClick={() => {
+              navigate("/groupaccount");
+            }}
+          >
+            <p>모임통장</p>
+          </div>
+        </>
+      )}
     </div>
   );
 }

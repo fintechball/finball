@@ -1,24 +1,43 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./AccountList.module.css";
+import { setAccount } from "../../store/slices/accountSlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function AccountList() {
   const [accountList, setAccountList] = useState<any>([]);
-  const token = useSelector((state) => state.token);
+  const [accessToken, setAccessToken] = useState<String>("");
   const [totalBalance, setTotalBalance] = useState<number>(0);
-  const [finBallAccount, setFinBallAccount] = useState<any>(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    const jsonString = localStorage.getItem("persist:root");
+    if (jsonString) {
+      const jsonObject: { auth: string } = JSON.parse(jsonString);
+      const authData = JSON.parse(jsonObject.auth);
+      const accessToken = authData.accessToken;
+
+      if (accessToken) {
+        setAccessToken(accessToken);
+        getAccountList(accessToken);
+        getFinBallAccountList(accessToken);
+      } else {
+        console.log("accessToken이 존재하지 않습니다.");
+      }
+    } else {
+      console.log("localStorage가 존재하지 않습니다.");
+    }
+  }, []);
+
+  const getAccountList = (accessToken) => {
     axios
       .get(`${BASE_HTTP_URL}/api/user/account`, {
         headers: {
-          // Authorization: token.accessToken,
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: accessToken,
         },
       })
       .then((response) => {
@@ -28,12 +47,35 @@ function AccountList() {
       .catch((error) => {
         console.log(error);
       });
-  }, [token]);
+  };
 
-  useEffect(() => {
-    //여기는 핀볼 계좌 정보 들고오는 로직 들어갈꺼임
-    //핀볼 계좌 정보 가져오고 나서 totalBalance에 값 더해주기 ^^
-  }, [accountList]);
+  const getFinBallAccountList = (accessToken) => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/fin-ball`, {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        // setAccountList([...accountList, response.data.data.userAccountList]);
+        // setTotalBalance(totalBalance + response.data.data.totalBalance);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const goToAccountDetail = (account) => {
+    // 리덕스에 저장
+    dispatch(
+      setAccount({
+        account: account.account,
+        company: account.company,
+      })
+    );
+    navigate("/accountDetail");
+  };
 
   return (
     <>
@@ -48,19 +90,14 @@ function AccountList() {
         {accountList.length != 0 ? (
           [...accountList].map((account, index) => (
             <div className={styles.container} key={index}>
-              <img
-                className={styles.leftAlign}
-                src={account.company.cpLogo}
-                width={50}
-                height={50}
-              />
-              <div className={styles.leftAlign}>
-                <p>{account.name}</p>
-                <p>{account.balance}</p>
+              <img className={styles.leftAlign} src={account.company.logo} />
+              <div className={(styles.leftAlign, styles.rightAlign)}>
+                <p>{account.account.name}</p>
+                <p>{account.account.balance}</p>
               </div>
               <button
                 className={styles.rightAlign}
-                onClick={() => navigate("/accountDetail", { state: account })}
+                onClick={() => goToAccountDetail(account)}
               >
                 송금
               </button>

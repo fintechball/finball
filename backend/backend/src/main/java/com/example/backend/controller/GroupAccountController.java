@@ -4,7 +4,9 @@ import com.example.backend.dto.Response;
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
 import com.example.backend.dto.groupaccount.DeleteGroupAccountDto;
 import com.example.backend.dto.groupaccount.GameEndDto;
+import com.example.backend.dto.groupaccount.GetGroupAccountListDto;
 import com.example.backend.dto.groupaccount.GroupAccountDto;
+import com.example.backend.dto.groupaccount.InviteGroupAccountDto;
 import com.example.backend.dto.groupaccount.RegistGroupAccountDto;
 import com.example.backend.dto.transfer.AccountTransferDto;
 import com.example.backend.entity.Member;
@@ -12,7 +14,12 @@ import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.GroupAccountFillingService;
 import com.example.backend.service.GroupAccountService;
 import com.example.backend.service.GroupAccountTransferService;
+import com.example.backend.service.SmsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +38,15 @@ public class GroupAccountController {
     private final GroupAccountService groupAccountService;
     private final GroupAccountTransferService groupAccountTransferService; //이체 처리 service
     private final GroupAccountFillingService groupAccountFillingService; //모임 통장으로 이체 service
+    private final SmsService smsService;
 
+    @GetMapping("/group/account/list")
+    public Response<GetGroupAccountListDto.Response> getGroupAccountList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        GetGroupAccountListDto.Response response = groupAccountService.getGroupAccountList(
+                member);
+        return new Response<>(200, "그룹 계좌 목록 조회 완료", response);
+    }
     @GetMapping("/group/account/{groupAccountId}")
     public Response<GroupAccountDto.Response> getGroupAccount(@PathVariable String groupAccountId) {
         GroupAccountDto.Response response = groupAccountService.findByGroupAccountId(
@@ -81,6 +96,13 @@ public class GroupAccountController {
 
         groupAccountFillingService.transferGroupAccount(request, member);
         return new Response<>(200, "모임 계좌로 이체가 완료 되었습니다.");
+    }
+
+    @PostMapping("/group/account/invite")
+    public Response invite(@RequestBody InviteGroupAccountDto.Request request)
+            throws JsonProcessingException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, URISyntaxException {
+        smsService.invite(request);
+        return new Response<>(200, "초대 완료.");
     }
 
     @DeleteMapping("/group/account")
