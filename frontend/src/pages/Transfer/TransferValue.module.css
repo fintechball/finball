@@ -17,3 +17,50 @@
   cursor: pointer;
   background: #f8f2f2;
 }
+
+.container {
+  text-align: left;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.bigText {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.smallText {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: rgb(129, 127, 127);
+}
+
+.totalBalanceButton {
+  background-color: rgb(170, 143, 195);
+  color: beige;
+  font-size: 8px;
+}
+
+.container .inputStyle {
+  width: 94%;
+}
+
+.transfer {
+  text-align: center;
+}
+
+.smallButton {
+  font-size: 8px;
+  color: beige;
+  background-color: rgb(66, 40, 90);
+  margin-bottom: 10px;
+}
+
+.bigButton {
+  width: 100%;
+  color: beige;
+  background-color: rgb(170, 143, 195);
+}

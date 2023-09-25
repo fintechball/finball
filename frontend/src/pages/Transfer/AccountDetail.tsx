@@ -49,6 +49,38 @@ function AccountDetail() {
       });
   }, []);
 
+  const refreshBalance = () => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/user/account/${account.account.no}`, {
+        headers: {
+          Authorization: auth.accessToken,
+        },
+      })
+      .then((response) => {
+        dispatch(
+          setTradeHistorys({
+            tradeHistory: response.data.data.tradeHistoryDtoList,
+          })
+        );
+        setTradeHistoryDict(
+          response.data.data.tradeHistoryDtoList.reduce(
+            (dict, tradeHistory) => {
+              const groupKey = tradeHistory.date;
+              if (!dict[groupKey]) {
+                dict[groupKey] = [];
+              }
+              dict[groupKey].push(tradeHistory);
+              return dict;
+            },
+            {}
+          )
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       {account && (
