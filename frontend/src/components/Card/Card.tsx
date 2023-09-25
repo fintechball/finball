@@ -10,14 +10,31 @@ function Card() {
   const navigate = useNavigate();
 
   const [cardList, setCardList] = useState<any>(null);
-  const token = useSelector((state) => state.token);
+  const [accessToken, setAccessToken] = useState<String>("");
 
   useEffect(() => {
+    const jsonString = localStorage.getItem("persist:root");
+    if (jsonString) {
+      const jsonObject: { auth: string } = JSON.parse(jsonString);
+      const authData = JSON.parse(jsonObject.auth);
+      const accessToken = authData.accessToken;
+
+      if (accessToken) {
+        setAccessToken(accessToken);
+        getCardList(accessToken);
+      } else {
+        console.log("accessToken이 존재하지 않습니다.");
+      }
+    } else {
+      console.log("localStorage가 존재하지 않습니다.");
+    }
+  }, []);
+
+  const getCardList = (accessToken) => {
     axios
       .get(`${BASE_HTTP_URL}/api/user/card`, {
         headers: {
-          // Authorization: token.accessToken,
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: accessToken,
         },
       })
       .then((response) => {
@@ -26,7 +43,7 @@ function Card() {
       .catch((error) => {
         console.log(error);
       });
-  }, [token]);
+  };
 
   return (
     <div className={styles.container}>

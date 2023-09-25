@@ -9,14 +9,31 @@ const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 function BankAccount() {
   const navigate = useNavigate();
   const [accountList, setAccountList] = useState<any>(null);
-  const token = useSelector((state) => state.token);
+  const [accessToken, setAccessToken] = useState<String>("");
 
   useEffect(() => {
+    const jsonString = localStorage.getItem("persist:root");
+    if (jsonString) {
+      const jsonObject: { auth: string } = JSON.parse(jsonString);
+      const authData = JSON.parse(jsonObject.auth);
+      const accessToken = authData.accessToken;
+
+      if (accessToken) {
+        setAccessToken(accessToken);
+        getBankList(accessToken);
+      } else {
+        console.log("accessToken이 존재하지 않습니다.");
+      }
+    } else {
+      console.log("localStorage가 존재하지 않습니다.");
+    }
+  }, []);
+
+  const getBankList = (accessToken) => {
     axios
       .get(`${BASE_HTTP_URL}/api/user/account/simple`, {
         headers: {
-          // Authorization: token.accessToken,
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: accessToken,
         },
       })
       .then((response) => {
@@ -25,14 +42,13 @@ function BankAccount() {
       .catch((error) => {
         console.log(error);
       });
-  }, [token]);
+  };
 
   const transfer = (accountId) => {
     axios
       .get(`${BASE_HTTP_URL}/api/user/account`, {
         headers: {
-          // Authorization: token.accessToken,
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: accessToken,
         },
       })
       .then((response) => {

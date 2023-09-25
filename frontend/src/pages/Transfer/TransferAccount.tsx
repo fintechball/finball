@@ -11,33 +11,34 @@ const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function TransferAccount() {
   const location = useLocation();
-  const currentAccount = location.state;
-  const token = useSelector((state) => state.token);
+  const account = useSelector((state) => state.account);
   const [isEnterAccount, setIsEnterAccount] = useState(false);
   const [showBankList, setShowBankList] = useState(false);
   const [showNumberPad, setShowNumberPad] = useState(false);
   const [bankList, setBankList] = useState(null);
   const [bankName, setBankName] = useState("");
   const [bankAccount, setBankAccount] = useState<string>("");
+  const [accessToken, setAccessToken] = useState<String>("");
   const [isError, setIsError] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // axios
-    //   .get(`${BASE_HTTP_URL}/api/user/account`, {
-    //     headers: {
-    //       // Authorization: token.accessToken,
-    //       Authorization: localStorage.getItem("accessToken"),
-    //     },
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  }, [token]);
+    const jsonString = localStorage.getItem("persist:root");
+    if (jsonString) {
+      const jsonObject: { auth: string } = JSON.parse(jsonString);
+      const authData = JSON.parse(jsonObject.auth);
+      const accessToken = authData.accessToken;
+
+      if (accessToken) {
+        setAccessToken(accessToken);
+      } else {
+        console.log("accessToken이 존재하지 않습니다.");
+      }
+    } else {
+      console.log("localStorage가 존재하지 않습니다.");
+    }
+  }, []);
 
   const enterAccount = () => {
     if (!isEnterAccount) {
@@ -63,11 +64,12 @@ function TransferAccount() {
       axios
         .get(`https://j9e106.p.ssafy.io/api/company/bank`, {
           headers: {
-            Authorization: localStorage.getItem("accessToken"),
+            Authorization: accessToken,
           },
         })
         .then((response) => {
-          setBankList(response.data.data.companyDtoList);
+          console.log(response);
+          setBankList(response.data.data.companyList);
         })
         .catch((err) => {
           console.log("삐빅", err);
@@ -140,6 +142,8 @@ function TransferAccount() {
     }
   }, [showBankList, showNumberPad]);
 
+  const find = () => {};
+
   return (
     <>
       {isEnterAccount && <button onClick={cancelEnterAccount}>뒤로가기</button>}
@@ -172,7 +176,7 @@ function TransferAccount() {
                   {[...bankList].map((bank, index) => (
                     <Grid xs={2} sm={4} md={4} key={index}>
                       <div onClick={() => setBankName(bank.name)}>
-                        <img className={styles.bank} src={bank.img}></img>
+                        <img className={styles.bank} src={bank.logo}></img>
                         <p>{bank.name}</p>
                       </div>
                     </Grid>
@@ -186,17 +190,17 @@ function TransferAccount() {
         <>
           <div>내 계좌</div>
           <div>최근 보낸 계좌</div>
-          <img src={currentAccount.company.cpLogo} width={50} height={50} />
+          <img src={account.company.logo} width={50} height={50} />
           <div>
-            <p>{currentAccount.name}</p>
-            <p>{currentAccount.balance}</p>
+            <p>{account.account.name}</p>
+            <p>{account.account.balance}</p>
           </div>
           <button
             onClick={() =>
               navigate("/transferValue", {
                 state: {
-                  currentAccount: currentAccount,
-                  oppositeAccount: currentAccount,
+                  currentAccount: account,
+                  oppositeAccount: account,
                 },
               })
             }
