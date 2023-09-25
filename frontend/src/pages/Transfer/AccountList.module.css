@@ -8,6 +8,17 @@
   /* flex: 0; 남은 공간을 골고루 차지하도록 설정 */
 }
 
+.leftAlign p {
+  /* 왼쪽 정렬 스타일 */
+  /* flex: 0; 남은 공간을 골고루 차지하도록 설정 */
+  /* margin-right: auto; */
+}
+
 .rightAlign {
   margin-left: auto; /* 오른쪽으로 정렬 */
+}
+
+img {
+  width: 70px;
+  height: 70px;
 }
