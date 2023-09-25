@@ -1,12 +1,14 @@
 package com.example.backend.security;
 
 import com.example.backend.repository.member.MemberRepository;
+import com.example.backend.security.filter.ExceptionHandlerFilter;
 import com.example.backend.security.filter.FormLoginFilter;
 import com.example.backend.security.filter.JwtAuthFilter;
 import com.example.backend.security.jwt.HeaderTokenExtractor;
 import com.example.backend.security.jwt.JwtTokenUtils;
 import com.example.backend.security.provider.FormLoginAuthProvider;
 import com.example.backend.security.provider.JwtAuthProvider;
+import com.example.backend.util.mattermost.NotificationManager;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +52,8 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .apply(new CustomFilter())
+                .and()
+                .exceptionHandling()
                 .and()
                 .authorizeRequests().anyRequest().permitAll() // 인증이 필요한 요청들 다 받아줌
                 .and()
@@ -134,7 +138,9 @@ public class SecurityConfig {
                     .addFilterBefore(formLoginFilter(authenticationManager),
                             UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(jwtAuthFilter(authenticationManager),
-                            UsernamePasswordAuthenticationFilter.class);
+                            UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthFilter.class)
+                    .addFilterBefore(new ExceptionHandlerFilter(), FormLoginFilter.class);
         }
     }
 
