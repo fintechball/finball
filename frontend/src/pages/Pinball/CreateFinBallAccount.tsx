@@ -3,8 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-//const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
-const BASE_HTTP_URL = "http://localhost:8080";
+const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
+//const BASE_HTTP_URL = "http://localhost:8080";
 function CreateFinBallAccount() {
 
     const navigate = useNavigate();
