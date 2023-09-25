@@ -1,5 +1,6 @@
 package com.example.backend.dto.groupaccount;
 
+import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.GroupAccount;
 import com.example.backend.entity.GroupAccountMember;
 import com.example.backend.entity.Member;
@@ -23,12 +24,11 @@ public class RegistGroupAccountDto {
 
         private String name;
         private GameType gameType;
-        private String accountNo;
-        private String bankName;
 
         public GroupAccount toGroupAccount(Member member) {
             String url = UUID.randomUUID().toString();
             String accountNo = generateAccount();
+            String originNo = accountNo.replace("-", "");
             LocalDateTime refreshAt = LocalDateTime.now();
             boolean isValid = true;
 
@@ -40,15 +40,17 @@ public class RegistGroupAccountDto {
                     .accountNo(accountNo)
                     .valid(isValid)
                     .refreshAt(refreshAt)
+                    .originNo(originNo)
                     .member(member)
                     .build();
         }
 
-        public GroupAccountMember toGroupAccountMember(Member member, GroupAccount groupAccount) {
+        public GroupAccountMember toGroupAccountMember(Member member, GroupAccount groupAccount, FinBallAccount finBallAccount) {
             long zero = 0;
+            String CpName = "핀볼";
             return GroupAccountMember.builder()
-                    .toAccountNo(this.accountNo)
-                    .bankName(this.bankName)
+                    .toAccountNo(finBallAccount.getAccountNo())
+                    .cpName(CpName)
                     .value(zero)
                     .balance(zero)
                     .skinId(zero)

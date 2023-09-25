@@ -29,4 +29,12 @@ public class GroupAccountMemberCustomRepository extends QuerydslRepositorySuppor
                 .fetch();
         return result;
     }
+
+    public GroupAccountMember getGroupAccountMemberWithMemberAndGroupAccount(Long memberId, String groupAccountNo) {
+        GroupAccountMember result = queryFactory
+                .selectFrom(groupAccountMember)
+                .where(groupAccountMember.member.id.eq(memberId).and(groupAccount.accountNo.eq(groupAccountNo)))
+                .fetchOne();
+        return result;
+    }
 }
