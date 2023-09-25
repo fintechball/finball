@@ -1,6 +1,6 @@
 import styles from "./Header.module.scss";
 import finballLogo from "../../assets/finballLogo.png";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,9 @@ import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 
 import Logout from "../Auth/Logout";
+
+// 유저 정보 계속 업데이트
+import UserInfo from "../Auth/userInfo";
 
 function Header() {
   const navigate = useNavigate();
@@ -17,6 +20,7 @@ function Header() {
 
   return (
     <div>
+      <UserInfo />
       <div className={styles.header}>
         <img src={finballLogo} alt="Finball Logo" />
         <p>{title}</p>

@@ -4,6 +4,7 @@ import test from "./slices/testSlice";
 import router from "./slices/routerSlice";
 import auth from "./slices/authSlice";
 import logged from "./slices/loggedSlice";
+import user from "./slices/userInfoSlice";
 import account from "./slices/accountSlice";
 
 import { persistReducer } from "redux-persist";
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   router,
   auth,
   logged,
+  user,
   account,
 });
 

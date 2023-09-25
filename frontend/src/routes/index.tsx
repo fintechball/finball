@@ -48,8 +48,8 @@ function Router() {
   return (
     <>
       <Routes>
+        {/* 로그인x */}
         <Route path="/" element={<Home />} />
-        <Route path="/counter" element={<Counter />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signupcerti" element={<SignUpCerti />} />
@@ -62,32 +62,35 @@ function Router() {
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
         <Route path="/certificationnaver" element={<CertificationNaver />} />
         <Route path="/accountbook" element={<AccountBook />} />
+        <Route path="/navpage" element={<NavPage />} />
+        <Route path="/testpage" element={<TestPage />} />
+
+        <Route path="/counter" element={<Counter />} />
+        <Route path="/pinball" element={<Pinball />} />
+        <Route path="/game" element={<Game />} />
 
         <Route element={<PrivateRoute />}>
-          <Route path="/testpage" element={<TestPage />} />
-
-          <Route path="/navpage" element={<NavPage />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/inventoryAll" element={<InventoryAll />} />
+          <Route path="/inventory" element={<Inventory />} />
+          <Route path="/transfering" element={<Transfering />} />
+          <Route path="/receive" element={<ReceivingMoney />} />
+          {/* 카드,은행조회 */}
+          <Route path="/company/bank" element={<BankInfo />} />
+          <Route path="/bank/account" element={<BankConnect />} />
+          <Route path="/company/card" element={<CardInfo />} />
+          <Route path="/card" element={<CardConnect />} />
+          <Route path="/agreement" element={<Agreement />} />
+          {/* 계좌 이체 */}
+          <Route path="/accountList" element={<AccountList />} />
+          <Route path="/accountDetail" element={<AccountDetail />} />
+          <Route path="/transferAccount" element={<TransferAccount />} />
+          <Route path="/transferValue" element={<TransferValue />} />
+          {/* 모임통장 */}
+          <Route path="/groupaccount" element={<GroupAccount />} />
         </Route>
-        <Route path="/inventoryAll" element={<InventoryAll />} />
-        <Route path="/inventory" element={<Inventory />} />
-        <Route path="/transfering" element={<Transfering />} />
-        <Route path="/receive" element={<ReceivingMoney />} />
-        {/* 카드,은행조회 */}
-        <Route path="/company/bank" element={<BankInfo />} />
-        <Route path="/bank/account" element={<BankConnect />} />
-        <Route path="/company/card" element={<CardInfo />} />
-        <Route path="/card" element={<CardConnect />} />
-        <Route path="/agreement" element={<Agreement />} />
-        {/* 계좌 이체 */}
-        <Route path="/accountList" element={<AccountList />} />
-        <Route path="/accountDetail" element={<AccountDetail />} />
-        <Route path="/transferAccount" element={<TransferAccount />} />
-        <Route path="/transferValue" element={<TransferValue />} />
-        {/* 모임통장 */}
-        <Route path="/groupaccount" element={<GroupAccount />} />
       </Routes>
     </>
   );
