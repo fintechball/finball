@@ -10,6 +10,8 @@ import com.example.backend.dto.finball.RegisterFinBallDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
 import com.example.backend.dto.finball.SetCategoryData;
 import com.example.backend.dto.finball.UpdateFinancialBookCategoryDto;
+import com.example.backend.dto.finball.UsageAndMoneySourceDto;
+import com.example.backend.dto.finball.UsageAndMoneySourceDto.Response;
 import com.example.backend.entity.Category;
 import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.FinBallHistory;
@@ -21,6 +23,8 @@ import com.example.backend.repository.category.CategoryRepository;
 import com.example.backend.repository.finballaccount.FinBallAccountRepository;
 import com.example.backend.repository.finballhistory.FinBallHistoryRepository;
 import com.example.backend.type.DealType;
+import com.example.backend.type.MoneySource;
+import com.example.backend.type.Usage;
 import java.util.ArrayList;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -201,5 +205,14 @@ public class FinBallService {
         }
 
         tradeHistory.setHistory(requestCategory);
+    }
+
+    public UsageAndMoneySourceDto.Response readUsageAndMoneySource() {
+        UsageAndMoneySourceDto.Response response = new UsageAndMoneySourceDto.Response();
+
+        response.setMoneySourceList(MoneySource.values());
+        response.setUsageList(Usage.values());
+
+        return response;
     }
 }
