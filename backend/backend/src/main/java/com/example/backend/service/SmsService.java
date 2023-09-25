@@ -4,8 +4,14 @@ import com.example.backend.dto.groupaccount.InviteGroupAccountDto.Request;
 import com.example.backend.dto.sms.MessagesDto;
 import com.example.backend.dto.sms.SmsRequest;
 import com.example.backend.dto.sms.SmsResponse;
+import com.example.backend.entity.Member;
+import com.example.backend.error.ErrorCode;
+import com.example.backend.exception.CustomException;
+import com.example.backend.repository.member.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -29,7 +35,10 @@ import java.util.Random;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class SmsService {
+
+    private final MemberRepository memberRepository;
 
     @Value("${sms.serviceId}")
     private String serviceId;
@@ -43,6 +52,8 @@ public class SmsService {
 
     public SmsResponse sendSms(String recipientPhoneNumber)
             throws JsonProcessingException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, URISyntaxException {
+        isValidPhoneNumber(recipientPhoneNumber);
+
         Long time = System.currentTimeMillis();
         List<MessagesDto> messages = new ArrayList<>();
         String certificationNumber = generateNumber();
@@ -70,6 +81,14 @@ public class SmsService {
         smsResponse.setCertificationNumber(certificationNumber);
         return smsResponse;
 
+    }
+
+    public void isValidPhoneNumber(String recipientPhoneNumber) {
+        Optional<Member> member = memberRepository.findByPhoneNumber(recipientPhoneNumber);
+
+        if(member.isPresent()) {
+            throw new CustomException(ErrorCode.PHONE_NUMBER_EXIST);
+        }
     }
 
     public String makeSignature(Long time)

@@ -19,7 +19,22 @@ public enum ErrorCode {
     OWNER_NOT_CORRESPOND(400, "주인이 아닙니다."),
     DUPLICATE_USER_ID(400, "중복된 아이디입니다."),
     LACK_OF_POINT(400, "포인트가 부족합니다."),
-    NOT_WITHDRAW_ERROR(400, "출금에서만 가능한 기능입니다.");
+    NOT_WITHDRAW_ERROR(400, "출금에서만 가능한 기능입니다."),
+
+    // JWT
+    JWT_TOKEN_INVALID_VALUE(401, "jwt 토큰 값이 비정상적 입니다."),
+    JWT_TOKEN_EXPIRED(401, "jwt 만료가 되었습니다."),
+    FORM_LOGIN_BAD_REQUEST(401, "로그인을 요청 데이터형식이 잘못되었습니다."),
+    FORM_LOGIN_INVALID(401, "로그인 정보가 잘못되었습니다."),
+    NOT_SAME_DATA_VALUE(401, "해당 유저가 존재하지 않습니다."),
+
+    // SMS
+    PHONE_NUMBER_EXIST(400, "해당 휴대폰번호는 이미가입한 회원입니다."),
+
+    // 사용자
+    EASY_PASSWORD_NO_SUCH_ELEMENT(401, "간편 결제 인증에 실패했습니다."),
+    EASY_PASSWORD_INVALID(400, "간편 결제 번호는 6글자이어야 합니다.");
+
 
     private final int status;
     private final String message;
