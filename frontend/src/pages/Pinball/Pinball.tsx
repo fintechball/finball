@@ -9,7 +9,7 @@ function Pinball(value) {
   const [render, setRender] = useState(null);
   const [balls, setBalls] = useState([]);
   const [ballcnt, setBallcnt] = useState(40);
-  console.log(value.value.parent)
+  console.log(test)
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
@@ -105,7 +105,7 @@ function Pinball(value) {
         },
       }
     );
-
+      
     // Create balls array
     for (let i = 0; i < ballcnt; i++) {
       const ball = Bodies.circle(

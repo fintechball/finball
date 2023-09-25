@@ -13,37 +13,11 @@ canvas{
 	color: white;
 	font-size: 30px;
 	cursor: pointer;
+	transition: all 0.3s ease-in-out; /* 크기 변화에 대한 전환 효과 */
+
+  /* 클릭된 경우의 스타일 */
+  .hover {
+    transform: scale(0.9); /* 90% 크기로 축소 */
+    background-color: red;
   }
-  
-  /* 화면 폭이 768px 이하일 때 스타일 적용 */
-  @media screen and (max-width: 768px) {
-	.btn {
-	  width:160px;
-	  font-size: 30px;
-	}
   }
-  
-  /* 화면 폭이 768px 초과이고 1024px 이하일 때 스타일 적용 */
-  @media screen and (min-width: 769px) and (max-width: 1024px) {
-	.btn {
-	  width:160px;
-	  font-size: 30px;
-	}
-  }
-  
-  /* 화면 폭이 1024px 초과일 때 스타일 적용 */
-  @media screen and (min-width: 1025px) {
-	.btn {
-	  width: 160px;
-	  font-size: 30px;
-	}
-  }
-  
-  
-#score {
-	position: sticky;
-  }
-#GameModal{
-	width: 60%;
-	height: 60%;
-}
