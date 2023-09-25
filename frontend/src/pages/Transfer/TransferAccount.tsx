@@ -1,44 +1,77 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Slide from "@mui/material/Slide";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import styles from "./TransferAccount.module.css";
+import { setOpposite } from "../../store/slices/oppositeSlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function TransferAccount() {
-  const location = useLocation();
   const account = useSelector((state) => state.account);
+  const auth = useSelector((state) => state.auth);
+  const tradeHistory = useSelector((state) => state.tradeHistory);
   const [isEnterAccount, setIsEnterAccount] = useState(false);
   const [showBankList, setShowBankList] = useState(false);
   const [showNumberPad, setShowNumberPad] = useState(false);
   const [bankList, setBankList] = useState(null);
   const [bankName, setBankName] = useState("");
   const [bankAccount, setBankAccount] = useState<string>("");
-  const [accessToken, setAccessToken] = useState<String>("");
   const [isError, setIsError] = useState(false);
+  const [recentSendAccount, setRecentSendAccount] = useState<Array<any>>([]);
+  const [userAccountList, setUserAccountList] = useState(null);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("persist:root");
-    if (jsonString) {
-      const jsonObject: { auth: string } = JSON.parse(jsonString);
-      const authData = JSON.parse(jsonObject.auth);
-      const accessToken = authData.accessToken;
-
-      if (accessToken) {
-        setAccessToken(accessToken);
-      } else {
-        console.log("accessToken이 존재하지 않습니다.");
-      }
-    } else {
-      console.log("localStorage가 존재하지 않습니다.");
-    }
+    removeDuplicates(tradeHistory.tradeHistory);
+    axios
+      .get(`${BASE_HTTP_URL}/api/user/account`, {
+        headers: {
+          Authorization: auth.accessToken,
+        },
+      })
+      .then((response) => {
+        setUserAccountList(response.data.data.userAccountList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
+
+  const removeDuplicates = (tradeHistoryList) => {
+    // 중복을 제거하기 위한 맵(Map) 객체 생성
+    const uniqueMap = new Map();
+
+    const uniqueArray = tradeHistoryList.filter((tradeHistory) => {
+      // 객체의 특정 요소를 기준으로 중복 체크
+      const id = tradeHistory.oppositeDto.accountNo;
+
+      if (!uniqueMap.has(id)) {
+        // 중복이 아닌 경우, Map에 해당 id 추가
+        uniqueMap.set(id, true);
+        return true;
+      }
+
+      return false;
+    });
+
+    const recentOppositeAccount = new Array<Object>();
+
+    uniqueArray.map((element) => {
+      const object = {
+        oppositeDto: element.oppositeDto,
+      };
+      // setRecentSendAccount((recent) => recent.push(object));
+      recentOppositeAccount.push(object);
+    });
+
+    setRecentSendAccount(recentOppositeAccount);
+  };
 
   const enterAccount = () => {
     if (!isEnterAccount) {
@@ -62,9 +95,9 @@ function TransferAccount() {
     setShowBankList(true);
     if (bankList === null) {
       axios
-        .get(`https://j9e106.p.ssafy.io/api/company/bank`, {
+        .get(`${BASE_HTTP_URL}/api/company/bank`, {
           headers: {
-            Authorization: accessToken,
+            Authorization: auth.accessToken,
           },
         })
         .then((response) => {
@@ -123,33 +156,62 @@ function TransferAccount() {
       !showNumberPad
     ) {
       console.log("상대방을 찾아주자");
-      const find = false;
+      // const find = false;
       // 상대방의 계좌를 찾아서 있는 경우는 다음으로 넘어가고
-      if (find) {
-        navigate("/transferValue", {
-          state: {
-            currentAccount: currentAccount,
-            oppositeAccount: currentAccount,
-          },
-        });
-      }
-      // 상대방의 계좌가 존재하지 않는다면 에러 메시지 뿌려주기
-      else {
-        setIsError(true);
-      }
+      // if (find) {
+      //   // navigate("/transferValue", {
+      //   //   state: {
+      //   //     currentAccount: currentAccount,
+      //   //     oppositeAccount: currentAccount,
+      //   //   },
+      //   // });
+      // }
+      // // 상대방의 계좌가 존재하지 않는다면 에러 메시지 뿌려주기
+      // else {
+      //   setIsError(true);
+      // }
+      find();
     } else {
       setIsError(false);
     }
   }, [showBankList, showNumberPad]);
 
-  const find = () => {};
+  const find = () => {
+    axios
+      .post(
+        `${BASE_HTTP_URL}/api/user/opposite/account`,
+        {
+          code: bankName.code,
+          originNo: bankAccount,
+        },
+        {
+          headers: {
+            Authorization: auth.accessToken,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        dispatch(
+          setOpposite({
+            opposite: response.data.data.oppositeAccountDto,
+          })
+        );
+        navigate("/transferValue");
+      })
+      .catch((error) => {
+        setIsError(true);
+        console.log(error);
+      });
+  };
 
   return (
-    <>
+    <div className={styles.container}>
       {isEnterAccount && <button onClick={cancelEnterAccount}>뒤로가기</button>}
 
-      <div>어디로 돈을 보낼까요</div>
+      <div className={styles.bigText}>어디로 돈을 보낼까요</div>
       <input
+        className={styles.inputStyle}
         id="numberPad"
         onClick={enterAccount}
         value={bankAccount}
@@ -159,14 +221,15 @@ function TransferAccount() {
       {isEnterAccount ? (
         <>
           <input
+            className={styles.inputStyle}
             id="selectBank"
             onClick={showBank}
-            value={bankName}
+            value={bankName.name}
             placeholder="은행 선택"
           ></input>
           {bankList && (
             <Slide direction="up" in={showBankList} mountOnEnter unmountOnExit>
-              <Box sx={{ flexGrow: 1 }}>
+              <Box sx={{ flexGrow: 1, textAlign: "center" }}>
                 <div>은행을 선택해주세요</div>
                 <Grid
                   container
@@ -175,7 +238,7 @@ function TransferAccount() {
                 >
                   {[...bankList].map((bank, index) => (
                     <Grid xs={2} sm={4} md={4} key={index}>
-                      <div onClick={() => setBankName(bank.name)}>
+                      <div onClick={() => setBankName(bank)}>
                         <img className={styles.bank} src={bank.logo}></img>
                         <p>{bank.name}</p>
                       </div>
@@ -188,30 +251,75 @@ function TransferAccount() {
         </>
       ) : (
         <>
-          <div>내 계좌</div>
-          <div>최근 보낸 계좌</div>
-          <img src={account.company.logo} width={50} height={50} />
-          <div>
-            <p>{account.account.name}</p>
-            <p>{account.account.balance}</p>
-          </div>
-          <button
-            onClick={() =>
-              navigate("/transferValue", {
-                state: {
-                  currentAccount: account,
-                  oppositeAccount: account,
-                },
-              })
-            }
-          >
-            송금
-          </button>
+          <div className={styles.smallText}>내 계좌</div>
+          {userAccountList &&
+            [...userAccountList].map((userAccount, index) => {
+              if (userAccount.account.no === account.account.no) {
+                return null; // 렌더링하지 않음
+              }
+
+              return (
+                <div className={styles.account}>
+                  <img src={userAccount.company.logo} />
+                  <div>
+                    <p className={styles.balance}>{userAccount.account.name}</p>
+                    <p className={styles.text}>
+                      {userAccount.company.name}
+                      {userAccount.account.no}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() =>
+                      navigate("/transferValue", {
+                        state: {
+                          currentAccount: account,
+                          oppositeAccount: account,
+                        },
+                      })
+                    }
+                  >
+                    송금
+                  </button>
+                </div>
+              );
+            })}
+          <div className={styles.smallText}>최근 보낸 계좌</div>
+          {recentSendAccount &&
+            [...recentSendAccount].map((recentAccount, index) => (
+              <div className={styles.account}>
+                <img
+                  src={recentAccount.oppositeDto.company.logo}
+                  width={50}
+                  height={50}
+                />
+                <div>
+                  <p className={styles.balance}>
+                    {recentAccount.oppositeDto.userName}
+                  </p>
+                  <p className={styles.text}>
+                    {recentAccount.oppositeDto.company.name}
+                    {recentAccount.oppositeDto.accountNo}
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    dispatch(
+                      setOpposite({
+                        opposite: recentAccount.oppositeDto,
+                      })
+                    );
+                    navigate("/transferValue");
+                  }}
+                >
+                  송금
+                </button>
+              </div>
+            ))}
         </>
       )}
 
       {showNumberPad && (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, textAlign: "center", marginTop: "10px" }}>
           <Grid
             container
             spacing={{ xs: 1, md: 2 }}
@@ -231,7 +339,7 @@ function TransferAccount() {
       )}
 
       {isError && <p>해당하는 계좌가 없습니다!! 다시 입력하세요</p>}
-    </>
+    </div>
   );
 }
 
