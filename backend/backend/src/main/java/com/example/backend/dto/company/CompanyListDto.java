@@ -10,7 +10,7 @@ public class CompanyListDto {
     @AllArgsConstructor
     public static class Response {
 
-        private List<CompanyDto> companyDtoList;
+        private List<CompanyDto> companyList;
     }
 
 }

@@ -34,12 +34,12 @@ public class CompanyService {
 
     private List<CompanyDto> getCompanyDtoList(String type) throws JsonProcessingException {
 
-        String url = "/myData/company/" + type;
+        String url = "/my-data/company/" + type;
 
         ResponseEntity<String> responseEntity = restTemplateUtil
                 .callMyData(null, null, url, HttpMethod.GET);
         RestDto<CompanyDto> restDto = new RestDto<>(CompanyDto.class, responseEntity);
-        return (List<CompanyDto>) restTemplateUtil.parseListBody(restDto, "companyDtoList");
+        return (List<CompanyDto>) restTemplateUtil.parseListBody(restDto, "companyList");
 
     }
 

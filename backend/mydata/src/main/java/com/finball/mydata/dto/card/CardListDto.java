@@ -15,6 +15,6 @@ public class CardListDto {
     @Data
     @Builder
     public static class Response {
-        List<CardDto> cardDtoList;
+        List<CardDto> cardList;
     }
 }

@@ -38,6 +38,8 @@ public class QFinBallAccount extends EntityPathBase<FinBallAccount> {
 
     public final EnumPath<com.example.backend.type.MoneySource> moneySource = createEnum("moneySource", com.example.backend.type.MoneySource.class);
 
+    public final StringPath originNo = createString("originNo");
+
     public final DateTimePath<java.time.LocalDateTime> refreshAt = createDateTime("refreshAt", java.time.LocalDateTime.class);
 
     public final EnumPath<com.example.backend.type.Usage> usage = createEnum("usage", com.example.backend.type.Usage.class);

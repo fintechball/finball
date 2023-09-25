@@ -53,7 +53,7 @@ public class AccountService {
                 .stream().map(Account::toBankAccountDto).collect(Collectors.toList());
 
         return BankAccountListDto.Response.builder()
-                .bankAccountDtoList(bankAccountDtoList).build();
+                .bankAccountList(bankAccountDtoList).build();
     }
 
     public void createAccount(Long id) throws IOException, ParseException {
@@ -154,5 +154,18 @@ public class AccountService {
 
         GetMemberAccountDto.Response response = new GetMemberAccountDto.Response(list);
         return response;
+    }
+
+    public GetOppositeAccountDto.Response getOppositeAccount(GetOppositeAccountDto.Request request) {
+
+        List<Account> accountList =  accountCustomRepository.findByOriginNo(request.getOriginNo());
+
+        if(accountList.size() == 0) {
+            throw new  NoSuchElementException("해당 계좌는 존재하지 않습니다.");
+        }
+
+        Account account = accountList.get(0);
+
+        return GetOppositeAccountDto.Response.builder().oppositeAccountDto(account.toOppositeAccountDto()).build();
     }
 }

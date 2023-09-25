@@ -1,8 +1,7 @@
 package com.finball.mydata.util;
 
+import com.finball.mydata.dto.account.CreateAccountNameDto;
 import com.finball.mydata.dto.account.RegistAccountDto;
-import com.finball.mydata.entity.Company;
-import com.finball.mydata.entity.Member;
 import com.finball.mydata.repository.CompanyRepository;
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,13 +36,14 @@ public class RandomAccount {
     }
 
     private RegistAccountDto createAccountDto(JSONObject bank) {
-        String accountNumber = createAccountNumber(bank);
+        CreateAccountNameDto createAccountNameDto = createAccountNumber(bank);
         LocalDateTime registerDt = LocalDateTime.now();
         Long companyId = (Long) bank.get("cp_id");
         String accountName = createAccountName(bank);
 
         return RegistAccountDto.builder()
-                .accountNumber(accountNumber)
+                .accountNumber(createAccountNameDto.getAccountNumber())
+                .originNumber(createAccountNameDto.getOriginNumber())
                 .registerDt(registerDt)
                 .balance(0L)
                 .accountName(accountName)
@@ -58,28 +58,30 @@ public class RandomAccount {
         return (String) names.get(randIndex);
     }
 
-    private String createAccountNumber(JSONObject bank) {
+    private CreateAccountNameDto createAccountNumber(JSONObject bank) {
         JSONArray form = (JSONArray) bank.get("form");
         JSONArray type = (JSONArray) bank.get("type");
         Long typeIndex = (Long) bank.get("typeIndex");
 
-        String accountNumber = "";
+        StringBuilder accountNumber = new StringBuilder();
+        StringBuilder originNumber = new StringBuilder();
 
         for (int i = 0; i < form.size(); i++) {
             Long intervalSize = (Long) form.get(i);
+            String str = "";
 
             if (i == typeIndex) {
-                accountNumber += getAccountTypeNumber(type);
+                str = getAccountTypeNumber(type);
             } else {
-                accountNumber += getIntervalNumber(intervalSize);
+                str = getIntervalNumber(intervalSize);
             }
-
-            accountNumber += "-";
+            originNumber.append(str);
+            accountNumber.append(str).append("-");
         }
 
-        accountNumber = accountNumber.substring(0, accountNumber.length() - 1);
+        accountNumber = new StringBuilder(accountNumber.substring(0, accountNumber.length() - 1));
 
-        return accountNumber;
+        return new CreateAccountNameDto(accountNumber.toString(), originNumber.toString());
     }
 
     private String getAccountTypeNumber(JSONArray type) {

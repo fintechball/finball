@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
+import Logout from "../Auth/Logout";
+
 function Header() {
   const navigate = useNavigate();
   const title = "";
@@ -21,9 +23,8 @@ function Header() {
       <div className={styles.header}>
         <img src={finballLogo} alt="Finball Logo" />
         <p>{title}</p>
-        {isLogged ? (
-          <Button type="primary">Logout</Button>
-        ) : (
+        {/* {isLogged ?
+          <Logout /> : (
           <Button
             type="primary"
             onClick={() => {
@@ -32,7 +33,9 @@ function Header() {
           >
             Login
           </Button>
-        )}
+        )} */}
+
+        <Logout />
       </div>
     </div>
   );

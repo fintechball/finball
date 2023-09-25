@@ -38,6 +38,8 @@ public class QAccount extends EntityPathBase<Account> {
 
     public final StringPath name = createString("name");
 
+    public final StringPath originNo = createString("originNo");
+
     public QAccount(String variable) {
         this(Account.class, forVariable(variable), INITS);
     }

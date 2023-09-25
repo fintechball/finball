@@ -30,29 +30,28 @@ public class AccountService {
 
     public void register(AccountRegisterDto.Request request, Member member) {
 
-        for (AccountRegisterInfoDto info : request.getBankAccountDtoList()) {
+        for (AccountRegisterInfoDto info : request.getBankAccountList()) {
+            System.out.println(info.toString());
             accountRepository.save(info.toAccount(member));
         }
     }
 
     public GetUserAccountDto.Response getAccountList(Member member) throws JsonProcessingException {
-        List<Account> accountList = accountCustomRepository.findByIdOrderByIsFavorite(
-                member.getId());
+        List<Account> accountList = accountCustomRepository.findById(member.getId());
         List<String> accountNumberList = new ArrayList<>();
 
-        for (Account account : accountList) {
-//            accountNumberList.add(account.getAccountNumber());
+        for(Account account : accountList) {
+            accountNumberList.add(account.getAccountNo());
         }
 
-        List<MemberAccountInfoDto> memberAccountInfoDtoList = getMydataAccount(accountNumberList, member.getUserId());
+        List<MemberAccountInfoDto> memberAccountInfoDtoList = getMyDataAccount(accountNumberList, member.getUserId());
 
-        addIsFavorite(accountList, memberAccountInfoDtoList);
         Long sum = sumBalance(memberAccountInfoDtoList);
 
         return new GetUserAccountDto.Response(memberAccountInfoDtoList, sum);
     }
 
-    public List<MemberAccountInfoDto> getMydataAccount(List<String> accountNumberList, String memberId)
+    public List<MemberAccountInfoDto> getMyDataAccount(List<String> accountNumberList, String memberId)
             throws JsonProcessingException {
         String token = redisUtil.getMyDataToken(memberId);
 
@@ -62,23 +61,13 @@ public class AccountService {
         RestDto<MemberAccountInfoDto> restDto = new RestDto<>(MemberAccountInfoDto.class, response);
 
         return (List<MemberAccountInfoDto>) restTemplateUtil.parseListBody(
-                restDto, "memberAccountList");
+                restDto, "bankAccountDtoList");
     }
 
-    public void addIsFavorite(List<Account> accountList, List<MemberAccountInfoDto> restResponseList) {
-        for(MemberAccountInfoDto response : restResponseList) {
-            for(Account account : accountList) {
-//                if(response.getAccountNo().equals(account.getAccountNumber())){
-//                    response.setIsFavorite(account.isFavorite());
-//                }
-            }
-        }
-    }
-
-    public Long sumBalance(List<MemberAccountInfoDto> restResponseList){
+    public Long sumBalance(List<MemberAccountInfoDto> restResponseList) {
         Long sum = 0L;
-        for(MemberAccountInfoDto response : restResponseList) {
-            sum += response.getBalance();
+        for (MemberAccountInfoDto response : restResponseList) {
+            sum += response.getAccount().getBalance();
         }
 
         return sum;
@@ -86,15 +75,43 @@ public class AccountService {
 
     public GetUserAccountSimpleDto.Response getAccountSimpleList(Member member) {
 
-        List<Account> accountList = accountCustomRepository.findByIdOrderByIsFavorite(
-                member.getId());
+//        List<Account> accountList = accountCustomRepository.findById(
+//                member.getId());
 
         List<UserAccountSimpleDto> userAccountSimpleDtoList = new ArrayList<>();
 
-        for(Account account : accountList) {
-            userAccountSimpleDtoList.add(UserAccountSimpleDto.parseDto(account));
-        }
+//        for (Account account : accountList) {
+//            userAccountSimpleDtoList.add(UserAccountSimpleDto.parseDto(account));
+//        }
 
         return new GetUserAccountSimpleDto.Response(userAccountSimpleDtoList);
+    }
+
+    public GetOppositeAccountDto.Response getOppositeAccount(GetOppositeAccountDto.Request request, String memberId) throws JsonProcessingException {
+
+        List<Account> accountList =  accountCustomRepository.findByOriginNo(request.getOriginNo());
+
+        if(accountList.size() == 0) {
+            GetOppositeAccountDto.Response response = getMyDataOppositeAccount(request, memberId);
+            return response;
+        }
+
+        return null;
+    }
+
+    public GetOppositeAccountDto.Response getMyDataOppositeAccount(GetOppositeAccountDto.Request request, String memberId) throws JsonProcessingException {
+
+        String token = redisUtil.getMyDataToken(memberId);
+
+        ResponseEntity<String> response = restTemplateUtil.callMyData(token,
+                request, "/my-data/opposite/account",
+                HttpMethod.POST);
+
+        RestDto<OppositeAccountDto> restDto = new RestDto<>(OppositeAccountDto.class, response);
+
+        OppositeAccountDto oppositeAccountDto = (OppositeAccountDto) restTemplateUtil.parseBody(
+                restDto, "oppositeAccountDto");
+
+        return GetOppositeAccountDto.Response.builder().oppositeAccountDto(oppositeAccountDto).build();
     }
 }

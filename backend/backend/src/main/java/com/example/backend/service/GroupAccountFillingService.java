@@ -46,7 +46,7 @@ public class GroupAccountFillingService {
         init(request, groupAccount);
         List<FinBallTradeHistoryDto> historyDtoList = getMyDataResponse(request,
                 member.getUserId());
-        save(historyDtoList, request.getPlusBank().getAccountNumber()); //plusBank : 그룹 통장
+        save(historyDtoList, request.getPlusBank().getAccountNo()); //plusBank : 그룹 통장
     }
 
     public void init(Request request, GroupAccount groupAccount) {
@@ -54,17 +54,17 @@ public class GroupAccountFillingService {
         TransferInfoDto minus = request.getMinusBank();
 
         // 모임통장 전처리
-        plus.setCode(FIN_BALL_CODE);
-        plus.setTarget(groupAccount.getName());
+        plus.setCompanyId(FIN_BALL_CODE);
+        plus.setUserName(groupAccount.getName());
         plus.setBalance(groupAccount.getBalance());
 
-        if (Objects.equals(minus.getCode(), FIN_BALL_CODE)) { // 내 은행이 핀볼 은행이라면
+        if (Objects.equals(minus.getCompanyId(), FIN_BALL_CODE)) { // 내 은행이 핀볼 은행이라면
             request.getMinusBank().setBalance(getAccountBalance(minus, request.getValue()));
         }
     }
 
     public Long getAccountBalance(TransferInfoDto info, Long value) {
-        FinBallAccount finBallAccount = finBallAccountRepository.findById(info.getAccountNumber())
+        FinBallAccount finBallAccount = finBallAccountRepository.findById(info.getAccountNo())
                 .orElseThrow(() -> new IllegalArgumentException("해당되는 계좌가 존재하지 않습니다."));
 
         Long balance = finBallAccount.getBalance();
@@ -78,7 +78,7 @@ public class GroupAccountFillingService {
 
         // 요청한 그룹 계좌가 있는지 조회
         GroupAccount groupAccount = groupAccountRepository.findById(
-                request.getPlusBank().getAccountNumber()).orElseThrow(
+                request.getPlusBank().getAccountNo()).orElseThrow(
                 () -> new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND)
         );
 
@@ -106,7 +106,7 @@ public class GroupAccountFillingService {
 
         for (FinBallTradeHistoryDto historyDto : historyDtoList) {
             // plusAccount 처리(그룹Account)
-            if (historyDto.getAccountNumber().equals(groupAccountNumber)) {
+            if (historyDto.getAccountNo().equals(groupAccountNumber)) {
                 saveGroupAccount(historyDto);
             } else {
                 // minusAccount가 핀볼 계좌인 경우에 대한 처리
@@ -119,7 +119,7 @@ public class GroupAccountFillingService {
     public void saveFinBallAccount(FinBallTradeHistoryDto historyDto) {
 
         FinBallAccount finBallAccount = finBallAccountRepository.findById(
-                        historyDto.getAccountNumber())
+                        historyDto.getAccountNo())
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 계좌가 없습니다."));
 
         finBallAccount.setBalance(historyDto.getRemain());
@@ -130,7 +130,7 @@ public class GroupAccountFillingService {
     @Transactional
     public void saveGroupAccount(FinBallTradeHistoryDto historyDto) {
         GroupAccount groupAccount = groupAccountRepository.findById(
-                        historyDto.getAccountNumber())
+                        historyDto.getAccountNo())
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 계좌가 없습니다."));
 
         groupAccount.setBalance(historyDto.getRemain());

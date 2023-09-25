@@ -2,7 +2,10 @@ package com.finball.mydata.entity;
 
 import com.finball.mydata.dto.account.AccountDto;
 import com.finball.mydata.dto.account.BankAccountDto;
+import javax.persistence.Column;
 import javax.persistence.JoinColumn;
+
+import com.finball.mydata.dto.account.OppositeAccountDto;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -19,6 +22,9 @@ public class Account {
 
     @Id
     private String accountNo;
+
+    @Column
+    private String originNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
@@ -40,9 +46,10 @@ public class Account {
     }
 
     @Builder
-    public Account(String accountNo, Member member, Company company, Long balance, String name,
+    public Account(String accountNo, String originNo, Member member, Company company, Long balance, String name,
                    LocalDateTime createdAt, LocalDateTime closedAt) {
         this.accountNo = accountNo;
+        this.originNo = originNo;
         this.member = member;
         this.company = company;
         this.balance = balance;
@@ -66,6 +73,14 @@ public class Account {
         return BankAccountDto.builder()
                 .company(this.company.toCompanyDto())
                 .account(this.toAccountDto())
+                .build();
+    }
+
+    public OppositeAccountDto toOppositeAccountDto() {
+        return OppositeAccountDto.builder()
+                .company(this.company.toCompanyDto())
+                .accountNo(this.getAccountNo())
+                .name(this.member.getName())
                 .build();
     }
 }

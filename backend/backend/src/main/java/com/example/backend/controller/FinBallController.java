@@ -4,13 +4,19 @@ import com.example.backend.dto.Response;
 import com.example.backend.dto.finball.DeleteFinancialBookCategoryDto;
 import com.example.backend.dto.finball.GetFinancialBookDto;
 import com.example.backend.dto.finball.ReadFinBallDto;
+import com.example.backend.dto.finball.ReadFinBallHistoryDto;
 import com.example.backend.dto.finball.RegisterFinBallBookDto;
 import com.example.backend.dto.finball.RegisterFinBallDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
+import com.example.backend.dto.finball.SetCategoryData;
 import com.example.backend.dto.finball.UpdateFinancialBookCategoryDto;
+import com.example.backend.dto.transfer.AccountTransferDto;
+import com.example.backend.dto.transfer.TransferInfoDto;
 import com.example.backend.entity.Member;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.FinBallService;
+import com.example.backend.service.FinBallTransferService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FinBallController {
 
     private final FinBallService finballService;
+    private final FinBallTransferService finBallTransferService;
 
     @PostMapping("/account/fin-ball")
     public Response createAccount(@RequestBody RegisterFinBallDto.Request request,
@@ -114,5 +121,37 @@ public class FinBallController {
         finballService.deleteFinancialBook(member);
 
         return new Response<>(200, "가계부가 삭제되었습니다.");
+    }
+
+    @GetMapping("/fin-ball/history")
+    public Response<ReadFinBallHistoryDto.Response> readFinBallHistoryList(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        Member member = userDetails.getMember();
+        ReadFinBallHistoryDto.Response data = finballService.readFinBallHistoryList(member);
+
+        return new Response(200, "가계부 히스토리를 조회했습니다.", data);
+    }
+
+    @PostMapping("/fin-ball/transfer")
+    public Response<ReadFinBallHistoryDto.Response> transferFinBallAccount(
+            @RequestBody AccountTransferDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+
+        Member member = userDetails.getMember();
+        ReadFinBallHistoryDto.Response data = finBallTransferService.transferFinBallAccount(request,
+                member);
+
+        return new Response<>(200, "이체가 완료 되었습니다.", data);
+    }
+
+    @PostMapping("/fin-ball/category")
+    public Response setCategory(@RequestBody SetCategoryData.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        Member member = userDetails.getMember();
+        ReadFinBallHistoryDto.Response data = finballService.setCategory(request, member);
+
+        return new Response<>(200, "거래내역에 카테고리를 지정하였습니다.", data);
     }
 }
