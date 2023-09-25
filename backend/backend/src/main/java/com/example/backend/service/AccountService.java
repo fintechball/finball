@@ -44,7 +44,11 @@ public class AccountService {
             accountNumberList.add(account.getAccountNo());
         }
 
+        System.out.println(accountNumberList.toString());
+
         List<MemberAccountInfoDto> memberAccountInfoDtoList = getMyDataAccount(accountNumberList, member.getUserId());
+
+        System.out.println(memberAccountInfoDtoList.toString());
 
         Long sum = sumBalance(memberAccountInfoDtoList);
 
