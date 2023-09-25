@@ -80,12 +80,12 @@ public class FinBallAccount {
     public ReadFinBallDto.Response toReadFinBallDto() {
         return ReadFinBallDto.Response.builder()
                 .account(FinBallAccountInfoDto.builder()
+                        .name(this.member.getName()+"님의 핀볼계좌")
                         .no(this.accountNo)
                         .balance(this.balance)
+                        .closedAt(this.closedAt)
                         .bookRefreshDate(this.bookRefreshDate)
-                        .createdAt(this.createdAt.toLocalDate())
-                        .moneySource(this.moneySource)
-                        .usage(this.usage)
+                        .createdAt(this.createdAt)
                         .build()).build();
     }
 }

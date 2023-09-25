@@ -11,5 +11,15 @@ public class ReadFinBallDto {
     public static class Response {
 
         private FinBallAccountInfoDto account;
+        private CompanyDto company;
+
+        public void setCompany(Long finBallCode, String finBallLogo, String finBallName, Boolean connected) {
+            this.company = CompanyDto.builder()
+                    .code(finBallCode)
+                    .name(finBallName)
+                    .logo(finBallLogo)
+                    .connected(connected)
+                    .build();
+        }
     }
 }
