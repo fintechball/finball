@@ -37,7 +37,8 @@ public class FinBallTransferService {
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
 
-    public ReadFinBallHistoryDto.Response transferFinBallAccount(AccountTransferDto.Request request, Member member)
+    public ReadFinBallHistoryDto.Response transferFinBallAccount(AccountTransferDto.Request request,
+            Member member)
             throws JsonProcessingException {
 
         FinBallAccount finBallAccount = getAccount(request, member);
@@ -73,7 +74,8 @@ public class FinBallTransferService {
         return finBallAccount.getBalance();
     }
 
-    private boolean balanceCheck(AccountTransferDto.Request request, FinBallAccount finBallAccount) {
+    private boolean balanceCheck(AccountTransferDto.Request request,
+            FinBallAccount finBallAccount) {
 
         if (request.getValue() <= finBallAccount.getBalance()) {
             return true; //보낼 돈이 있다면 보냄
@@ -100,7 +102,7 @@ public class FinBallTransferService {
         String token = redisUtil.getMyDataToken(memberId);
 
         ResponseEntity<String> response = restTemplateUtil.callMyData(token,
-                request, "/myData/transfer",
+                request, "/my-data/transfer",
                 HttpMethod.POST);
 
         RestDto<FinBallTradeHistoryDto> restDto = new RestDto<>(FinBallTradeHistoryDto.class,
@@ -122,7 +124,7 @@ public class FinBallTransferService {
     public void saveFinBallAccount(FinBallTradeHistoryDto historyDto) {
 
         FinBallAccount finBallAccount = finBallAccountRepository.findById(
-                        historyDto.getAccountNumber())
+                        historyDto.getAccountNo())
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 계좌가 없습니다."));
 
         finBallAccount.setBalance(historyDto.getRemain());

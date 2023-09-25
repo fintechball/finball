@@ -2,12 +2,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 // import reducer, { ReducerType } from "./rootReducer";
-import reducer from "./rootReducer";
+import persistedReducer from "./rootReducer";
 import { persistStore, PURGE, PERSIST} from "redux-persist";
 
 
 export const store = configureStore({
-  reducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) => 
   getDefaultMiddleware({
     serializableCheck: {

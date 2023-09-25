@@ -1,5 +1,7 @@
 package com.finball.mydata.dto.tradeHistory;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.finball.mydata.type.DealType;
 import lombok.*;
 
@@ -10,6 +12,7 @@ import java.time.LocalTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(Include.NON_NULL)
 public class AccountHistoryDto {
 
     private Long id;

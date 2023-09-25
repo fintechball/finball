@@ -8,8 +8,10 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button, Input } from "antd";
-import { useDispatch } from "react-redux";
-import { setTokens } from "../../store/slices/tokenSlice";
+
+import { persistor, RootState } from "../../store/store";
+import { useSelector, useDispatch } from "react-redux";
+import { setAuth } from "../../store/slices/authSlice";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
@@ -17,10 +19,14 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [idcolor, setIdcolor] = useState("");
   const [pwcolor, setPwcolor] = useState("");
-  const [userId, setUserId] = useState("");
+  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
+  // const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+  // const { accessToken, refreshToken, name, userId } = useSelector((state: RootState) => state.auth);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -30,18 +36,26 @@ function Login() {
     console.log("asdf");
     axios
       .post(`${BASE_HTTP_URL}/api/user/login`, {
-        username: userId,
+        username: id,
         password: password,
       })
       .then((response) => {
         console.log(response.data.data);
-        localStorage.setItem("accessToken", response.data.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.data.refreshToken);
-        localStorage.setItem("name", response.data.data.name);
-        localStorage.setItem("userId", response.data.data.userId);
+        dispatch(
+          setAuth({
+            accessToken: response.data.data.accessToken,
+            refreshToken: response.data.data.refreshToken,
+            name: response.data.data.name,
+            userId: response.data.data.userId
+          })
+        )
         navigate("/");
       })
       .catch((error) => {
+        console.log({
+          username: id,
+          password: password,
+        })
         console.log(error);
       });
   };
@@ -71,8 +85,8 @@ function Login() {
           className={styles.input}
           onFocus={focusId}
           onBlur={defaultId}
-          value={userId}
-          onChange={(event) => setUserId(event.target.value)}
+          value={id}
+          onChange={(event) => setId(event.target.value)}
         />
       </div>
       <div className={styles.smallbox}>

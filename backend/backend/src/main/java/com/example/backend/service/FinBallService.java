@@ -157,14 +157,16 @@ public class FinBallService {
         return response;
     }
 
-    public ReadFinBallHistoryDto.Response setCategory(SetCategoryData.Request request, Member member) {
+    public ReadFinBallHistoryDto.Response setCategory(SetCategoryData.Request request,
+            Member member) {
 
         FinBallAccount account = getFinballAccount(member);
-        FinBallHistory tradeHistory = finBallHistoryRepository.findByFinBallAccountAndId(account, request.getTradeHistoryId()).orElseThrow(
+        FinBallHistory tradeHistory = finBallHistoryRepository.findByFinBallAccountAndId(account,
+                request.getTradeHistoryId()).orElseThrow(
                 () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
         );
-        if(tradeHistory.getDealType() == DealType.입금){
-            throw new CustomException(ErrorCode.NOT_출금_ERROR);
+        if (tradeHistory.getDealType() == DealType.입금) {
+            throw new CustomException(ErrorCode.NOT_WITHDRAW_ERROR);
         }
 
         setCategory(tradeHistory, request);
@@ -173,19 +175,21 @@ public class FinBallService {
         return readFinBallHistoryList(member);
     }
 
-    public void setCategory(FinBallHistory tradeHistory, SetCategoryData.Request request){
+    public void setCategory(FinBallHistory tradeHistory, SetCategoryData.Request request) {
 
-        Category requestCategory = categoryRepository.findByName(request.getCategoryName()).orElseThrow(
-                () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
-        );
+        Category requestCategory = categoryRepository.findByName(request.getCategoryName())
+                .orElseThrow(
+                        () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+                );
 
-        if(tradeHistory.getCategory() != null){ //비어있지 않다 => 그 전에 있던 것 취소해야함
-            Category category = categoryRepository.findByName(tradeHistory.getCategory().getName()).orElseThrow(
-                    () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
-            );
+        if (tradeHistory.getCategory() != null) { //비어있지 않다 => 그 전에 있던 것 취소해야함
+            Category category = categoryRepository.findByName(tradeHistory.getCategory().getName())
+                    .orElseThrow(
+                            () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+                    );
             category.minusUsedValue(tradeHistory.getValue()); //누적 금액에서 마이너스
             requestCategory.plusUsedValue(tradeHistory.getValue());
-        }else{
+        } else {
             requestCategory.plusUsedValue(tradeHistory.getValue());
         }
 

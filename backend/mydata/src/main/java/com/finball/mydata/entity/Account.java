@@ -4,6 +4,8 @@ import com.finball.mydata.dto.account.AccountDto;
 import com.finball.mydata.dto.account.BankAccountDto;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
+
+import com.finball.mydata.dto.account.OppositeAccountDto;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -71,6 +73,14 @@ public class Account {
         return BankAccountDto.builder()
                 .company(this.company.toCompanyDto())
                 .account(this.toAccountDto())
+                .build();
+    }
+
+    public OppositeAccountDto toOppositeAccountDto() {
+        return OppositeAccountDto.builder()
+                .company(this.company.toCompanyDto())
+                .accountNo(this.getAccountNo())
+                .name(this.member.getName())
                 .build();
     }
 }

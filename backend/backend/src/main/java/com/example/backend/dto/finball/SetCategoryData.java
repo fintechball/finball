@@ -6,7 +6,8 @@ import lombok.Data;
 public class SetCategoryData {
 
     @Data
-    public static class Request{
+    public static class Request {
+
         private Long tradeHistoryId;
         private String categoryName;
     }

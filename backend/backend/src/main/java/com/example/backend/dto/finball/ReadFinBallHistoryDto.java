@@ -29,7 +29,7 @@ public class ReadFinBallHistoryDto {
         public void setCategoryList(ArrayList<Category> categoryDtoList) {
             categoryList = new ArrayList<>();
 
-            for(Category category : categoryDtoList){
+            for (Category category : categoryDtoList) {
                 categoryList.add(category.getName());
             }
         }

@@ -82,7 +82,7 @@ public class FinBallHistory {
                                 .build())
                         .build())
                 .build();
-        if(this.category != null){
+        if (this.category != null) {
             finBallTradeHistoryDto.setCategoryName(this.category.getName());
         }
         return finBallTradeHistoryDto;

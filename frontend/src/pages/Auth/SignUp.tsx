@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.scss";
 import { useState } from "react";
-import { Button, Input } from "antd";
+import { Button } from "antd";
 
 interface IFormInput {
   name: string;
@@ -46,12 +46,12 @@ function SignUp() {
     register,
     handleSubmit,
     formState: { errors },
-    // getValues,
+    getValues,
   } = useForm<IFormInput>({ mode: "onChange", resolver: yupResolver(schema) });
 
   const idCheck = async () => {
     try {
-      const requestBody = JSON.stringify(register("userId"));
+      const requestBody = JSON.stringify({ userId: getValues("userId") });
 
       const response = await fetch(
         `https://j9e106.p.ssafy.io/api/user/authentication/id`,

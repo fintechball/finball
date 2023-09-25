@@ -86,4 +86,32 @@ public class AccountService {
 
         return new GetUserAccountSimpleDto.Response(userAccountSimpleDtoList);
     }
+
+    public GetOppositeAccountDto.Response getOppositeAccount(GetOppositeAccountDto.Request request, String memberId) throws JsonProcessingException {
+
+        List<Account> accountList =  accountCustomRepository.findByOriginNo(request.getOriginNo());
+
+        if(accountList.size() == 0) {
+            GetOppositeAccountDto.Response response = getMyDataOppositeAccount(request, memberId);
+            return response;
+        }
+
+        return null;
+    }
+
+    public GetOppositeAccountDto.Response getMyDataOppositeAccount(GetOppositeAccountDto.Request request, String memberId) throws JsonProcessingException {
+
+        String token = redisUtil.getMyDataToken(memberId);
+
+        ResponseEntity<String> response = restTemplateUtil.callMyData(token,
+                request, "/my-data/opposite/account",
+                HttpMethod.POST);
+
+        RestDto<OppositeAccountDto> restDto = new RestDto<>(OppositeAccountDto.class, response);
+
+        OppositeAccountDto oppositeAccountDto = (OppositeAccountDto) restTemplateUtil.parseBody(
+                restDto, "oppositeAccountDto");
+
+        return GetOppositeAccountDto.Response.builder().oppositeAccountDto(oppositeAccountDto).build();
+    }
 }
