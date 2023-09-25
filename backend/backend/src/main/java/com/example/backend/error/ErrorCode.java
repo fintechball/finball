@@ -19,6 +19,7 @@ public enum ErrorCode {
     DUPLICATE_USER_ID(400, "중복된 아이디입니다."),
     NOT_출금_ERROR(400, "출금에서만 가능한 기능입니다."),
     LACK_OF_POINT(400, "포인트가 부족합니다.");
+    NOT_WITHDRAW_ERROR(400, "출금에서만 가능한 기능입니다.");
 
     private final int status;
     private final String message;

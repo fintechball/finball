@@ -78,7 +78,7 @@ public class TransferService {
     public void save(List<FinBallTradeHistoryDto> historyDtoList) {
         for (FinBallTradeHistoryDto historyDto : historyDtoList) {
             FinBallAccount finBallAccount = finBallAccountRepository.findById(
-                            historyDto.getAccountNumber())
+                            historyDto.getAccountNo())
                     .orElseThrow(() -> new IllegalArgumentException("해당하는 계좌가 없습니다."));
 
             finBallAccount.setBalance(historyDto.getRemain());
