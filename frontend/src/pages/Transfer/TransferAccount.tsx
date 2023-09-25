@@ -155,21 +155,6 @@ function TransferAccount() {
       !showBankList &&
       !showNumberPad
     ) {
-      console.log("상대방을 찾아주자");
-      // const find = false;
-      // 상대방의 계좌를 찾아서 있는 경우는 다음으로 넘어가고
-      // if (find) {
-      //   // navigate("/transferValue", {
-      //   //   state: {
-      //   //     currentAccount: currentAccount,
-      //   //     oppositeAccount: currentAccount,
-      //   //   },
-      //   // });
-      // }
-      // // 상대방의 계좌가 존재하지 않는다면 에러 메시지 뿌려주기
-      // else {
-      //   setIsError(true);
-      // }
       find();
     } else {
       setIsError(false);
@@ -269,14 +254,18 @@ function TransferAccount() {
                     </p>
                   </div>
                   <button
-                    onClick={() =>
-                      navigate("/transferValue", {
-                        state: {
-                          currentAccount: account,
-                          oppositeAccount: account,
-                        },
-                      })
-                    }
+                    onClick={() => {
+                      dispatch(
+                        setOpposite({
+                          opposite: {
+                            accountNo: userAccount.account.no,
+                            company: userAccount.company,
+                            userName: auth.name,
+                          },
+                        })
+                      );
+                      navigate("/transferValue");
+                    }}
                   >
                     송금
                   </button>
