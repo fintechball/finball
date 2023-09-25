@@ -22,9 +22,13 @@ public class QGroupAccount extends EntityPathBase<GroupAccount> {
 
     public static final QGroupAccount groupAccount = new QGroupAccount("groupAccount");
 
-    public final StringPath accountNumber = createString("accountNumber");
+    public final StringPath accountNo = createString("accountNo");
 
     public final NumberPath<Long> balance = createNumber("balance", Long.class);
+
+    public final DateTimePath<java.time.LocalDateTime> closedAt = createDateTime("closedAt", java.time.LocalDateTime.class);
+
+    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final EnumPath<com.example.backend.type.GameType> gameType = createEnum("gameType", com.example.backend.type.GameType.class);
 
@@ -32,7 +36,7 @@ public class QGroupAccount extends EntityPathBase<GroupAccount> {
 
     public final StringPath name = createString("name");
 
-    public final DateTimePath<java.time.LocalDateTime> refreshDt = createDateTime("refreshDt", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> refreshAt = createDateTime("refreshAt", java.time.LocalDateTime.class);
 
     public final StringPath url = createString("url");
 

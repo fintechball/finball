@@ -18,7 +18,7 @@ public class AccountCustomRepository extends QuerydslRepositorySupport {
         this.queryFactory = queryFactory;
     }
 
-    public List<Account> findByIdOrderByIsFavorite(Long memberId) {
+    public List<Account> findById(Long memberId) {
         QAccount account = QAccount.account;
         QMember member = QMember.member;
 
@@ -26,7 +26,17 @@ public class AccountCustomRepository extends QuerydslRepositorySupport {
                 .from(account)
                 .leftJoin(account.member, member).fetchJoin()
                 .where(member.id.eq(memberId))
-                .orderBy(account.isFavorite.desc())
+                .fetch();
+    }
+
+    public List<Account> findByOriginNo(String originNo) {
+        QAccount account = QAccount.account;
+        QMember member = QMember.member;
+
+        return queryFactory.select(account)
+                .from(account)
+                .leftJoin(account.member, member).fetchJoin()
+                .where(account.originNo.eq(originNo))
                 .fetch();
     }
 }

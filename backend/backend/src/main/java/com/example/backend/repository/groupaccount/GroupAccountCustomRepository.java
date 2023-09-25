@@ -29,7 +29,7 @@ public class GroupAccountCustomRepository extends QuerydslRepositorySupport {
         GroupAccount result = queryFactory
                 .selectFrom(groupAccount)
                 .leftJoin(groupAccount.member, member).fetchJoin() // members를 함께 로드합니다.
-                .where(groupAccount.accountNumber.eq(groupAccountId))
+                .where(groupAccount.accountNo.eq(groupAccountId))
                 .fetch().get(0);
         return result;
     }
@@ -39,7 +39,7 @@ public class GroupAccountCustomRepository extends QuerydslRepositorySupport {
                 .selectFrom(groupAccountMember)
                 .join(groupAccountMember.groupAccount, groupAccount)
                 .join(groupAccountMember.member, member).fetchJoin()
-                .where(groupAccount.accountNumber.eq(groupAccountId))
+                .where(groupAccount.accountNo.eq(groupAccountId))
                 .fetch();
         return result;
     }
@@ -52,7 +52,7 @@ public class GroupAccountCustomRepository extends QuerydslRepositorySupport {
                 .join(groupAccountHistory.games, groupGameResult).fetchJoin()
                 .join(groupGameResult.groupAccountMember, groupAccountMember)
                 .join(groupAccountMember.member, member)
-                .where(groupAccountHistory.groupAccount.accountNumber.eq(groupAccountId))
+                .where(groupAccountHistory.groupAccount.accountNo.eq(groupAccountId))
                 .fetch();
         return result;
     }

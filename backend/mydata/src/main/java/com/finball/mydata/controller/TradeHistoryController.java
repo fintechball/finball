@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class TradeHistoryController {
     private final TradeHistoryService tradeHistoryService;
 
-    @PostMapping("/myData/account/history")
+    @PostMapping("/my-data/account/history")
     public Response<AccountHistoryListDto.Response> getAccountHistory(@RequestBody AccountHistoryListDto.Request request) {
-        System.out.println(request);
+
         AccountHistoryListDto.Response response = tradeHistoryService.getAccountHistory(request);
 
         return new Response(200, "거래 목록 조회 완료", response);

@@ -16,15 +16,18 @@ import lombok.NoArgsConstructor;
 public class RegistAccountDto {
 
     private String accountNumber;
+    private String originNumber;
     private LocalDateTime registerDt;
     private Long balance;
     private Long companyId;
     private String accountName;
 
     public Account toAccount(Member member, Company company) {
+        System.out.println(company);
         return Account.builder()
                 .accountNo(this.accountNumber)
-                .accountRegist(this.registerDt)
+                .originNo(this.originNumber)
+                .createdAt(this.registerDt)
                 .balance(this.balance)
                 .name(this.accountName)
                 .member(member)

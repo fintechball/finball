@@ -64,13 +64,14 @@ public class HistoryService {
             throws JsonProcessingException {
         String token = redisUtil.getMyDataToken(memberId);
 
-        System.out.println(request);
         ResponseEntity<String> response = restTemplateUtil.callMyData(token,
-                request, "/myData/account/history",
+                request, "/my-data/account/history",
                 HttpMethod.POST);
 
         RestDto<AccountHistoryDto> restDto = new RestDto<>(AccountHistoryDto.class,
                 response);
+
+        System.out.println(restDto);
 
         return (List<AccountHistoryDto>) restTemplateUtil.parseListBody(
                 restDto, "tradeHistoryDtoList");

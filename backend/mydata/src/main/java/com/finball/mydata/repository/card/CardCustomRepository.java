@@ -24,11 +24,14 @@ public class CardCustomRepository extends QuerydslRepositorySupport {
     public List<Card> findAllByMemberIdAndCompanyIdInWithFetchJoin(Long memberID, List<Long> companyCodes) {
         QCard card = QCard.card;
 
+        System.out.println(companyCodes);
+        System.out.println(memberID);
+
         return queryFactory
                 .selectFrom(card)
                 .leftJoin(card.company).fetchJoin()
                 .leftJoin(card.member).fetchJoin()
-                .where(card.member.id.eq(memberID).and(card.company.cpCode.in(companyCodes)))
+                .where(card.member.id.eq(memberID).and(card.company.code.in(companyCodes)))
                 .fetch();
     }
 }

@@ -24,7 +24,10 @@ public class Account {
 
     @Id
     @Column
-    private String accountNumber;
+    private String accountNo;
+
+    @Column
+    private String originNo;
 
     @Column
     private String name;
@@ -36,18 +39,14 @@ public class Account {
     private String cpName;
 
     @Column
-    private LocalDateTime createdDt;
+    private Long cpCode;
 
     @Column
-    private LocalDateTime closedDt;
+    private LocalDateTime createdAt;
 
     @Column
-    private boolean isFavorite;
+    private LocalDateTime closedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
-
-    public void setFavorite() {
-        this.isFavorite = !this.isFavorite;
-    }
 }

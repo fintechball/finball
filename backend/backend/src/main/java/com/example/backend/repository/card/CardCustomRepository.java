@@ -35,7 +35,7 @@ public class CardCustomRepository extends QuerydslRepositorySupport {
         QCard card = QCard.card;
 
         return queryFactory
-                .selectDistinct(card.cardNumber)
+                .selectDistinct(card.number)
                 .from(card)
                 .where(card.member.userId.eq(userId))
                 .fetch();

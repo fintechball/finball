@@ -1,6 +1,8 @@
 package com.finball.mydata.entity;
 
 import com.finball.mydata.dto.card.CardDto;
+import com.finball.mydata.dto.card.CardInfoDto;
+import com.finball.mydata.dto.company.CompanyDto;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -24,11 +26,9 @@ public class Card {
     private String cardNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
     private Company company;
 
     private String name;
@@ -36,12 +36,21 @@ public class Card {
     private String image;
 
     public CardDto toCardInfoDto() {
+        CardInfoDto cardInfoDto = CardInfoDto.builder()
+                .name(this.name)
+                .image(this.image)
+                .no(this.cardNo)
+                .build();
+
+        CompanyDto companyDto = CompanyDto.builder()
+                .code(this.company.getCode())
+                .name(this.company.getCpName())
+                .logo(this.company.getCpLogo())
+                .build();
+
         return CardDto.builder()
-                .cardName(this.name)
-                .cardImage(this.image)
-                .companyCode(String.valueOf(this.company.getCpCode()))
-                .companyName(this.company.getCpName())
-                .cardNumber(this.cardNo)
+                .card(cardInfoDto)
+                .company(companyDto)
                 .build();
     }
 }

@@ -43,17 +43,17 @@ public class TransferService {
         TransferInfoDto minus = request.getMinusBank();
         TransferInfoDto plus = request.getPlusBank();
 
-        if (Objects.equals(minus.getCode(), FIN_BALL_CODE)) {
+        if (Objects.equals(minus.getCompanyId(), FIN_BALL_CODE)) {
             request.getMinusBank().setBalance(getAccountBalance(minus));
         }
 
-        if (Objects.equals(plus.getCode(), FIN_BALL_CODE)) {
+        if (Objects.equals(plus.getCompanyId(), FIN_BALL_CODE)) {
             request.getPlusBank().setBalance(getAccountBalance(plus));
         }
     }
 
     public Long getAccountBalance(TransferInfoDto info) {
-        FinBallAccount finBallAccount = finBallAccountRepository.findById(info.getAccountNumber())
+        FinBallAccount finBallAccount = finBallAccountRepository.findById(info.getAccountNo())
                 .orElseThrow(() -> new IllegalArgumentException("해당되는 계좌가 존재하지 않습니다."));
 
         return finBallAccount.getBalance();
@@ -64,7 +64,7 @@ public class TransferService {
         String token = redisUtil.getMyDataToken(memberId);
 
         ResponseEntity<String> response = restTemplateUtil.callMyData(token,
-                request, "/myData/transfer",
+                request, "/my-data/transfer",
                 HttpMethod.POST);
 
         RestDto<FinBallTradeHistoryDto> restDto = new RestDto<>(FinBallTradeHistoryDto.class,
@@ -78,7 +78,7 @@ public class TransferService {
     public void save(List<FinBallTradeHistoryDto> historyDtoList) {
         for (FinBallTradeHistoryDto historyDto : historyDtoList) {
             FinBallAccount finBallAccount = finBallAccountRepository.findById(
-                            historyDto.getAccountNumber())
+                            historyDto.getAccountNo())
                     .orElseThrow(() -> new IllegalArgumentException("해당하는 계좌가 없습니다."));
 
             finBallAccount.setBalance(historyDto.getRemain());

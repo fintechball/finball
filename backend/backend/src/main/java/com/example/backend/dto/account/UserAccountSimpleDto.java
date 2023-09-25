@@ -19,8 +19,8 @@ public class UserAccountSimpleDto {
                 .bankName(account.getCpName())
                 .bankImage(account.getCpLogo())
                 .name(account.getName())
-                .account(account.getAccountNumber())
-                .isFavorite(account.isFavorite())
+//                .account(account.getAccountNumber())
+//                .isFavorite(account.isFavorite())
                 .build();
     }
 

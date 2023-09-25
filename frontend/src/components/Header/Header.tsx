@@ -4,17 +4,16 @@ import { useState, useEffect } from "react";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
+
+import Logout from "../Auth/Logout";
+
 function Header() {
   const navigate = useNavigate();
   const title = "";
-  const [isLogged, setIsLogged] = useState(false);
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      setIsLogged(true);
-    }
-  }, []);
+  const isLogged = useSelector((state: RootState) => state.logged.isLogged);
 
   return (
     <div>
@@ -22,14 +21,9 @@ function Header() {
         <img src={finballLogo} alt="Finball Logo" />
         <p>{title}</p>
         {isLogged ? (
-          <Button type="primary">Logout</Button>
+          <Logout />
         ) : (
-          <Button
-            type="primary"
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
+          <Button type="primary" onClick={() => navigate("/login")}>
             Login
           </Button>
         )}

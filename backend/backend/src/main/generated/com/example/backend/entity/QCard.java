@@ -22,7 +22,9 @@ public class QCard extends EntityPathBase<Card> {
 
     public static final QCard card = new QCard("card");
 
-    public final StringPath cardNumber = createString("cardNumber");
+    public final NumberPath<Long> cpCode = createNumber("cpCode", Long.class);
+
+    public final StringPath cpLogo = createString("cpLogo");
 
     public final StringPath cpName = createString("cpName");
 
@@ -31,6 +33,8 @@ public class QCard extends EntityPathBase<Card> {
     public final QMember member;
 
     public final StringPath name = createString("name");
+
+    public final StringPath number = createString("number");
 
     public QCard(String variable) {
         this(Card.class, forVariable(variable), INITS);

@@ -11,6 +11,7 @@ public class AccountRegisterDto {
 
     @Data
     public static class Request {
-        private List<AccountRegisterInfoDto> bankAccountDtoList;
+        private int updateWeek;
+        private List<AccountRegisterInfoDto> bankAccountList;
     }
 }
