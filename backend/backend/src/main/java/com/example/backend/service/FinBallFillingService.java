@@ -1,8 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.RestDto;
-import com.example.backend.dto.finball.ReadFinBallHistoryDto;
-import com.example.backend.dto.transfer.AccountTransferDto;
+import com.example.backend.dto.finball.ReadFinBallHistoryDto.Response;
 import com.example.backend.dto.transfer.AccountTransferDto.Request;
 import com.example.backend.dto.transfer.FinBallTradeHistoryDto;
 import com.example.backend.dto.transfer.TransferInfoDto;
@@ -16,7 +15,6 @@ import com.example.backend.util.RedisUtil;
 import com.example.backend.util.RestTemplateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
-import java.util.Objects;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
@@ -25,7 +23,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class FinBallTransferService {
+public class FinBallFillingService {
 
     private final Long FIN_BALL_CODE = 106L;
 
@@ -36,68 +34,61 @@ public class FinBallTransferService {
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
 
-    public ReadFinBallHistoryDto.Response transferFinBallAccount(AccountTransferDto.Request request,
-            Member member)
+    public Response fillingFinBallAccount(Request request, Member member)
             throws JsonProcessingException {
 
-        FinBallAccount finBallAccount = getAccount(request, member);
+        FinBallAccount finBallAccount = getFinBallAccount(request, member); //모임 계좌 있는지 체크
 
-        if (balanceCheck(request, finBallAccount)) {
-            init(request, finBallAccount);
-            //이 부분부터 다시 봐야함
-            List<FinBallTradeHistoryDto> historyDtoList = getMyDataResponse(request,
-                    member.getUserId());
-            save(historyDtoList, request.getMinusBank().getAccountNo());
-        }
+        init(request, finBallAccount);
+        List<FinBallTradeHistoryDto> historyDtoList = getMyDataResponse(request,
+                member.getUserId());
+        save(historyDtoList, request.getPlusBank().getAccountNo()); //plusBank : 그룹 통장
 
         return finBallService.readFinBallHistoryList(member);
     }
 
-    public void init(Request request, FinBallAccount finBallAccount) {
-        TransferInfoDto plus = request.getPlusBank();
-        TransferInfoDto minus = request.getMinusBank();
-
-        minus.setCompanyId(FIN_BALL_CODE);
-        minus.setUserName(finBallAccount.getMember().getName());
-        minus.setBalance(finBallAccount.getBalance());
-
-        if (Objects.equals(plus.getCompanyId(), FIN_BALL_CODE)) { // 상대방이 핀볼 은행이라면
-            request.getPlusBank().setBalance(getAccountBalance(plus));
-        }
-    }
-
-    public Long getAccountBalance(TransferInfoDto info) {
-        FinBallAccount finBallAccount = finBallAccountRepository.findById(info.getAccountNo())
-                .orElseThrow(() -> new IllegalArgumentException("해당되는 계좌가 존재하지 않습니다."));
-
-        return finBallAccount.getBalance();
-    }
-
-    private boolean balanceCheck(AccountTransferDto.Request request,
-            FinBallAccount finBallAccount) {
-
-        if (request.getValue() <= finBallAccount.getBalance()) {
-            return true; //보낼 돈이 있다면 보냄
-        }
-
-        throw new CustomException(ErrorCode.OUT_OF_RANGE);
-    }
-
-    private FinBallAccount getAccount(AccountTransferDto.Request request, Member member) {
-
-        // 요청한 그룹 계좌가 있는지 조회
+    private FinBallAccount getFinBallAccount(Request request, Member member) {
         FinBallAccount finBallAccount = finBallAccountRepository.findById(
-                request.getMinusBank().getAccountNo()).orElseThrow(
+                request.getPlusBank().getAccountNo()).orElseThrow(
                 () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
         );
+
+        if (finBallAccount.getMember().getId() != member.getId()) {
+            throw new CustomException(ErrorCode.OWNER_NOT_CORRESPOND);
+        }
 
         return finBallAccount;
     }
 
-    public List<FinBallTradeHistoryDto> getMyDataResponse(AccountTransferDto.Request request,
+    public void init(Request request, FinBallAccount finBallAccount) {
+        TransferInfoDto plus = request.getPlusBank();
+//        TransferInfoDto minus = request.getMinusBank();
+
+        // 핀볼 통장 전처리
+        plus.setCompanyId(FIN_BALL_CODE);
+        plus.setUserName(finBallAccount.getMember().getName());
+        plus.setBalance(finBallAccount.getBalance());
+
+//        if (Objects.equals(minus.getCompanyId(), FIN_BALL_CODE)) { // minus bank가 핀볼 은행이라면
+//            request.getMinusBank().setBalance(getAccountBalance(minus, request.getValue()));
+//        }
+    }
+
+    public Long getAccountBalance(TransferInfoDto info, Long value) {
+        FinBallAccount finBallAccount = finBallAccountRepository.findById(info.getAccountNo())
+                .orElseThrow(() -> new IllegalArgumentException("해당되는 계좌가 존재하지 않습니다."));
+
+        Long balance = finBallAccount.getBalance();
+        if (balance < value) { //보낼 금액이 작은 상황
+            throw new CustomException(ErrorCode.OUT_OF_RANGE);
+        }
+        return balance;
+    }
+
+
+    public List<FinBallTradeHistoryDto> getMyDataResponse(Request request,
             String memberId)
             throws JsonProcessingException {
-
         String token = redisUtil.getMyDataToken(memberId);
 
         ResponseEntity<String> response = restTemplateUtil.callMyData(token,
@@ -112,9 +103,10 @@ public class FinBallTransferService {
     }
 
     @Transactional
-    public void save(List<FinBallTradeHistoryDto> historyDtoList, String minusAccountNumber) {
+    public void save(List<FinBallTradeHistoryDto> historyDtoList, String myAccountNumber) {
 
         for (FinBallTradeHistoryDto historyDto : historyDtoList) {
+            // plusAccount 처리(내 핀볼 계좌)
             saveFinBallAccount(historyDto);
         }
     }
@@ -130,5 +122,5 @@ public class FinBallTransferService {
         finBallAccountRepository.save(finBallAccount);
         finBallHistoryRepository.save(historyDto.toFinBallHistory(finBallAccount));
     }
-}
 
+}
