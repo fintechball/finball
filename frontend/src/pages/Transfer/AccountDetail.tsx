@@ -1,62 +1,44 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./AccountDetail.module.css";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import Typography from "@mui/material/Typography";
-import ListSubheader from "@mui/material/ListSubheader";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { setTradeHistorys } from "../../store/slices/tradeHistorySlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function AccountDetail() {
-  const [accessToken, setAccessToken] = useState<String>("");
-  const [tradeHistoryList, setTradeHistoryList] = useState<any>([]);
-  const [tradeHistory, setTradeHistory] = useState<any>(null);
+  const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
   const account = useSelector((state) => state.account);
-
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(account);
-    const jsonString = localStorage.getItem("persist:root");
-    if (jsonString) {
-      const jsonObject: { auth: string } = JSON.parse(jsonString);
-      const authData = JSON.parse(jsonObject.auth);
-      const accessToken = authData.accessToken;
-      if (accessToken) {
-        setAccessToken(accessToken);
-        getTradeHistory(accessToken);
-      } else {
-        console.log("accessToken이 존재하지 않습니다.");
-      }
-    } else {
-      console.log("localStorage가 존재하지 않습니다.");
-    }
-  }, []);
+  const refreshIconStyle = { fontSize: 12 };
 
-  const getTradeHistory = (accessToken) => {
+  useEffect(() => {
     axios
       .get(`${BASE_HTTP_URL}/api/user/account/${account.account.no}`, {
         headers: {
-          Authorization: accessToken,
+          Authorization: auth.accessToken,
         },
       })
       .then((response) => {
-        console.log(response);
-        setTradeHistoryList(response.data.data.tradeHistoryDtoList);
-        setTradeHistory(
+        dispatch(
+          setTradeHistorys({
+            tradeHistory: response.data.data.tradeHistoryDtoList,
+          })
+        );
+        setTradeHistoryDict(
           response.data.data.tradeHistoryDtoList.reduce(
-            (tradeHistorys, tradeHistory) => {
+            (dict, tradeHistory) => {
               const groupKey = tradeHistory.date;
-              if (!tradeHistorys[groupKey]) {
-                tradeHistorys[groupKey] = [];
+              if (!dict[groupKey]) {
+                dict[groupKey] = [];
               }
-              tradeHistorys[groupKey].push(tradeHistory);
-              return tradeHistorys;
+              dict[groupKey].push(tradeHistory);
+              return dict;
             },
             {}
           )
@@ -65,66 +47,59 @@ function AccountDetail() {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  useEffect(() => {
-    if (tradeHistory) {
-      {
-        [...tradeHistory].map((value, index) => console.log(value));
-      }
-    }
-  }, [tradeHistory]);
+  }, []);
 
   return (
     <>
       {account && (
         <div className={styles.container}>
-          <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-            component="nav"
-            subheader={
-              <ListSubheader component="div">
-                {account.company.name}은행 {account.account.no}
-              </ListSubheader>
-            }
-          >
-            <ListItem key="돈" disablePadding>
-              <ListItemButton>
-                <ListItemText>
-                  <Typography
-                    variant="body1"
-                    style={{ fontSize: "20px", fontWeight: "bold" }}
-                  >
-                    {account.account.balance}원
-                  </Typography>
-                </ListItemText>
-              </ListItemButton>
-            </ListItem>
-            <ListItem key="버튼" disablePadding>
-              <button className={styles.button}>채우기</button>
-              <button
-                className={styles.button}
-                onClick={() => navigate("/transferAccount")}
-              >
-                보내기
-              </button>
-            </ListItem>
-          </List>
+          <p className={styles.bankAccount}>
+            {account.company.name}은행 {account.account.no}
+          </p>
+          <p className={styles.balance}>{account.account.balance}원</p>
+          <div className={styles.buttonBox}>
+            <button className={styles.fill}>채우기</button>
+            <button
+              className={styles.send}
+              onClick={() => navigate("/transferAccount")}
+            >
+              보내기
+            </button>
+          </div>
 
-          <p>전체</p>
-          <p>방금전</p>
-          {Object.keys(tradeHistory).map((key, index) =>
-            tradeHistory[key].map((history, idx) => <div></div>)
-          )}
-          {/* {[...tradeHistoryList].map((tradeHistory, index) => (
-            <div key={index}>
-              <div>{tradeHistory.date}</div>
-              <div>{tradeHistory.time}</div>
-              <div>{tradeHistory.oppositeDto.userName}</div>
-              <div>{tradeHistory.value}</div>
-              <div>{tradeHistory.remain}</div>
-            </div>
-          ))} */}
+          <div className={styles.date}>
+            <p className={styles.total}>전체</p>
+            <p className={styles.bankAccount}>
+              방금전 <RefreshIcon style={refreshIconStyle} />
+            </p>
+          </div>
+
+          {tradeHistoryDict &&
+            Object.keys(tradeHistoryDict).map((key) =>
+              tradeHistoryDict[key].map((tradeHistory, index) => (
+                <>
+                  {index === 0 ? (
+                    <p className={styles.bankAccount}>
+                      {key.split("-")[1]}월 {key.split("-")[2]}일
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                  <div className={styles.part}>
+                    <div>
+                      <p className={styles.name}>
+                        {tradeHistory.oppositeDto.userName}
+                      </p>
+                      <p className={styles.time}>{tradeHistory.time}</p>
+                    </div>
+                    <div className={styles.money}>
+                      <p className={styles.value}>{tradeHistory.value}원</p>
+                      <p className={styles.remain}>{tradeHistory.remain}원</p>
+                    </div>
+                  </div>
+                </>
+              ))
+            )}
         </div>
       )}
     </>
