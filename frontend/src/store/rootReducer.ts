@@ -4,18 +4,16 @@ import test from "./slices/testSlice";
 import router from "./slices/routerSlice";
 import token from "./slices/tokenSlice";
 import auth from "./slices/authSlice";
+import logged from "./slices/loggedSlice";
 
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-
 const persistConfig = {
   key: "root",
-
-  storage : storage,
-
-  whitelist: ["auth", "counter"],
-}
+  storage: storage,
+  whitelist: ["auth"],
+};
 
 const reducer = combineReducers({
   counter,
@@ -23,6 +21,7 @@ const reducer = combineReducers({
   router,
   token,
   auth,
+  logged,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

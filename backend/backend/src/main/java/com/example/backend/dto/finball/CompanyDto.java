@@ -7,7 +7,8 @@ import lombok.Data;
 @Builder
 public class CompanyDto {
 
-    private Long code;
-    private String name;
-    private String logo;
+    public Long code;
+    public String name;
+    public String logo;
+    public Boolean connected;
 }

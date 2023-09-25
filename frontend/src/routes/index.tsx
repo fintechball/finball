@@ -1,5 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
+import PrivateRoute from "./PrivateRoute.tsx";
+
 import Home from "../pages/Home/Home";
 
 import Counter from "../pages/Test/Counter";
@@ -58,11 +60,15 @@ function Router() {
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
         <Route path="/certificationnaver" element={<CertificationNaver />} />
         <Route path="/accountbook" element={<AccountBook />} />
-        <Route path="/testpage" element={<TestPage />} />
-        <Route path="/navpage" element={<NavPage />} />
-        <Route path="/chatbot" element={<Chatbot />} />
-        <Route path="/quiz" element={<Quiz />} />
-        <Route path="/shop" element={<Shop />} />
+
+        <Route element={<PrivateRoute />}>
+          <Route path="/testpage" element={<TestPage />} />
+
+          <Route path="/navpage" element={<NavPage />} />
+          <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/shop" element={<Shop />} />
+        </Route>
         <Route path="/inventoryAll" element={<InventoryAll />} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/transfering" element={<Transfering />} />
