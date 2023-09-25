@@ -14,6 +14,7 @@ import com.example.backend.dto.transfer.AccountTransferDto;
 import com.example.backend.dto.transfer.TransferInfoDto;
 import com.example.backend.entity.Member;
 import com.example.backend.security.UserDetailsImpl;
+import com.example.backend.service.FinBallFillingService;
 import com.example.backend.service.FinBallService;
 import com.example.backend.service.FinBallTransferService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,6 +37,7 @@ public class FinBallController {
 
     private final FinBallService finballService;
     private final FinBallTransferService finBallTransferService;
+    private final FinBallFillingService finBallFillingService;
 
     @PostMapping("/account/fin-ball")
     public Response createAccount(@RequestBody RegisterFinBallDto.Request request,
@@ -143,6 +145,18 @@ public class FinBallController {
                 member);
 
         return new Response<>(200, "이체가 완료 되었습니다.", data);
+    }
+
+    @PostMapping("/fin-ball/fill")
+    public Response<ReadFinBallHistoryDto.Response> fillingFinBallAccount(
+            @RequestBody AccountTransferDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+
+        Member member = userDetails.getMember();
+        ReadFinBallHistoryDto.Response data = finBallFillingService.fillingFinBallAccount(request,
+                member);
+
+        return new Response<>(200, "채우기가 완료 되었습니다.", data);
     }
 
     @PostMapping("/fin-ball/category")
