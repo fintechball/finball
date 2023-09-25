@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Engine, Render, World, Bodies, MouseConstraint, Mouse, Body,Events,Common,Constraint } from 'matter-js';
+import { Engine, Render, World, Bodies, MouseConstraint, Mouse, Body,Events,Common,Constraint,Runner } from 'matter-js';
 
 import Modal from 'react-modal';
 import finball from "../../assets/finball.png" 
@@ -131,18 +131,22 @@ const setColor = () => {
 const setGravity = () => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   if (isMobile) {
-    engine.gravity.y = 0.28
+    engine.gravity.y = 0.20
+    engine.gravity.scale=0.001
+    console.log(engine.gravity.scale)
   } else {
-    engine.gravity.y = 0.28
+    engine.gravity.y = 0.20
+    engine.gravity.scale=0.001
+    console.log(engine.gravity.scale)
   }
 };
 
 function start() {
   for (let i = 0; i < totalCnt; i++) {
     const ball = Bodies.circle(X[Math.floor(Math.random() * X.length)], Y[Math.floor(Math.random() * Y.length)], width/70, {
-      restitution: 0.9,
+      restitution: 1,
       friction: 0.1,
-      density: 8,
+      density: 5,
       isStatic: false,
       render: {
         fillStyle: balllist[i],
@@ -189,28 +193,38 @@ useEffect(() => {
     async function initialize() {
     const engine = Engine.create({
       timing:{
-        frameRate:60,
-      }});
+        // frameRate: 60,     // 초당 60프레임
+        timestamp:2000,
+      }})
     render = Render.create({
       element: document.getElementById('canvas'),
       engine: engine,
       options: {
+        fps: 30,
+        isFixed: true,
         width: 360,
         height: 1800,
         wireframes: false,
+        isFixed: true,
         background: 'black',
       },
     });
+    console.log(render)
+    
     Common.setDecomp(decomp);
 
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (isMobile) {
-      engine.gravity.y = 0.5
-      console.log(engine.gravity.y)
+      engine.gravity.y = 0.20
+      // engine.gravity.scale=0.0001
+    console.log(engine.gravity.scale)
+    console.log(engine.timing)
+    console.log(engine)
     } else {
-      engine.gravity.y = 0.5
-      console.log(engine.gravity.y)
+      engine.gravity.y = 0.20
+    console.log(engine.gravity.scale)
+
     }
     const mouse = Mouse.create(render.canvas);
     const mouseConstraint = MouseConstraint.create(engine, {
@@ -819,7 +833,7 @@ useEffect(() => {
       });
     World.add(engine.world, Boundary);
     setEngine(engine);
-    Engine.run(engine)
+    Runner.run(engine)
     Render.run(render);
     setColor()
     }
@@ -839,7 +853,7 @@ useEffect(() => {
         Body.set(ball, { isStatic: false });
       });
   
-      Engine.update(engine, 1000 / 240);
+      Engine.update(engine);
   
       // rot1을 함수 내부에서 정의
       const rot1 = Bodies.rectangle(height*0.0866, height*0.13,width *0.2, width *0.2, {
@@ -971,7 +985,7 @@ useEffect(() => {
       let dir=[1,-1]
       Events.on(engine, 'beforeUpdate', () => {
         // angle2 += 0.1; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
-        angle2 += 0.08*dir[(Math.round(cnt/25))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
+        angle2 += 0.04*dir[(Math.round(cnt/50))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
         Body.setAngle(stick1, angle2); // rot1 요소의 각도를 변경
         Body.setAngle(stick2, -angle2); // rot1 요소의 각도를 변경
       });
@@ -980,7 +994,7 @@ useEffect(() => {
       Events.on(engine, 'beforeUpdate', () => {
         cnt+=1
         // angle3 += 0.15*dir[(Math.round(cnt/25))%2];
-        angle3 += 0.15;
+        angle3 += 0.1;
         Body.setAngle(rot3, -angle3); // rot1 요소의 각도를 변경
         Body.setAngle(rot4, angle3); // rot1 요소의 각도를 변경
         Body.setAngle(rot5, angle3+1); // rot1 요소의 각도를 변경
