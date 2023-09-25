@@ -83,7 +83,6 @@ public class GroupAccountTransferService {
     }
 
     private GroupAccount getGroupAccount(AccountTransferDto.Request request, Member member) {
-
         // 요청한 그룹 계좌가 있는지 조회
         GroupAccount groupAccount = groupAccountRepository.findById(
                 request.getMinusBank().getAccountNo()).orElseThrow(
@@ -104,7 +103,7 @@ public class GroupAccountTransferService {
         String token = redisUtil.getMyDataToken(memberId);
 
         ResponseEntity<String> response = restTemplateUtil.callMyData(token,
-                request, "/myData/transfer",
+                request, "/my-data/transfer",
                 HttpMethod.POST);
 
         RestDto<FinBallTradeHistoryDto> restDto = new RestDto<>(FinBallTradeHistoryDto.class,

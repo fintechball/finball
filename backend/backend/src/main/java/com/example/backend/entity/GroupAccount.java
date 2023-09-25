@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.groupaccount.GroupAccountListDto;
 import com.example.backend.type.GameType;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -38,6 +39,9 @@ public class GroupAccount {
     private String name;
 
     @Column
+    private String originNo;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private GameType gameType;
 
@@ -51,17 +55,26 @@ public class GroupAccount {
     private Member member;
 
     @Builder
-    public GroupAccount(String accountNo, LocalDateTime refreshAt, String name,
+    public GroupAccount(String accountNo, LocalDateTime refreshAt, String name, String originNo,
             GameType gameType, long balance, boolean valid,
             String url, Member member) {
         this.accountNo = accountNo;
         this.refreshAt = refreshAt;
         this.name = name;
+        this.originNo = originNo;
         this.gameType = gameType;
         this.balance = balance;
         this.valid = valid;
         this.url = url;
         this.member = member;
+    }
+
+    public GroupAccountListDto togroupAccountListDto() {
+        return GroupAccountListDto.builder()
+                .groupAccountNo(this.accountNo)
+                .name(this.name)
+                .balance(this.balance)
+                .build();
     }
 
     public void setValid(boolean valid) {

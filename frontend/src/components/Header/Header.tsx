@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import Logout from "../Auth/Logout";
 
 // 유저 정보 계속 업데이트
-import UserInfo from "../Auth/userInfo";
+// import UserInfo from "../Auth/UserInfo";
 
 function Header() {
   const navigate = useNavigate();
@@ -18,9 +18,13 @@ function Header() {
 
   const isLogged = useSelector((state: RootState) => state.logged.isLogged);
 
+  // const token = useSelector((state: RootState) => state.auth.accessToken);
+
+
   return (
     <div>
-      <UserInfo />
+      {/* <UserInfo /> */}
+      {/* {token} */}
       <div className={styles.header}>
         <img src={finballLogo} alt="Finball Logo" />
         <p>{title}</p>

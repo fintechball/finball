@@ -21,17 +21,20 @@ export default function CardInfo() {
   const [cnt, setCnt] = useState(0);
   const [loading, setLoading] = useState(true);
   const [choose, setChoose] = useState([]);
-
+  const response=localStorage.getItem("persist:root")
+  const jsonObject: { auth: string } = JSON.parse(response);
+  const authData = JSON.parse(jsonObject.auth);
+  const accessToken = authData.accessToken;
   const findCard = async () => {
     await axios({
       method: "get",
       url: `https://j9e106.p.ssafy.io/api/company/card`,
       headers: {
-        Authorization: localStorage.getItem("accessToken"),
+        Authorization: accessToken,
       },
     })
       .then((res) => {
-        setState(res.data.data.companyDtoList);
+        setState(res.data.data.companyList);
       })
       .catch((err) => {
         console.log("삐빅", err);
@@ -48,7 +51,7 @@ export default function CardInfo() {
       for (let i = 0; i < state.length; i++) {
         if (state[Object.keys(state)[i]].connected) {
           count += 1;
-          L = [...L, String(state[Object.keys(state)[i]].code)];
+          L = [...L, Number(state[Object.keys(state)[i]].code)];
         }
       }
       setCnt(count);

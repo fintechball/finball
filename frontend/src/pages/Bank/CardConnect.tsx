@@ -10,6 +10,7 @@ import styles from "./BankInfo.module.css";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { eventNames } from "process";
 export default function CardConnect() {
   const location = useLocation();
   const List = location.state?.cardCompanyCodeList;
@@ -18,28 +19,34 @@ export default function CardConnect() {
   const [loading, setLoading] = useState(true);
   const [toggledItems, setToggledItems] = useState({});
   const [chooseItems, setchooseItems] = useState([]);
+  const response=localStorage.getItem("persist:root")
+    const jsonObject: { auth: string } = JSON.parse(response);
+    const authData = JSON.parse(jsonObject.auth);
+    const accessToken = authData.accessToken;
+  console.log(List)
   const findCard = async () => {
     await axios({
       method: "post",
       url: `https://j9e106.p.ssafy.io/api/card`,
       headers: {
-        Authorization: localStorage.getItem("accessToken"),
+        Authorization: accessToken,
       },
       data: {
-        cardCompanyCodeList: List,
-      },
+        "cardCompanyCodeList": List
+      }
     })
       .then((res) => {
-        setState(res.data.data.cardDtoList);
-        console.log(res.data.data.cardDtoList);
+        console.log(res.data.data.cardList)
+        setState(res.data.data.cardList);
         const initialToggledItems = {};
         let initialChooseItems = [];
-        res.data.data.cardDtoList.map((item) => {
-          initialToggledItems[item.cardName] = true; // 예를 들어, 항목의 고유 ID를 사용
+        res.data.data.cardList.map((item) => {
+          initialToggledItems[item.card.name] = true; // 예를 들어, 항목의 고유 ID를 사용
           initialChooseItems.push(item);
         });
 
         setToggledItems(initialToggledItems);
+        console.log(initialChooseItems)
         setchooseItems(initialChooseItems);
       })
       .catch((err) => {
@@ -56,12 +63,12 @@ export default function CardConnect() {
       setLoading(false);
       let count = 0;
       for (let i = 0; i < state.length; i++) {
-        const Name = state[i];
-        if (toggledItems[Name.cardName] === true) {
+        const Name = state[i].card.name;
+        if (toggledItems[Name] == true) {
           count += 1;
           let cnt = 0;
           var index = chooseItems.findIndex(
-            (e) => e.cardName === Name.cardName
+            (e) => e.card.name === Name
           );
           if (index == -1) {
             cnt++;
@@ -78,9 +85,9 @@ export default function CardConnect() {
   }, [toggledItems, state, List]); // 종속성 목록에 List 추가
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setToggledItems((state) => {
+    setToggledItems((prevState) => {
       const Name = event.target.name;
-      return { ...state, [Name]: !state[Name] };
+      return { ...state, [Name]: !prevState[Name] };
       // 변경할 필요가 없는 항목은 그대로 반환
     });
   };
@@ -91,45 +98,18 @@ export default function CardConnect() {
         return { ...state, [Name]: !state[Name] };
       });
     };
-    const handlereset = () => {
-      for (let i = 0; i <toggledItems.length; i++) {
-        setToggledItems((state)=>{
-          const Name = state[i].name
-          return {...state, [Name]:!state[Name]}
-        })
-      }
-    }
-    const registerCard = async() => {
-      await axios({
-        method: "post",
-        url: `https://j9e106.p.ssafy.io/api/user/card`,
-        headers: {
-         Authorization: localStorage.getItem("accessToken"),
-                },
-        data:
-          {
-              "cardDtoList" : chooseItems
-          }
-      })  
-        .then((res) => {
-          console.log(res)
-          window.location.reload()
-        })
-        .catch((err) => {
-          console.log("삐빅", err);
-        });
 
-    }
   };
   const registerCard = async () => {
     await axios({
       method: "post",
       url: `https://j9e106.p.ssafy.io/api/user/card`,
       headers: {
-        Authorization: localStorage.getItem("accessToken"),
+        Authorization: accessToken,
       },
       data: {
-        cardDtoList: chooseItems,
+        "updateWeek" : 1,
+        "cardList": chooseItems,
       },
     })
       .then((res) => {
@@ -139,6 +119,7 @@ export default function CardConnect() {
         console.log("삐빅", err);
       });
   };
+  console.log(chooseItems)
   return (
     <>
       {loading ? (
@@ -169,9 +150,9 @@ export default function CardConnect() {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={toggledItems[v.cardName]}
+                      checked={toggledItems[v.card.name]}
                       onChange={handleChange}
-                      name={v.cardName}
+                      name={v.card.name}
                     />
                   }
                   label={<Logo value={v} />}

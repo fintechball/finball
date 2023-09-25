@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.dto.TokenDto;
 import com.example.backend.dto.UserSignUpDto.Request;
+import com.example.backend.dto.member.AuthEasyPasswordDto;
 import com.example.backend.dto.member.RegistEasyPasswordDto;
 import com.example.backend.dto.member.UserIdDuplicateCheckDto;
 import com.example.backend.entity.Member;
@@ -39,5 +40,14 @@ public class MemberService {
     public void registEasyPassword(RegistEasyPasswordDto.Request request, Member member) {
         member.registerEasyPassword(request.getEasyPassword());
         memberRepository.save(member);
+    }
+
+    public void authEasyPassword(AuthEasyPasswordDto.Request request, Member member) {
+        if(request.getEasyPassword().length() > 6) {
+            throw new CustomException(ErrorCode.EASY_PASSWORD_INVALID);
+        }
+        if(!request.getEasyPassword().equals(member.getEasyPassword())){
+            throw new CustomException(ErrorCode.EASY_PASSWORD_NO_SUCH_ELEMENT);
+        }
     }
 }
