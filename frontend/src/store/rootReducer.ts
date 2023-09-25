@@ -5,6 +5,7 @@ import router from "./slices/routerSlice";
 import token from "./slices/tokenSlice";
 import auth from "./slices/authSlice";
 import logged from "./slices/loggedSlice";
+import user from "./slices/userInfoSlice";
 
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   token,
   auth,
   logged,
+  user,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
