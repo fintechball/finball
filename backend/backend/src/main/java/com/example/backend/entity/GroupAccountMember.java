@@ -47,6 +47,8 @@ public class GroupAccountMember {
         this.balance = balance;
     }
 
+    public void setValue(long value) { this.value = value; }
+
     @Builder
     public GroupAccountMember(String toAccountNo, Long value, Long balance, String cpName,
             long skinId,

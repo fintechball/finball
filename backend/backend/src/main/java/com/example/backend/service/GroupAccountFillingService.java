@@ -6,6 +6,7 @@ import com.example.backend.dto.transfer.FinBallTradeHistoryDto;
 import com.example.backend.dto.transfer.TransferInfoDto;
 import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.GroupAccount;
+import com.example.backend.entity.GroupAccountMember;
 import com.example.backend.entity.Member;
 import com.example.backend.error.ErrorCode;
 import com.example.backend.exception.CustomException;
@@ -13,6 +14,8 @@ import com.example.backend.repository.finballaccount.FinBallAccountRepository;
 import com.example.backend.repository.finballhistory.FinBallHistoryRepository;
 import com.example.backend.repository.groupaccount.GroupAccountRepository;
 import com.example.backend.repository.groupaccounthistory.GroupAccountHistoryRepository;
+import com.example.backend.repository.groupaccountmember.GroupAccountMemberCustomRepository;
+import com.example.backend.repository.groupaccountmember.GroupAccountMemberRepository;
 import com.example.backend.util.RedisUtil;
 import com.example.backend.util.RestTemplateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,6 +37,8 @@ public class GroupAccountFillingService {
     private final FinBallAccountRepository finBallAccountRepository;
     private final FinBallHistoryRepository finBallHistoryRepository;
     private final GroupAccountHistoryRepository groupAccountHistoryRepository;
+    private final GroupAccountMemberRepository groupAccountMemberRepository;
+    private final GroupAccountMemberCustomRepository groupAccountMemberCustomRepository;
 
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
@@ -46,7 +51,25 @@ public class GroupAccountFillingService {
         init(request, groupAccount);
         List<FinBallTradeHistoryDto> historyDtoList = getMyDataResponse(request,
                 member.getUserId());
-        save(historyDtoList, request.getPlusBank().getAccountNo()); //plusBank : 그룹 통장
+        save(historyDtoList, request.getPlusBank().getAccountNo()); //plusBank : 그룹 통장'
+        fillGroupAccountMoney(member, groupAccount, request.getValue());
+    }
+
+    private void fillGroupAccountMoney(Member member, GroupAccount groupAccount, Long money) {
+        Long memberId = member.getId();
+        String groupAccountNo = groupAccount.getAccountNo();
+        GroupAccountMember groupAccountMember = groupAccountMemberCustomRepository.getGroupAccountMemberWithMemberAndGroupAccount(
+                memberId, groupAccountNo);
+        Long value = groupAccountMember.getValue();
+        Long balance = groupAccountMember.getBalance();
+
+        value += money;
+        balance += money;
+
+        groupAccountMember.setValue(value);
+        groupAccountMember.setBalance(balance);
+
+        groupAccountMemberRepository.save(groupAccountMember);
     }
 
     public void init(Request request, GroupAccount groupAccount) {
@@ -91,7 +114,7 @@ public class GroupAccountFillingService {
         String token = redisUtil.getMyDataToken(memberId);
 
         ResponseEntity<String> response = restTemplateUtil.callMyData(token,
-                request, "/myData/transfer",
+                request, "/my-data/transfer",
                 HttpMethod.POST);
 
         RestDto<FinBallTradeHistoryDto> restDto = new RestDto<>(FinBallTradeHistoryDto.class,

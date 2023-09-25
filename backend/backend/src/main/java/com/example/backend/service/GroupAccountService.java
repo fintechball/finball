@@ -53,13 +53,18 @@ public class GroupAccountService {
     private final FinBallAccountRepository finBallAccountRepository;
     private final RestTemplateUtil restTemplateUtil;
     private final RedisUtil redisUtil;
+    private final Long finBallCode = (long) 106;
 
     public String save(Request request, Member member) {
         GroupAccount groupAccount = request.toGroupAccount(member);
         GroupAccount savedGroupAccount = groupAccountRepository.save(groupAccount);
-        FinBallAccount finBallAccount = finBallAccountRepository.findByMemberId(member.getId()).get();
-        if(finBallAccount == null) throw new CustomException(ErrorCode.ACCOUNT_NOT_FOUND);
-        GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount, finBallAccount);
+        FinBallAccount finBallAccount = finBallAccountRepository.findByMemberId(member.getId())
+                .get();
+        if (finBallAccount == null) {
+            throw new CustomException(ErrorCode.ACCOUNT_NOT_FOUND);
+        }
+        GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount,
+                finBallAccount);
         groupAccountMemberRepository.save(groupAccountMember);
         return savedGroupAccount.getAccountNo();
     }
@@ -82,7 +87,8 @@ public class GroupAccountService {
         if (finBallAccount == null) {
             throw new CustomException(ErrorCode.ACCOUNT_NOT_FOUND);
         }
-        GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount, finBallAccount);
+        GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount,
+                finBallAccount);
         groupAccountMemberRepository.save(groupAccountMember);
         return AcceptGroupAccountDto.Response.toAcceptGroupAccountDtoResponse(groupAccount);
     }
@@ -167,10 +173,9 @@ public class GroupAccountService {
         ) {
             if (groupAccountMember.getBalance() != 0) {
                 // 회사 코드 가져오기
-                String bankName = groupAccountMember.getCpName();
+                String cpName = groupAccountMember.getCpName();
                 String token = redisUtil.getMyDataToken(memberId);
-                Long cpCode = getCode(token, request, bankName);
-
+                Long cpCode = getCode(token, request, cpName);
                 String toAccountNo = groupAccountMember.getToAccountNo();
                 String toName = groupAccountMember.getMember().getName();
                 long balance = groupAccountMember.getBalance();
@@ -181,7 +186,7 @@ public class GroupAccountService {
                         balance);
 
                 ResponseEntity<String> response = restTemplateUtil.callMyData(token,
-                        sendRequest, "/myData/transfer",
+                        sendRequest, "/my-data/transfer",
                         HttpMethod.POST);
             }
         }
@@ -192,7 +197,7 @@ public class GroupAccountService {
     private Long getCode(String token, DeleteGroupAccountDto.Request request, String bankName)
             throws JsonProcessingException {
         ResponseEntity<String> codeResponse = restTemplateUtil.callMyData(token,
-                request, "/myData/company/name/" + bankName,
+                request, "/my-data/company/name/" + bankName,
                 HttpMethod.GET);
 
         RestDto<CompanyCodeDto> codeRestDto = new RestDto<>(CompanyCodeDto.class,
@@ -204,10 +209,18 @@ public class GroupAccountService {
     }
 
     private TransferInfoDto buildTransferInfoDto(Long code, String accountNo, String target) {
+        Long balance = null;
+
+        if (code == finBallCode) {
+            FinBallAccount finBallAccount = finBallAccountRepository.findById(accountNo).get();
+            if(finBallAccount == null) throw new CustomException(ErrorCode.ACCOUNT_NOT_FOUND);
+            balance = finBallAccount.getBalance();
+        }
         return TransferInfoDto.builder()
                 .companyId(code)
                 .accountNo(accountNo)
                 .userName(target)
+                .balance(balance)
                 .build();
     }
 
