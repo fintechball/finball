@@ -56,8 +56,15 @@ function Login() {
         console.log(error);
       });
   };
+
   const goSignup = () => {
     navigate("/signup");
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      doLogin();
+    }
   };
   const focusId = () => {
     setIdcolor("#d1c4e9");
@@ -97,15 +104,7 @@ function Login() {
           onBlur={defaultPW}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          // endAdornment={
-          //   <Button onClick={handleTogglePasswordVisibility}>
-          //     {showPassword ? (
-          //       <VisibilityOff style={{ fontSize: "5vh" }} />
-          //     ) : (
-          //       <Visibility style={{ fontSize: "5vh" }} />
-          //     )}
-          //   </Button>
-          // }
+          onKeyDown={handleKeyPress}
         />
       </div>
       <Button type="primary" onClick={doLogin}>
