@@ -120,7 +120,7 @@ public class GroupAccountTransferService {
         for (FinBallTradeHistoryDto historyDto : historyDtoList) {
 
             // minusBank 처리 => 그룹 계좌는 출금
-            if (historyDto.getAccountNumber().equals(groupAccountNumber)) {
+            if (historyDto.getAccountNo().equals(groupAccountNumber)) {
                 saveGroupAccount(historyDto);
             } else {// plusBank 처리 => 핀볼 계좌는 입금
                 saveFinBallAccount(historyDto);
@@ -132,7 +132,7 @@ public class GroupAccountTransferService {
     public void saveFinBallAccount(FinBallTradeHistoryDto historyDto) {
 
         FinBallAccount finBallAccount = finBallAccountRepository.findById(
-                        historyDto.getAccountNumber())
+                        historyDto.getAccountNo())
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 계좌가 없습니다."));
 
         finBallAccount.setBalance(historyDto.getRemain());
@@ -144,7 +144,7 @@ public class GroupAccountTransferService {
     public void saveGroupAccount(FinBallTradeHistoryDto historyDto) {
 
         GroupAccount groupAccount = groupAccountRepository.findById(
-                        historyDto.getAccountNumber())
+                        historyDto.getAccountNo())
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 계좌가 없습니다."));
 
         groupAccount.setBalance(historyDto.getRemain());

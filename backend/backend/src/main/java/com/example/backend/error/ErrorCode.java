@@ -17,7 +17,7 @@ public enum ErrorCode {
     DELETE_CATEGORY_REFUSED(400, "선택한 가계부 카테고리를 이미 사용했습니다. 다음 가계부 갱신일에 삭제해주세요."),
     OWNER_NOT_CORRESPOND(400, "주인이 아닙니다."),
     DUPLICATE_USER_ID(400, "중복된 아이디입니다."),
-    NOT_출금_ERROR(400, "출금에서만 가능한 기능입니다.");
+    NOT_WITHDRAW_ERROR(400, "출금에서만 가능한 기능입니다.");
 
     private final int status;
     private final String message;
