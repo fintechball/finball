@@ -44,8 +44,9 @@ import TransferValue from "../pages/Transfer/TransferValue";
 
 import GroupAccount from "../pages/GroupAccount/GroupAccount";
 
-import MyDataAuth from "../pages/Auth/MyDataAuth.tsx"
+import MyDataAuth from "../pages/Auth/MyDataAuth"
 import CreateFinBallAccount from "../pages/Pinball/CreateFinBallAccount"
+import CreateFinBallAccountAuth from "../pages/Auth/CreateFinBallAccountAuth"
 
 function Router() {
   return (
@@ -57,8 +58,10 @@ function Router() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signupcerti" element={<SignUpCerti />} />
 
-        {/* 마이데이터에 사용자 인증하는 페이지 <- 핀볼 계좌 생성에 사용됨 */}
+        {/* 마이데이터에 사용자 인증하는 페이지*/}
         <Route path="/my-data/auth" element={<MyDataAuth />} />
+        {/* 핀볼 계좌 생성하기 전, 마이데이터 인증하는 페이지 */}
+        <Route path="/create/finball/auth" element={<CreateFinBallAccountAuth />} />
         {/* 핀볼 계좌 생성하기 전, usage등을 선택하는 페이지 */}
         <Route path="/create/finball-account" element={<CreateFinBallAccount />} />
 
