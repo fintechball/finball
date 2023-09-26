@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./BankAccount.module.scss";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setAccount } from "../../store/slices/accountSlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function BankAccount() {
-  const navigate = useNavigate();
   const [accountList, setAccountList] = useState<any>(null);
   const auth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getBankList();
@@ -31,17 +33,28 @@ function BankAccount() {
       });
   };
 
+  const goToAccountDetail = (account) => {
+    // 리덕스에 저장
+    dispatch(
+      setAccount({
+        account: account.account,
+        company: account.company,
+      })
+    );
+    navigate("/accountDetail");
+  };
+
   return (
-    <>
+    <div className={styles.container}>
       {accountList && accountList.length !== 0 ? (
         [...accountList].map((account, index) => (
-          <div className={styles.container} key={index}>
+          <div className={styles.account} key={index}>
             <img src={account.company.logo} width={50} height={50} />
             <div>
-              <p>{account.account.name}</p>
-              <p>{account.account.no}</p>
+              <p className={styles.text}>{account.account.name}</p>
+              <p className={styles.balance}>{account.account.no}</p>
             </div>
-            <button>송금</button>
+            <button onClick={() => goToAccountDetail(account)}>송금</button>
           </div>
         ))
       ) : (
@@ -54,7 +67,7 @@ function BankAccount() {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
 
