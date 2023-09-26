@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.Response;
 import com.example.backend.dto.account.AccountRegisterDto;
+import com.example.backend.dto.account.GetBalanceDto;
 import com.example.backend.dto.account.GetOppositeAccountDto;
 import com.example.backend.dto.account.GetUserAccountDto;
 import com.example.backend.dto.account.GetUserAccountSimpleDto;
@@ -76,4 +77,15 @@ public class AccountController {
         return new Response(200, "상대방의 계좌 정보를 불러왔습니다.", response);
 
     }
+
+    @GetMapping("/user/account/balance/{accountNo}")
+    public Response<GetBalanceDto.Response> getBalance(@PathVariable String accountNo,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+
+        GetBalanceDto.Response response = accountService.getBalance(accountNo, userDetails.getUsername());
+        return new Response(200, "계좌의 잔액을 조회하였습니다.", response);
+    }
+
+
+
 }

@@ -39,4 +39,15 @@ public class AccountCustomRepository extends QuerydslRepositorySupport {
                 .where(account.originNo.eq(originNo))
                 .fetch();
     }
+
+    public List<Account> findByAccountNoAndMemberId(String accountNo, String username) {
+        QAccount account = QAccount.account;
+        QMember member = QMember.member;
+
+        return queryFactory.select(account)
+                .from(account)
+                .leftJoin(account.member, member).fetchJoin()
+                .where(account.accountNo.eq(accountNo).and(member.userId.eq(username)))
+                .fetch();
+    }
 }
