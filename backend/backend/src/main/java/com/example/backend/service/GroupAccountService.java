@@ -5,6 +5,7 @@ import com.example.backend.dto.company.CompanyCodeDto;
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
 import com.example.backend.dto.groupaccount.DeleteGroupAccountDto;
 import com.example.backend.dto.groupaccount.GameEndDto;
+import com.example.backend.dto.groupaccount.GameTypeDto;
 import com.example.backend.dto.groupaccount.GetGroupAccountListDto;
 import com.example.backend.dto.groupaccount.GetGroupAccountListDto.Response;
 import com.example.backend.dto.groupaccount.GroupAccountDto;
@@ -29,6 +30,7 @@ import com.example.backend.repository.groupaccounthistory.GroupAccountHistoryRep
 import com.example.backend.repository.groupaccountmember.GroupAccountMemberCustomRepository;
 import com.example.backend.repository.groupaccountmember.GroupAccountMemberRepository;
 import com.example.backend.repository.groupgameresult.GroupGameResultRepository;
+import com.example.backend.type.GameType;
 import com.example.backend.util.RedisUtil;
 import com.example.backend.util.RestTemplateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -240,6 +242,14 @@ public class GroupAccountService {
                 Collectors.toList());
         GetGroupAccountListDto.Response response = GetGroupAccountListDto.Response.builder()
                 .groupAccountList(groupAccountList).build();
+        return response;
+    }
+
+    public GameTypeDto.Response getGroupGameType() {
+
+        GameTypeDto.Response response = new GameTypeDto.Response();
+        response.setGameTypeList(GameType.values());
+
         return response;
     }
 }
