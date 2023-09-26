@@ -1,5 +1,6 @@
 package com.example.backend.dto.groupaccount;
 
+import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.GroupAccount;
 import com.example.backend.entity.GroupAccountMember;
 import com.example.backend.entity.Member;
@@ -12,15 +13,14 @@ public class AcceptGroupAccountDto {
     @Data
     public static class Request {
 
-        private String groupAccountNo;
-        private String accountNo;
-        private String bankName;
+        private String url;
 
-        public GroupAccountMember toGroupAccountMember(Member member, GroupAccount groupAccount) {
+        public GroupAccountMember toGroupAccountMember(Member member, GroupAccount groupAccount, FinBallAccount finBallAccount) {
             long zero = 0;
+            String cpName = "핀볼";
             return GroupAccountMember.builder()
-                    .toAccountNo(this.accountNo)
-                    .bankName(this.bankName)
+                    .toAccountNo(finBallAccount.getAccountNo())
+                    .cpName(cpName)
                     .value(zero)
                     .balance(zero)
                     .skinId(zero)

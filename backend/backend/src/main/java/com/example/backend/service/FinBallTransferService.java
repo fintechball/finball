@@ -7,7 +7,6 @@ import com.example.backend.dto.transfer.AccountTransferDto.Request;
 import com.example.backend.dto.transfer.FinBallTradeHistoryDto;
 import com.example.backend.dto.transfer.TransferInfoDto;
 import com.example.backend.entity.FinBallAccount;
-import com.example.backend.entity.GroupAccount;
 import com.example.backend.entity.Member;
 import com.example.backend.error.ErrorCode;
 import com.example.backend.exception.CustomException;

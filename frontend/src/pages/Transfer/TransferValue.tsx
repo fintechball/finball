@@ -9,16 +9,12 @@ import Box from "@mui/material/Box";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function TransferValue() {
-  const location = useLocation();
-  const accountObject = location.state;
-  const token = useSelector((state) => state.token);
+  const auth = useSelector((state) => state.auth);
+  const account = useSelector((state) => state.account);
+  const opposite = useSelector((state) => state.opposite);
   const [value, setValue] = useState<string>("");
   const [showNumberPad, setShowNumberPad] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(accountObject);
-  }, [accountObject]);
 
   const clickButton = (number) => {
     if (number === "<-") {
@@ -33,37 +29,45 @@ function TransferValue() {
   };
 
   const transferAll = () => {
-    setValue(value + accountObject.currentAccount.balance);
+    setValue(value + account.account.balance);
   };
 
   const doTransfer = () => {
-    // 여기 수정 들어가야 됨
-    // axios
-    //   .post(
-    //     `${BASE_HTTP_URL}/api/user/transfer`,
-    //     {
-    //       name: "",
-    //       plusBankCode: accountObject.oppositeAccount.id,
-    //       plusAccountNumber: accountObject.oppositeAccount.accountNo,
-    //       minusBankCode: accountObject.currentAccount.id,
-    //       minusAccountNumber: accountObject.currentAccount.accountNo,
-    //       value: value,
-    //       password: "",
-    //     },
-    //     {
-    //       headers: {
-    //         // Authorization: token.accessToken,
-    //         Authorization: localStorage.getItem("accessToken"),
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    navigate("/transfering", { state: parseInt(value) });
+    axios
+      .post(
+        `${BASE_HTTP_URL}/api/user/transfer`,
+        {
+          minusBank: {
+            accountNo: account.account.no,
+            companyId: account.company.code,
+            userName: auth.name,
+            balance: null, //  finball 계좌는 서버에서 balance 넣어줘야됨
+          },
+          plusBank: {
+            accountNo: opposite.opposite.accountNo,
+            companyId: opposite.opposite.company.code,
+            userName: opposite.opposite.userName,
+            balance: null, //  finball 계좌는 서버에서 balance 넣어줘야됨
+          },
+          value: value,
+        },
+        {
+          headers: {
+            Authorization: auth.accessToken,
+          },
+        }
+      )
+      .then(() => {
+        navigate("/transfering", {
+          state: {
+            money: parseInt(value),
+            userName: opposite.opposite.userName,
+          },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -81,16 +85,17 @@ function TransferValue() {
   }, [showNumberPad]);
 
   return (
-    <>
-      <div>내 {accountObject.currentAccount.name}에서</div>
-      <div>잔액 {accountObject.currentAccount.balance}원</div>
+    <div className={styles.container}>
+      <p className={styles.bigText}>내 {account.account.name}에서</p>
+      <p className={styles.smallText}>잔액 {account.account.balance}원</p>
 
-      <div>{accountObject.currentAccount.name}으로</div>
-      <div>
-        {accountObject.currentAccount.company.cpName}
-        {accountObject.currentAccount.accountNo}
-      </div>
+      <p className={styles.bigText}>{opposite.opposite.userName}에게</p>
+      <p className={styles.smallText}>
+        {opposite.opposite.company.name}
+        {opposite.opposite.accountNo}
+      </p>
       <input
+        className={styles.inputStyle}
         id="numberPad"
         value={value}
         placeholder="얼마나 옮길까요?"
@@ -98,13 +103,13 @@ function TransferValue() {
       />
 
       {!value && !showNumberPad && (
-        <button onClick={transferAll}>
-          잔액{accountObject.currentAccount.balance}원 입력
+        <button className={styles.totalBalanceButton} onClick={transferAll}>
+          잔액{account.account.balance}원 입력
         </button>
       )}
 
       {showNumberPad && (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, textAlign: "center" }}>
           <Grid
             container
             spacing={{ xs: 1, md: 2 }}
@@ -124,14 +129,24 @@ function TransferValue() {
       )}
 
       {value && !showNumberPad && (
-        <div>
+        <>
           <div>{value}원을 옮길까요?</div>
-          <div>받는 분에게 표시 {}</div>
-          <button onClick={doTransfer}>옮기기</button>
-          <div>평생 수수료 무료</div>
-        </div>
+          <div className={styles.transfer}>
+            <div>
+              <button className={styles.smallButton}>
+                받는 분에게 표시 {auth.name}
+              </button>
+            </div>
+            <div>
+              <button className={styles.bigButton} onClick={doTransfer}>
+                옮기기
+              </button>
+            </div>
+            <p className={styles.smallText}>평생 수수료 무료</p>
+          </div>
+        </>
       )}
-    </>
+    </div>
   );
 }
 

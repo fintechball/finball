@@ -1,13 +1,10 @@
-$textcolor: rgb(44, 44, 44);
-
 .container {
-  .link {
-    color: $textcolor;
-  }
-
-  // p {
-  //   :hover {
-  //     background-color: #ff7979;
-  //   }
-  // }
+  // font-size: large;
+  font-weight: normal;
+  
+  div {
+    :hover {
+        background-color: rgb(240, 240, 240);
+    }
+}
 }

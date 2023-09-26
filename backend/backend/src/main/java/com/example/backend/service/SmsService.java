@@ -1,10 +1,17 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.groupaccount.InviteGroupAccountDto.Request;
 import com.example.backend.dto.sms.MessagesDto;
 import com.example.backend.dto.sms.SmsRequest;
 import com.example.backend.dto.sms.SmsResponse;
+import com.example.backend.entity.Member;
+import com.example.backend.error.ErrorCode;
+import com.example.backend.exception.CustomException;
+import com.example.backend.repository.member.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -28,7 +35,10 @@ import java.util.Random;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class SmsService {
+
+    private final MemberRepository memberRepository;
 
     @Value("${sms.serviceId}")
     private String serviceId;
@@ -40,13 +50,15 @@ public class SmsService {
     private String phoneNumber;
 
 
-    public SmsResponse sendSms(String recipientPhoneNumber) throws JsonProcessingException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, URISyntaxException {
+    public SmsResponse sendSms(String recipientPhoneNumber)
+            throws JsonProcessingException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, URISyntaxException {
+        isValidPhoneNumber(recipientPhoneNumber);
+
         Long time = System.currentTimeMillis();
         List<MessagesDto> messages = new ArrayList<>();
         String certificationNumber = generateNumber();
         String content = "[FinBall] 인증번호 [" + certificationNumber + "]를 입력해주세요.";
         messages.add(new MessagesDto(recipientPhoneNumber, content));
-
 
         SmsRequest smsRequest = new SmsRequest("SMS", "COMM", "82", phoneNumber, content, messages);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -59,21 +71,33 @@ public class SmsService {
         String sig = makeSignature(time); //암호화
         headers.set("x-ncp-apigw-signature-v2", sig);
 
-        HttpEntity<String> body = new HttpEntity<>(jsonBody,headers);
+        HttpEntity<String> body = new HttpEntity<>(jsonBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-        SmsResponse smsResponse = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+this.serviceId+"/messages"), body, SmsResponse.class);
+        SmsResponse smsResponse = restTemplate.postForObject(
+                new URI("https://sens.apigw.ntruss.com/sms/v2/services/" + this.serviceId
+                        + "/messages"), body, SmsResponse.class);
         smsResponse.setCertificationNumber(certificationNumber);
         return smsResponse;
 
     }
-    public String makeSignature(Long time) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+
+    public void isValidPhoneNumber(String recipientPhoneNumber) {
+        Optional<Member> member = memberRepository.findByPhoneNumber(recipientPhoneNumber);
+
+        if(member.isPresent()) {
+            throw new CustomException(ErrorCode.PHONE_NUMBER_EXIST);
+        }
+    }
+
+    public String makeSignature(Long time)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
 
         String space = " ";
         String newLine = "\n";
         String method = "POST";
-        String url = "/sms/v2/services/"+ this.serviceId+"/messages";
+        String url = "/sms/v2/services/" + this.serviceId + "/messages";
         String timestamp = time.toString();
         String accessKey = this.accessKey;
         String secretKey = this.secretKey;
@@ -98,7 +122,7 @@ public class SmsService {
         return encodeBase64String;
     }
 
-    public String generateNumber(){
+    public String generateNumber() {
         StringBuilder stringBuilder = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < 4; i++) {
@@ -106,5 +130,35 @@ public class SmsService {
             stringBuilder.append(digit);
         }
         return stringBuilder.toString();
+    }
+
+    public void invite(Request request)
+            throws JsonProcessingException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, URISyntaxException {
+        Long time = System.currentTimeMillis();
+        List<MessagesDto> messages = new ArrayList<>();
+        String content =
+                "[FinBall] '" + request.getName() + " '모임 계좌에 초대 되었습니다. \n" + request.getUrl();
+        String recipientPhoneNumber = request.getPhoneNumber();
+        messages.add(new MessagesDto(recipientPhoneNumber, content));
+
+        SmsRequest smsRequest = new SmsRequest("SMS", "COMM", "82", phoneNumber, content, messages);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonBody = objectMapper.writeValueAsString(smsRequest);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("x-ncp-apigw-timestamp", time.toString());
+        headers.set("x-ncp-iam-access-key", this.accessKey);
+        String sig = makeSignature(time); //암호화
+        headers.set("x-ncp-apigw-signature-v2", sig);
+
+        HttpEntity<String> body = new HttpEntity<>(jsonBody, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+        SmsResponse smsResponse = restTemplate.postForObject(
+                new URI("https://sens.apigw.ntruss.com/sms/v2/services/" + this.serviceId
+                        + "/messages"), body, SmsResponse.class);
+
     }
 }

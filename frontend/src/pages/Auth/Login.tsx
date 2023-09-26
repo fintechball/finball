@@ -1,17 +1,14 @@
 import { useState } from "react";
 import styles from "./Login.module.scss";
-import finballImage from "../../assets/Logo.png";
-// import { Button } from 'react-bootstrap';
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-// import { OutlinedInput, Button } from "@material-ui/core";
-// import { relative } from "path";
+// import finballImage from "../../assets/Logo.png";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button, Input } from "antd";
 
-import { persistor, RootState } from "../../store/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/slices/authSlice";
+import { setLogged } from "../../store/slices/loggedSlice";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
@@ -23,7 +20,6 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
 
   // const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   // const { accessToken, refreshToken, name, userId } = useSelector((state: RootState) => state.auth);
@@ -46,21 +42,29 @@ function Login() {
             accessToken: response.data.data.accessToken,
             refreshToken: response.data.data.refreshToken,
             name: response.data.data.name,
-            userId: response.data.data.userId
+            userId: response.data.data.userId,
           })
-        )
+        );
+        dispatch(setLogged(true));
         navigate("/");
       })
       .catch((error) => {
         console.log({
           username: id,
           password: password,
-        })
+        });
         console.log(error);
       });
   };
+
   const goSignup = () => {
     navigate("/signup");
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      doLogin();
+    }
   };
   const focusId = () => {
     setIdcolor("#d1c4e9");
@@ -100,15 +104,7 @@ function Login() {
           onBlur={defaultPW}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          // endAdornment={
-          //   <Button onClick={handleTogglePasswordVisibility}>
-          //     {showPassword ? (
-          //       <VisibilityOff style={{ fontSize: "5vh" }} />
-          //     ) : (
-          //       <Visibility style={{ fontSize: "5vh" }} />
-          //     )}
-          //   </Button>
-          // }
+          onKeyDown={handleKeyPress}
         />
       </div>
       <Button type="primary" onClick={doLogin}>

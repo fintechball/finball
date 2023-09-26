@@ -36,11 +36,13 @@
     "react-modal": "^3.16.1",
     "react-multi-carousel": "^2.8.4",
     "react-redux": "^8.1.2",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.15.0",
     "react-three": "^0.9.7",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
     "require": "^2.4.20",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^6.0.8",
     "three": "^0.156.1",
     "yup": "^1.2.0"

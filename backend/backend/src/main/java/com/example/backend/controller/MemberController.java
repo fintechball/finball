@@ -3,6 +3,7 @@ package com.example.backend.controller;
 import com.example.backend.dto.Response;
 import com.example.backend.dto.TokenDto;
 import com.example.backend.dto.UserSignUpDto;
+import com.example.backend.dto.member.AuthEasyPasswordDto;
 import com.example.backend.dto.member.RegistEasyPasswordDto;
 import com.example.backend.dto.member.UserIdDuplicateCheckDto;
 import com.example.backend.security.UserDetailsImpl;
@@ -49,16 +50,25 @@ public class MemberController {
     }
 
     @PostMapping("/user/authentication/id")
-    public Response<?> idCheck(@RequestBody UserIdDuplicateCheckDto.Request request) throws IllegalAccessException {
+    public Response<?> idCheck(@RequestBody UserIdDuplicateCheckDto.Request request)
+            throws IllegalAccessException {
         memberService.idCheck(request);
         return new Response(200, "사용가능한 아이디입니다.");
     }
 
     @PostMapping("/user/easyPassword")
-    public Response<?> registEasyPassword(@RequestBody RegistEasyPasswordDto.Request request, @AuthenticationPrincipal
-            UserDetailsImpl userDetails) {
+    public Response<?> registEasyPassword(@RequestBody RegistEasyPasswordDto.Request request,
+            @AuthenticationPrincipal
+                    UserDetailsImpl userDetails) {
         memberService.registEasyPassword(request, userDetails.getMember());
         return new Response<>(200, "성공적으로 간편비밀번호가 설정되었습니다.");
+    }
+
+    @PostMapping("/user/auth/easyPassword")
+    public Response<?> authEasyPassword(@RequestBody AuthEasyPasswordDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        memberService.authEasyPassword(request, userDetails.getMember());
+        return new Response<>(200, "성공적으로 간편비밀번호 인증에 성공했습니다.");
     }
 
 }

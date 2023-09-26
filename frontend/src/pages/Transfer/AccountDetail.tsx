@@ -1,60 +1,137 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import styles from "./AccountDetail.module.css";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { setTradeHistorys } from "../../store/slices/tradeHistorySlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function AccountDetail() {
-  const location = useLocation();
-  const account = location.state;
-  const [tradeHistoryList, setTradeHistoryList] = useState<any>([]);
-
+  const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
+  const account = useSelector((state) => state.account);
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const refreshIconStyle = { fontSize: 12 };
 
   useEffect(() => {
     axios
-      .get(`${BASE_HTTP_URL}/api/user/account/${account.accountNo}`, {
+      .get(`${BASE_HTTP_URL}/api/user/account/${account.account.no}`, {
         headers: {
-          // Authorization: token.accessToken,
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: auth.accessToken,
         },
       })
       .then((response) => {
-        setTradeHistoryList(response.data.data.tradeHistoryDtoList);
+        dispatch(
+          setTradeHistorys({
+            tradeHistory: response.data.data.tradeHistoryDtoList,
+          })
+        );
+        setTradeHistoryDict(
+          response.data.data.tradeHistoryDtoList.reduce(
+            (dict, tradeHistory) => {
+              const groupKey = tradeHistory.date;
+              if (!dict[groupKey]) {
+                dict[groupKey] = [];
+              }
+              dict[groupKey].push(tradeHistory);
+              return dict;
+            },
+            {}
+          )
+        );
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [account]);
+  }, []);
+
+  const refreshBalance = () => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/user/account/${account.account.no}`, {
+        headers: {
+          Authorization: auth.accessToken,
+        },
+      })
+      .then((response) => {
+        dispatch(
+          setTradeHistorys({
+            tradeHistory: response.data.data.tradeHistoryDtoList,
+          })
+        );
+        setTradeHistoryDict(
+          response.data.data.tradeHistoryDtoList.reduce(
+            (dict, tradeHistory) => {
+              const groupKey = tradeHistory.date;
+              if (!dict[groupKey]) {
+                dict[groupKey] = [];
+              }
+              dict[groupKey].push(tradeHistory);
+              return dict;
+            },
+            {}
+          )
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
       {account && (
-        <div>
-          <div>
-            {account.company.cpName}은행 {account.accountNo}
-          </div>
-          <div>{account.balance}원</div>
-          <div>
-            <button>채우기</button>
+        <div className={styles.container}>
+          <p className={styles.bankAccount}>
+            {account.company.name}은행 {account.account.no}
+          </p>
+          <p className={styles.balance}>{account.account.balance}원</p>
+          <div className={styles.buttonBox}>
+            <button className={styles.fill}>채우기</button>
             <button
-              onClick={() => navigate("/transferAccount", { state: account })}
+              className={styles.send}
+              onClick={() => navigate("/transferAccount")}
             >
               보내기
             </button>
           </div>
 
-          <p>전체</p>
-          <p>방금전</p>
-          {[...tradeHistoryList].map((tradeHistory, index) => (
-            <div key={index}>
-              <div>{tradeHistory.date}</div>
-              <div>{tradeHistory.time}</div>
-              <div>{tradeHistory.oppositeBankDto.target}</div>
-              <div>{tradeHistory.value}</div>
-              <div>{tradeHistory.remain}</div>
-            </div>
-          ))}
+          <div className={styles.date}>
+            <p className={styles.total}>전체</p>
+            <p className={styles.bankAccount}>
+              방금전 <RefreshIcon style={refreshIconStyle} />
+            </p>
+          </div>
+
+          {tradeHistoryDict &&
+            Object.keys(tradeHistoryDict).map((key) =>
+              tradeHistoryDict[key].map((tradeHistory, index) => (
+                <>
+                  {index === 0 ? (
+                    <p className={styles.bankAccount}>
+                      {key.split("-")[1]}월 {key.split("-")[2]}일
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                  <div className={styles.part}>
+                    <div>
+                      <p className={styles.name}>
+                        {tradeHistory.oppositeDto.userName}
+                      </p>
+                      <p className={styles.time}>{tradeHistory.time}</p>
+                    </div>
+                    <div className={styles.money}>
+                      <p className={styles.value}>{tradeHistory.value}원</p>
+                      <p className={styles.remain}>{tradeHistory.remain}원</p>
+                    </div>
+                  </div>
+                </>
+              ))
+            )}
         </div>
       )}
     </>

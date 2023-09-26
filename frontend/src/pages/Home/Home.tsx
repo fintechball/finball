@@ -10,14 +10,17 @@ function Home() {
   const navigate = useNavigate();
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const state={"cost":"5,000,000","parent":"home-canvas"}
+  const state = { cost: "5,000,000", parent: "home-canvas" };
+
   return (
     <div className={styles.container}>
       <div className={styles.minicontainer}>
         <h2>우리 계좌</h2>
-
+        <button onClick={() => navigate("/create/finball/auth")}>
+          핀볼 계좌 생성하기
+        </button>
         <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
-          <Pinball value={state}/>
+          <Pinball value={state} />
         </div>
       </div>
 

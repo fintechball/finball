@@ -10,10 +10,12 @@ import com.example.backend.dto.finball.RegisterFinBallDto;
 import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
 import com.example.backend.dto.finball.SetCategoryData;
 import com.example.backend.dto.finball.UpdateFinancialBookCategoryDto;
+import com.example.backend.dto.finball.UsageAndMoneySourceDto;
 import com.example.backend.dto.transfer.AccountTransferDto;
 import com.example.backend.dto.transfer.TransferInfoDto;
 import com.example.backend.entity.Member;
 import com.example.backend.security.UserDetailsImpl;
+import com.example.backend.service.FinBallFillingService;
 import com.example.backend.service.FinBallService;
 import com.example.backend.service.FinBallTransferService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,6 +38,7 @@ public class FinBallController {
 
     private final FinBallService finballService;
     private final FinBallTransferService finBallTransferService;
+    private final FinBallFillingService finBallFillingService;
 
     @PostMapping("/account/fin-ball")
     public Response createAccount(@RequestBody RegisterFinBallDto.Request request,
@@ -145,13 +148,33 @@ public class FinBallController {
         return new Response<>(200, "이체가 완료 되었습니다.", data);
     }
 
+    @PostMapping("/fin-ball/fill")
+    public Response<ReadFinBallHistoryDto.Response> fillingFinBallAccount(
+            @RequestBody AccountTransferDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
+
+        Member member = userDetails.getMember();
+        ReadFinBallHistoryDto.Response data = finBallFillingService.fillingFinBallAccount(request,
+                member);
+
+        return new Response<>(200, "채우기가 완료 되었습니다.", data);
+    }
+
     @PostMapping("/fin-ball/category")
-    public Response setCategory(@RequestBody SetCategoryData.Request request,
+    public Response<ReadFinBallHistoryDto.Response> setCategory(@RequestBody SetCategoryData.Request request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         Member member = userDetails.getMember();
         ReadFinBallHistoryDto.Response data = finballService.setCategory(request, member);
 
         return new Response<>(200, "거래내역에 카테고리를 지정하였습니다.", data);
+    }
+
+    @GetMapping("/usage-and-moneysource")
+    public Response<UsageAndMoneySourceDto.Response> readUsageAndMoneySource(){
+
+        UsageAndMoneySourceDto.Response data = finballService.readUsageAndMoneySource();
+
+        return new Response<>(200, "자금 출처와 사용 목적 리스트 요청하였습니다.", data);
     }
 }

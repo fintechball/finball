@@ -36,6 +36,8 @@ public class QGroupAccount extends EntityPathBase<GroupAccount> {
 
     public final StringPath name = createString("name");
 
+    public final StringPath originNo = createString("originNo");
+
     public final DateTimePath<java.time.LocalDateTime> refreshAt = createDateTime("refreshAt", java.time.LocalDateTime.class);
 
     public final StringPath url = createString("url");
