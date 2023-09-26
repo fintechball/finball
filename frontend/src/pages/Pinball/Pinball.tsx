@@ -2,12 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Engine, Render, World, Bodies, Body,Runner } from "matter-js";
 import styles from "./Pinball.module.css";
 import dafalautball from "../../assets/defalutball.png";
+import { useSelector,useDispatch } from "react-redux";
+import axios from "axios";
+import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
+const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function Pinball(value) {
+  console.log(value)
+  const [account, setAccount] = useState<any>(null);
   const [engine, setEngine] = useState(null);
   const [render, setRender] = useState(null);
   const [balls, setBalls] = useState([]);
-  const [ballcnt, setBallcnt] = useState(50);
+  const finball = useSelector((state) => state.finBallAccount);
+  const [ballcnt, setBallcnt] = useState(finball.account.balance/10000);
+  const finBallAccount = useSelector((state) => state.finBallAccount);
+  
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  console.log(finball)
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
@@ -18,12 +30,45 @@ function Pinball(value) {
   };
 
   useEffect(() => {
+    getFinBAllAccount();
+  }, []);
+
+  const getFinBAllAccount = () => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/fin-ball`, {
+        headers: {
+          Authorization: auth.accessToken,
+        },
+      })
+      .then((response) => {
+        if (finBallAccount.account.no !== undefined) {
+          console.log("차액");
+          console.log(
+            response.data.data.account.balance - finBallAccount.account.balance
+          );
+        }
+        dispatch(
+          setFinBallAccount({
+            account: response.data.data.account,
+            company: response.data.data.company,
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
     // 부모 컨테이너의 크기를 가져옴
+      setTimeout(() => {
+        deleteBall()
+        addBall()
+      }, 1500);
     const parentSize = getParentContainerSize();
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 1000 / 60,
+      delta: 7.5,
       isFixed: false,
       enabled: true
   });
@@ -140,58 +185,74 @@ function Pinball(value) {
         return "click";
       }
     })();
-    newRender.canvas.addEventListener(clickEvent, () => {
-      const exitVelocity = 12;
-      const sortedBalls = [...balls].sort(
-        (a, b) => b.position.y - a.position.y
-      );
+    // newRender.canvas.addEventListener(clickEvent, () => {
+    //   const exitVelocity = 12;
+    //   const sortedBalls = [...balls].sort(
+    //     (a, b) => b.position.y - a.position.y
+    //   );
     
+    //   // 각 공을 삭제하면서 새로운 배열에 추가
+    //   const ball = [];
+    //   const dir = [1, -1];
+    //   for (let i = 1; i < 11; i++) {
+    //     const removedBall = balls.pop();
+    //     removedBall.isSensor = true;
+    //     Body.setVelocity(removedBall, { x: exitVelocity * dir[i % 2], y: 0 });
+    //     ball.push(removedBall);
+    //   }
+    
+    //   function update() {
+    //     // 각 공의 위치를 조정
+    //     ball.forEach(b => {
+    //       b.position.y += exitVelocity / 60; // 1초에 60프레임으로 가정
+    //       // 화면 밖으로 벗어난 공을 삭제
+    //       if ((b.position.y > parentSize.height + Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23)||(b.position.x > parentSize.width + Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23)||(b.position.x < -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23)) {
+    //         // Matter.js World에서 삭제
+    //         World.remove(newEngine.world, b);
+    //         ball.splice(ball.indexOf(b), 1);
+    //       }
+    //     });
+    const deleteBall = () => {
+      const exitVelocity = 20;
+      const sortedBalls = [...balls].sort((a, b) => b.position.y - a.position.y);
+  
       // 각 공을 삭제하면서 새로운 배열에 추가
       const ball = [];
       const dir = [1, -1];
-      for (let i = 1; i < 11; i++) {
+      for (let i = 1; i < 2; i++) {
         const removedBall = balls.pop();
         removedBall.isSensor = true;
         Body.setVelocity(removedBall, { x: exitVelocity * dir[i % 2], y: 0 });
         ball.push(removedBall);
       }
-    
+  
       function update() {
         // 각 공의 위치를 조정
+        console.log(133141342)
         ball.forEach(b => {
-          b.position.y += exitVelocity / 60; // 1초에 60프레임으로 가정
+          b.position.y += exitVelocity / 30; // 1초에 60프레임으로 가정
           // 화면 밖으로 벗어난 공을 삭제
-          if ((b.position.y > parentSize.height + Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23)||(b.position.x > parentSize.width + Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23)||(b.position.x < -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23)) {
+          if (
+            b.position.y >
+              parentSize.height +
+                Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 ||
+            b.position.x >
+              parentSize.width +
+                Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 ||
+            b.position.x <
+              -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23
+          ) {
             // Matter.js World에서 삭제
             World.remove(newEngine.world, b);
             ball.splice(ball.indexOf(b), 1);
           }
         });
-    
-        // 화면 갱신
-        Render.world(newRender);
-        requestAnimationFrame(update);
       }
-    
-      // update 함수를 호출하여 화면을 갱신
+      // Runner.run(runner, newEngine);
+           Render.run(newRender);
       update();
-      setBallcnt(sortedBalls.length);
-    });
-    
-    const fadeOutBodies = (bodies) => {
-      const fadeOutInterval = setInterval(() => {
-        bodies.forEach((body) => {
-          if (body.render.opacity > 0) {
-            body.render.opacity -= 0.05; // 원하는 페이드 아웃 속도 조절
-            if (body.render.opacity <= 0) {
-              World.remove(newEngine.world, body);
-              clearInterval(fadeOutInterval);
-            }
-          }
-        });
-      }, 50); // 50ms마다 투명도 조절
     };
-    newRender.canvas.addEventListener(clickEvent, () => {
+    const addBall=()=>{
       setTimeout(() => {
         for (let i = 0; i < 5; i++) {
           const ball = Bodies.circle(
@@ -220,9 +281,43 @@ function Pinball(value) {
           );
           balls.push(ball);
           World.add(newEngine.world, ball);
+          // Runner.run(runner, newEngine);
+           Render.run(newRender);
         }
       }, 1000);
-    });
+    }
+    // newRender.canvas.addEventListener(clickEvent, () => {
+    //   setTimeout(() => {
+    //     for (let i = 0; i < 5; i++) {
+    //       const ball = Bodies.circle(
+    //         Math.random() * parentSize.width,
+    //         parentSize.height / 10,
+    //         Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
+    //         {
+    //           density: 0.0005,
+    //           frictionAir: 0.06,
+    //           restitution: 0.3,
+    //           friction: 0.01, 
+    //           isStatic: false,
+    //           isSensor:false,
+    //           render: {
+    //             fillStyle: "#05CD01",
+    //             strokeStyle: "white",
+    //             lineWidth: 3,
+    //             sprite: {
+    //               //''하면 스프라이트 적용x
+    //               texture: dafalautball,
+    //               xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
+    //               yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
+    //             },
+    //           },
+    //         }
+    //       );
+    //       balls.push(ball);
+    //       World.add(newEngine.world, ball);
+    //     }
+    //   }, 1000);
+    // });
     const Boundary = [ground, wall1, wall2, wall3];
     World.add(newEngine.world, [...Boundary, ...balls]);
 
@@ -246,12 +341,11 @@ function Pinball(value) {
 
   return (
     <div id="pinball-canvas">
-      {value.value.cost?
-      <div style={{ display: "flex",justifyContent: "flex-end",transform:"translate(0,100%)"}}>
+      <div style={{ display: "flex",justifyContent: "flex-end"}}>
       <div className={styles.finball}>
-        {value.value.cost}원
+        {finball.account.balance}원
       </div>
-      </div>:<></>}
+      </div>
     </div>
   );
 }

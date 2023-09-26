@@ -60,7 +60,7 @@ function Home() {
           핀볼 계좌 생성하기
         </button>
         <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
-          <Pinball value={state} />
+          <Pinball value={{parent: "home-canvas",width: "300px", height: "150px"}} />
         </div>
       </div>
 
