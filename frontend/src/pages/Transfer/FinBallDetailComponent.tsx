@@ -9,9 +9,9 @@ import { setBalance } from "../../store/slices/accountSlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
-function AccountDetailComponent(props) {
+function FinBallDetailComponent(props) {
   const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
-  const account = useSelector((state) => state.account);
+  const account = useSelector((state) => state.finBallAccount);
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,24 +35,20 @@ function AccountDetailComponent(props) {
         },
       })
       .then((response) => {
-        console.log(response);
         dispatch(
           setTradeHistorys({
-            tradeHistory: response.data.data.tradeHistoryDtoList,
+            tradeHistory: response.data.data.tradeHistoryList,
           })
         );
         setTradeHistoryDict(
-          response.data.data.tradeHistoryDtoList.reduce(
-            (dict, tradeHistory) => {
-              const groupKey = tradeHistory.date;
-              if (!dict[groupKey]) {
-                dict[groupKey] = [];
-              }
-              dict[groupKey].push(tradeHistory);
-              return dict;
-            },
-            {}
-          )
+          response.data.data.tradeHistoryList.reduce((dict, tradeHistory) => {
+            const groupKey = tradeHistory.date;
+            if (!dict[groupKey]) {
+              dict[groupKey] = [];
+            }
+            dict[groupKey].push(tradeHistory);
+            return dict;
+          }, {})
         );
       })
       .catch((error) => {
@@ -114,13 +110,13 @@ function AccountDetailComponent(props) {
                   <div className={styles.part}>
                     <div>
                       <p className={styles.name}>
-                        {tradeHistory.oppositeDto.userName}
+                        {tradeHistory.opposite.userName}
                       </p>
                       <p className={styles.time}>{tradeHistory.time}</p>
                     </div>
                     <div className={styles.money}>
                       <p className={styles.value}>{tradeHistory.value}원</p>
-                      <p className={styles.remain}>{tradeHistory.remain}원</p>
+                      <p className={styles.remain}>{tradeHistory.balance}원</p>
                     </div>
                   </div>
                 </>
@@ -132,4 +128,4 @@ function AccountDetailComponent(props) {
   );
 }
 
-export default AccountDetailComponent;
+export default FinBallDetailComponent;

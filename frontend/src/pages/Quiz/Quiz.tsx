@@ -21,6 +21,10 @@ function Quiz() {
   const [isBadVisible, setIsBadVisible] = useState(false);
 
   useEffect(() => {
+    console.log(quiz);
+  }, []);
+
+  useEffect(() => {
     setProgress(0);
     // 날짜가 다른 경우 quiz 불러옴
     if (quiz.date !== new Date().toDateString()) {
@@ -127,7 +131,7 @@ function Quiz() {
   return (
     <div className={styles.container}>
       <h1>OX 퀴즈</h1>
-      {quiz.index < 5 ? (
+      {quiz.quiz.length !== 0 && quiz.index < 5 ? (
         <div>
           <p className={styles.text}>{quiz.quiz[quiz.index].body}</p>
           <Box sx={{ width: "100%" }}>
