@@ -1,4 +1,4 @@
-package com.example.backend.document;
+package com.example.backend.document.message;
 
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;

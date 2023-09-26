@@ -10,6 +10,7 @@ import com.example.backend.error.ErrorCode;
 import com.example.backend.exception.CustomException;
 import com.example.backend.repository.member.MemberRepository;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,11 @@ public class MemberService {
         if(!request.getEasyPassword().equals(member.getEasyPassword())){
             throw new CustomException(ErrorCode.EASY_PASSWORD_NO_SUCH_ELEMENT);
         }
+    }
+
+    @Transactional
+    public void updatePoint(int point, Member member) {
+        member.updatePoint(point);
+        memberRepository.save(member);
     }
 }

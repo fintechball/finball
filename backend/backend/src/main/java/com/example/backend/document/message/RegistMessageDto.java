@@ -1,4 +1,4 @@
-package com.example.backend.document;
+package com.example.backend.document.message;
 
 import com.example.backend.type.MessageType;
 import java.util.List;
