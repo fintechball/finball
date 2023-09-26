@@ -10,35 +10,21 @@ function Card() {
   const navigate = useNavigate();
 
   const [cardList, setCardList] = useState<any>(null);
-  const [accessToken, setAccessToken] = useState<String>("");
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const jsonString = localStorage.getItem("persist:root");
-    if (jsonString) {
-      const jsonObject: { auth: string } = JSON.parse(jsonString);
-      const authData = JSON.parse(jsonObject.auth);
-      const accessToken = authData.accessToken;
-
-      if (accessToken) {
-        setAccessToken(accessToken);
-        getCardList(accessToken);
-      } else {
-        console.log("accessToken이 존재하지 않습니다.");
-      }
-    } else {
-      console.log("localStorage가 존재하지 않습니다.");
-    }
+    getCardList();
   }, []);
 
-  const getCardList = (accessToken) => {
+  const getCardList = () => {
     axios
       .get(`${BASE_HTTP_URL}/api/user/card`, {
         headers: {
-          Authorization: accessToken,
+          Authorization: auth.accessToken,
         },
       })
       .then((response) => {
-        setCardList(response.data.data.getCardDtoList);
+        setCardList(response.data.data.getCardList);
       })
       .catch((error) => {
         console.log(error);
@@ -48,19 +34,19 @@ function Card() {
   return (
     <div className={styles.container}>
       {cardList && cardList.length !== 0 ? (
-        [...cardList].map((card, index) => (
-          <div key={index}>
-            <img src={card.cardImage} width={200} />
-            <p>{card.cardName}</p>
+        [...cardList].map((cardinfo, index) => (
+          <div className={styles.cardBox} key={index}>
+            <img className={styles.rotatedImage} src={cardinfo.card.image} />
+            <p className={styles.text}>{cardinfo.card.name}</p>
           </div>
         ))
       ) : (
-        <>
-          <div>연결된 카드가 없습니다.</div>
+        <div className={styles.noncontainer}>
+          <p>연결된 카드가 없습니다.</p>
           <button onClick={() => navigate("/company/card")}>
-            카드 연결하기
+            + 카드 연결하기
           </button>
-        </>
+        </div>
       )}
     </div>
   );
