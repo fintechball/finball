@@ -41,6 +41,7 @@ public class InventoryService {
 
     }
 
+    @Transactional
     public void purchaseBall(Long id, String userId) {
 
         List<Inventory> inventoryList = inventoryCustomRepository.findBySkinIdAndMemberId(id, userId);
@@ -57,7 +58,8 @@ public class InventoryService {
         }
 
         Inventory inventory = new PurchaseBallDto().toInventory(skin, member);
-
+        member.setPoint(member.getPoint() - skin.getValue());
+        memberRepository.save(member);
         inventoryRepository.save(inventory);
     }
 
@@ -67,12 +69,14 @@ public class InventoryService {
         List<Inventory> selectedInventoryList =  inventoryCustomRepository.findSelectedBallByMemberId(userId);
         Optional<Inventory> selectingInventoryOptinal =  inventoryRepository.findById(id);
 
-        if(selectedInventoryList.size() != 1 || !selectingInventoryOptinal.isPresent()) {
+        if(!selectingInventoryOptinal.isPresent()) {
             throw new CustomException(ErrorCode.DATA_NOT_FOUND);
         }
 
-        Inventory selectedInventory = selectedInventoryList.get(0);
-        selectedInventory.setSelected(false);
+        if(selectedInventoryList.size() == 1) {
+            Inventory selectedInventory = selectedInventoryList.get(0);
+            selectedInventory.setSelected(false);
+        }
         Inventory selectingInventory = selectingInventoryOptinal.get();
         selectingInventory.setSelected(true);
     }

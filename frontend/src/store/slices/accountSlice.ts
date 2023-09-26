@@ -20,6 +20,9 @@ const accountSlice = createSlice({
       state.account = action.payload.account;
       state.company = action.payload.company;
     },
+    setBalance: (state, action) => {
+      state.account.balance = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, () => {
@@ -28,5 +31,5 @@ const accountSlice = createSlice({
   },
 });
 
-export const { setAccount } = accountSlice.actions;
+export const { setAccount, setBalance } = accountSlice.actions;
 export default accountSlice.reducer;

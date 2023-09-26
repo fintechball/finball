@@ -1,28 +1,45 @@
 .container {
-  overflow: scroll;
   overflow: auto;
   white-space: nowrap;
-  button {
-    margin: 10px;
-  }
+  display: flex;
+  justify-content: center;
 }
 
 .container::-webkit-scrollbar {
   display: none;
 }
 
-.test {
-  display: flex;
-  justify-content: space-between; /* 왼쪽과 오른쪽에 공간을 남김 */
-}
-
-.tpfh {
-  display: "flex";
-  flex-direction: "column"; /* 자식 요소들을 세로로 배치 */
-  align-items: "center"; /* 수직 중앙 정렬 */
-  justify-content: "center", /* 수평 중앙 정렬 */;
-}
-
 .rotatedImage {
+  width: 150px;
   transform: rotate(90deg) scale(0.5);
+}
+
+.cardBox {
+  margin-right: -20px;
+  margin-left: -20px;
+}
+
+.text {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.noncontainer {
+  width: 100%;
+  flex-direction: column;
+  overflow: visible !important;
+  white-space: normal !important;
+  display: block !important;
+}
+
+.noncontainer button {
+  width: 100%;
+  background-color: #7165e3;
+  color: aliceblue;
+}
+
+.noncontainer p {
+  color: #ababab;
 }
