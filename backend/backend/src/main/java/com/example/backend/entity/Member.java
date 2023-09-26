@@ -65,4 +65,8 @@ public class Member {
     public void registerEasyPassword(String easyPassword) {
         this.easyPassword = easyPassword;
     }
+
+    public void updatePoint(int point) {
+        this.point += point;
+    }
 }

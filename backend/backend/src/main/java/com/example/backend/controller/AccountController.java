@@ -86,6 +86,4 @@ public class AccountController {
         return new Response(200, "계좌의 잔액을 조회하였습니다.", response);
     }
 
-
-
 }
