@@ -58,6 +58,7 @@ const GroupAccount = () => {
               </div>
             </div>
             <div className={styles.members}>
+              <button></button>
               {data.member.map((member, index) => (
                 <div key={index} className={styles.member}>
                   <span>{member.name}</span>

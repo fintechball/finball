@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Engine, Render, World, Bodies, Body,Runner } from "matter-js";
 import styles from "./Pinball.module.css";
-import test from "../../assets/defalutball.png";
-import { StyleRounded } from "@mui/icons-material";
+import dafalautball from "../../assets/defalutball.png";
 
 function Pinball(value) {
   const [engine, setEngine] = useState(null);
   const [render, setRender] = useState(null);
   const [balls, setBalls] = useState([]);
-  const [ballcnt, setBallcnt] = useState(40);
-  console.log(test)
+  const [ballcnt, setBallcnt] = useState(50);
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
@@ -123,11 +121,12 @@ function Pinball(value) {
             fillStyle: "#05CD01",
             strokeStyle: "white",
             lineWidth: 3,
+            // opacity:0.5,
             sprite: {
               //''히먄 스프라이트 적용x
-              texture: test,
-              xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
-              yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
+              texture: dafalautball,
+              xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
+              yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
             },
           },
         }
@@ -212,7 +211,7 @@ function Pinball(value) {
                 lineWidth: 3,
                 sprite: {
                   //''하면 스프라이트 적용x
-                  texture: test,
+                  texture: dafalautball,
                   xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
                   yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
                 },
@@ -232,17 +231,17 @@ function Pinball(value) {
     Render.run(newRender);
 
     // 윈도우 크기가 변경될 때 렌더러 크기를 업데이트
-    window.addEventListener("resize", () => {
-      const newSize = getParentContainerSize();
-      Render.canvasSize(newRender, newSize.width, newSize.height);
-      // 물리 엔진에서도 크기 업데이트 필요
-      Bounds.update(newRender.bounds, newSize);
-    });
+    // window.addEventListener("resize", () => {
+    //   const newSize = getParentContainerSize();
+    //   Render.canvasSize(newRender, newSize.width, newSize.height);
+    //   // 물리 엔진에서도 크기 업데이트 필요
+    //   Bounds.update(newRender.bounds, newSize);
+    // });
 
-    return () => {
-      // 컴포넌트가 언마운트 될 때 이벤트 리스너 제거
-      window.removeEventListener("resize", () => {});
-    };
+    // return () => {
+    //   // 컴포넌트가 언마운트 될 때 이벤트 리스너 제거
+    //   window.removeEventListener("resize", () => {});
+    // };
   }, []);
 
   return (

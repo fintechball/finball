@@ -16,6 +16,7 @@ const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 function Inventory() {
   const [inventoryList, setInventoryList] = useState<any>(null);
   const [isDetail, setIsDetail] = useState<boolean>(false);
+  const [point, setPoint] = useState<number>(0);
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
 
@@ -24,8 +25,21 @@ function Inventory() {
   const maxSteps = inventoryList && inventoryList.length;
 
   useEffect(() => {
+    getPoint();
     getInventory();
   }, []);
+
+  const getPoint = () => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/user/point`, {
+        headers: {
+          Authorization: auth.accessToken,
+        },
+      })
+      .then((response) => {
+        setPoint(response.data.data.point);
+      });
+  };
 
   const getInventory = () => {
     axios
@@ -83,6 +97,7 @@ function Inventory() {
   return (
     <div>
       <h1>Inventory</h1>
+      <p>{point}</p>
       {isDetail ? (
         <div>
           <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
@@ -153,7 +168,7 @@ function Inventory() {
         </div>
       ) : (
         inventoryList && (
-          <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1, marginBottom: 3 }}>
             <Grid
               container
               spacing={{ xs: 1, md: 2 }}

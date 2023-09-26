@@ -1,20 +1,58 @@
 @charset "UTF-8";
 .container {
-  display: flex;
-  justify-content: space-between;
-}
-.container button {
-  margin: 10px;
+  justify-content: center;
 }
 
 .noncontainer {
   flex-direction: column;
-  justify-content: center;
 }
+
 .noncontainer button {
-  margin: 10px;
+  width: 100%;
+  background-color: #7165e3;
+  color: aliceblue;
+}
+
+.noncontainer p {
+  color: #ababab;
 }
 
 .rightAlign {
   margin-left: auto; /* 오른쪽으로 정렬 */
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.account img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.account .text {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.account .balance {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 12px;
+  color: rgb(129, 127, 127);
+}
+
+.account button {
+  background-color: rgb(170, 143, 195);
+  color: beige;
+  margin-left: auto;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }

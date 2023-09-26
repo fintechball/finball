@@ -119,6 +119,9 @@ public class SecurityConfig {
         // sms
         skipPathList.add(new Path(HttpMethod.POST, "/api/user/sms"));
 
+        // quiz
+        skipPathList.add(new Path(HttpMethod.GET, "/api/quizSave"));
+
         FilterSkipMatcher matcher = new FilterSkipMatcher(skipPathList, "/**");
         JwtAuthFilter filter = new JwtAuthFilter(matcher, extractor);
         filter.setAuthenticationManager(authenticationManager);

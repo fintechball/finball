@@ -1,3 +1,6 @@
-.container .link {
-  color: rgb(44, 44, 44);
+.container {
+  font-weight: normal;
+}
+.container div :hover {
+  background-color: rgb(240, 240, 240);
 }
