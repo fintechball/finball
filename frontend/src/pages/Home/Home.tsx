@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate();
-  const width = window.innerWidth;
-  const height = window.innerHeight;
   const state = { cost: "5,000,000", parent: "home-canvas" };
 
   return (
@@ -19,7 +17,7 @@ function Home() {
           <button onClick={() => navigate("/my-data/auth")}>
             핀볼 계좌 생성하기
           </button>
-        <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
+        <div id="home-canvas" style={{ width: "300px", height: "200px" }}>
           <Pinball value={state}/>
         </div>
       </div>

@@ -160,7 +160,7 @@ const setGravity = () => {
 };
 function start() {
   for (let i = 0; i < totalCnt; i++) {
-    const ball = Bodies.circle(X[Math.floor(Math.random() * X.length)], Y[Math.floor(Math.random() * Y.length)], width/70, {
+    const ball = Bodies.circle(X[Math.floor(Math.random() * X.length)], Y[Math.floor(Math.random() * Y.length)], width/57, {
       restitution: 1,
       friction: 0.1,
       density: 5,
@@ -172,25 +172,25 @@ function start() {
         sprite: {
           //''히먄 스프라이트 적용x
           texture: colorSprite[0][balllist[i]],
-          xScale: Math.sqrt(width ** 2 + height ** 2) / 23/300,
-          yScale: Math.sqrt(width ** 2 + height ** 2) / 23/300,
+          xScale: Math.sqrt(width ** 2 + height ** 2) / 23/220,
+          yScale: Math.sqrt(width ** 2 + height ** 2) / 23/220,
         },
       },
     });
     balls.push(ball);
-    const rootDiv = document.getElementById('canvas');
-    const textElement = document.createElement('div');
-    textElement.textContent = `${userColor[balllist[i]]}`; // 원하는 텍스트를 추가하세요.
-    textElement.id=`${balls[i].id}`
-    textElement.style.position = 'absolute';
-    textElement.style.zIndex = "1";
-    textElement.style.fontSize = "1 px";
-    textElement.style.color = balllist[i];
-    textElement.style.top = `${ball.position.y-10}px`; // 초기 위치 설정
-    textElement.style.left = `${width/2-180-ball.position.x}px`;
-    rootDiv.appendChild(textElement);
-    // document.body.div.appendChild(textElement);
-    ballTexts.push(textElement);
+    // const rootDiv = document.getElementById('canvas');
+    // const textElement = document.createElement('div');
+    // textElement.textContent = `${userColor[balllist[i]]}`; // 원하는 텍스트를 추가하세요.
+    // textElement.id=`${balls[i].id}`
+    // textElement.style.position = 'absolute';
+    // textElement.style.zIndex = "1";
+    // textElement.style.fontSize = "1 px";
+    // textElement.style.color = balllist[i];
+    // textElement.style.top = `${ball.position.y-10}px`; // 초기 위치 설정
+    // textElement.style.left = `${width/2-180-ball.position.x}px`;
+    // rootDiv.appendChild(textElement);
+    // // document.body.div.appendChild(textElement);
+    // ballTexts.push(textElement);
       World.add(engine.world, ball);
     }};
     
@@ -222,8 +222,8 @@ useEffect(() => {
       },
     })
     const runner = Runner.create({
-      delta: 1000 / 60,
-      isFixed: false,
+      delta: 10,
+      isFixed: true,
       enabled: true
   });
     const render = Render.create({
@@ -841,23 +841,23 @@ useEffect(() => {
       block,wall5,dia1,dia2,dia3,dia4,wall6,wall7,wall8,wall9,dia5,dia6,dia7,dia8,borderBody,FinBallLogo,little2,little3,little4,
       little5,little1,middle1,middle2,middle3,middle4,middle5,middle6,little6,little7,little8,little9,little10,
       middle7,middle8,middle9,middle10,middle11,middle12,little11,little12,little13,little14,little15,sShape1,sShape2,aShape,fShape,yShape];
-      Events.on(engine, 'afterUpdate', () => {
-        for (let i = 0; i < balls.length; i++) {
-          const ball = balls[i];
-          const textElement = ballTexts[i];
-          // 각 공의 위치에 따라 텍스트 위치 업데이트
-          textElement.style.top = `${ball.position.y+20}px`;
-          textElement.style.left = `${innerWidth/2-205+ball.position.x}px`;
-          if (ball.position.y>height) {
-            World.remove(engine.world, ball);
-            const rootDiv = document.getElementById('canvas');
-            rootDiv.removeChild(textElement);
-            balls.splice(i, 1);
-            ballTexts.splice(i, 1);
-            i--;
-          }
-        }
-      });
+      // Events.on(engine, 'afterUpdate', () => {
+      //   for (let i = 0; i < balls.length; i++) {
+      //     const ball = balls[i];
+      //     const textElement = ballTexts[i];
+      //     // 각 공의 위치에 따라 텍스트 위치 업데이트
+      //     textElement.style.top = `${ball.position.y+20}px`;
+      //     textElement.style.left = `${innerWidth/2-205+ball.position.x}px`;
+      //     if (ball.position.y>height) {
+      //       World.remove(engine.world, ball);
+      //       const rootDiv = document.getElementById('canvas');
+      //       rootDiv.removeChild(textElement);
+      //       balls.splice(i, 1);
+      //       ballTexts.splice(i, 1);
+      //       i--;
+      //     }
+      //   }
+      // });
     World.add(engine.world, Boundary);
     setEngine(engine);
     Runner.run(runner, engine);
@@ -926,7 +926,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      var constraint1 = Constraint.create({
+      const constraint1 = Constraint.create({
         pointA: { x: width * 0.5, y: height * 0.71 },
         bodyB: rot6,
         length: 0
@@ -939,7 +939,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      var constraint2 = Constraint.create({
+      const constraint2 = Constraint.create({
         pointA: { x: width * 0.18, y: height * 0.71 },
         bodyB: rot7,
         length: 0
@@ -952,7 +952,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      var constraint3 = Constraint.create({
+      const constraint3 = Constraint.create({
         pointA: { x: width * 0.82, y: height * 0.71 },
         bodyB: rot8,
         length: 0
@@ -1070,14 +1070,14 @@ useEffect(() => {
             setWhiteCount(Pay.filter(ball => ball.render.fillStyle === "white").length)
             setPurpleCount(Pay.filter(ball => ball.render.fillStyle === "purple").length)
             //반중력효과
-            // if (Pay.length==Math.round(Payment/2)&&once == false){
-            //   setOnce(true)
-            //   engine.gravity.y=-0.01
-            //   setTimeout(() => {
-            //     setGravity()
-            //   }, 3000);
-            //   console.log('half')
-            // }
+            if (Pay.length==Math.round(Payment/2)&&once == false){
+              setOnce(true)
+              engine.gravity.y=-0.2
+              setTimeout(() => {
+                setGravity()
+              }, 2500);
+              console.log('half')
+            }
             if (Pay.length==Payment){
               setIsModalOpen(true)
               return;
@@ -1098,14 +1098,14 @@ useEffect(() => {
       updateScroll();
     }
   };
-window.addEventListener('beforeunload', () => {
-  // 페이지를 떠날 때 ballText 엘리먼트 삭제
-  for (let i = 0; i < ballTexts.length; i++) {
-    const textElementToRemove = ballTexts[i];
-    const rootDiv = document.getElementById('canvas')
-    rootDiv.removeChild(textElementToRemove);
-  }
-});
+// window.addEventListener('beforeunload', () => {
+//   // 페이지를 떠날 때 ballText 엘리먼트 삭제
+//   for (let i = 0; i < ballTexts.length; i++) {
+//     const textElementToRemove = ballTexts[i];
+//     const rootDiv = document.getElementById('canvas')
+//     rootDiv.removeChild(textElementToRemove);
+//   }
+// });
   return (
     <div id="canvas" style={{width:"360px",height:"1800px"}}>
       <div style={{ display: "flex",justifyContent: "center"}}>
@@ -1160,12 +1160,12 @@ window.addEventListener('beforeunload', () => {
 
         <h2 >게임결과</h2>
         <p style={{fontSize:word}}>다음 사람들은 돈을 지불하시오</p>
-        <div style={{fontSize:word,color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]}-{'>'}{redCount}</div>
-        <div style={{fontSize:word,color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]}-{'>'}{blueCount}</div>
-        <div style={{fontSize:word,color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]}-{'>'}{greenCount}</div>
-        <div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]}-{'>'}{yellowCount}</div>
-        <div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]}-{'>'}{whiteCount}</div>
-        <div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]}-{'>'}{purpleCount}</div>
+        <div style={{fontSize:word,color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} - {'>'}{redCount}</div>
+        <div style={{fontSize:word,color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} - {'>'}{blueCount}</div>
+        <div style={{fontSize:word,color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} - {'>'}{greenCount}</div>
+        <div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} - {'>'}{yellowCount}</div>
+        <div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>
+        <div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>
         <button onClick={closeModal} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
           </div>
       </Modal>

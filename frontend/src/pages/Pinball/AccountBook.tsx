@@ -9,9 +9,10 @@ import axios from "axios";
 import Modal from 'react-modal';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
+import { dividerClasses } from "@mui/material";
 
 function AccountBook() {
-    const [state, setState] = useState([]);
+    const [state, setState] = useState({});
     const [name, setName] = useState(''); // 이름을 저장하는 state
     const [amount, setAmount] = useState(''); // 금액을 저장하는 state
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +20,9 @@ function AccountBook() {
     const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [chooseCategoryid,setChooseCategoryid]=useState([]);
+    const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
+    const [selectTradeHistoryId,setSelectTradeHistoryId]=useState([]);
+    const [finball,setFinball]=useState({});
     const [loading,setLoading]=useState(false);
     const [ball,setBall]=useState(-1);
     const color=["red","green","yellow","blue"]
@@ -27,13 +31,20 @@ function AccountBook() {
     const jsonObject: { auth: string } = JSON.parse(response);
     const authData = JSON.parse(jsonObject.auth);
     const accessToken = authData.accessToken;
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [L,setL]=useState([]);
+    const [selectedValue, setSelectedValue] = useState("null");
+    const handleCategoryChange = (event) => {
+      setSelectedCategory(event.target.value);
+    };
+
     function openModal() {
         setIsModalOpen(true);
       }
       // 모달 닫기 함수
       const closeModal = () => {
         if (name =="" || amount ==""){
-
+          alert("카테고리와 금액을 확인해주세요")
         }
         else{
           setIsModalOpen(false); // 모달 닫기
@@ -48,7 +59,7 @@ function AccountBook() {
         }
       const closeCategoryModal = () => {
         if (name =="" || amount ==""){
-
+          alert("카테고리와 금액을 확인해주세요")
         }
         else{
           setIsCategoryModalOpen(false); // 모달 닫기
@@ -71,6 +82,15 @@ function AccountBook() {
         setAmount('')
         setChooseCategoryid(-1);
       };
+      function openSelectModal(value,k) {
+        setIsSelectModalOpen(true);
+        setSelectTradeHistoryId(k)
+        setL(value.categoryList)
+        }
+      const closeSelectModal = (e) => {
+        setIsSelectModalOpen(false); // 모달 닫기
+        selectCategory()
+      };
       const handleNameChange = (e) => {
         setName(e.target.value); // 이름 입력 값 업데이트
       };
@@ -79,18 +99,26 @@ function AccountBook() {
         setAmount(Number(e.target.value)); // 금액 입력 값 업데이트
       };
     const [selectedBtn, setSelectedBtn] = useState("btn1");
-    const dummy=([
-        {name:"kim",pay:100000,time:"12:12",date:"9-15"},
-        {name:"seo",pay:43000,time:"15:12",date:"9-15"},
-        {name:"jeong",pay:100,time:"17:12",date:"9-15"},
-        {name:"ha",pay:14200,time:"21:12",date:"9-14"},
-    ])
     useEffect(()=>{
-      
-        findAccountBook()
+{
+        axios({
+          method: "get",
+          url: `https://j9e106.p.ssafy.io/api/fin-ball/history`,
+          headers: {
+            Authorization: accessToken
+          },
+        })
+          .then((res) => {
+            setFinball(res.data.data)
+          })
+          .catch((err) => {
+            console.log("삐빅", err);
+          });
+      };
+      findAccountBook()
     },[])
     useEffect(()=>{
-        if (state.length > 0) {
+        if (Object.keys(state).length > 0) {
           setLoading(true)
         }
         else{
@@ -116,7 +144,6 @@ function AccountBook() {
         }
         })
           .then((res) => {
-            console.log(res)
             setState(res.data.data);
             window.location.reload()
           })
@@ -124,9 +151,8 @@ function AccountBook() {
             console.log("삐빅", err);
           });
       };
-    const findAccountBook = async () => {
 
-      console.log(accessToken)
+    const findAccountBook = async () => {
         await axios({
           method: "get",
           url: `https://j9e106.p.ssafy.io/api/financial-book`,
@@ -135,7 +161,6 @@ function AccountBook() {
           },
         })
           .then((res) => {
-            console.log(res.data.data)
             setState(res.data.data);
 
             setBall(Math.round(res.data.data.balance/1000))
@@ -239,7 +264,28 @@ function AccountBook() {
       .catch((err) => {
         console.log("삐빅", err);
       });}
-      console.log(state.categoryList)
+    const selectCategory = async () => {
+      console.log(selectTradeHistoryId)
+      console.log(selectedValue)
+        await axios({
+          method: "post",
+          url: `https://j9e106.p.ssafy.io/api/fin-ball/category`,
+          headers: {
+            Authorization: accessToken
+          },
+          data:
+            {
+              "tradeHistoryId" : selectTradeHistoryId,
+              "categoryName" : selectedValue
+            }
+        })
+          .then((res) => {
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log("삐빅", err);
+          });
+      };
   return (
     <div>
         <Modal
@@ -252,8 +298,10 @@ function AccountBook() {
                 width: '300px', // 모달의 너비
                 height: '160px', // 모달의 높이
                 zIndex:30,
-                top:"300px",
-                left:innerWidth/2-160
+                position:"fixed",
+                top: '50%', // 화면 상단에서 50% 위치로 이동
+                left: '50%', // 화면 왼쪽에서 50% 위치로 이동
+                transform: 'translate(-50%, -50%)', // 수직 및 수평으로 중앙에 위치시킴
             },
             }}
         >
@@ -271,8 +319,10 @@ function AccountBook() {
                 width: '300px', // 모달의 너비
                 height: '160px', // 모달의 높이
                 zIndex:30,
-                top:"300px",
-                left:innerWidth/2-160
+                position:"fixed",
+                top: '50%', // 화면 상단에서 50% 위치로 이동
+                left: '50%', // 화면 왼쪽에서 50% 위치로 이동
+                transform: 'translate(-50%, -50%)', // 수직 및 수평으로 중앙에 위치시킴
             },
             }}
         >
@@ -290,8 +340,10 @@ function AccountBook() {
                 width: '300px', // 모달의 너비
                 height: '160px', // 모달의 높이
                 zIndex:30,
-                top:"300px",
-                left:innerWidth/2-160
+                position:"fixed",
+                top: '50%', // 화면 상단에서 50% 위치로 이동
+                left: '50%', // 화면 왼쪽에서 50% 위치로 이동
+                transform: 'translate(-50%, -50%)', // 수직 및 수평으로 중앙에 위치시킴
             },
             }}
         >
@@ -299,6 +351,32 @@ function AccountBook() {
             <input type="number" placeholder="금액" value={amount} onChange={handleAmountChange}/>
             <button onClick={closeUpdateModal}>저장</button>
             <button onClick={deleteCategory}>삭제</button>
+        </Modal>
+        <Modal
+            ariaHideApp={false}
+            isOpen={isSelectModalOpen}
+            onRequestClose={closeSelectModal}
+            contentLabel="카테고리 선택 모달"
+            style={{
+            content: {
+                width: '300px', // 모달의 너비
+                height: '160px', // 모달의 높이
+                zIndex:30,
+                position:"fixed",
+                top: '50%', // 화면 상단에서 50% 위치로 이동
+                left: '50%', // 화면 왼쪽에서 50% 위치로 이동
+                transform: 'translate(-50%, -50%)', // 수직 및 수평으로 중앙에 위치시킴
+            },
+            }}
+        >
+          <select value={selectedValue}
+            onChange={(e) => setSelectedValue(e.target.value)}>
+            <option value="null">고르시오</option>
+          {L.map((item, index) => (
+             <option value={item} key={index}>{item}</option>
+            ))}
+          </select>
+            <button onClick={closeSelectModal}>저장</button>
         </Modal>
     <div>
         <div>
@@ -323,14 +401,14 @@ function AccountBook() {
         >
           <div key="btn1">
           {selectedBtn === "btn1" && (
-                <div style={{ position: "relative", width: "360px", height: "70vh"}}>
+                <div >
                         <div style={{fontSize:"50px",fontWeight:'bold'}}>우리 계좌</div>
                         <input type="number" placeholder="잔액" style={{width:"130px", height: "30px"}} />
                         <button style={{width:"90px", height: "30px",color:'white',fontSize:'10px',backgroundColor:'#7165E3'}}>송금</button>
-                        <div id="canvas1" style={{ position: "relative", width: "360px", height: "390px" }}>
-                          <div style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "100%" }}>
+                        <div id="canvas1" style={{ position: "relative", width: "360px", height: "360px" }}>
+                          {/* <div style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "90%" }}> */}
                             <Pinball value={{ parent: "canvas1" }} />
-                          </div>
+                          {/* </div> */}
                           <div style={{ position: "absolute", top: "0", right: "0" }}>
                             <img src={safe} style={{ width: "50px", height: "50px" }} />
                           </div>
@@ -342,15 +420,15 @@ function AccountBook() {
           <div key="btn2">
           {selectedBtn === "btn2" && (
             <div>
-                <div style={{fontSize:'10px',fontWeight:"lighter",textAlign:'start',marginLeft:"30px"}}>핀볼 53291021163807</div>
-                <div style={{fontSize:'30px',fontWeight:'bold',textAlign:'start',marginLeft:"30px"}}>{state.balance}원</div>
+                <div style={{fontSize:'10px',fontWeight:"lighter",textAlign:'start',marginLeft:"30px"}}>핀볼 {finball.account.no}</div>
+                <div style={{fontSize:'30px',fontWeight:'bold',textAlign:'start',marginLeft:"30px"}}>{finball.account.balance}원</div>
                 <button style={{ width: '140px',height:"30px", color: 'white', aspectRatio: 5, fontSize: '15px', backgroundColor: '#4C4499', marginRight: '20px' }}>채우기</button>
                 <button style={{ width: '140px',height:"30px", color: 'white', aspectRatio: 5, fontSize: '15px', backgroundColor: '#7165E3' }}>보내기</button>
                 <div style={{ position: "relative",width:'360px',height:'70vh',marginTop:"10px" }}>
                 <div style={{fontSize:"10px",fontWeight:'bold',textAlign:'start',marginLeft:'30px'}}>전체</div>
-                {dummy.reduce((acc: React.ReactNode[], item, i) => {
+                {finball.tradeHistoryList.reduce((acc: React.ReactNode[], item, i) => {
                     // 첫 번째 아이템이거나 이전 아이템과 날짜가 다를 경우 새로운 구역 생성
-                    if (i === 0 || item.date !== dummy[i - 1].date) {
+                    if (i === 0 || item.date !== finball.tradeHistoryList[i - 1].date) {
                     acc.push(
                         <div key={`date-${item.date}`} style={{ fontWeight: 'bold',fontSize:'8px',textAlign:'start',marginLeft:'30px' }}>
                         {item.date}
@@ -360,17 +438,18 @@ function AccountBook() {
                     
                     // 현재 아이템 출력
                     acc.push(
-                    <div key={`item-${i}`} style={{ display: 'flex', width: '300px', alignContent: 'center', justifyContent: 'center', marginLeft: '30px',marginBottom:'3px' ,justifyContent: 'space-between' }}>
+                    <div onClick={()=>{openSelectModal(finball,item.id)}} key={item.id} style={{ display: 'flex', width: '300px', alignContent: 'center', justifyContent: 'center', marginLeft: '30px',marginBottom:'3px' ,justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex',alignItems: 'center'}}>
                         <img src={cash} style={{ width: "30px",height:"30px",marginRight:'10px' }} />
                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div style={{ fontSize: '15px', fontWeight: 'bold' }}>{item.name}</div>
-                        <div style={{ fontSize: '1px', opacity: 0.7 }}>{item.time}</div>
+                        <div style={{ fontSize: '15px', fontWeight: 'bold' }}>{item.opposite.userName}</div>
+                        <div style={{ fontSize: '15px', fontWeight: 'bold' }}>{item.id}</div>
+                        <div style={{ fontSize: '1px', opacity: 0.7 }}>{item.time.slice(0,5)}</div>
                         </div>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ textAlign: 'end',fontSize:'15px',color:'#7165E3', fontWeight: 'bold' }}>{item.pay}원</div>
-                        <div style={{fontSize:'5px'}}>{state.balance - item.pay}원</div>
+                        <div style={{ textAlign: 'end',fontSize:'15px',color:'#7165E3', fontWeight: 'bold' }}>{item.value}원</div>
+                        <div style={{fontSize:'5px'}}>{item.balance}원</div>
                         </div>
                     </div>
                     );
