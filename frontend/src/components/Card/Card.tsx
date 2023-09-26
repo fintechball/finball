@@ -41,12 +41,12 @@ function Card() {
           </div>
         ))
       ) : (
-        <>
-          <div>연결된 카드가 없습니다.</div>
+        <div className={styles.noncontainer}>
+          <p>연결된 카드가 없습니다.</p>
           <button onClick={() => navigate("/company/card")}>
-            카드 연결하기
+            + 카드 연결하기
           </button>
-        </>
+        </div>
       )}
     </div>
   );

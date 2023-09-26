@@ -2,6 +2,7 @@
   overflow: auto;
   white-space: nowrap;
   display: flex;
+  justify-content: center;
 }
 
 .container::-webkit-scrollbar {
@@ -9,18 +10,36 @@
 }
 
 .rotatedImage {
-  width: 200px;
+  width: 150px;
   transform: rotate(90deg) scale(0.5);
 }
 
 .cardBox {
-  margin-right: -25px;
-  margin-left: -25px;
+  margin-right: -20px;
+  margin-left: -20px;
 }
 
 .text {
   margin-top: 0px;
   margin-bottom: 0px;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 12px;
+}
+
+.noncontainer {
+  width: 100%;
+  flex-direction: column;
+  overflow: visible !important;
+  white-space: normal !important;
+  display: block !important;
+}
+
+.noncontainer button {
+  width: 100%;
+  background-color: #7165e3;
+  color: aliceblue;
+}
+
+.noncontainer p {
+  color: #ababab;
 }

@@ -26,7 +26,6 @@ function BankAccount() {
       })
       .then((response) => {
         setAccountList(response.data.data.userAccountList);
-        console.log(response.data.data.userAccountList);
       })
       .catch((error) => {
         console.log(error);
@@ -60,9 +59,9 @@ function BankAccount() {
       ) : (
         <>
           <div className={styles.noncontainer}>
-            <div>연결된 계좌가 없습니다.</div>
+            <p>연결된 계좌가 없습니다.</p>
             <button onClick={() => navigate("/company/bank")}>
-              계좌 연결하기
+              + 계좌 연결하기
             </button>
           </div>
         </>
