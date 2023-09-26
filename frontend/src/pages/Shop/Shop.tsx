@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import styles from "./Shop.module.css";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -13,10 +14,10 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   // width: "80%",
-  // bgcolor: "background.paper",
+  bgcolor: "background.paper",
   // border: "2px solid #000",
   // boxShadow: 24,
-  // p: 4,
+  p: 4,
 };
 
 const divStyle = {
@@ -94,8 +95,12 @@ function Shop() {
                     width={50}
                     onClick={() => handleOpen(index)}
                   />
-                  <p>{skin.name}</p>
-                  {skin.invented ? <p>보유중</p> : <p>{skin.value}</p>}
+                  <p className={styles.skinName}>{skin.name}</p>
+                  {skin.invented ? (
+                    <p className={styles.skinPoint}>보유중</p>
+                  ) : (
+                    <p className={styles.skinPoint}>{skin.value}</p>
+                  )}
                 </Grid>
               ))}
             </Grid>
@@ -113,7 +118,7 @@ function Shop() {
                   width={50}
                   onClick={() => handleOpen(index)}
                 />
-                <p>{skinList[index].name}</p>
+                <p className={styles.skinName}>{skinList[index].name}</p>
                 {skinList[index].invented ? (
                   <button>보유중</button>
                 ) : (
