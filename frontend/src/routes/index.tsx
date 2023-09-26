@@ -43,6 +43,7 @@ import TransferAccount from "../pages/Transfer/TransferAccount";
 import TransferValue from "../pages/Transfer/TransferValue";
 
 import GroupAccount from "../pages/GroupAccount/GroupAccount";
+import CreateGroupAccount from "../pages/GroupAccount/CreateGroupAccount";
 
 import MyDataAuth from "../pages/Auth/MyDataAuth"
 import CreateFinBallAccount from "../pages/Pinball/CreateFinBallAccount"
@@ -101,6 +102,8 @@ function Router() {
           <Route path="/transferValue" element={<TransferValue />} />
           {/* 모임통장 */}
           <Route path="/groupaccount" element={<GroupAccount />} />
+          {/* 모임통장 생성 페이지 */}
+          <Route path="/create/group-account" element={<CreateGroupAccount />} />
         </Route>
       </Routes>
     </>

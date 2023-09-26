@@ -4,6 +4,7 @@ import com.example.backend.dto.Response;
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
 import com.example.backend.dto.groupaccount.DeleteGroupAccountDto;
 import com.example.backend.dto.groupaccount.GameEndDto;
+import com.example.backend.dto.groupaccount.GameTypeDto;
 import com.example.backend.dto.groupaccount.GetGroupAccountListDto;
 import com.example.backend.dto.groupaccount.GroupAccountDto;
 import com.example.backend.dto.groupaccount.InviteGroupAccountDto;
@@ -112,5 +113,12 @@ public class GroupAccountController {
         groupAccountService.delete(request, member);
 
         return new Response<>(204, "그룹 계좌 삭제 완료");
+    }
+
+    @GetMapping("/gameType")
+    public Response<GameTypeDto.Response> getGroupGameType(){
+
+        GameTypeDto.Response data =  groupAccountService.getGroupGameType();
+        return new Response<>(200, "게임 타입 리스트를 조회했습니다.", data);
     }
 }
