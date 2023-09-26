@@ -1,0 +1,30 @@
+.container {
+  justify-items: center;
+  align-items: center;
+}
+
+.text {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.answerButton {
+  display: flex;
+  justify-content: space-between;
+}
+
+.answerButton button {
+  width: 40%;
+}
+
+.yes {
+  background-color: #abc5ff;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.no {
+  background-color: #ffabab;
+  color: #ffffff;
+  font-size: 20px;
+}
