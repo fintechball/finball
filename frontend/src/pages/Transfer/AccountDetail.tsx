@@ -3,7 +3,7 @@ import AccountDetailComponent from "./AccountDetailComponent";
 function AccountDetail() {
   return (
     <>
-      <AccountDetailComponent />
+      <AccountDetailComponent isFinBall={false} />
     </>
   );
 }
