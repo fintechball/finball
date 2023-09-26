@@ -1,8 +1,15 @@
 package com.finball.mydata.service;
 
-import com.finball.mydata.dto.account.*;
+import com.finball.mydata.dto.account.AccountTransferDto;
 import com.finball.mydata.dto.account.AccountTransferDto.Request;
+import com.finball.mydata.dto.account.BankAccountDto;
+import com.finball.mydata.dto.account.BankAccountListDto;
+import com.finball.mydata.dto.account.GetBalanceDto;
+import com.finball.mydata.dto.account.GetMemberAccountDto;
 import com.finball.mydata.dto.account.GetMemberAccountDto.Response;
+import com.finball.mydata.dto.account.GetOppositeAccountDto;
+import com.finball.mydata.dto.account.RegistAccountDto;
+import com.finball.mydata.dto.account.TransferInfoDto;
 import com.finball.mydata.dto.tradeHistory.AccountHistoryDto;
 import com.finball.mydata.dto.tradeHistory.OppositeDto;
 import com.finball.mydata.entity.Account;
@@ -17,16 +24,15 @@ import com.finball.mydata.repository.account.AccountRepository;
 import com.finball.mydata.type.CompanyType;
 import com.finball.mydata.type.DealType;
 import com.finball.mydata.util.RandomAccount;
-import lombok.RequiredArgsConstructor;
-import org.json.simple.parser.ParseException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -42,7 +48,7 @@ public class AccountService {
 
     //Done
     public BankAccountListDto.Response getBankAccountList(Long id,
-                                                          BankAccountListDto.Request request) {
+            BankAccountListDto.Request request) {
 
         List<Long> bankCodeList = request.getBankCodeList();
         List<Account> accountList = accountCustomRepository
@@ -84,20 +90,23 @@ public class AccountService {
         // 입금
         doDeposit(request, plusAccount, accountHistoryDtoList);
 
-        AccountTransferDto.Response response = new AccountTransferDto.Response(accountHistoryDtoList);
+        AccountTransferDto.Response response = new AccountTransferDto.Response(
+                accountHistoryDtoList);
 
         return response;
     }
 
     private void doDeposit(Request request, Account plusAccount,
-                           List<AccountHistoryDto> accountHistoryDtoList) {
+            List<AccountHistoryDto> accountHistoryDtoList) {
 
         Long companyId = request.getMinusBank().getCompanyId();
         Company company = companyRepository.findByCodeAndCpType(companyId, CompanyType.은행사);
 
         if (plusAccount == null) {
             OppositeDto oppositeDto = request.toOppositeDto(company, request.getMinusBank());
-            AccountHistoryDto accountHistoryDto = request.toAccountHistoryDto(request.getPlusBank(), oppositeDto, DealType.입금, request.getPlusBank().getBalance() + request.getValue());
+            AccountHistoryDto accountHistoryDto = request
+                    .toAccountHistoryDto(request.getPlusBank(), oppositeDto, DealType.입금,
+                            request.getPlusBank().getBalance() + request.getValue());
             accountHistoryDtoList.add(accountHistoryDto);
         } else {
             TradeHistory tradeHistory = request.toTradeHistory(plusAccount, company, DealType.입금);
@@ -110,14 +119,16 @@ public class AccountService {
     }
 
     private void doWithdrawal(Request request, Account minusAccount,
-                              List<AccountHistoryDto> accountHistoryDtoList) {
+            List<AccountHistoryDto> accountHistoryDtoList) {
 
         Long companyId = request.getPlusBank().getCompanyId();
         Company company = companyRepository.findByCodeAndCpType(companyId, CompanyType.은행사);
 
         if (minusAccount == null) {
             OppositeDto oppositeDto = request.toOppositeDto(company, request.getPlusBank());
-            AccountHistoryDto accountHistoryDto = request.toAccountHistoryDto(request.getMinusBank(), oppositeDto, DealType.출금, request.getMinusBank().getBalance() - request.getValue());
+            AccountHistoryDto accountHistoryDto = request
+                    .toAccountHistoryDto(request.getMinusBank(), oppositeDto, DealType.출금,
+                            request.getMinusBank().getBalance() - request.getValue());
             accountHistoryDtoList.add(accountHistoryDto);
 
         } else {
@@ -145,7 +156,8 @@ public class AccountService {
     }
 
     public Response getMemberAccount(List<String> accountNumberList, Member member) {
-        List<Account> accountList = accountCustomRepository.findByAccountNo(accountNumberList, member.getId());
+        List<Account> accountList = accountCustomRepository
+                .findByAccountNo(accountNumberList, member.getId());
         List<BankAccountDto> list = new ArrayList<>();
 
         for (Account account : accountList) {
@@ -156,16 +168,31 @@ public class AccountService {
         return response;
     }
 
-    public GetOppositeAccountDto.Response getOppositeAccount(GetOppositeAccountDto.Request request) {
+    public GetOppositeAccountDto.Response getOppositeAccount(
+            GetOppositeAccountDto.Request request) {
 
-        List<Account> accountList =  accountCustomRepository.findByOriginNo(request.getOriginNo());
+        List<Account> accountList = accountCustomRepository.findByOriginNo(request.getOriginNo());
 
-        if(accountList.size() == 0) {
-            throw new  NoSuchElementException("해당 계좌는 존재하지 않습니다.");
+        if (accountList.size() == 0) {
+            throw new NoSuchElementException("해당 계좌는 존재하지 않습니다.");
         }
 
         Account account = accountList.get(0);
 
-        return GetOppositeAccountDto.Response.builder().oppositeAccountDto(account.toOppositeAccountDto()).build();
+        return GetOppositeAccountDto.Response.builder()
+                .oppositeAccountDto(account.toOppositeAccountDto()).build();
+    }
+
+    public GetBalanceDto.Response getBalance(String accountNo) {
+
+        List<Account> accountList = accountCustomRepository.findByAccountNo(accountNo);
+
+        if (accountList.size() == 1) {
+            Account account = accountList.get(0);
+            return new GetBalanceDto.Response(account.getBalance());
+        }
+
+        throw new NoSuchElementException("해당 계좌는 존재하지 않습니다.");
+
     }
 }
