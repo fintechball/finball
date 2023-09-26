@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import styles from "./Shop.module.css";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -13,10 +14,10 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   // width: "80%",
-  // bgcolor: "background.paper",
+  bgcolor: "background.paper",
   // border: "2px solid #000",
   // boxShadow: 24,
-  // p: 4,
+  p: 4,
 };
 
 const divStyle = {
@@ -28,19 +29,18 @@ const divStyle = {
 
 function Shop() {
   const [skinList, setSkinList] = useState<any>(null);
-  const token = useSelector((state) => state.token);
   const [index, setIndex] = useState<number>(0);
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     getSkin();
-  }, [token]);
+  }, []);
 
   const getSkin = () => {
     axios
       .get(`${BASE_HTTP_URL}/api/ball`, {
         headers: {
-          // Authorization: token.accessToken,
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: auth.accessToken,
         },
       })
       .then((response) => {
@@ -65,7 +65,7 @@ function Shop() {
         },
         {
           headers: {
-            Authorization: token.accessToken,
+            Authorization: auth.accessToken,
           },
         }
       )
@@ -80,7 +80,7 @@ function Shop() {
   return (
     <div>
       <h1>Shop</h1>
-      {skinList && (
+      {skinList && skinList.length !== 0 && (
         <div>
           <Box sx={{ flexGrow: 1 }}>
             <Grid
@@ -95,8 +95,12 @@ function Shop() {
                     width={50}
                     onClick={() => handleOpen(index)}
                   />
-                  <p>{skin.name}</p>
-                  {skin.invented ? <p>보유중</p> : <p>{skin.value}</p>}
+                  <p className={styles.skinName}>{skin.name}</p>
+                  {skin.invented ? (
+                    <p className={styles.skinPoint}>보유중</p>
+                  ) : (
+                    <p className={styles.skinPoint}>{skin.value}</p>
+                  )}
                 </Grid>
               ))}
             </Grid>
@@ -114,7 +118,7 @@ function Shop() {
                   width={50}
                   onClick={() => handleOpen(index)}
                 />
-                <p>{skinList[index].name}</p>
+                <p className={styles.skinName}>{skinList[index].name}</p>
                 {skinList[index].invented ? (
                   <button>보유중</button>
                 ) : (
