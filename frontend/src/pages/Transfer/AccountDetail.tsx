@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./AccountDetail.module.css";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { setTradeHistorys } from "../../store/slices/tradeHistorySlice";
+import { setBalance } from "../../store/slices/accountSlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -18,6 +19,11 @@ function AccountDetail() {
   const refreshIconStyle = { fontSize: 12 };
 
   useEffect(() => {
+    getHistory();
+    refreshBalance();
+  }, []);
+
+  const getHistory = () => {
     axios
       .get(`${BASE_HTTP_URL}/api/user/account/${account.account.no}`, {
         headers: {
@@ -47,34 +53,17 @@ function AccountDetail() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  };
 
   const refreshBalance = () => {
     axios
-      .get(`${BASE_HTTP_URL}/api/user/account/${account.account.no}`, {
+      .get(`${BASE_HTTP_URL}/api/user/account/balance/${account.account.no}`, {
         headers: {
           Authorization: auth.accessToken,
         },
       })
       .then((response) => {
-        dispatch(
-          setTradeHistorys({
-            tradeHistory: response.data.data.tradeHistoryDtoList,
-          })
-        );
-        setTradeHistoryDict(
-          response.data.data.tradeHistoryDtoList.reduce(
-            (dict, tradeHistory) => {
-              const groupKey = tradeHistory.date;
-              if (!dict[groupKey]) {
-                dict[groupKey] = [];
-              }
-              dict[groupKey].push(tradeHistory);
-              return dict;
-            },
-            {}
-          )
-        );
+        dispatch(setBalance(response.data.data.balance));
       })
       .catch((error) => {
         console.log(error);
