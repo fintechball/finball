@@ -31,12 +31,26 @@ const divStyle = {
 function Shop() {
   const [skinList, setSkinList] = useState<any>(null);
   const [index, setIndex] = useState<number>(0);
+  const [point, setPoint] = useState<number>(0);
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {
+    getPoint();
     getSkin();
   }, []);
+
+  const getPoint = () => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/user/point`, {
+        headers: {
+          Authorization: auth.accessToken,
+        },
+      })
+      .then((response) => {
+        setPoint(response.data.data.point);
+      });
+  };
 
   const getSkin = () => {
     axios
@@ -72,6 +86,7 @@ function Shop() {
         }
       )
       .then(() => {
+        getPoint();
         getSkin();
       })
       .catch((error) => {
@@ -82,6 +97,7 @@ function Shop() {
   return (
     <div>
       <h1>Shop</h1>
+      <p>{point}</p>
       {skinList && skinList.length !== 0 && (
         <div>
           <Box sx={{ flexGrow: 1 }}>
