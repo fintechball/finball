@@ -4,6 +4,7 @@ import styles from "./GroupAccount.module.css";
 import Pinball from "../Pinball/Pinball";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import GroupAccountModal from "../../components/GroupAccount/GroupAccountModal";
 
 function formatMoney(amount) {
   return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -15,6 +16,16 @@ const GroupAccount = () => {
   const [data, setData] = useState(null);
   const [balance, setBalance] = useState("");
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     axios({
       method: "GET",
@@ -58,7 +69,9 @@ const GroupAccount = () => {
               </div>
             </div>
             <div className={styles.members}>
-              <button></button>
+              <div className={styles.container}>
+                <span onClick={openModal}>모달</span>
+              </div>
               {data.member.map((member, index) => (
                 <div key={index} className={styles.member}>
                   <span>{member.name}</span>
@@ -67,6 +80,9 @@ const GroupAccount = () => {
               ))}
             </div>
           </div>
+          {isModalOpen && (
+            <GroupAccountModal onClose={closeModal} data={data} />
+          )}
           <div id="home-canvas" className={styles.finballBox}>
             <Pinball value={value} />
           </div>
