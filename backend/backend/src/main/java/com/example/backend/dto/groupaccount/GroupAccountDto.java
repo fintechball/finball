@@ -15,6 +15,7 @@ public class GroupAccountDto {
         private long balance;
         private String accountNo;
         private String name;
+        private String url;
         private List<GroupMemberDto> member;
         private List<GroupTradeHistoryDto> tradeHistory;
 
@@ -23,11 +24,13 @@ public class GroupAccountDto {
             String accountNo = groupAccount.getAccountNo();
             long balance = groupAccount.getBalance();
             String name = groupAccount.getName();
+            String url = groupAccount.getUrl();
             return Response
                     .builder()
                     .accountNo(accountNo)
                     .balance(balance)
                     .name(name)
+                    .url(url)
                     .member(member)
                     .tradeHistory(tradeHistory)
                     .build();
