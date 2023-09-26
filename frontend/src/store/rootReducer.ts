@@ -8,6 +8,7 @@ import user from "./slices/userInfoSlice";
 import account from "./slices/accountSlice";
 import tradeHistory from "./slices/tradeHistorySlice";
 import opposite from "./slices/oppositeSlice";
+import accountbook from "./slices/accountBookSlice";
 import inviteGroupAccount from "./slices/inviteGroupAccountSlice";
 import quiz from "./slices/quizSlice";
 import finBallAccount from "./slices/finBallAccountSlice";
@@ -38,6 +39,7 @@ const reducer = combineReducers({
   account,
   tradeHistory,
   opposite,
+  accountbook,
   inviteGroupAccount,
   quiz,
   finBallAccount,
