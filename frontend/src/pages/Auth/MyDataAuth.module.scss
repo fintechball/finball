@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
+
+  padding: 30px;
+  text-align: left;
+}
+
+.minicontainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.codebox {
+  display: flex;
+  span {
+    margin: 0 5px;
+  }
+}
