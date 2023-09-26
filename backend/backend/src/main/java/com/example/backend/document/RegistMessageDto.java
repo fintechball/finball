@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class GptAnswerDto {
+public class RegistMessageDto {
 
     @Data
     public static class Request {

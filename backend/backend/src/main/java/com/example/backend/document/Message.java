@@ -29,7 +29,7 @@ public class Message {
     private LocalDateTime createAt;
 
 
-    public Message(GptAnswerDto.Request request, Member member) {
+    public Message(RegistMessageDto.Request request, Member member) {
         this.body = request.getAnswer();
         this.userId = member.getId();
         this.type = request.getType();

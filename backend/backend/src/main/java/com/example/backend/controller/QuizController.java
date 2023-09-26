@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.document.GptAnswerDto;
+import com.example.backend.document.RegistMessageDto;
 import com.example.backend.dto.Response;
 import com.example.backend.security.UserDetailsImpl;
 import com.example.backend.service.QuizService;
@@ -20,7 +20,7 @@ public class QuizController {
     private final QuizService quizService;
 
     @PostMapping("/message")
-    public Response<?> registerChat(@RequestBody GptAnswerDto.Request request,
+    public Response<?> registerChat(@RequestBody RegistMessageDto.Request request,
             @AuthenticationPrincipal
             UserDetailsImpl userDetails) {
         quizService.save(request, userDetails.getMember());
@@ -29,9 +29,9 @@ public class QuizController {
     }
 
     @GetMapping("/message")
-    public Response<GptAnswerDto.Response> getChat(
+    public Response<RegistMessageDto.Response> getChat(
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        GptAnswerDto.Response response = quizService.getMessage(userDetails.getMember());
+        RegistMessageDto.Response response = quizService.getMessage(userDetails.getMember());
         return new Response(200, "성공적으로 메시지를 저장하였습니다.", response);
     }
 }
