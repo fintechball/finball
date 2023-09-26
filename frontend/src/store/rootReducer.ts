@@ -8,6 +8,7 @@ import user from "./slices/userInfoSlice";
 import account from "./slices/accountSlice";
 import tradeHistory from "./slices/tradeHistorySlice";
 import opposite from "./slices/oppositeSlice";
+import inviteGroupAccount from "./slices/inviteGroupAccountSlice"
 
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -28,6 +29,7 @@ const reducer = combineReducers({
   account,
   tradeHistory,
   opposite,
+  inviteGroupAccount,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
