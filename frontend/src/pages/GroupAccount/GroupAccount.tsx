@@ -5,11 +5,15 @@ import Pinball from "../Pinball/Pinball";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
+function formatMoney(amount) {
+  return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const GroupAccount = () => {
-  const [value, setValue] = useState({
-    cost: 0,
-    parent: "group_finball_container",
-  });
+  const [value, setValue] = useState({ cost: 0, parent: "home-canvas" });
+  const [response, setResponse] = useState(null);
+  const [data, setData] = useState(null);
+  const [balance, setBalance] = useState("");
   const accessToken = useSelector((state) => state.auth.accessToken);
   useEffect(() => {
     axios({
@@ -20,20 +24,55 @@ const GroupAccount = () => {
         Authorization: accessToken,
       },
     }).then((res) => {
-      console.log(res);
       const balance = res.data.data.balance;
-      setValue({ cost: balance, parent: "group_finball_container" });
+      setResponse(res.data.data);
+      setValue({ cost: balance, parent: "home-canvas" });
+      // setData(res.data.data);
+      console.log(res.data.data.name);
     });
   }, []);
 
+  useEffect(() => {
+    if (response) {
+      setData(response); // response가 존재할 때만 복사
+    }
+  }, [response]);
+
+  useEffect(() => {
+    if (data) {
+      setBalance(formatMoney(data.balance)); // data가 변경될 때만 실행
+    }
+  }, [data]);
+
   return (
-    <div>
-      <div
-        id="group_finball_container"
-        style={{ width: "300px", height: "150px" }}
-      >
-        <Pinball value={value} />
-      </div>
+    <div className={styles.container}>
+      {data ? (
+        <div>
+          <div className={styles.head}>
+            <div className={styles.contents}>
+              <div className={styles.name}>{data.name}</div>
+              <div className={styles.bankInfo}>
+                <div className={styles.bankName}>핀볼</div>
+                <div className={styles.accountNo}>{data.accountNo}</div>
+                <div className={styles.balance}>{balance}원</div>
+              </div>
+            </div>
+            <div className={styles.members}>
+              {data.member.map((member, index) => (
+                <div key={index} className={styles.member}>
+                  <span>{member.name}</span>
+                  <span>{member.balance}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div id="home-canvas" className={styles.finballBox}>
+            <Pinball value={value} />
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
