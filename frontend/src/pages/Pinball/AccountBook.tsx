@@ -8,35 +8,38 @@ import styles from './AccountBook.module.css'
 import axios from "axios";
 import Modal from 'react-modal';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { setAccountBooks } from "../../store/slices/accountBookSlice";
 import { Carousel } from "react-responsive-carousel";
-import { dividerClasses } from "@mui/material";
+import { useSelector,useDispatch } from "react-redux";
+const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function AccountBook() {
-    const [state, setState] = useState({});
-    const [name, setName] = useState(''); // 이름을 저장하는 state
-    const [amount, setAmount] = useState(''); // 금액을 저장하는 state
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isAccountBook, setisAccountBook] = useState(false);
-    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
-    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-    const [chooseCategoryid,setChooseCategoryid]=useState([]);
-    const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
-    const [selectTradeHistoryId,setSelectTradeHistoryId]=useState([]);
-    const [finball,setFinball]=useState({});
-    const [loading,setLoading]=useState(false);
-    const [ball,setBall]=useState(-1);
+    const [account,setAccount]=useState<any>({})
+    const [tradeHistoryList,setTradeHistoryList]=useState<any>([])
+    const [categoryList,setCategoryList]=useState<any>([])
+    const [state, setState] = useState<any>({});
+    const [name, setName] = useState<any>(''); // 이름을 저장하는 state
+    const [amount, setAmount] = useState<any>(''); // 금액을 저장하는 state
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isAccountBook, setisAccountBook] = useState<boolean>(false);
+    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+    const [chooseCategoryid,setChooseCategoryid]=useState<any>([]);
+    const [isSelectModalOpen, setIsSelectModalOpen] = useState<boolean>(false);
+    const [selectTradeHistoryId,setSelectTradeHistoryId]=useState<any>([]);
+    const [finball,setFinball]=useState<any>({});
+    const [loading,setLoading]=useState<any>(false);
+    const [ball,setBall]=useState<number>(-1);
     const color=["red","green","yellow","blue"]
+    const dispatch = useDispatch();
     const now=new Date();
-    const response=localStorage.getItem("persist:root")
-    const jsonObject: { auth: string } = JSON.parse(response);
-    const authData = JSON.parse(jsonObject.auth);
-    const accessToken = authData.accessToken;
-    const [selectedCategory, setSelectedCategory] = useState('');
+    // const response=localStorage.getItem("persist:root")
+    // const jsonObject: { auth: string } = JSON.parse(response);
+    // const authData = JSON.parse(jsonObject.auth);
+    // const accessToken = authData.accessToken;
+    const auth = useSelector((state) => state.auth);
     const [L,setL]=useState([]);
     const [selectedValue, setSelectedValue] = useState("null");
-    const handleCategoryChange = (event) => {
-      setSelectedCategory(event.target.value);
-    };
 
     function openModal() {
         setIsModalOpen(true);
@@ -99,26 +102,37 @@ function AccountBook() {
         setAmount(Number(e.target.value)); // 금액 입력 값 업데이트
       };
     const [selectedBtn, setSelectedBtn] = useState("btn1");
-    useEffect(()=>{
-{
+    useEffect(() => {
+      getHistory()
+    },[])
+    const getHistory=()=>{
         axios({
           method: "get",
-          url: `https://j9e106.p.ssafy.io/api/fin-ball/history`,
+          url: `${BASE_HTTP_URL}/api/fin-ball/history`,
           headers: {
-            Authorization: accessToken
+            Authorization: auth.accessToken
           },
         })
-          .then((res) => {
-            setFinball(res.data.data)
-          })
-          .catch((err) => {
-            console.log("삐빅", err);
-          });
-      };
+        .then((res) => {
+          console.log(res.data.data)
+          setFinball(res.data.data);
+          dispatch(
+            setAccountBooks({
+              account: res.data.data.account,
+              tradeHistoryList: res.data.data.tradeHistoryList,
+              categoryList: res.data.data.categoryList,
+            })
+
+          )
+        })
+        .catch((err) => {
+          console.log("삐빅", err);
+        });
       findAccountBook()
-    },[])
+    }
     useEffect(()=>{
-        if (Object.keys(state).length > 0) {
+        // if (Object.keys(state).length > 0) {
+        if (state.length > 0) {
           setLoading(true)
         }
         else{
@@ -130,7 +144,7 @@ function AccountBook() {
           method: "post",
           url: `https://j9e106.p.ssafy.io/api/financial-book`,
           headers: {
-            Authorization:accessToken,
+            Authorization:auth.accessToken,
           },
           data:
           {	
@@ -157,7 +171,7 @@ function AccountBook() {
           method: "get",
           url: `https://j9e106.p.ssafy.io/api/financial-book`,
           headers: {
-            Authorization: accessToken
+            Authorization: auth.accessToken
           },
         })
           .then((res) => {
@@ -174,7 +188,7 @@ function AccountBook() {
           method: "post",
           url: `https://j9e106.p.ssafy.io/api/financial-book/category`,
           headers: {
-            Authorization: accessToken,
+            Authorization: auth.accessToken,
           },
           data:{
                 "categoryList" : [
@@ -197,7 +211,7 @@ function AccountBook() {
           method: "delete",
           url: `https://j9e106.p.ssafy.io/api/financial-book/category`,
           headers: {
-            Authorization: accessToken,
+            Authorization: auth.accessToken,
           },
           data:{
                 "categoryList" : [chooseCategoryid]
@@ -219,7 +233,7 @@ function AccountBook() {
           method: "put",
           url: `https://j9e106.p.ssafy.io/api/financial-book/category`,
           headers: {
-            Authorization:accessToken,
+            Authorization:auth.accessToken,
           },
           data:{
                 "id" : chooseCategoryid,
@@ -254,7 +268,7 @@ function AccountBook() {
         method: "delete",
         url: `https://j9e106.p.ssafy.io/api/financial-book`,
         headers: {
-          Authorization: accessToken,
+          Authorization: auth.accessToken,
         },
       }).then((res) => {
         console.log(res)
@@ -265,13 +279,11 @@ function AccountBook() {
         console.log("삐빅", err);
       });}
     const selectCategory = async () => {
-      console.log(selectTradeHistoryId)
-      console.log(selectedValue)
         await axios({
           method: "post",
           url: `https://j9e106.p.ssafy.io/api/fin-ball/category`,
           headers: {
-            Authorization: accessToken
+            Authorization: auth.accessToken
           },
           data:
             {
@@ -286,8 +298,18 @@ function AccountBook() {
             console.log("삐빅", err);
           });
       };
+      const renderPinball = () => {
+        if (selectedBtn === "btn1") {
+          return <Pinball value={{ parent: "canvas1" }} />;
+        } else if (selectedBtn === "btn2") {
+          return <Pinball value={{ parent: "canvas2" }} />;
+        } else {
+          return <Pinball value={{ parent: "canvas3" }} />;
+        }
+      };
   return (
     <div>
+      {/* 가계부생성모달 */}
         <Modal
             ariaHideApp={false}
             isOpen={isModalOpen}
@@ -309,6 +331,7 @@ function AccountBook() {
             <input type="number" placeholder="금액" value={amount} onChange={handleAmountChange}/>
             <button onClick={closeModal}>저장</button>
         </Modal>
+      {/* 카테고리생성모달 */}
         <Modal
             ariaHideApp={false}
             isOpen={isCategoryModalOpen}
@@ -330,6 +353,7 @@ function AccountBook() {
             <input type="number" placeholder="금액" value={amount} onChange={handleAmountChange}/>
             <button onClick={closeCategoryModal}>저장</button>
         </Modal>
+        {/* 카테고리 수정 및 삭제모달 */}
         <Modal
             ariaHideApp={false}
             isOpen={isUpdateModalOpen}
@@ -352,6 +376,7 @@ function AccountBook() {
             <button onClick={closeUpdateModal}>저장</button>
             <button onClick={deleteCategory}>삭제</button>
         </Modal>
+        {/* 가계부히스토리에서 카테고리 설정 모달 */}
         <Modal
             ariaHideApp={false}
             isOpen={isSelectModalOpen}
@@ -378,6 +403,30 @@ function AccountBook() {
           </select>
             <button onClick={closeSelectModal}>저장</button>
         </Modal>
+        {/* 송금모달 */}
+        <Modal
+            ariaHideApp={false}
+            isOpen={isSelectModalOpen}
+            onRequestClose={closeSelectModal}
+            contentLabel="카테고리 선택 모달"
+            style={{
+            content: {
+                width: '300px', // 모달의 너비
+                height: '160px', // 모달의 높이
+                zIndex:30,
+                position:"fixed",
+                top: '50%', // 화면 상단에서 50% 위치로 이동
+                left: '50%', // 화면 왼쪽에서 50% 위치로 이동
+                transform: 'translate(-50%, -50%)', // 수직 및 수평으로 중앙에 위치시킴
+            },
+            }}
+        >
+           <input type="text" placeholder="이름" value={name} onChange={handleNameChange}/>
+            <input type="number" placeholder="계좌번호" value={amount} onChange={handleAmountChange}/>
+            <input type="number" placeholder="금액" value={amount} onChange={handleAmountChange}/>
+            <button onClick={closeSelectModal}>저장</button>
+        </Modal>
+
     <div>
         <div>
         <button style={{borderRadius:'100%',width:"10px",height:"10px",backgroundColor:selectedBtn=='btn1'?'#7165E3':'#E3E3E3',padding:"0",marginRight:"10px"}} onClick={() => handleButtonClick("btn1")}></button>
@@ -406,9 +455,7 @@ function AccountBook() {
                         <input type="number" placeholder="잔액" style={{width:"130px", height: "30px"}} />
                         <button style={{width:"90px", height: "30px",color:'white',fontSize:'10px',backgroundColor:'#7165E3'}}>송금</button>
                         <div id="canvas1" style={{ position: "relative", width: "360px", height: "360px" }}>
-                          {/* <div style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "90%" }}> */}
                             <Pinball value={{ parent: "canvas1" }} />
-                          {/* </div> */}
                           <div style={{ position: "absolute", top: "0", right: "0" }}>
                             <img src={safe} style={{ width: "50px", height: "50px" }} />
                           </div>
@@ -438,12 +485,11 @@ function AccountBook() {
                     
                     // 현재 아이템 출력
                     acc.push(
-                    <div onClick={()=>{openSelectModal(finball,item.id)}} key={item.id} style={{ display: 'flex', width: '300px', alignContent: 'center', justifyContent: 'center', marginLeft: '30px',marginBottom:'3px' ,justifyContent: 'space-between' }}>
+                    <div onClick={()=>{item.type=="출금"?openSelectModal(finball,item.id):""}} key={item.id} style={{ display: 'flex', width: '300px', alignContent: 'center', justifyContent: 'center', marginLeft: '30px',marginBottom:'3px' ,justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex',alignItems: 'center'}}>
                         <img src={cash} style={{ width: "30px",height:"30px",marginRight:'10px' }} />
                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ fontSize: '15px', fontWeight: 'bold' }}>{item.opposite.userName}</div>
-                        <div style={{ fontSize: '15px', fontWeight: 'bold' }}>{item.id}</div>
                         <div style={{ fontSize: '1px', opacity: 0.7 }}>{item.time.slice(0,5)}</div>
                         </div>
                         </div>
