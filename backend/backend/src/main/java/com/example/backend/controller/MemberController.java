@@ -73,17 +73,16 @@ public class MemberController {
         return new Response<>(200, "성공적으로 간편비밀번호 인증에 성공했습니다.");
     }
 
-<<<<<<< backend/backend/src/main/java/com/example/backend/controller/MemberController.java
     @PostMapping("/user/quiz/point")
     public Response<?> updateMemberPoint(@RequestBody MemberPointDto.Request request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         memberService.updatePoint(request.getPoint(), userDetails.getMember());
         return new Response<>(200, "성공적으로 포인트가 적립되었습니다");
-=======
+    }
+
     @GetMapping("/user/point")
     public Response<PointDto.Response> getPoint(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         PointDto.Response response = memberService.getPoint(userDetails.getUsername());
         return new Response(200, "포인트를 조회하였습니다.", response);
->>>>>>> backend/backend/src/main/java/com/example/backend/controller/MemberController.java
     }
 }
