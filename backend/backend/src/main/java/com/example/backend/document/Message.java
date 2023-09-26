@@ -1,6 +1,5 @@
 package com.example.backend.document;
 
-import com.example.backend.document.GptAnswerDto.Response;
 import com.example.backend.entity.Member;
 import com.example.backend.type.MessageType;
 import java.time.LocalDateTime;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "message")
+@Document(collection = "message")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

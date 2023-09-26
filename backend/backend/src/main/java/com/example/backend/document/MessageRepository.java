@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MessageRepository extends MongoRepository<Message, String> {
-    List<Message> findAllByUserId(Long userId);
+    List<Message> findAllByUserIdOOrderByCreateAtAsc(Long userId);
 
 }
