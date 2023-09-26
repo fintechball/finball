@@ -28,19 +28,18 @@ const divStyle = {
 
 function Shop() {
   const [skinList, setSkinList] = useState<any>(null);
-  const token = useSelector((state) => state.token);
   const [index, setIndex] = useState<number>(0);
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     getSkin();
-  }, [token]);
+  }, []);
 
   const getSkin = () => {
     axios
       .get(`${BASE_HTTP_URL}/api/ball`, {
         headers: {
-          // Authorization: token.accessToken,
-          Authorization: localStorage.getItem("accessToken"),
+          Authorization: auth.accessToken,
         },
       })
       .then((response) => {
@@ -65,7 +64,7 @@ function Shop() {
         },
         {
           headers: {
-            Authorization: token.accessToken,
+            Authorization: auth.accessToken,
           },
         }
       )
@@ -80,7 +79,7 @@ function Shop() {
   return (
     <div>
       <h1>Shop</h1>
-      {skinList && (
+      {skinList && skinList.length !== 0 && (
         <div>
           <Box sx={{ flexGrow: 1 }}>
             <Grid
