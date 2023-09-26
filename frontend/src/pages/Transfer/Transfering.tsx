@@ -5,11 +5,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 function Transfering() {
   const location = useLocation();
-  const sendMoney = location.state;
+  const sendMoney = location.state.money;
   const navigate = useNavigate();
 
-  const receiverName = "정영빈";
-  //   const sendMoney = 30000;
+  const receiverName = location.state.userName;
   const [sended, setSended] = useState(false);
   const [isbutton, setIsButton] = useState(false);
   function checkSended() {
@@ -39,9 +38,9 @@ function Transfering() {
             width: "360px",
             backgroundColor: "#7165E3",
             color: "white",
-            position: "relative",
-            left: "0",
-            top: "130px",
+            // position: "relative",
+            // left: "0",
+            // top: "130px",
           }}
           onClick={() => navigate("/accountDetail")}
         >

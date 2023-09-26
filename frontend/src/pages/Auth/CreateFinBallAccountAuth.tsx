@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
-function MyDataAuth() {
+function CreateFinBallAccountAuth() {
 
     const [name, setName] = useState("");
     const [firstRegNum, setFirstRegNum] = useState("");
@@ -69,7 +69,7 @@ function MyDataAuth() {
             })
             .then((res) => {
                 alert("성공 : " + res.data.message);
-                navigate(-1); //이전 페이지로 이동
+                navigate("/create/finball-account")
             })
             .catch((err) => {
                 alert("에러발생 : " + err);
@@ -78,9 +78,9 @@ function MyDataAuth() {
 
     return (
         <div>
-            <h1>마이데이터 인증</h1>
+            <h1>계좌 생성</h1>
             <hr />
-            <p>마이데이터 인증을 위해 이름과 주민등록번호를 입력해주세요.</p>
+            <p>계좌 생성을 위해 이름과 주민등록번호를 입력해주세요.</p>
             <div>
                 <div>이름</div>
                 <Input
@@ -115,4 +115,4 @@ function MyDataAuth() {
     )
 }
 
-export default MyDataAuth;
+export default CreateFinBallAccountAuth;

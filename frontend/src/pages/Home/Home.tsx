@@ -16,11 +16,11 @@ function Home() {
     <div className={styles.container}>
       <div className={styles.minicontainer}>
         <h2>우리 계좌</h2>
-          <button onClick={() => navigate("/my-data/auth")}>
-            핀볼 계좌 생성하기
-          </button>
+        <button onClick={() => navigate("/create/finball/auth")}>
+          핀볼 계좌 생성하기
+        </button>
         <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
-          <Pinball value={state}/>
+          <Pinball value={state} />
         </div>
       </div>
 

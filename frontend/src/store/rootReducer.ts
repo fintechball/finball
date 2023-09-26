@@ -6,6 +6,8 @@ import auth from "./slices/authSlice";
 import logged from "./slices/loggedSlice";
 import user from "./slices/userInfoSlice";
 import account from "./slices/accountSlice";
+import tradeHistory from "./slices/tradeHistorySlice";
+import opposite from "./slices/oppositeSlice";
 
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -13,7 +15,7 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["auth"],
+  whitelist: ["auth", "account", "tradeHistory", "opposite"],
 };
 
 const reducer = combineReducers({
@@ -24,6 +26,8 @@ const reducer = combineReducers({
   logged,
   user,
   account,
+  tradeHistory,
+  opposite,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
