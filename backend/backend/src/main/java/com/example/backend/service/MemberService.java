@@ -3,6 +3,8 @@ package com.example.backend.service;
 import com.example.backend.dto.TokenDto;
 import com.example.backend.dto.UserSignUpDto.Request;
 import com.example.backend.dto.member.AuthEasyPasswordDto;
+import com.example.backend.dto.member.PointDto;
+import com.example.backend.dto.member.PointDto.Response;
 import com.example.backend.dto.member.RegistEasyPasswordDto;
 import com.example.backend.dto.member.UserIdDuplicateCheckDto;
 import com.example.backend.entity.Member;
@@ -49,5 +51,18 @@ public class MemberService {
         if(!request.getEasyPassword().equals(member.getEasyPassword())){
             throw new CustomException(ErrorCode.EASY_PASSWORD_NO_SUCH_ELEMENT);
         }
+    }
+
+    public PointDto.Response getPoint(String username) {
+
+        Optional<Member> optionalMember = memberRepository.findByUserId(username);
+
+        if(!optionalMember.isPresent()) {
+            throw new CustomException(ErrorCode.NOT_SAME_DATA_VALUE);
+        }
+
+        Member member = optionalMember.get();
+
+        return new PointDto.Response(member.getPoint());
     }
 }
