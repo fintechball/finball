@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -31,6 +32,7 @@ function Shop() {
   const [skinList, setSkinList] = useState<any>(null);
   const [index, setIndex] = useState<number>(0);
   const auth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getSkin();
@@ -92,7 +94,7 @@ function Shop() {
                 <Grid xs={2} sm={4} md={4} key={index}>
                   <img
                     src={skin.image}
-                    width={50}
+                    className={styles.skinImg}
                     onClick={() => handleOpen(index)}
                   />
                   <p className={styles.skinName}>{skin.name}</p>
@@ -115,7 +117,7 @@ function Shop() {
               <div style={divStyle}>
                 <img
                   src={skinList[index].image}
-                  width={50}
+                  className={styles.skinImg}
                   onClick={() => handleOpen(index)}
                 />
                 <p className={styles.skinName}>{skinList[index].name}</p>
@@ -129,6 +131,9 @@ function Shop() {
           </Modal>
         </div>
       )}
+      <button className={styles.preview} onClick={() => navigate("/inventory")}>
+        인벤토리 가기
+      </button>
     </div>
   );
 }
