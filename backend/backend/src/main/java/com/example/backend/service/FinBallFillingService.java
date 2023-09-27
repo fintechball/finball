@@ -118,7 +118,7 @@ public class FinBallFillingService {
                         historyDto.getAccountNo())
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 계좌가 없습니다."));
 
-        finBallAccount.setBalance(historyDto.getRemain());
+        finBallAccount.setBalance(historyDto.getBalance());
         finBallAccountRepository.save(finBallAccount);
         finBallHistoryRepository.save(historyDto.toFinBallHistory(finBallAccount));
     }

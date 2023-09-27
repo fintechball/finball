@@ -49,7 +49,7 @@ function TransferAccount() {
 
     const uniqueArray = tradeHistoryList.filter((tradeHistory) => {
       // 객체의 특정 요소를 기준으로 중복 체크
-      const id = tradeHistory.oppositeDto.accountNo;
+      const id = tradeHistory.opposite.accountNo;
 
       if (!uniqueMap.has(id)) {
         // 중복이 아닌 경우, Map에 해당 id 추가
@@ -64,7 +64,7 @@ function TransferAccount() {
 
     uniqueArray.map((element) => {
       const object = {
-        oppositeDto: element.oppositeDto,
+        opposite: element.opposite,
       };
       // setRecentSendAccount((recent) => recent.push(object));
       recentOppositeAccount.push(object);
@@ -277,24 +277,24 @@ function TransferAccount() {
             [...recentSendAccount].map((recentAccount, index) => (
               <div className={styles.account}>
                 <img
-                  src={recentAccount.oppositeDto.company.logo}
+                  src={recentAccount.opposite.company.logo}
                   width={50}
                   height={50}
                 />
                 <div>
                   <p className={styles.balance}>
-                    {recentAccount.oppositeDto.userName}
+                    {recentAccount.opposite.userName}
                   </p>
                   <p className={styles.text}>
-                    {recentAccount.oppositeDto.company.name}
-                    {recentAccount.oppositeDto.accountNo}
+                    {recentAccount.opposite.company.name}
+                    {recentAccount.opposite.accountNo}
                   </p>
                 </div>
                 <button
                   onClick={() => {
                     dispatch(
                       setOpposite({
-                        opposite: recentAccount.oppositeDto,
+                        opposite: recentAccount.opposite,
                       })
                     );
                     navigate("/transferValue");
