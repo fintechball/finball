@@ -22,8 +22,8 @@ public class AccountHistoryDto {
     private LocalDate date;
     private LocalTime time;
     private DealType type;
-    private Long remain;
-    private OppositeDto oppositeDto;
+    private Long balance;
+    private OppositeDto opposite;
 
     public AccountHistoryDto(FinBallHistory finBallHistory) {
         this.id = finBallHistory.getId();
@@ -32,8 +32,8 @@ public class AccountHistoryDto {
         this.date = finBallHistory.getDate().toLocalDate();
         this.time = finBallHistory.getDate().toLocalTime();
         this.type = finBallHistory.getDealType();
-        this.remain = finBallHistory.getBalance();
-        this.oppositeDto = new OppositeDto(finBallHistory);
+        this.balance = finBallHistory.getBalance();
+        this.opposite = new OppositeDto(finBallHistory);
     }
 
 }
