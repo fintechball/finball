@@ -153,9 +153,15 @@ function CreateFinBallAccount() {
         />
       </div>
       <br />
-      <Button type="primary" onClick={createFinBallAccount}>
+      {/* <Button type="primary" onClick={createFinBallAccount}>
         계좌 생성하기
-      </Button>
+      </Button> */}
+      <button
+        className={`${styles.button} ${styles.small}`}
+        onClick={createFinBallAccount}
+      >
+        계좌 생성하기
+      </button>
     </div>
   );
 }

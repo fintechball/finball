@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import styles from "./SignUpCerti.module.scss";
 
 interface FormData {
   name: string;
@@ -86,33 +87,37 @@ function SignUpCerti() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2>휴대폰 인증</h2>
-      <p>휴대폰 번호</p>
-      <input
-        type="text"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        disabled={isPhoneValid}
-      />
+      <div className={styles.minicontainer}>
+        <p>휴대폰 번호</p>
+        <input
+          type="text"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          disabled={isPhoneValid}
+        />
+      </div>
 
-      <button type="button" onClick={getCode}>
+      <button className={styles.button} onClick={getCode}>
         인증번호 전송
       </button>
 
-      <p>인증번호 입력</p>
-      <input
-        type="text"
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
-        disabled={isPhoneValid}
-      />
+      <div className={styles.minicontainer}>
+        <p>인증번호 입력</p>
+        <input
+          type="text"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          disabled={isPhoneValid}
+        />
+      </div>
 
-      <button type="button" onClick={codeCheck}>
+      <button className={styles.button} onClick={codeCheck}>
         인증하기
       </button>
 
-      <button type="button" onClick={onSubmit}>
+      <button className={styles.button} onClick={onSubmit}>
         가입하기
       </button>
     </div>

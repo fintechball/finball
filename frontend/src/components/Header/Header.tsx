@@ -20,20 +20,22 @@ function Header() {
 
   // const token = useSelector((state: RootState) => state.auth.accessToken);
 
-
   return (
     <div>
       {/* <UserInfo /> */}
       {/* {token} */}
       <div className={styles.header}>
         <img src={finballLogo} alt="Finball Logo" />
-        <p>{title}</p>
+        {/* <p>{title}</p> */}
         {isLogged ? (
           <Logout />
         ) : (
-          <Button type="primary" onClick={() => navigate("/login")}>
-            Login
-          </Button>
+          <button
+            className={styles.loginbutton}
+            onClick={() => navigate("/login")}
+          >
+            로그인
+          </button>
         )}
       </div>
     </div>
