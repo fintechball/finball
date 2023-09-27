@@ -7,13 +7,12 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import styles from "./TransferAccount.module.css";
 import { setOpposite } from "../../store/slices/oppositeSlice";
+import OppositeShort from "../../components/Transfer/OppositeShort";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function TransferAccount() {
-  const account = useSelector((state) => state.account);
   const auth = useSelector((state) => state.auth);
-  const tradeHistory = useSelector((state) => state.tradeHistory);
   const [isEnterAccount, setIsEnterAccount] = useState(false);
   const [showBankList, setShowBankList] = useState(false);
   const [showNumberPad, setShowNumberPad] = useState(false);
@@ -21,57 +20,9 @@ function TransferAccount() {
   const [bankName, setBankName] = useState("");
   const [bankAccount, setBankAccount] = useState<string>("");
   const [isError, setIsError] = useState(false);
-  const [recentSendAccount, setRecentSendAccount] = useState<Array<any>>([]);
-  const [userAccountList, setUserAccountList] = useState(null);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    removeDuplicates(tradeHistory.tradeHistory);
-    axios
-      .get(`${BASE_HTTP_URL}/api/user/account`, {
-        headers: {
-          Authorization: auth.accessToken,
-        },
-      })
-      .then((response) => {
-        setUserAccountList(response.data.data.userAccountList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  const removeDuplicates = (tradeHistoryList) => {
-    // 중복을 제거하기 위한 맵(Map) 객체 생성
-    const uniqueMap = new Map();
-
-    const uniqueArray = tradeHistoryList.filter((tradeHistory) => {
-      // 객체의 특정 요소를 기준으로 중복 체크
-      const id = tradeHistory.opposite.accountNo;
-
-      if (!uniqueMap.has(id)) {
-        // 중복이 아닌 경우, Map에 해당 id 추가
-        uniqueMap.set(id, true);
-        return true;
-      }
-
-      return false;
-    });
-
-    const recentOppositeAccount = new Array<Object>();
-
-    uniqueArray.map((element) => {
-      const object = {
-        opposite: element.opposite,
-      };
-      // setRecentSendAccount((recent) => recent.push(object));
-      recentOppositeAccount.push(object);
-    });
-
-    setRecentSendAccount(recentOppositeAccount);
-  };
 
   const enterAccount = () => {
     if (!isEnterAccount) {
@@ -155,6 +106,8 @@ function TransferAccount() {
       !showBankList &&
       !showNumberPad
     ) {
+      console.log(bankName.code);
+      console.log(bankAccount);
       find();
     } else {
       setIsError(false);
@@ -162,6 +115,7 @@ function TransferAccount() {
   }, [showBankList, showNumberPad]);
 
   const find = () => {
+    console.log("do find!!!");
     axios
       .post(
         `${BASE_HTTP_URL}/api/user/opposite/account`,
@@ -235,76 +189,7 @@ function TransferAccount() {
           )}
         </>
       ) : (
-        <>
-          <div className={styles.smallText}>내 계좌</div>
-          {userAccountList &&
-            [...userAccountList].map((userAccount, index) => {
-              if (userAccount.account.no === account.account.no) {
-                return null; // 렌더링하지 않음
-              }
-
-              return (
-                <div className={styles.account}>
-                  <img src={userAccount.company.logo} />
-                  <div>
-                    <p className={styles.balance}>{userAccount.account.name}</p>
-                    <p className={styles.text}>
-                      {userAccount.company.name}
-                      {userAccount.account.no}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => {
-                      dispatch(
-                        setOpposite({
-                          opposite: {
-                            accountNo: userAccount.account.no,
-                            company: userAccount.company,
-                            userName: auth.name,
-                          },
-                        })
-                      );
-                      navigate("/transferValue");
-                    }}
-                  >
-                    송금
-                  </button>
-                </div>
-              );
-            })}
-          <div className={styles.smallText}>최근 보낸 계좌</div>
-          {recentSendAccount &&
-            [...recentSendAccount].map((recentAccount, index) => (
-              <div className={styles.account}>
-                <img
-                  src={recentAccount.opposite.company.logo}
-                  width={50}
-                  height={50}
-                />
-                <div>
-                  <p className={styles.balance}>
-                    {recentAccount.opposite.userName}
-                  </p>
-                  <p className={styles.text}>
-                    {recentAccount.opposite.company.name}
-                    {recentAccount.opposite.accountNo}
-                  </p>
-                </div>
-                <button
-                  onClick={() => {
-                    dispatch(
-                      setOpposite({
-                        opposite: recentAccount.opposite,
-                      })
-                    );
-                    navigate("/transferValue");
-                  }}
-                >
-                  송금
-                </button>
-              </div>
-            ))}
-        </>
+        <OppositeShort />
       )}
 
       {showNumberPad && (

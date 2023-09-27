@@ -16,6 +16,12 @@ function TransferValue() {
   const [showNumberPad, setShowNumberPad] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log(account);
+    console.log(opposite);
+    console.log(auth);
+  }, []);
+
   const clickButton = (number) => {
     if (number === "<-") {
       setValue(value.slice(0, -1));
@@ -49,7 +55,7 @@ function TransferValue() {
           plusBank: {
             accountNo: opposite.opposite.accountNo,
             companyId: opposite.opposite.company.code,
-            userName: opposite.opposite.userName,
+            userName: opposite.opposite.name,
             balance: null, //  finball 계좌는 서버에서 balance 넣어줘야됨
           },
           value: value,
@@ -64,7 +70,7 @@ function TransferValue() {
         navigate("/transfering", {
           state: {
             money: parseInt(value),
-            userName: opposite.opposite.userName,
+            userName: opposite.opposite.name,
           },
         });
       })
@@ -92,7 +98,7 @@ function TransferValue() {
       <p className={styles.bigText}>내 {account.account.name}에서</p>
       <p className={styles.smallText}>잔액 {account.account.balance}원</p>
 
-      <p className={styles.bigText}>{opposite.opposite.userName}에게</p>
+      <p className={styles.bigText}>{opposite.opposite.name}에게</p>
       <p className={styles.smallText}>
         {opposite.opposite.company.name}
         {opposite.opposite.accountNo}
