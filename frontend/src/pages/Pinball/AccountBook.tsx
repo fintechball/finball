@@ -614,9 +614,7 @@ function AccountBook() {
           <AccountDetailComponent isFinBall={true} />
         </div>
         <div key="btn3">
-          {loading ? (
-            "loading...."
-          ) : selectedBtn === "btn3" && state.categoryList.length === 0 ? (
+          { selectedBtn === "btn3" && state.categoryList.length === 0 ? (
             <button
               onClick={openModal}
               style={{ width: "300px", height: "300px" }}
