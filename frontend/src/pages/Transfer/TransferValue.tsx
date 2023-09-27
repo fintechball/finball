@@ -33,6 +33,9 @@ function TransferValue() {
   };
 
   const doTransfer = () => {
+    console.log(account);
+    console.log(opposite);
+    console.log(auth);
     axios
       .post(
         `${BASE_HTTP_URL}/api/user/transfer`,
