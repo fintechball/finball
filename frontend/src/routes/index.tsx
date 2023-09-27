@@ -102,8 +102,8 @@ function Router() {
           <Route path="/accountDetail" element={<AccountDetail />} />
           <Route path="/transferAccount" element={<TransferAccount />} />
           <Route path="/transferValue" element={<TransferValue />} />
-          {/* 모임통장 */}
-          <Route path="/groupaccount" element={<GroupAccount />} />
+          {/* 모임통장 -> 동적 라우팅 적용 */}
+          <Route path="/groupaccount/:no" element={<GroupAccount />} />
           {/* 모임통장 생성 페이지 */}
           <Route path="/create/group-account" element={<CreateGroupAccount />} />
           {/* 모달 테스트 (사용자 초대 모달) */}
