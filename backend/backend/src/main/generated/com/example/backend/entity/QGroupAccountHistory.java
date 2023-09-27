@@ -24,7 +24,7 @@ public class QGroupAccountHistory extends EntityPathBase<GroupAccountHistory> {
 
     public final NumberPath<Long> balance = createNumber("balance", Long.class);
 
-    public final DateTimePath<java.time.LocalDateTime> dealAt = createDateTime("dealAt", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> date = createDateTime("date", java.time.LocalDateTime.class);
 
     public final EnumPath<com.example.backend.type.DealType> dealType = createEnum("dealType", com.example.backend.type.DealType.class);
 
