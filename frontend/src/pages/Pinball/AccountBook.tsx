@@ -15,7 +15,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { setAccountBooks } from "../../store/slices/accountBookSlice";
 import { Carousel } from "react-responsive-carousel";
 import { useSelector, useDispatch } from "react-redux";
-import FinBallDetailComponent from "../Transfer/FinBallDetailComponent";
+import AccountDetailComponent from "../Transfer/AccountDetailComponent";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function AccountBook() {
@@ -611,12 +611,10 @@ function AccountBook() {
                 </div>
             </div>
             )} */}
-          <FinBallDetailComponent isFinBall={true} />
+          <AccountDetailComponent isFinBall={true} />
         </div>
         <div key="btn3">
-          {loading ? (
-            "loading...."
-          ) : selectedBtn === "btn3" && state.categoryList.length === 0 ? (
+          { selectedBtn === "btn3" && state.categoryList.length === 0 ? (
             <button
               onClick={openModal}
               style={{ width: "300px", height: "300px" }}

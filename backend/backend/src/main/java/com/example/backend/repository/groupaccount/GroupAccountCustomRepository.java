@@ -49,9 +49,9 @@ public class GroupAccountCustomRepository extends QuerydslRepositorySupport {
                 .select(groupAccountHistory)
                 .distinct()
                 .from(groupAccountHistory)
-                .join(groupAccountHistory.games, groupGameResult).fetchJoin()
-                .join(groupGameResult.groupAccountMember, groupAccountMember)
-                .join(groupAccountMember.member, member)
+                .leftJoin(groupAccountHistory.games, groupGameResult).fetchJoin()
+                .leftJoin(groupGameResult.groupAccountMember, groupAccountMember)
+                .leftJoin(groupAccountMember.member, member)
                 .where(groupAccountHistory.groupAccount.accountNo.eq(groupAccountId))
                 .fetch();
         return result;

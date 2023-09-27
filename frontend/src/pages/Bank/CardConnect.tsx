@@ -23,7 +23,7 @@ export default function CardConnect() {
     const jsonObject: { auth: string } = JSON.parse(response);
     const authData = JSON.parse(jsonObject.auth);
     const accessToken = authData.accessToken;
-  console.log(List)
+  // console.log(List)
   const findCard = async () => {
     await axios({
       method: "post",
@@ -36,7 +36,7 @@ export default function CardConnect() {
       }
     })
       .then((res) => {
-        console.log(res.data.data.cardList)
+        // console.log(res.data.data.cardList)
         setState(res.data.data.cardList);
         const initialToggledItems = {};
         let initialChooseItems = [];
@@ -46,6 +46,7 @@ export default function CardConnect() {
         });
 
         setToggledItems(initialToggledItems);
+        console.log(initialToggledItems)
         console.log(initialChooseItems)
         setchooseItems(initialChooseItems);
       })
@@ -87,8 +88,7 @@ export default function CardConnect() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setToggledItems((prevState) => {
       const Name = event.target.name;
-      return { ...state, [Name]: !prevState[Name] };
-      // 변경할 필요가 없는 항목은 그대로 반환
+      return { ...prevState, [Name]: !prevState[Name] };
     });
   };
   const handlereset = () => {
@@ -119,7 +119,6 @@ export default function CardConnect() {
         console.log("삐빅", err);
       });
   };
-  console.log(chooseItems)
   return (
     <>
       {loading ? (

@@ -1,8 +1,11 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.finball.CompanyDto;
+import com.example.backend.dto.finball.OppositeDto;
 import com.example.backend.dto.groupaccount.GroupGameResultDto;
 import com.example.backend.dto.groupaccount.GroupTradeHistoryDto;
 import com.example.backend.type.DealType;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,7 @@ public class GroupAccountHistory {
     private Long balance;
 
     @Column
-    private LocalDateTime dealAt = LocalDateTime.now();
+    private LocalDateTime date = LocalDateTime.now();
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -59,16 +62,30 @@ public class GroupAccountHistory {
 
     @OneToMany(mappedBy = "groupAccountHistory")
     private List<GroupGameResult> games = new ArrayList<GroupGameResult>();
-
+    
     public GroupTradeHistoryDto toGroupTradeHistoryDto() {
         List<GroupGameResultDto> games = this.games.stream()
                 .map(GroupGameResult::toGroupGameResultDto).collect(
                         Collectors.toList());
+        CompanyDto companyDto = CompanyDto.builder()
+                .code(this.opBankCpCode)
+                .name(this.opBankCpName)
+                .logo(this.opBankCpLogo)
+                .build();
+        OppositeDto opposite = OppositeDto.builder()
+                .accountNo(this.opAccountNo)
+                .userName(this.target)
+                .company(companyDto).build();
+
+
         return GroupTradeHistoryDto.builder()
                 .id(this.id)
-                .name(this.target)
+                .balance(this.balance)
                 .value(this.value)
+                .date(this.date.toLocalDate())
+                .time(this.date.toLocalTime())
                 .type(this.dealType)
+                .opposite(opposite)
                 .result(games)
                 .build();
     }

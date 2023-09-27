@@ -28,7 +28,7 @@ public class AccountController {
 
     @PostMapping("/user/account")
     public Response<?> registerAccount(@RequestBody AccountRegisterDto.Request request,
-                                       @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         accountService.register(request, userDetails.getMember());
         return new Response<>(200, "정상적으로 사용자의 타행 계좌가 등록되었습니다.", null);
     }
