@@ -74,6 +74,6 @@ public class HistoryService {
         System.out.println(restDto);
 
         return (List<AccountHistoryDto>) restTemplateUtil.parseListBody(
-                restDto, "tradeHistoryDtoList");
+                restDto, "tradeHistoryList");
     }
 }

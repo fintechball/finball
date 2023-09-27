@@ -68,8 +68,8 @@ public class AccountTransferDto {
                     .date(LocalDate.now())
                     .time(LocalTime.now())
                     .type(type)
-                    .remain(remain)
-                    .oppositeDto(oppositeDto)
+                    .balance(remain)
+                    .opposite(oppositeDto)
                     .build();
 
         }
