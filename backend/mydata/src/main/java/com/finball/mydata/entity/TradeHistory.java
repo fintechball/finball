@@ -65,8 +65,8 @@ public class TradeHistory {
                 .date(this.date)
                 .time(this.time)
                 .type(this.type)
-                .remain(this.remain)
-                .oppositeDto(oppositeDto)
+                .balance(this.remain)
+                .opposite(oppositeDto)
                 .build();
     }
 }
