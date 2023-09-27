@@ -8,7 +8,10 @@ import user from "./slices/userInfoSlice";
 import account from "./slices/accountSlice";
 import tradeHistory from "./slices/tradeHistorySlice";
 import opposite from "./slices/oppositeSlice";
-import inviteGroupAccount from "./slices/inviteGroupAccountSlice"
+import accountbook from "./slices/accountBookSlice";
+import inviteGroupAccount from "./slices/inviteGroupAccountSlice";
+import quiz from "./slices/quizSlice";
+import finBallAccount from "./slices/finBallAccountSlice";
 
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -16,7 +19,14 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["auth", "account", "tradeHistory", "opposite"],
+  whitelist: [
+    "auth",
+    "account",
+    "tradeHistory",
+    "opposite",
+    "quiz",
+    "finBallAccount",
+  ],
 };
 
 const reducer = combineReducers({
@@ -29,7 +39,10 @@ const reducer = combineReducers({
   account,
   tradeHistory,
   opposite,
+  accountbook,
   inviteGroupAccount,
+  quiz,
+  finBallAccount,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

@@ -31,8 +31,7 @@ function CreateGroupAccount() {
             })
             .then((res) => {
                 console.log("모임 계좌 생성 완료" + res.data.data); //계좌번호
-
-                navigate("/"); //어디로 이동할지?
+                navigate("/groupaccount/" + res.data.data); //그룹 계좌로 바로 이동
             })
             .catch((err) => {
                 console.log(err);
