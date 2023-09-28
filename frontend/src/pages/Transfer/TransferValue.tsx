@@ -2,25 +2,82 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./TransferValue.module.css";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
-function TransferValue() {
-  const auth = useSelector((state) => state.auth);
-  const account = useSelector((state) => state.account);
+const makeAccount = () => {
   const opposite = useSelector((state) => state.opposite);
+  const auth = useSelector((state) => state.auth);
+  console.log(opposite);
+  const account = {
+    account: {
+      no: opposite.opposite.accountNo,
+      name: auth.name,
+      balance: 0,
+    },
+    company: opposite.opposite.company,
+  };
+
+  return account;
+};
+
+let makeOpposite = () => {
+  const account = useSelector((state) => state.account);
+  const auth = useSelector((state) => state.auth);
+
+  console.log(account);
+
+  const opposite = {
+    opposite: {
+      accountNo: account.account.no,
+      company: account.company,
+      name: account.account.name,
+    },
+  };
+
+  console.log(opposite);
+
+  return opposite;
+};
+
+function TransferValue() {
+  const location = useLocation();
+  const fill = location.state?.fill;
+
+  const auth = useSelector((state) => state.auth);
+  let account = fill ? makeAccount() : useSelector((state) => state.account);
+  const opposite = fill
+    ? makeOpposite()
+    : useSelector((state) => state.opposite);
   const [value, setValue] = useState<string>("");
   const [showNumberPad, setShowNumberPad] = useState(false);
+  const [balance, setBalance] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(account);
-    console.log(opposite);
-    console.log(auth);
+    if (fill) {
+      console.log(opposite);
+      getBalance(account.account.no);
+    }
   }, []);
+
+  const getBalance = (no) => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/user/account/balance/${no}`, {
+        headers: {
+          Authorization: auth.accessToken,
+        },
+      })
+      .then((response) => {
+        setBalance(response.data.data.balance);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const clickButton = (number) => {
     if (number === "<-") {
@@ -39,9 +96,6 @@ function TransferValue() {
   };
 
   const doTransfer = () => {
-    console.log(account);
-    console.log(opposite);
-    console.log(auth);
     axios
       .post(
         `${BASE_HTTP_URL}/api/user/transfer`,
@@ -96,7 +150,9 @@ function TransferValue() {
   return (
     <div className={styles.container}>
       <p className={styles.bigText}>내 {account.account.name}에서</p>
-      <p className={styles.smallText}>잔액 {account.account.balance}원</p>
+      <p className={styles.smallText}>
+        잔액 {fill ? balance : account.account.balance}원
+      </p>
 
       <p className={styles.bigText}>{opposite.opposite.name}에게</p>
       <p className={styles.smallText}>

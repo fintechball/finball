@@ -89,7 +89,12 @@ function AccountDetailComponent(props) {
           </p>
           <p className={styles.balance}>{account.account.balance}원</p>
           <div className={styles.buttonBox}>
-            <button className={styles.fill}>채우기</button>
+            <button
+              onClick={() => navigate("/fillAccount")}
+              className={styles.fill}
+            >
+              채우기
+            </button>
             <button
               className={styles.send}
               onClick={() => navigate("/transferAccount")}
