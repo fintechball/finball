@@ -80,4 +80,14 @@ public class InventoryService {
         Inventory selectingInventory = selectingInventoryOptinal.get();
         selectingInventory.setSelected(true);
     }
+
+    @Transactional
+    public void initBall(String userId) {
+        Skin skin = skinRepository.findById(5L).get();
+        Member member = memberRepository.findByUserId(userId).get();
+        Inventory inventory = new PurchaseBallDto().initInventory(skin, member);
+        inventoryRepository.save(inventory);
+    }
+
+
 }
