@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import transfer from "../../assets/transfer.json";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Transfering() {
   const location = useLocation();
+  const account = useSelector((state) => state.account);
   const sendMoney = location.state.money;
   const navigate = useNavigate();
 
@@ -17,6 +19,15 @@ function Transfering() {
   function checkvisible() {
     setIsButton(true);
   }
+
+  const goToDetail = () => {
+    if (account.company.code === 106) {
+      navigate("/accountBook");
+    } else {
+      navigate("/accountDetail");
+    }
+  };
+
   useEffect(() => {
     setTimeout(() => {
       checkSended();
@@ -42,7 +53,7 @@ function Transfering() {
             // left: "0",
             // top: "130px",
           }}
-          onClick={() => navigate("/accountDetail")}
+          onClick={() => goToDetail()}
         >
           확인
         </button>

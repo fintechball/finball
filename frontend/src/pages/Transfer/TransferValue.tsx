@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./TransferValue.module.css";
 import { useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 
