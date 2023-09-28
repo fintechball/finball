@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "./Card.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -10,7 +11,7 @@ function Card() {
   const navigate = useNavigate();
 
   const [cardList, setCardList] = useState<any>(null);
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state : RootState) => state.auth);
 
   useEffect(() => {
     getCardList();

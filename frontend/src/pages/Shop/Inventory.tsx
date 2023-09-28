@@ -8,8 +8,9 @@ import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./inventory.module.css";
+import { setSkin } from "../../store/slices/skinSlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -18,6 +19,7 @@ function Inventory() {
   const [isDetail, setIsDetail] = useState<boolean>(false);
   const [point, setPoint] = useState<number>(0);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
   const theme = useTheme();
@@ -69,6 +71,7 @@ function Inventory() {
         }
       )
       .then(() => {
+        dispatch(setSkin(skin));
         getInventory();
       });
   };

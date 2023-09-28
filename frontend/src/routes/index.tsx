@@ -12,6 +12,7 @@ import SignUpCerti from "../pages/Auth/SignUpCerti";
 
 import SignUpConfrim from "../pages/Auth/SignUpConfrim";
 import SecurityKeypad from "../pages/Auth/SecurityKeypad";
+import SecuritySetting from "../pages/Auth/SecuritySetting.tsx";
 import CertificationNaver from "../pages/Auth/CertificationNaver";
 
 import Pinball from "../pages/Pinball/Pinball";
@@ -74,6 +75,7 @@ function Router() {
         <Route path="/game2" element={<Game2 />} />
         <Route path="/signupconfrim" element={<SignUpConfrim />} />
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
+        <Route path="/SecuritySetting" element={<SecuritySetting />} />
         <Route path="/certificationnaver" element={<CertificationNaver />} />
         <Route path="/accountbook" element={<AccountBook />} />
         <Route path="/navpage" element={<NavPage />} />

@@ -4,19 +4,24 @@ import styles from "./Pinball.module.css";
 import dafalautball from "../../assets/defalutball.png";
 import { useSelector,useDispatch } from "react-redux";
 import axios from "axios";
+
 import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
+import { setFinball } from "../../store/slices/finballSlice";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
-function GroupPinball(value) {
+function Pinball(value) {
   const [account, setAccount] = useState<any>(null);
   const [engine, setEngine] = useState(null);
   const [render, setRender] = useState(null);
   const [balls, setBalls] = useState([]);
-
-  const [ballunit,setBallunit]=useState(10**((finball.account.balance).toString().length-3))
-  const [ballcnt, setBallcnt] = useState((finball.account.balance-Number((finball.account.balance).toString()[0])*10**((finball.account.balance).toString().length-1))/ballunit);
+  const finball = useSelector((state) => state.finBallAccount);
+  const ballunit=useSelector((state)=>state.finballSlice.ballunit)
+  const ballcnt = useSelector((state)=>state.finballSlice.ballcnt)
+  // const ballunit=useState(1000)
+  // const ballcnt = useState(0)
+  // const [ballunit,setBallunit]=useState(10**((finball.account.balance).toString().length-3))
+  // const [ballcnt, setBallcnt] = useState((finball.account.balance-Number((finball.account.balance).toString()[0])*10**((finball.account.balance).toString().length-1))/ballunit);
   const finBallAccount = useSelector((state) => state.finBallAccount);
-  const [initialized, setInitialized] = useState(false);
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   // 부모 컨테이너의 크기를 가져오는 함수
@@ -27,23 +32,90 @@ function GroupPinball(value) {
       height: parentContainer.clientHeight,
     };
   };
+  const test={}
+  console.log(test)
   useEffect(() => {
-      if(finball.account.balance==0){
-        setBallcnt(0)
-        setBallunit(10000)
-      }
-      else{
-        const n=(finball.account.balance).toString().length
-        setBallunit(10**(n-2))
-        if (((finball.account.balance).toString()[1])*10**(n-2)-10**(n-1)/2>0){
-          setBallcnt(((finball.account.balance).toString()[1])*10**(n-2)-10**(n-1)/ballunit)
+    getFinBAllAccount();
+  }, []);
+
+  const getFinBAllAccount = () => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/fin-ball`, {
+        headers: {
+          Authorization: auth.accessToken,
+        },
+      })
+      .then((response) => {
+        if (finBallAccount.account.no !== undefined) {
+          console.log("차액");
+          console.log(
+            response.data.data.account.balance - finBallAccount.account.balance
+          );
         }
+          dispatch((dispatch) => {
+            const balance = response.data.data.account.balance;
+            const balanceString = balance.toString();
+            
+            if (balanceString.length >= 3) {
+              const ballunit = 10 ** (balanceString.length - 3);
+              const firstDigit = Number(balanceString[0]);
+              const ballcnt = (balance - firstDigit * 10 ** (balanceString.length - 1)) / ballunit;
+              
+              dispatch(
+                setFinball({
+                  ballunit: ballunit,
+                  ballcnt: ballcnt,
+                })
+                );
+              } else {
+                const ballunit = 1000;
+                const ballcnt=0;
+                dispatch(
+                  setFinball({
+                    ballunit: ballunit,
+                    ballcnt: ballcnt,
+                  }))
+                }
+              });
+              
+              dispatch(
+                setFinBallAccount({
+                  account: response.data.data.account,
+                  company: response.data.data.company,
+                })
+                );
+              // else{
+              //   const ballunit = 1000;
+              //   const ballcnt=0;
+              //   dispatch(
+              //     setFinball({
+              //       ballunit: ballunit,
+              //       ballcnt: ballcnt,
+              //     }))
+              // }
+              })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    console.log(ballunit)
+    console.log(ballcnt)
+    if (render) {
+      Render.stop(render);
+      render.canvas.remove();
+      setRender(null);
+      Engine.clear(engine);
+  }
+        // const n=(finball.account.balance).toString().length
+
+        // if (((finball.account.balance).toString()[1])*10**(n-2)-10**(n-1)/2>0){
+        //   setBallcnt(((finball.account.balance).toString()[1])*10**(n-2)-10**(n-1)/ballunit)
+        // }
         
-        else{
-          setBallcnt(((finball.account.balance).toString()[1])*10**(n-2)/ballunit)
-        }
-      }
-      if (!initialized) {
+        // else{
+        //   setBallcnt(((finball.account.balance).toString()[1])*10**(n-2)/ballunit)
+        // }
     const parentSize = getParentContainerSize();
     // Create a Matter.js engine
     const newEngine = Engine.create({});
@@ -172,7 +244,6 @@ function GroupPinball(value) {
   
       function update() {
         // 각 공의 위치를 조정
-        console.log(133141342)
         ball.forEach(b => {
           b.position.y += exitVelocity / 30; // 1초에 60프레임으로 가정
           // 화면 밖으로 벗어난 공을 삭제
@@ -266,10 +337,11 @@ function GroupPinball(value) {
     const Boundary = [ground, wall1, wall2, wall3];
     World.add(newEngine.world, [...Boundary, ...balls]);
 
+    // Run the engine and renderer
+    // Render.stop(newRender);
     Runner.run(runner, newEngine);
     Render.run(newRender);
-    setInitialized(true);
-  }
+
   }, [finball.account.balance]);
 
   return (
@@ -283,4 +355,4 @@ function GroupPinball(value) {
   );
 }
 
-export default GroupPinball;
+export default Pinball;
