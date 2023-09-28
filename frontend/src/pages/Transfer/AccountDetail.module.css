@@ -84,6 +84,13 @@
   color: rgb(170, 143, 195);
 }
 
+.minusValue {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 16px;
+  color: #979797;
+}
+
 .money {
   text-align: right;
 }

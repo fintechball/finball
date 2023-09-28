@@ -1,31 +1,28 @@
-import CardContainer from "../../components/Card/CardContainer";
-import BankAccountContainer from "../../components/BankAccount/BankAccountContainer";
-import GroupAccountContainer from "../../components/GroupAccount/GroupAccountContainer";
-import FinBallContainer from "../../components/FinBall/FinBallContainer";
-
-import Pinball from "../Pinball/Pinball";
-import styles from "./Home.module.css";
+import Pinball from "../../pages/Pinball/Pinball";
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
+import styles from "./FinBall.module.scss";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
-function Home() {
+function FinBall() {
   const navigate = useNavigate();
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  const state = { cost: "5,000,000", parent: "home-canvas" };
 
   const auth = useSelector((state) => state.auth);
   const finBallAccount = useSelector((state) => state.finBallAccount);
   const dispatch = useDispatch();
-  console.log();
+
   useEffect(() => {
     getFinBAllAccount();
   }, []);
+
+  useEffect(() => {
+    console.log(finBallAccount);
+    console.log(finBallAccount.account.balance);
+  });
 
   const getFinBAllAccount = () => {
     axios
@@ -50,16 +47,25 @@ function Home() {
       })
       .catch((error) => {
         console.log(error);
+        dispatch(
+          setFinBallAccount({
+            account: {},
+            company: {},
+          })
+        );
       });
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.minicontainer}>
-        <h2>우리 계좌</h2>
-        {/* <button onClick={() => navigate("/create/finball/auth")}>
-          핀볼 계좌 생성하기
-        </button>
+    <>
+      {finBallAccount.account.balance === undefined ? (
+        <div className={styles.noncontainer}>
+          <p>연결된 핀볼 계좌가 없습니다.</p>
+          <button onClick={() => navigate("/create/finball/auth")}>
+            + 계좌 생성하기
+          </button>
+        </div>
+      ) : (
         <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
           {auth.accessToken == "" ? (
             "login이 필요합니다"
@@ -68,26 +74,10 @@ function Home() {
               value={{ parent: "home-canvas", width: "300px", height: "150px" }}
             />
           )}
-        </div> */}
-        <FinBallContainer />
-      </div>
-
-      <div className={styles.minicontainer}>
-        <h2>연결된 카드 목록</h2>
-        <CardContainer />
-      </div>
-
-      <div className={styles.minicontainer}>
-        <h2 onClick={() => navigate("/accountList")}>연결된 타행계좌 목록</h2>
-        <BankAccountContainer />
-      </div>
-
-      <div className={styles.minicontainer}>
-        <h2>연결된 모임통장 목록</h2>
-        <GroupAccountContainer />
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
 
-export default Home;
+export default FinBall;
