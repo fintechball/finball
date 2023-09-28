@@ -22,7 +22,12 @@ function TradeHistory({ tradeHistoryDict }) {
                   <p className={styles.time}>{tradeHistory.time}</p>
                 </div>
                 <div className={styles.money}>
-                  <p className={styles.value}>{tradeHistory.value}원</p>
+                  {tradeHistory.type === "입금" ? (
+                    <p className={styles.value}>{tradeHistory.value}원</p>
+                  ) : (
+                    <p className={styles.minusValue}>-{tradeHistory.value}원</p>
+                  )}
+
                   <p className={styles.remain}>{tradeHistory.balance}원</p>
                 </div>
               </div>
