@@ -67,7 +67,7 @@ function TransferValue() {
         }
       )
       .then(() => {
-        navigate("/transfering", {
+        navigate("/securitykeypad", {
           state: {
             money: parseInt(value),
             userName: opposite.opposite.name,

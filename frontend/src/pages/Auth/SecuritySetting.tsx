@@ -24,12 +24,12 @@ const shuffle = (nums: number[]) => {
 };
 
 const SecuritySetting = () => {
-  let nums_init = Array.from({ length: 10 }, (v, k) => k)
-  const auth = useSelector((state : RootState) => state.auth);
+  let nums_init = Array.from({ length: 10 }, (v, k) => k);
+  const auth = useSelector((state: RootState) => state.auth);
   const location = useLocation();
   const formData = location.state?.formData;
-  
-  const [nums, setNums] = useState([...nums_init,'',' '])
+
+  const [nums, setNums] = useState([...nums_init, "", " "]);
   const [accessToken, setAccessToken] = useState("");
   const [isInputPassword, setIsInputPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -61,34 +61,33 @@ const SecuritySetting = () => {
       }
     }
   }, [password]);
-  
+
   const saveMyEasyPassword = async () => {
     try {
+      const updatedFormData: FormData = {
+        ...formData,
+        easyPassword: password2,
+      };
 
-        const updatedFormData: FormData = {
-          ...formData,
-          easyPassword: password2,
-        };
+      const requestBody = JSON.stringify(updatedFormData);
 
-        const requestBody = JSON.stringify(updatedFormData);
+      const response = await fetch(`https://j9e106.p.ssafy.io/api/user`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: requestBody,
+      });
 
-        const response = await fetch(`https://j9e106.p.ssafy.io/api/user`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: requestBody,
-        });
-
-        console.log(response);
-        if (response.status === 200) {
-          const responseData = await response.json();
-          alert(responseData.message);
-        }
-      } catch (error) {
-        console.error("데이터 전송 실패", error);
+      console.log(response);
+      if (response.status === 200) {
+        const responseData = await response.json();
+        alert(responseData.message);
       }
-  }
+    } catch (error) {
+      console.error("데이터 전송 실패", error);
+    }
+  };
 
   const handlePasswordChange = useCallback(
     (num) => {
