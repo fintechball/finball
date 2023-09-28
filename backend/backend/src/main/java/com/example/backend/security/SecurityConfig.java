@@ -8,6 +8,7 @@ import com.example.backend.security.jwt.HeaderTokenExtractor;
 import com.example.backend.security.jwt.JwtTokenUtils;
 import com.example.backend.security.provider.FormLoginAuthProvider;
 import com.example.backend.security.provider.JwtAuthProvider;
+import com.example.backend.service.InventoryService;
 import com.example.backend.util.mattermost.NotificationManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final JwtTokenUtils jwtTokenUtils;
+    private final InventoryService inventoryService;
     private final HeaderTokenExtractor extractor;
     private final MemberRepository memberRepository;
     private final UserDetailsServiceImpl userDetailsService;
@@ -78,7 +80,7 @@ public class SecurityConfig {
 
         formLoginFilter.setFilterProcessesUrl("/api/user/login"); // 해당 URL로 접근하면 Filter를 실행할 것이다.
         formLoginFilter.setAuthenticationSuccessHandler(
-                new FormLoginSuccessHandler(jwtTokenUtils)
+                new FormLoginSuccessHandler(jwtTokenUtils, inventoryService)
         ); // filter를 실행해서 성공되는 경우 커스텀한 Handler 실행
         formLoginFilter.afterPropertiesSet();  // 모든 properties들이 설정이 완료되고 fliter가 실행되게 하겠다.
 
