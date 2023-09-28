@@ -18,33 +18,18 @@ interface account {
     url: string;
 }
 
-interface company {
-    code: number;
+interface member {
+    profileImage: string;
     name: string;
-    logo: string;
-    connected: boolean;
+    value: number;
 }
 
-interface opposite {
-    userName: string;
+interface gameHistory {
+    name: string;
     accountNo: string;
-    company: company;
-}
-
-interface result {
-    name: string;
-    value: number;
-}
-
-interface tradeHistory {
-    id: number;
-    value: number;
     balance: number;
-    date: string;
-    time: string;
-    type: string;
-    opposite: opposite;
-    result: result[];
+    member: member[];
+    gameEnd: boolean;
 }
 
 function GroupAccountHistory() {
@@ -62,6 +47,43 @@ function GroupAccountHistory() {
     const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
 
     const refreshIconStyle = { fontSize: 12 };
+
+    const makeMemberList = (resultList, memberList) => {
+        const member: member[] = [];
+
+        for (let i = 0; i < memberList.length; i++) {
+            member.push({
+                profileImage: memberList[i].profileImage,
+                name: memberList[i].name,
+                value: 0
+            });
+
+            for (let j = 0; j < resultList.length; j++) {
+                if (memberList[i].name === resultList[j].name) {
+                    member[i].value = resultList[j].value;
+                    break;
+                }
+            }
+        }
+
+        return member;
+    }
+
+    const addTradeHistory = (tradeHistory, data) => {
+
+        const memberList: member[] = makeMemberList(tradeHistory.result, data.member);
+
+        const gameHistory: gameHistory = {
+            name: data.name,
+            accountNo: data.accountNo,
+            balance: tradeHistory.value,
+            member: memberList,
+            gameEnd: true
+        };
+
+        return gameHistory;
+
+    }
 
     const getGroupAccount = () => {
         const headers: Record<string, string> = {
@@ -86,13 +108,20 @@ function GroupAccountHistory() {
                 setTradeHistoryDict(data.tradeHistory.reduce((dict, tradeHistory) => {
                     const groupKey = tradeHistory.date;
 
+                    if (tradeHistory.result.length > 0) {
+                        tradeHistory.gameHistory = addTradeHistory(tradeHistory, data);
+                    }
+
                     if (!dict[groupKey]) {
                         dict[groupKey] = [];
                     }
+
                     dict[groupKey].push(tradeHistory);
                     return dict;
                 }, {})
                 );
+
+                console.log(tradeHistoryDict);
             })
             .catch((err) => {
                 alert("에러발생 : " + err);

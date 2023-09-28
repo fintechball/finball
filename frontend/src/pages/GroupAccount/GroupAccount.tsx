@@ -29,8 +29,8 @@ const GroupAccount = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      // url: "https://j9e106.p.ssafy.io/api/group/account/31942-202934-614",
-      url: "http://localhost:8080/api/group/account/31942-202934-614",
+      url: "https://j9e106.p.ssafy.io/api/group/account/31942-202934-614",
+      //url: "http://localhost:8080/api/group/account/31942-202934-614",
       headers: {
         Authorization: accessToken,
       },
