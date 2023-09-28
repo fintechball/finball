@@ -1,7 +1,9 @@
 import { Button, Input } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
@@ -9,26 +11,13 @@ function MyDataAuth() {
   const [name, setName] = useState("");
   const [firstRegNum, setFirstRegNum] = useState("");
   const [lastRegNum, setLastRegNum] = useState("");
-  const [accessToken, setAccessToken] = useState<string>("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const auth = useSelector((state: RootState) => state.auth);
+  const nextUrl = location.state?.url;
+  const list = location.state?.list;
 
-  useEffect(() => {
-    const jsonString = localStorage.getItem("persist:root");
-    if (jsonString) {
-      const jsonObject: { auth: string } = JSON.parse(jsonString);
-      const authData = JSON.parse(jsonObject.auth);
-      const accessToken = authData.accessToken;
-      console.log(accessToken);
-
-      if (accessToken) {
-        setAccessToken(accessToken);
-      } else {
-        console.log("accessToken이 존재하지 않습니다.");
-      }
-    } else {
-      console.log("localStorage가 존재하지 않습니다.");
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   const validationCheck = () => {
     if (name == "") {
@@ -55,7 +44,7 @@ function MyDataAuth() {
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      Authorization: accessToken,
+      Authorization: auth.accessToken,
     };
 
     axios
@@ -69,12 +58,15 @@ function MyDataAuth() {
           headers: headers,
         }
       )
-      .then((res) => {
-        alert("성공 : " + res.data.message);
-        navigate(-1); //이전 페이지로 이동
+      .then(() => {
+        // alert("성공 : " + res.data.message);
+        // navigate(-1); //이전 페이지로 이동
+        navigate(nextUrl, {
+          state: { list: list },
+        });
       })
       .catch((err) => {
-        alert("에러발생 : " + err);
+        alert("인증에 실패하였습니다. 다시 정보를 입력하세요" + err);
       });
   };
 

@@ -11,7 +11,7 @@ function Card() {
   const navigate = useNavigate();
 
   const [cardList, setCardList] = useState<any>(null);
-  const auth = useSelector((state : RootState) => state.auth);
+  const auth = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     getCardList();

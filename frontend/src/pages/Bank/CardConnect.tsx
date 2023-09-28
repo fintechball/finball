@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import CardLogo from "./CardConnectLogo";
 import styles from "./CardConnect.module.scss";
 
-import { Switch } from "antd"
+import { Switch } from "antd";
 
 interface INfo {
   card: {
@@ -16,7 +15,7 @@ interface INfo {
 
 export default function CardConnect() {
   const location = useLocation();
-  const List = location.state?.cardCompanyCodeList;
+  const List = location.state?.list;
   const [state, setState] = useState<INfo[]>([]);
   const [cnt, setCnt] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -28,7 +27,6 @@ export default function CardConnect() {
   const accessToken = authData.accessToken;
   const navigate = useNavigate();
   const [selectAll, setSelectAll] = useState(false);
-
 
   const findCard = async () => {
     try {
@@ -103,16 +101,15 @@ export default function CardConnect() {
   const handleSelectAll = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
-    
+
     const updatedToggledItems = {};
     state.forEach((item) => {
       updatedToggledItems[item.card.name] = newSelectAll;
     });
     setToggledItems(updatedToggledItems);
   };
-  
-  const selectAllText = selectAll ? "전체 선택 해제" : "전체 선택";
 
+  const selectAllText = selectAll ? "전체 선택 해제" : "전체 선택";
 
   const registerCard = async () => {
     try {
@@ -144,22 +141,29 @@ export default function CardConnect() {
         <div className={styles.container}>
           <h2>카드 연결하기</h2>
           <p>연결할 카드를 선택해주세요.</p>
-          <button className={styles.bottommargin} onClick={handleSelectAll}>{selectAllText}</button>
+          <button className={styles.bottommargin} onClick={handleSelectAll}>
+            {selectAllText}
+          </button>
 
           <div className={styles.minicontainer}>
             {state.map((v, i) => (
               <div className={styles.cardcontainer} key={i}>
-                <div className={styles.left}><div className={styles.img}><CardLogo value={v} /></div>
-                
-<div className={styles.text}>
-  <p>{v.card.name}</p>
-</div></div>
-                
-                  <div className={styles.right}><Switch
+                <div className={styles.left}>
+                  <div className={styles.img}>
+                    <CardLogo value={v} />
+                  </div>
+
+                  <div className={styles.text}>
+                    <p>{v.card.name}</p>
+                  </div>
+                </div>
+
+                <div className={styles.right}>
+                  <Switch
                     checked={toggledItems[v.card.name]}
                     onChange={() => handleChange(v.card.name)}
-                  /></div>
-                  
+                  />
+                </div>
               </div>
             ))}
           </div>

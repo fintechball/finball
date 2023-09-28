@@ -7,6 +7,7 @@ import Switch from "@mui/material/Switch";
 import Logo from "./Logo";
 import Button from "@mui/material/Button";
 import styles from "./BankInfo.module.css";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 export default function BankInfo() {
@@ -16,11 +17,12 @@ export default function BankInfo() {
     code: number;
     connected: boolean;
   }
+  const navigate = useNavigate();
   const [state, setState] = useState([]);
   const [cnt, setCnt] = useState(0);
   const [loading, setLoading] = useState(true);
   const [choose, setChoose] = useState([]);
-  const response=localStorage.getItem("persist:root")
+  const response = localStorage.getItem("persist:root");
   const jsonObject: { auth: string } = JSON.parse(response);
   const authData = JSON.parse(jsonObject.auth);
   const accessToken = authData.accessToken;
@@ -114,9 +116,15 @@ export default function BankInfo() {
               </div>
             ))}
           </FormGroup>
-          <Link
-            to="/bank/account"
-            state={{ bankCodeList: choose }}
+          <button
+            onClick={() =>
+              navigate("/my-data/auth", {
+                state: {
+                  list: choose,
+                  url: "/bank/account",
+                },
+              })
+            }
             style={{
               color: "white",
               position: "sticky",
@@ -139,7 +147,7 @@ export default function BankInfo() {
             >
               {cnt}개 은행 선택
             </label>
-          </Link>
+          </button>
         </FormControl>
       )}
     </>

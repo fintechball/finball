@@ -16,6 +16,8 @@ import { setAccountBooks } from "../../store/slices/accountBookSlice";
 import { Carousel } from "react-responsive-carousel";
 import { useSelector, useDispatch } from "react-redux";
 import AccountDetailComponent from "../Transfer/AccountDetailComponent";
+import { setAccount } from "../../store/slices/accountSlice";
+
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function AccountBook() {
@@ -108,6 +110,12 @@ function AccountBook() {
   useEffect(() => {
     getHistory();
     console.log(finBallAccount);
+    dispatch(
+      setAccount({
+        account: finBallAccount.account,
+        company: finBallAccount.company,
+      })
+    );
   }, []);
   const getHistory = () => {
     axios({
