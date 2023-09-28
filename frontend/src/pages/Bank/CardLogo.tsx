@@ -15,11 +15,9 @@ const Logo: React.FC = ({ value }) => {
   };
 
   return (
-    <div style={{ textAlign: "center", alignItems: "center", display: "flex", width: '275px', height: '10vh' }}>
-      <img src={value.logo} alt="" style={{ width: '55px',height:'55px',marginLeft:"0px" }}/>
-      <div style={{ width: '220px',position: 'absolute'}}>
-        {value.name}
-      </div>
+    <div>
+      <img src={value.logo} alt="..." style={{ width: '40px',height:'40px', marginRight:'20px'}}/>
+
     </div>
   );
 }
