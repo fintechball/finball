@@ -15,9 +15,8 @@ function Home() {
 
   return (
     <div className={styles.container}>
-
       <div className={styles.minicontainer}>
-        <h2>우리 계좌</h2>
+        <h2 onClick={() => navigate("/accountBook")}>우리 계좌</h2>
         <FinBallContainer />
       </div>
 
