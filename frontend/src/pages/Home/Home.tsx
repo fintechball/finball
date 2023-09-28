@@ -10,65 +10,54 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
+import { setQuiz, setDate, setIndex } from "../../store/slices/quizSlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function Home() {
   const navigate = useNavigate();
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  const state = { cost: "5,000,000", parent: "home-canvas" };
+  // const width = window.innerWidth;
+  // const height = window.innerHeight;
+  // const state = { cost: "5,000,000", parent: "home-canvas" };
 
-  const auth = useSelector((state) => state.auth);
-  const finBallAccount = useSelector((state) => state.finBallAccount);
+  // const auth = useSelector((state) => state.auth);
+  // const finBallAccount = useSelector((state) => state.finBallAccount);
   const dispatch = useDispatch();
-  console.log();
-  useEffect(() => {
-    getFinBAllAccount();
-  }, []);
+  // console.log();
+  // useEffect(() => {
+  //   getFinBAllAccount();
+  // }, []);
 
-  const getFinBAllAccount = () => {
-    axios
-      .get(`${BASE_HTTP_URL}/api/fin-ball`, {
-        headers: {
-          Authorization: auth.accessToken,
-        },
-      })
-      .then((response) => {
-        if (finBallAccount.account.no !== undefined) {
-          console.log("차액");
-          console.log(
-            response.data.data.account.balance - finBallAccount.account.balance
-          );
-        }
-        dispatch(
-          setFinBallAccount({
-            account: response.data.data.account,
-            company: response.data.data.company,
-          })
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const getFinBAllAccount = () => {
+  //   axios
+  //     .get(`${BASE_HTTP_URL}/api/fin-ball`, {
+  //       headers: {
+  //         Authorization: auth.accessToken,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       if (finBallAccount.account.no !== undefined) {
+  //         console.log("차액");
+  //         console.log(
+  //           response.data.data.account.balance - finBallAccount.account.balance
+  //         );
+  //       }
+  //       dispatch(
+  //         setFinBallAccount({
+  //           account: response.data.data.account,
+  //           company: response.data.data.company,
+  //         })
+  //       );
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   return (
     <div className={styles.container}>
       <div className={styles.minicontainer}>
         <h2>우리 계좌</h2>
-        {/* <button onClick={() => navigate("/create/finball/auth")}>
-          핀볼 계좌 생성하기
-        </button>
-        <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
-          {auth.accessToken == "" ? (
-            "login이 필요합니다"
-          ) : (
-            <Pinball
-              value={{ parent: "home-canvas", width: "300px", height: "150px" }}
-            />
-          )}
-        </div> */}
         <FinBallContainer />
       </div>
 
@@ -86,6 +75,8 @@ function Home() {
         <h2>연결된 모임통장 목록</h2>
         <GroupAccountContainer />
       </div>
+
+      <button onClick={() => dispatch(setDate("123123"))}>초기화</button>
     </div>
   );
 }

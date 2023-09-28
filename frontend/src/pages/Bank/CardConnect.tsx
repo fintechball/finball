@@ -11,6 +11,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { eventNames } from "process";
+import { useNavigate } from "react-router-dom";
 export default function CardConnect() {
   const location = useLocation();
   const List = location.state?.cardCompanyCodeList;
@@ -19,11 +20,11 @@ export default function CardConnect() {
   const [loading, setLoading] = useState(true);
   const [toggledItems, setToggledItems] = useState({});
   const [chooseItems, setchooseItems] = useState([]);
-  const response=localStorage.getItem("persist:root")
-    const jsonObject: { auth: string } = JSON.parse(response);
-    const authData = JSON.parse(jsonObject.auth);
-    const accessToken = authData.accessToken;
-  // console.log(List)
+  const response = localStorage.getItem("persist:root");
+  const jsonObject: { auth: string } = JSON.parse(response);
+  const authData = JSON.parse(jsonObject.auth);
+  const accessToken = authData.accessToken;
+  const navigate = useNavigate();
   const findCard = async () => {
     await axios({
       method: "post",
@@ -32,8 +33,8 @@ export default function CardConnect() {
         Authorization: accessToken,
       },
       data: {
-        "cardCompanyCodeList": List
-      }
+        cardCompanyCodeList: List,
+      },
     })
       .then((res) => {
         // console.log(res.data.data.cardList)
@@ -46,8 +47,8 @@ export default function CardConnect() {
         });
 
         setToggledItems(initialToggledItems);
-        console.log(initialToggledItems)
-        console.log(initialChooseItems)
+        console.log(initialToggledItems);
+        console.log(initialChooseItems);
         setchooseItems(initialChooseItems);
       })
       .catch((err) => {
@@ -68,9 +69,7 @@ export default function CardConnect() {
         if (toggledItems[Name] == true) {
           count += 1;
           let cnt = 0;
-          var index = chooseItems.findIndex(
-            (e) => e.card.name === Name
-          );
+          var index = chooseItems.findIndex((e) => e.card.name === Name);
           if (index == -1) {
             cnt++;
           }
@@ -97,8 +96,7 @@ export default function CardConnect() {
         const Name = state[i].name;
         return { ...state, [Name]: !state[Name] };
       });
-    };
-
+    }
   };
   const registerCard = async () => {
     await axios({
@@ -108,12 +106,12 @@ export default function CardConnect() {
         Authorization: accessToken,
       },
       data: {
-        "updateWeek" : 1,
-        "cardList": chooseItems,
+        updateWeek: 1,
+        cardList: chooseItems,
       },
     })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        navigate("/");
       })
       .catch((err) => {
         console.log("삐빅", err);
@@ -160,8 +158,7 @@ export default function CardConnect() {
               </div>
             ))}
           </FormGroup>
-          <Link
-            to="/"
+          <button
             style={{
               color: "white",
               position: "sticky",
@@ -185,7 +182,7 @@ export default function CardConnect() {
             >
               {cnt}개 연결하기
             </label>
-          </Link>
+          </button>
         </FormControl>
       )}
     </>
