@@ -16,7 +16,7 @@ function Home() {
   const navigate = useNavigate();
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const state = { cost: "5,000,000", parent: "home-canvas" };
+  const state = { parent: "home-canvas" };
 
   const auth = useSelector((state) => state.auth);
   const finBallAccount = useSelector((state) => state.finBallAccount);
