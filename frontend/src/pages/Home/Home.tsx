@@ -36,6 +36,18 @@ function Home() {
       </div>
 
       <button onClick={() => dispatch(setDate("123123"))}>초기화</button>
+      <button
+        onClick={() =>
+          navigate("/securitykeypad", {
+            state: {
+              money: 5000,
+              userName: "김정희천재",
+            },
+          })
+        }
+      >
+        test
+      </button>
     </div>
   );
 }
