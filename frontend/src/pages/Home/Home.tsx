@@ -6,7 +6,7 @@ import FinBallContainer from "../../components/FinBall/FinBallContainer";
 import styles from "./Home.module.css";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { setDate } from "../../store/slices/quizSlice";
 
 function Home() {
