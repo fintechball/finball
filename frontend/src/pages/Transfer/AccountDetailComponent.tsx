@@ -8,8 +8,8 @@ import { setTradeHistorys } from "../../store/slices/tradeHistorySlice";
 import { setBalance } from "../../store/slices/accountSlice";
 import TradeHistory from "../../components/Transfer/TradeHistory";
 
-const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-// const BASE_HTTP_URL = "http://localhost:8080";
+// const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
+const BASE_HTTP_URL = "http://localhost:8080";
 
 function AccountDetailComponent(props) {
   const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
@@ -41,6 +41,8 @@ function AccountDetailComponent(props) {
         },
       })
       .then((response) => {
+        console.log(url);
+        console.log(response);
         dispatch(
           setTradeHistorys({
             tradeHistory: response.data.data.tradeHistoryList,
