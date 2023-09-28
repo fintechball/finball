@@ -11,6 +11,12 @@ import { setDate } from "../../store/slices/quizSlice";
 
 function Home() {
   const navigate = useNavigate();
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const state = { parent: "home-canvas" };
+
+  const auth = useSelector((state) => state.auth);
+  const finBallAccount = useSelector((state) => state.finBallAccount);
   const dispatch = useDispatch();
 
   return (
