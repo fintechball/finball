@@ -39,6 +39,7 @@ function AccountDetailComponent(props) {
         },
       })
       .then((response) => {
+        console.log(url);
         console.log(response);
         dispatch(
           setTradeHistorys({

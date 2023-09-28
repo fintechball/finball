@@ -12,17 +12,14 @@ function FinBall() {
   const navigate = useNavigate();
 
   const auth = useSelector((state) => state.auth);
+  const skin = useSelector((state) => state.skin);
   const finBallAccount = useSelector((state) => state.finBallAccount);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(skin);
     getFinBAllAccount();
   }, []);
-
-  useEffect(() => {
-    console.log(finBallAccount);
-    console.log(finBallAccount.account.balance);
-  });
 
   const getFinBAllAccount = () => {
     axios
@@ -45,8 +42,7 @@ function FinBall() {
           })
         );
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         dispatch(
           setFinBallAccount({
             account: {},

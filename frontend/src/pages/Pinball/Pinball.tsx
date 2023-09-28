@@ -17,6 +17,8 @@ function Pinball(value) {
   const finball = useSelector((state) => state.finBallAccount);
   const ballunit=useSelector((state)=>state.finballSlice.ballunit)
   const ballcnt = useSelector((state)=>state.finballSlice.ballcnt)
+  // const changed = useSelector((state)=>state.finballSlice.changed)
+  // const prebalance = useSelector((state)=>state.finballSlice.prebalance)
   // const ballunit=useState(1000)
   // const ballcnt = useState(0)
   // const [ballunit,setBallunit]=useState(10**((finball.account.balance).toString().length-3))
@@ -52,54 +54,76 @@ function Pinball(value) {
             response.data.data.account.balance - finBallAccount.account.balance
           );
         }
-        dispatch((dispatch) => {
-          const balance = response.data.data.account.balance;
-          const balanceString = balance.toString();
-          
-          if (balanceString.length >= 3) {
-            const ballunit = 10 ** (balanceString.length - 3);
-            const firstDigit = Number(balanceString[0]);
-            const ballcnt = (balance - firstDigit * 10 ** (balanceString.length - 1)) / ballunit;
-        
-            dispatch(
-              setFinball({
-                ballunit: ballunit,
-                ballcnt: ballcnt,
+          dispatch((dispatch) => {
+            const balance = response.data.data.account.balance;
+            const balanceString = balance.toString();
+            
+            if (balanceString.length >= 3) {
+              const ballunit = 10 ** (balanceString.length - 3);
+              const firstDigit = Number(balanceString[0]);
+              if (balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2<0){
+                const ballcnt = (balance - firstDigit * 10 ** (balanceString.length - 1)) / ballunit;
+                console.log(balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)
+                console.log('!!!!!!!!!!!!!!')
+                dispatch(
+                  setFinball({
+                    ballunit: ballunit,
+                    ballcnt: ballcnt,
+                    // changed:0,
+                    // prebalance:balance,
+                  })
+                  );
+                
+              }
+              else{
+                const ballcnt = balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2/ ballunit;
+                console.log(balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)
+                console.log('@@@@@@@@@@@@@@@@')
+                dispatch(
+                  setFinball({
+                    ballunit: ballunit,
+                    ballcnt: ballcnt,
+                    // changed:0,
+                    // prebalance:balance,
+                  })
+                  );
+              }
+              } else {
+                const ballunit = 1000;
+                const ballcnt=0;
+                dispatch(
+                  setFinball({
+                    ballunit: ballunit,
+                    ballcnt: ballcnt,
+                    // changed:0,
+                    // prebalance:0,
+                  }))
+                }
+              });
+              
+              dispatch(
+                setFinBallAccount({
+                  account: response.data.data.account,
+                  company: response.data.data.company,
+                })
+                );
               })
-            );
-          } else {
-            const ballunit = 1000;
-            const ballcnt=0;
-            dispatch(setFinball({
-              ballunit: ballunit,
-              ballcnt: ballcnt,
-            }))
-          }
-        });
-        
-        dispatch(
-          setFinBallAccount({
-            account: response.data.data.account,
-            company: response.data.data.company,
-          })
-        );
-      })
       .catch((error) => {
         console.log(error);
       });
   };
+  useEffect(()=>{
+
+  })
   useEffect(() => {
     console.log(ballunit)
     console.log(ballcnt)
-        // const n=(finball.account.balance).toString().length
-
-        // if (((finball.account.balance).toString()[1])*10**(n-2)-10**(n-1)/2>0){
-        //   setBallcnt(((finball.account.balance).toString()[1])*10**(n-2)-10**(n-1)/ballunit)
-        // }
-        
-        // else{
-        //   setBallcnt(((finball.account.balance).toString()[1])*10**(n-2)/ballunit)
-        // }
+    if (render) {
+      Render.stop(render);
+      render.canvas.remove();
+      setRender(null);
+      Engine.clear(engine);
+  }
     const parentSize = getParentContainerSize();
     // Create a Matter.js engine
     const newEngine = Engine.create({});
@@ -200,7 +224,6 @@ function Pinball(value) {
             lineWidth: 3,
             // opacity:0.5,
             sprite: {
-              //''히먄 스프라이트 적용x
               texture: dafalautball,
               xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
               yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
@@ -211,7 +234,7 @@ function Pinball(value) {
       balls.push(ball);
     }
     
-    const deleteBall = () => {
+    const deleteBall = (num) => {
       setTimeout(()=>{
       const exitVelocity = 20;
       const sortedBalls = [...balls].sort((a, b) => b.position.y - a.position.y);
@@ -219,7 +242,7 @@ function Pinball(value) {
       // 각 공을 삭제하면서 새로운 배열에 추가
       const ball = [];
       const dir = [1, -1];
-      for (let i = 1; i < 2; i++) {
+      for (let i = 1; i < num; i++) {
         const removedBall = balls.pop();
         removedBall.isSensor = true;
         Body.setVelocity(removedBall, { x: exitVelocity * dir[i % 2], y: 0 });
@@ -252,9 +275,9 @@ function Pinball(value) {
       update();
     },2000)
     };
-    const addBall=()=>{
+    const addBall=(num)=>{
       setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < num; i++) {
           const ball = Bodies.circle(
             Math.random() * parentSize.width,
             parentSize.height / 10,
@@ -286,43 +309,15 @@ function Pinball(value) {
         }
       }, 2000);
     }
-    const getFinBAllAccount = () => {
-      axios
-        .get(`${BASE_HTTP_URL}/api/fin-ball`, {
-          headers: {
-            Authorization: auth.accessToken,
-          },
-        })
-        .then((response) => {
-          if (finBallAccount.account.no !== undefined) {
-            console.log("차액");
-            console.log(
-              response.data.data.account.balance - finBallAccount.account.balance
-            );
-          }
-          if (Number(response.data.data.account.balance - finBallAccount.account.balance)>0){
-            addBall();
-          }
-          if (Number(response.data.data.account.balance - finBallAccount.account.balance)<0){
-            deleteBall()
-          }
-          dispatch(
-            setFinBallAccount({
-              account: response.data.data.account,
-              company: response.data.data.company,
-            })
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    getFinBAllAccount()
+    // if (changed>0){
+    //   addBall(changed)
+    // }
+    // else{
+    //   deleteBall(changed*(-1))
+    // }
     const Boundary = [ground, wall1, wall2, wall3];
     World.add(newEngine.world, [...Boundary, ...balls]);
 
-    // Run the engine and renderer
-    // Render.stop(newRender);
     Runner.run(runner, newEngine);
     Render.run(newRender);
 
