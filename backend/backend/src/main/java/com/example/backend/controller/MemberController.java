@@ -9,6 +9,7 @@ import com.example.backend.dto.member.PointDto;
 import com.example.backend.dto.member.RegistEasyPasswordDto;
 import com.example.backend.dto.member.UserIdDuplicateCheckDto;
 import com.example.backend.security.UserDetailsImpl;
+import com.example.backend.service.InventoryService;
 import com.example.backend.service.MemberService;
 import com.example.backend.service.RefreshTokenService;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +30,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
+    private final InventoryService inventoryService;
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/user")
     public Response<?> userSignUp(@RequestBody UserSignUpDto.Request request) {
         memberService.userSignUp(request);
+        inventoryService.initBall(request.getUserId());
         return new Response(200, "정상적으로 회원가입이 완료되었습니다.");
     }
 

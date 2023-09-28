@@ -22,4 +22,12 @@ public class PurchaseBallDto {
                 .isSelected(false)
                 .build();
     }
+
+    public static Inventory initInventory(Skin skin, Member member) {
+        return Inventory.builder()
+                .skin(skin)
+                .member(member)
+                .isSelected(true)
+                .build();
+    }
 }

@@ -1,0 +1,57 @@
+@import "../Test/main.module.scss";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    text-align: left;
+
+    h2 {
+        margin: 0;
+    }
+}
+
+.minicontainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.cardcontainer {
+    display: flex;
+    flex-direction: row;
+
+    // margin-top: 20px;
+
+    .text {
+        width: 120px;
+
+        p {
+            font-size: 18px;
+        }
+    }
+
+    .left {
+        display: flex;
+        flex-direction: row;
+        margin-right: 30px;
+    }
+
+    .right {
+        // background-color: aqua;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // float: right;
+    }
+
+    .img {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.float {
+    // display: flex;
+    position: sticky;
+    bottom: 70px;
+}

@@ -35,7 +35,12 @@ function Card() {
     <div className={styles.container}>
       {cardList && cardList.length !== 0 ? (
         [...cardList].map((cardinfo, index) => (
-          <div className={styles.cardBox} key={index}>
+          <div
+            className={`${index === 0 ? styles.firstCard : ""}  ${
+              index !== 0 ? styles.cardBox : ""
+            }`}
+            key={index}
+          >
             <img className={styles.rotatedImage} src={cardinfo.card.image} />
             <p className={styles.text}>{cardinfo.card.name}</p>
           </div>
