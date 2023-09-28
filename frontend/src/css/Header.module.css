@@ -1,3 +1,13 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #6d8bce;
+  color: white;
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -10,20 +20,11 @@
   z-index: 10;
   justify-content: space-between;
 }
-.header h1,
-.header p {
-  margin: 0;
-}
 .header img {
   width: 100px;
-  margin: 0px 15px;
+  margin-left: 15px;
 }
-.header button {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: 0px 12px;
-  width: 80px;
-  font-size: 14px;
-  font-weight: normal;
+
+.loginbutton {
+  margin-right: 10px;
 }

@@ -1,10 +1,12 @@
+@import "../Test/main.module.scss";
+
 .container {
   // font-size: large;
   font-weight: normal;
-  
+
   div {
     :hover {
-        background-color: rgb(240, 240, 240);
+      background-color: rgb(240, 240, 240);
     }
-}
+  }
 }

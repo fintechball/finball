@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./BankAccount.module.scss";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { setAccount } from "../../store/slices/accountSlice";
 
@@ -9,7 +10,8 @@ const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function BankAccount() {
   const [accountList, setAccountList] = useState<any>(null);
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state: RootState) => state.auth);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

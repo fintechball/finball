@@ -6,6 +6,7 @@ import styles from "./AccountDetail.module.css";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { setTradeHistorys } from "../../store/slices/tradeHistorySlice";
 import { setBalance } from "../../store/slices/accountSlice";
+import TradeHistory from "../../components/Transfer/TradeHistory";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 // const BASE_HTTP_URL = "http://localhost:8080";
@@ -38,6 +39,7 @@ function AccountDetailComponent(props) {
         },
       })
       .then((response) => {
+        console.log(url);
         console.log(response);
         dispatch(
           setTradeHistorys({
@@ -100,32 +102,7 @@ function AccountDetailComponent(props) {
             </p>
           </div>
 
-          {tradeHistoryDict &&
-            Object.keys(tradeHistoryDict).map((key) =>
-              tradeHistoryDict[key].map((tradeHistory, index) => (
-                <>
-                  {index === 0 ? (
-                    <p className={styles.bankAccount}>
-                      {key.split("-")[1]}월 {key.split("-")[2]}일
-                    </p>
-                  ) : (
-                    <></>
-                  )}
-                  <div className={styles.part}>
-                    <div>
-                      <p className={styles.name}>
-                        {tradeHistory.opposite.userName}
-                      </p>
-                      <p className={styles.time}>{tradeHistory.time}</p>
-                    </div>
-                    <div className={styles.money}>
-                      <p className={styles.value}>{tradeHistory.value}원</p>
-                      <p className={styles.remain}>{tradeHistory.balance}원</p>
-                    </div>
-                  </div>
-                </>
-              ))
-            )}
+          <TradeHistory tradeHistoryDict={tradeHistoryDict} />
         </div>
       )}
     </>

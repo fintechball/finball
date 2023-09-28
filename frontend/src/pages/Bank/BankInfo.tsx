@@ -48,14 +48,14 @@ export default function BankInfo() {
       let count = 0;
       let L = [];
       for (let i = 0; i < state.length; i++) {
-        console.log(state[Object.keys(state)[i]])
+        // console.log(state[Object.keys(state)[i]])
         if (state[Object.keys(state)[i]].connected) {
           count += 1;
           L = [...L, Number(state[Object.keys(state)[i]].code)];
         }
       }
       setCnt(count);
-      console.log(L)
+      // console.log(L)
       setChoose(L);
     }
   }, [state]);

@@ -23,6 +23,9 @@ const quizSlice = createSlice({
       state.index = action.payload.index;
       state.quiz = action.payload.quiz;
     },
+    setDate: (state, action) => {
+      state.date = action.payload;
+    },
     setIndex: (state, action) => {
       state.index = action.payload;
     },
@@ -34,5 +37,5 @@ const quizSlice = createSlice({
   },
 });
 
-export const { setQuiz, setIndex } = quizSlice.actions;
+export const { setQuiz, setDate, setIndex } = quizSlice.actions;
 export default quizSlice.reducer;

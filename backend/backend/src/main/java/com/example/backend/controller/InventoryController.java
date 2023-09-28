@@ -54,5 +54,4 @@ public class InventoryController {
         return new Response(200, "스킨 선택을 완료되었습니다.");
     }
 
-
 }

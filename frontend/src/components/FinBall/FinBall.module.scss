@@ -1,7 +1,4 @@
-.button {
-  background-color: #3c78ff;
-  color: white;
-}
+@import "../../pages/Test/main.module.scss";
 
 .container {
   overflow: auto;
@@ -41,7 +38,7 @@
 
 .noncontainer button {
   width: 100%;
-  background-color: #3c78ff;
+  background-color: $maincolor;
   color: aliceblue;
 }
 

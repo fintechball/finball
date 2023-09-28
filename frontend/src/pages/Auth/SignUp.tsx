@@ -131,9 +131,9 @@ function SignUp() {
         {errors.passwordConfirm && <p>{errors.passwordConfirm.message}</p>}
       </div>
 
-      <Button type="primary" onClick={handleSubmit(onSubmit)}>
+      <button className={styles.button} onClick={handleSubmit(onSubmit)}>
         다음
-      </Button>
+      </button>
     </div>
   );
 }
