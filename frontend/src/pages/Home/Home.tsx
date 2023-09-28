@@ -21,7 +21,7 @@ function Home() {
   const auth = useSelector((state) => state.auth);
   const finBallAccount = useSelector((state) => state.finBallAccount);
   const dispatch = useDispatch();
-
+  console.log()
   useEffect(() => {
     getFinBAllAccount();
   }, []);
@@ -60,7 +60,8 @@ function Home() {
           핀볼 계좌 생성하기
         </button>
         <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
-          <Pinball value={{parent: "home-canvas",width: "300px", height: "150px"}} />
+        {auth.accessToken=='' ? "login이 필요합니다":<Pinball value={{parent: "home-canvas",width: "300px", height: "150px"}} />}
+          
         </div>
       </div>
 
