@@ -1,4 +1,9 @@
 @charset "UTF-8";
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
 .container {
   justify-content: center;
 }
@@ -9,8 +14,8 @@
 
 .noncontainer button {
   width: 100%;
-  background-color: #7165e3;
-  color: aliceblue;
+  background-color: #3c78ff;
+  color: white;
 }
 
 .noncontainer p {

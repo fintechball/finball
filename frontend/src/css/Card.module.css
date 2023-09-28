@@ -1,3 +1,8 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
 .container {
   overflow: auto;
   white-space: nowrap;
@@ -36,7 +41,7 @@
 
 .noncontainer button {
   width: 100%;
-  background-color: #7165e3;
+  background-color: #3c78ff;
   color: aliceblue;
 }
 

@@ -3,6 +3,7 @@ import { persistor } from "../../store/store";
 import { Button } from "antd";
 import { useDispatch } from "react-redux";
 import { setLogged } from "../../store/slices/loggedSlice";
+import styles from "./Logout.module.scss";
 
 function Logout() {
   // const navigate = useNavigate();
@@ -16,9 +17,9 @@ function Logout() {
 
   return (
     <div>
-      <Button type="primary" onClick={async () => Logout()}>
-        logout
-      </Button>
+      <button className={styles.logoutbutton} onClick={async () => Logout()}>
+        <span>로그아웃</span>
+      </button>
     </div>
   );
 }
