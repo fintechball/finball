@@ -19,11 +19,6 @@ function FinBall() {
     getFinBAllAccount();
   }, []);
 
-  useEffect(() => {
-    console.log(finBallAccount);
-    console.log(finBallAccount.account.balance);
-  });
-
   const getFinBAllAccount = () => {
     axios
       .get(`${BASE_HTTP_URL}/api/fin-ball`, {
@@ -45,8 +40,7 @@ function FinBall() {
           })
         );
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         dispatch(
           setFinBallAccount({
             account: {},
