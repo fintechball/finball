@@ -23,6 +23,7 @@ function AccountDetailComponent(props) {
   const refreshIconStyle = { fontSize: 12 };
 
   useEffect(() => {
+    console.log(account.company.code);
     getHistory(
       props.isFinBall
         ? "/api/fin-ball/history"
