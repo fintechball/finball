@@ -1,8 +1,13 @@
 import React, { useState, MouseEvent, useEffect,useCallback } from "react"
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./SecurityKeypad.module.css"
 import Password from "./Certification"
+import { RootState } from "../../store/store";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const PASSWORD_MAX_LENGTH = 6 // 비밀번호 입력길이 제한 설정
+const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
 const shuffle = (nums: number[]) => {
   // 배열 섞는 함수
@@ -18,8 +23,52 @@ const shuffle = (nums: number[]) => {
 
 const SecurityKeypad = () => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k)
+  const auth = useSelector((state : RootState) => state.auth);
+  const location = useLocation();
+  const formData = location.state?.formData;
+
   const [nums, setNums] = useState([...nums_init,'',' '])
   const [password, setPassword] = useState("")
+
+  useEffect(()=>{
+    let nums_random = Array.from({ length: 10 }, (v, k) => k) // 이 배열을 변경해 입력문자 변경 가능
+    setNums(shuffle([...nums_random,"",""]))
+  },[])
+
+  useEffect(() => {
+    if(password.length === PASSWORD_MAX_LENGTH) {
+      sendAuthEasyPassword();
+    }
+  }, [password]);
+
+  const sendAuthEasyPassword = async () => {
+      try {
+
+        const updatedFormData: FormData = {
+          ...formData,
+          easyPassword: password,
+        };
+
+        const requestBody = JSON.stringify(updatedFormData);
+
+        const response = await fetch(`https://j9e106.p.ssafy.io/api/user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: requestBody,
+        });
+
+        console.log(response);
+        if (response.status === 200) {
+          const responseData = await response.json();
+          alert(responseData.message);
+        }
+      } catch (error) {
+        console.error("데이터 전송 실패", error);
+      }
+  }
+
   const handlePasswordChange = useCallback(
     (num) => {
       if (password.length === PASSWORD_MAX_LENGTH) {
@@ -29,11 +78,7 @@ const SecurityKeypad = () => {
     },
     [password],
     )
-    useEffect(()=>{
-      let nums_random = Array.from({ length: 10 }, (v, k) => k) // 이 배열을 변경해 입력문자 변경 가능
-      setNums(shuffle([...nums_random,"",""]))
-    },[])
-
+  
   const erasePasswordOne = useCallback(
     (e: MouseEvent) => {
       setPassword(password.slice(0, password.length === 0 ? 0 : password.length - 1))
@@ -63,6 +108,7 @@ const SecurityKeypad = () => {
       alert("비밀번호를 입력 후 눌러주세요!")
     } else {
       alert(password + "을 입력하셨습니다.")
+      // 여기서부터 통신 시작
     }
   }
   return (

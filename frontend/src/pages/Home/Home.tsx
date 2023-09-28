@@ -1,6 +1,7 @@
 import CardContainer from "../../components/Card/CardContainer";
 import BankAccountContainer from "../../components/BankAccount/BankAccountContainer";
 import GroupAccountContainer from "../../components/GroupAccount/GroupAccountContainer";
+import FinBallContainer from "../../components/FinBall/FinBallContainer";
 
 import Pinball from "../Pinball/Pinball";
 import styles from "./Home.module.css";
@@ -21,7 +22,7 @@ function Home() {
   const auth = useSelector((state) => state.auth);
   const finBallAccount = useSelector((state) => state.finBallAccount);
   const dispatch = useDispatch();
-
+  console.log();
   useEffect(() => {
     getFinBAllAccount();
   }, []);
@@ -56,12 +57,19 @@ function Home() {
     <div className={styles.container}>
       <div className={styles.minicontainer}>
         <h2>우리 계좌</h2>
-        <button onClick={() => navigate("/create/finball/auth")}>
+        {/* <button onClick={() => navigate("/create/finball/auth")}>
           핀볼 계좌 생성하기
         </button>
         <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
-          <Pinball value={state} />
-        </div>
+          {auth.accessToken == "" ? (
+            "login이 필요합니다"
+          ) : (
+            <Pinball
+              value={{ parent: "home-canvas", width: "300px", height: "150px" }}
+            />
+          )}
+        </div> */}
+        <FinBallContainer />
       </div>
 
       <div className={styles.minicontainer}>

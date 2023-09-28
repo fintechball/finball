@@ -1,0 +1,13 @@
+$maincolor: #3c78ff;
+$subcolor: desaturate($maincolor, 50%);
+$greycolor: grayscale($maincolor);
+
+.button {
+  background-color: $maincolor;
+  color: white;
+}
+
+.subbutton {
+  background-color: $subcolor;
+  color: white;
+}

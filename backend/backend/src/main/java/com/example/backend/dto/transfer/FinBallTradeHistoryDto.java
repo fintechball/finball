@@ -22,20 +22,20 @@ public class FinBallTradeHistoryDto {
     private LocalDate date;
     private LocalTime time;
     private DealType type;
-    private Long remain;
-    private OppositeDto oppositeDto;
+    private Long balance;
+    private OppositeDto opposite;
 
     public FinBallHistory toFinBallHistory(FinBallAccount finBallAccount) {
         return FinBallHistory.builder()
                 .value(this.value)
-                .balance(this.remain)
+                .balance(this.balance)
                 .date(LocalDateTime.now())
                 .dealType(this.type)
-                .target(oppositeDto.getUserName())
-                .opAccountNo(oppositeDto.getAccountNo())
-                .opBankCpLogo(oppositeDto.getCompany().getLogo())
-                .opBankCpName(oppositeDto.getCompany().getName())
-                .opBankCpCode(oppositeDto.getCompany().getCode())
+                .target(opposite.getUserName())
+                .opAccountNo(opposite.getAccountNo())
+                .opBankCpLogo(opposite.getCompany().getLogo())
+                .opBankCpName(opposite.getCompany().getName())
+                .opBankCpCode(opposite.getCompany().getCode())
                 .finBallAccount(finBallAccount)
                 .build();
     }
@@ -43,12 +43,14 @@ public class FinBallTradeHistoryDto {
     public GroupAccountHistory toGroupAccountHistory(GroupAccount groupAccount) {
         return GroupAccountHistory.builder()
                 .value(this.value)
-                .balance(this.remain)
-//                .dealDt(LocalDateTime.now())
+                .balance(this.balance)
+                .date(LocalDateTime.now())
                 .dealType(this.type)
-                .target(oppositeDto.getUserName())
-//                .opAccount(oppositeBankDto.getAccount())
-//                .opBankName(oppositeBankDto.getBankName())
+                .target(opposite.getUserName())
+                .opAccountNo(opposite.getAccountNo())
+                .opBankCpLogo(opposite.getCompany().getLogo())
+                .opBankCpName(opposite.getCompany().getName())
+                .opBankCpCode(opposite.getCompany().getCode())
                 .groupAccount(groupAccount)
                 .build();
     }

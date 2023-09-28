@@ -12,6 +12,7 @@ import accountbook from "./slices/accountBookSlice";
 import inviteGroupAccount from "./slices/inviteGroupAccountSlice";
 import quiz from "./slices/quizSlice";
 import finBallAccount from "./slices/finBallAccountSlice";
+import finballSlice from "./slices/finballSlice";
 
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -43,6 +44,7 @@ const reducer = combineReducers({
   inviteGroupAccount,
   quiz,
   finBallAccount,
+  finballSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

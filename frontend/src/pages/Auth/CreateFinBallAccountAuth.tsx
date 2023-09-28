@@ -113,9 +113,12 @@ function CreateFinBallAccountAuth() {
           />
         </div>
       </div>
-      <Button type="primary" onClick={doMyDataAuth}>
+      {/* <Button type="primary" onClick={doMyDataAuth}>
         주민번호 인증
-      </Button>
+      </Button> */}
+      <button className={styles.button} onClick={doMyDataAuth}>
+        주민번호 인증
+      </button>
     </div>
   );
 }

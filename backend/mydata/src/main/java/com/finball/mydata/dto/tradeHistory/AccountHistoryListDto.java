@@ -20,10 +20,10 @@ public class AccountHistoryListDto {
     @Data
     @Builder
     public static class Response {
-        List<AccountHistoryDto> tradeHistoryDtoList;
+        List<AccountHistoryDto> tradeHistoryList;
 
         public static Response toTradeHistoryDtoList(List<AccountHistoryDto> tradeHistoryList) {
-            return Response.builder().tradeHistoryDtoList(tradeHistoryList).build();
+            return Response.builder().tradeHistoryList(tradeHistoryList).build();
         }
     }
 

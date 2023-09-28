@@ -6,12 +6,16 @@ import styles from "./AccountDetail.module.css";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { setTradeHistorys } from "../../store/slices/tradeHistorySlice";
 import { setBalance } from "../../store/slices/accountSlice";
+import TradeHistory from "../../components/Transfer/TradeHistory";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
+// const BASE_HTTP_URL = "http://localhost:8080";
 
-function AccountDetailComponent() {
+function AccountDetailComponent(props) {
   const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
-  const account = useSelector((state) => state.account);
+  const account = props.isFinBall
+    ? useSelector((state) => state.finBallAccount)
+    : useSelector((state) => state.account);
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,35 +23,37 @@ function AccountDetailComponent() {
   const refreshIconStyle = { fontSize: 12 };
 
   useEffect(() => {
-    getHistory();
+    getHistory(
+      props.isFinBall
+        ? "/api/fin-ball/history"
+        : `/api/user/account/${account.account.no}`
+    );
     refreshBalance();
   }, []);
 
-  const getHistory = () => {
+  const getHistory = (url) => {
     axios
-      .get(`${BASE_HTTP_URL}/api/user/account/${account.account.no}`, {
+      .get(`${BASE_HTTP_URL}${url}`, {
         headers: {
           Authorization: auth.accessToken,
         },
       })
       .then((response) => {
+        console.log(response);
         dispatch(
           setTradeHistorys({
-            tradeHistory: response.data.data.tradeHistoryDtoList,
+            tradeHistory: response.data.data.tradeHistoryList,
           })
         );
         setTradeHistoryDict(
-          response.data.data.tradeHistoryDtoList.reduce(
-            (dict, tradeHistory) => {
-              const groupKey = tradeHistory.date;
-              if (!dict[groupKey]) {
-                dict[groupKey] = [];
-              }
-              dict[groupKey].push(tradeHistory);
-              return dict;
-            },
-            {}
-          )
+          response.data.data.tradeHistoryList.reduce((dict, tradeHistory) => {
+            const groupKey = tradeHistory.date;
+            if (!dict[groupKey]) {
+              dict[groupKey] = [];
+            }
+            dict[groupKey].push(tradeHistory);
+            return dict;
+          }, {})
         );
       })
       .catch((error) => {
@@ -95,32 +101,7 @@ function AccountDetailComponent() {
             </p>
           </div>
 
-          {tradeHistoryDict &&
-            Object.keys(tradeHistoryDict).map((key) =>
-              tradeHistoryDict[key].map((tradeHistory, index) => (
-                <>
-                  {index === 0 ? (
-                    <p className={styles.bankAccount}>
-                      {key.split("-")[1]}월 {key.split("-")[2]}일
-                    </p>
-                  ) : (
-                    <></>
-                  )}
-                  <div className={styles.part}>
-                    <div>
-                      <p className={styles.name}>
-                        {tradeHistory.oppositeDto.userName}
-                      </p>
-                      <p className={styles.time}>{tradeHistory.time}</p>
-                    </div>
-                    <div className={styles.money}>
-                      <p className={styles.value}>{tradeHistory.value}원</p>
-                      <p className={styles.remain}>{tradeHistory.remain}원</p>
-                    </div>
-                  </div>
-                </>
-              ))
-            )}
+          <TradeHistory tradeHistoryDict={tradeHistoryDict} />
         </div>
       )}
     </>

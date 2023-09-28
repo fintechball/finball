@@ -20,7 +20,7 @@ public class AccountHistoryListDto {
     @Data
     @AllArgsConstructor
     public static class Response {
-        private List<AccountHistoryDto> tradeHistoryDtoList;
+        private List<AccountHistoryDto> tradeHistoryList;
     }
 
 }

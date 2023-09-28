@@ -21,7 +21,7 @@ public class AccountHistoryDto {
     private LocalDate date;
     private LocalTime time;
     private DealType type;
-    private Long remain;
-    private OppositeDto oppositeDto;
+    private Long balance;
+    private OppositeDto opposite;
 
 }

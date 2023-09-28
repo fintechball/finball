@@ -1,0 +1,19 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #6d8bce;
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.minicontainer {
+  text-align: left;
+}

@@ -107,9 +107,12 @@ function Login() {
           onKeyDown={handleKeyPress}
         />
       </div>
-      <Button type="primary" onClick={doLogin}>
+      {/* <Button type="primary" onClick={doLogin}>
         로그인
-      </Button>
+      </Button> */}
+      <button className={styles.button} onClick={doLogin}>
+        로그인
+      </button>
       <div onClick={goSignup} className={styles.signupbox}>
         <span>아직 회원이 아니신가요?</span>
         <p>회원가입하러 가기</p>

@@ -1,5 +1,6 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import styles from "./SignUpCerti.module.scss";
 
 interface FormData {
   name: string;
@@ -9,6 +10,7 @@ interface FormData {
 }
 
 function SignUpCerti() {
+  const navigate = useNavigate();
   const location = useLocation();
   const formData = location.state?.formData;
 
@@ -23,7 +25,7 @@ function SignUpCerti() {
         recipientPhoneNumber: phoneNumber,
       });
 
-      const response = await fetch(`https://j9e106.p.ssafy.io/api/user/sms`, {
+      const response = await fetch(`http://localhost:8080/api/user/sms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,60 +61,45 @@ function SignUpCerti() {
         ...formData,
         phoneNumber: phoneNumber,
       };
-      try {
-        const requestBody = JSON.stringify(updatedFormData);
 
-        const response = await fetch(`https://j9e106.p.ssafy.io/api/user`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: requestBody,
-        });
-
-        console.log(response);
-        if (response.status === 200) {
-          const responseData = await response.json();
-          alert(responseData.message);
-        }
-      } catch (error) {
-        console.error("데이터 전송 실패", error);
-      }
-
-      console.log(updatedFormData);
+      navigate("/SecurityKeypad", { state: { formData: updatedFormData } });
     } else {
       alert("휴대폰 인증을 완료해주세요.");
     }
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2>휴대폰 인증</h2>
-      <p>휴대폰 번호</p>
-      <input
-        type="text"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        disabled={isPhoneValid}
-      />
+      <div className={styles.minicontainer}>
+        <p>휴대폰 번호</p>
+        <input
+          type="text"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          disabled={isPhoneValid}
+        />
+      </div>
 
-      <button type="button" onClick={getCode}>
+      <button className={styles.button} onClick={getCode}>
         인증번호 전송
       </button>
 
-      <p>인증번호 입력</p>
-      <input
-        type="text"
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
-        disabled={isPhoneValid}
-      />
+      <div className={styles.minicontainer}>
+        <p>인증번호 입력</p>
+        <input
+          type="text"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          disabled={isPhoneValid}
+        />
+      </div>
 
-      <button type="button" onClick={codeCheck}>
+      <button className={styles.button} onClick={codeCheck}>
         인증하기
       </button>
 
-      <button type="button" onClick={onSubmit}>
+      <button className={styles.button} onClick={onSubmit}>
         가입하기
       </button>
     </div>
