@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 export default function BankConnect() {
   const location = useLocation();
-  const List = location.state?.bankCodeList;
+  const List = location.state?.list;
   const [state, setState] = useState([]);
   const [cnt, setCnt] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -52,6 +52,7 @@ export default function BankConnect() {
       });
   };
   useEffect(() => {
+    console.log(List);
     findAccount();
   }, []);
   useEffect(() => {
