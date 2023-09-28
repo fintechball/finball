@@ -47,6 +47,7 @@ import GroupAccount from "../pages/GroupAccount/GroupAccount";
 import CreateGroupAccount from "../pages/GroupAccount/CreateGroupAccount";
 // 컴포넌트 테스트용
 import InviteMember from "../components/GroupAccount/InviteMember"
+import GroupAccountHistory from "../pages/GroupAccount/GroupAccountHistory"
 
 import MyDataAuth from "../pages/Auth/MyDataAuth"
 import CreateFinBallAccount from "../pages/Pinball/CreateFinBallAccount"
@@ -110,6 +111,8 @@ function Router() {
           <Route path="/create/group-account" element={<CreateGroupAccount />} />
           {/* 모달 테스트 (사용자 초대 모달) */}
           <Route path="/invite/group-account" element={<InviteMember />} />
+          {/* 모임 통장 거래 내역 페이지 */}
+          <Route path="/group-account/history/:no" element={<GroupAccountHistory />} />
         </Route>
       </Routes>
     </>
