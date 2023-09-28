@@ -20,9 +20,11 @@ function Quiz() {
   const [isGoodVisible, setIsGoodVisible] = useState(false);
   const [isBadVisible, setIsBadVisible] = useState(false);
 
-  useEffect(() => {
-    console.log(quiz);
-  }, []);
+  // useEffect(() => {
+  //   console.log(quiz);
+  //   console.log(quiz.index);
+  //   console.log(quiz.quiz);
+  // }, []);
 
   useEffect(() => {
     setProgress(0);
@@ -60,6 +62,7 @@ function Quiz() {
         },
       })
       .then((response) => {
+        console.log(response.data.data);
         dispatch(
           setQuiz({
             date: new Date().toDateString(),
@@ -152,7 +155,7 @@ function Quiz() {
           X
         </button>
       </div>
-      {/* <button onClick={() => dispatch(setIndex(0))}>초기화</button> */}
+
       {isGoodVisible && <SentimentSatisfiedAltIcon sx={{ fontSize: 50 }} />}
       {isBadVisible && <SentimentVeryDissatisfiedIcon sx={{ fontSize: 50 }} />}
     </div>
