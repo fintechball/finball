@@ -2,26 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Engine, Render, World, Bodies, Body,Runner } from "matter-js";
 import styles from "./Pinball.module.css";
 import dafalautball from "../../assets/defalutball.png";
+// import chrome from "../../assets/"
 import { useSelector,useDispatch } from "react-redux";
 import axios from "axios";
 
-import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
-import { setFinball } from "../../store/slices/finballSlice";
+import { setGroupFinball } from "../../store/slices/groupfinballSlice";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
-function Pinball(value) {
+function GroupFinball(value) {
   const [account, setAccount] = useState<any>(null);
   const [engine, setEngine] = useState(null);
   const [render, setRender] = useState(null);
   const [balls, setBalls] = useState([]);
   const finball = useSelector((state) => state.finBallAccount);
-  const ballunit=useSelector((state)=>state.finballSlice.ballunit)
-  const ballcnt = useSelector((state)=>state.finballSlice.ballcnt)
-  // const ballunit=useState(1000)
-  // const ballcnt = useState(0)
-  // const [ballunit,setBallunit]=useState(10**((finball.account.balance).toString().length-3))
-  // const [ballcnt, setBallcnt] = useState((finball.account.balance-Number((finball.account.balance).toString()[0])*10**((finball.account.balance).toString().length-1))/ballunit);
-  const finBallAccount = useSelector((state) => state.finBallAccount);
+  const ballunit=useSelector((state)=>state.groupfinballSlice.ballunit)
+  const members = useSelector((state)=>state.groupfinballSlice.members)
+  const ballskin=useSelector((state)=>state.skin.skin)
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   // 부모 컨테이너의 크기를 가져오는 함수
@@ -32,72 +28,35 @@ function Pinball(value) {
       height: parentContainer.clientHeight,
     };
   };
-  const test={}
-  console.log(test)
   useEffect(() => {
-    getFinBAllAccount();
+    getGroupFinBAllAccount();
   }, []);
-
-  const getFinBAllAccount = () => {
+  console.log(ballskin)
+  const getGroupFinBAllAccount = () => {
     axios
-      .get(`${BASE_HTTP_URL}/api/fin-ball`, {
+      .get(`${BASE_HTTP_URL}/group/account/${groupAccountId}`, {
         headers: {
           Authorization: auth.accessToken,
         },
       })
       .then((response) => {
-        if (finBallAccount.account.no !== undefined) {
-          console.log("차액");
-          console.log(
-            response.data.data.account.balance - finBallAccount.account.balance
-          );
-        }
           dispatch((dispatch) => {
-            const balance = response.data.data.account.balance;
-            const balanceString = balance.toString();
-            
-            if (balanceString.length >= 3) {
-              const ballunit = 10 ** (balanceString.length - 3);
-              const firstDigit = Number(balanceString[0]);
-              const ballcnt = (balance - firstDigit * 10 ** (balanceString.length - 1)) / ballunit;
-              
-              dispatch(
-                setFinball({
-                  ballunit: ballunit,
-                  ballcnt: ballcnt,
-                })
-                );
-              } else {
-                const ballunit = 1000;
-                const ballcnt=0;
-                dispatch(
-                  setFinball({
-                    ballunit: ballunit,
-                    ballcnt: ballcnt,
-                  }))
-                }
-              });
-              
-              dispatch(
-                setFinBallAccount({
-                  account: response.data.data.account,
-                  company: response.data.data.company,
-                })
-                );
-              // else{
-              //   const ballunit = 1000;
-              //   const ballcnt=0;
-              //   dispatch(
-              //     setFinball({
-              //       ballunit: ballunit,
-              //       ballcnt: ballcnt,
-              //     }))
-              // }
-              })
+            const balance = response.data.data["통장 총금액"];
+            const ballunit=balance/50;
+            const members=response.data.data.member
+            setGroupFinball({
+              ballunit:ballunit,
+              members:members
+            })
+    })
+  })
       .catch((error) => {
         console.log(error);
       });
   };
+  useEffect(()=>{
+
+  })
   useEffect(() => {
     console.log(ballunit)
     console.log(ballcnt)
@@ -107,15 +66,6 @@ function Pinball(value) {
       setRender(null);
       Engine.clear(engine);
   }
-        // const n=(finball.account.balance).toString().length
-
-        // if (((finball.account.balance).toString()[1])*10**(n-2)-10**(n-1)/2>0){
-        //   setBallcnt(((finball.account.balance).toString()[1])*10**(n-2)-10**(n-1)/ballunit)
-        // }
-        
-        // else{
-        //   setBallcnt(((finball.account.balance).toString()[1])*10**(n-2)/ballunit)
-        // }
     const parentSize = getParentContainerSize();
     // Create a Matter.js engine
     const newEngine = Engine.create({});
@@ -216,8 +166,7 @@ function Pinball(value) {
             lineWidth: 3,
             // opacity:0.5,
             sprite: {
-              //''히먄 스프라이트 적용x
-              texture: dafalautball,
+              texture: ballskin.image,
               xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
               yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
             },
@@ -227,7 +176,7 @@ function Pinball(value) {
       balls.push(ball);
     }
     
-    const deleteBall = () => {
+    const deleteBall = (num) => {
       setTimeout(()=>{
       const exitVelocity = 20;
       const sortedBalls = [...balls].sort((a, b) => b.position.y - a.position.y);
@@ -235,7 +184,7 @@ function Pinball(value) {
       // 각 공을 삭제하면서 새로운 배열에 추가
       const ball = [];
       const dir = [1, -1];
-      for (let i = 1; i < 2; i++) {
+      for (let i = 1; i < num; i++) {
         const removedBall = balls.pop();
         removedBall.isSensor = true;
         Body.setVelocity(removedBall, { x: exitVelocity * dir[i % 2], y: 0 });
@@ -268,9 +217,9 @@ function Pinball(value) {
       update();
     },2000)
     };
-    const addBall=()=>{
+    const addBall=(num)=>{
       setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < num; i++) {
           const ball = Bodies.circle(
             Math.random() * parentSize.width,
             parentSize.height / 10,
@@ -302,50 +251,22 @@ function Pinball(value) {
         }
       }, 2000);
     }
-    const getFinBAllAccount = () => {
-      axios
-        .get(`${BASE_HTTP_URL}/api/fin-ball`, {
-          headers: {
-            Authorization: auth.accessToken,
-          },
-        })
-        .then((response) => {
-          if (finBallAccount.account.no !== undefined) {
-            console.log("차액");
-            console.log(
-              response.data.data.account.balance - finBallAccount.account.balance
-            );
-          }
-          if (Number(response.data.data.account.balance - finBallAccount.account.balance)>0){
-            addBall();
-          }
-          if (Number(response.data.data.account.balance - finBallAccount.account.balance)<0){
-            deleteBall()
-          }
-          dispatch(
-            setFinBallAccount({
-              account: response.data.data.account,
-              company: response.data.data.company,
-            })
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    getFinBAllAccount()
+    // if (changed>0){
+    //   addBall(changed)
+    // }
+    // else{
+    //   deleteBall(changed*(-1))
+    // }
     const Boundary = [ground, wall1, wall2, wall3];
     World.add(newEngine.world, [...Boundary, ...balls]);
 
-    // Run the engine and renderer
-    // Render.stop(newRender);
     Runner.run(runner, newEngine);
     Render.run(newRender);
 
   }, [finball.account.balance]);
 
   return (
-    <div id="group-canvas">
+    <div id="groupfinball-canvas">
       <div style={{ display: "flex",justifyContent: "flex-end"}}>
       <div className={styles.finball}>
         {finball.account.balance}원
@@ -355,4 +276,4 @@ function Pinball(value) {
   );
 }
 
-export default Pinball;
+export default GroupFinball;

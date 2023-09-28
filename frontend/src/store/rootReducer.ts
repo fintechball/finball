@@ -14,6 +14,7 @@ import quiz from "./slices/quizSlice";
 import finBallAccount from "./slices/finBallAccountSlice";
 import finballSlice from "./slices/finballSlice";
 import skin from "./slices/skinSlice";
+import groupfinball from "./slices/groupfinballSlice";
 
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -48,6 +49,7 @@ const reducer = combineReducers({
   finBallAccount,
   finballSlice,
   skin,
+  groupfinball
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
