@@ -12,10 +12,12 @@ function FinBall() {
   const navigate = useNavigate();
 
   const auth = useSelector((state) => state.auth);
+  const skin = useSelector((state) => state.skin);
   const finBallAccount = useSelector((state) => state.finBallAccount);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(skin);
     getFinBAllAccount();
   }, []);
 

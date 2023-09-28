@@ -9,6 +9,7 @@ import { Button, Input } from "antd";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/slices/authSlice";
 import { setLogged } from "../../store/slices/loggedSlice";
+import { setSkin } from "../../store/slices/skinSlice";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
@@ -45,6 +46,9 @@ function Login() {
             userId: response.data.data.userId,
           })
         );
+
+        dispatch(setSkin(response.data.data.skin));
+
         dispatch(setLogged(true));
         navigate("/");
       })

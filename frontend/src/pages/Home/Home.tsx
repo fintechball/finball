@@ -3,56 +3,15 @@ import BankAccountContainer from "../../components/BankAccount/BankAccountContai
 import GroupAccountContainer from "../../components/GroupAccount/GroupAccountContainer";
 import FinBallContainer from "../../components/FinBall/FinBallContainer";
 
-import Pinball from "../Pinball/Pinball";
 import styles from "./Home.module.css";
-import axios from "axios";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
-import { setQuiz, setDate, setIndex } from "../../store/slices/quizSlice";
 
-const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setDate } from "../../store/slices/quizSlice";
 
 function Home() {
   const navigate = useNavigate();
-  // const width = window.innerWidth;
-  // const height = window.innerHeight;
-  // const state = { cost: "5,000,000", parent: "home-canvas" };
-
-  // const auth = useSelector((state) => state.auth);
-  // const finBallAccount = useSelector((state) => state.finBallAccount);
   const dispatch = useDispatch();
-  // console.log();
-  // useEffect(() => {
-  //   getFinBAllAccount();
-  // }, []);
-
-  // const getFinBAllAccount = () => {
-  //   axios
-  //     .get(`${BASE_HTTP_URL}/api/fin-ball`, {
-  //       headers: {
-  //         Authorization: auth.accessToken,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       if (finBallAccount.account.no !== undefined) {
-  //         console.log("차액");
-  //         console.log(
-  //           response.data.data.account.balance - finBallAccount.account.balance
-  //         );
-  //       }
-  //       dispatch(
-  //         setFinBallAccount({
-  //           account: response.data.data.account,
-  //           company: response.data.data.company,
-  //         })
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   return (
     <div className={styles.container}>
