@@ -1,30 +1,29 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import FormControl from "@mui/material/FormControl";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import CardLogo from "./CardLogo";
-import Button from "@mui/material/Button";
-import styles from "./BankInfo.module.css";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import CardLogo from "./CardLogo";
+
+import styles from "./CardInfo.module.scss"
+import { Switch } from "antd"
+
+interface INfo {
+  name: string;
+  code: number;
+  img: string;
+  connected: boolean;
+}
 
 export default function CardInfo() {
-  interface INfo {
-    name: string;
-    code: number;
-    img: string;
-    connected: boolean;
-  }
+  const navigate = useNavigate();
   const [state, setState] = useState<INfo[]>([]);
   const [cnt, setCnt] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [choose, setChoose] = useState([]);
-  const response=localStorage.getItem("persist:root")
-  const jsonObject: { auth: string } = JSON.parse(response);
-  const authData = JSON.parse(jsonObject.auth);
+  const [choose, setChoose] = useState<number[]>([]);
+  const response = localStorage.getItem("persist:root");
+  const jsonObject = JSON.parse(response || "{}");
+  const authData = JSON.parse(jsonObject.auth || "{}");
   const accessToken = authData.accessToken;
+
   const findCard = async () => {
     await axios({
       method: "get",
@@ -40,105 +39,88 @@ export default function CardInfo() {
         console.log("삐빅", err);
       });
   };
+
   useEffect(() => {
     findCard();
   }, []);
+
   useEffect(() => {
     if (state.length > 0) {
       setLoading(false);
       let count = 0;
-      let L = [];
-      for (let i = 0; i < state.length; i++) {
-        if (state[Object.keys(state)[i]].connected) {
+      let selectedCodes: number[] = [];
+      state.forEach((item) => {
+        if (item.connected) {
           count += 1;
-          L = [...L, Number(state[Object.keys(state)[i]].code)];
+          selectedCodes.push(item.code);
         }
-      }
+      });
       setCnt(count);
-      setChoose(L);
+      setChoose(selectedCodes);
     }
   }, [state]);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleChange = (checked: boolean, name: string) => {
     setState((prevState) => {
-      // 새로운 배열을 생성하고 이전 상태를 복사
       const updatedState = prevState.map((item) => {
-        // 원하는 항목을 찾아서 업데이트
-        if (item.name === event.target.name) {
-          return { ...item, connected: !item.connected }; // img 프로퍼티를 업데이트
+        if (item.name === name) {
+          return { ...item, connected: checked };
         }
-        // 변경할 필요가 없는 항목은 그대로 반환
         return item;
       });
-
-      return updatedState; // 업데이트된 배열을 반환하여 상태를 업데이트
+      return updatedState;
     });
   };
-  const handlereset = () => {
+
+  const handleReset = () => {
     findCard();
   };
+
   return (
     <>
       {loading ? (
-        "Lodaing..."
+        "Loading..."
       ) : (
-        <FormControl component="fieldset" variant="standard">
-          <div className={styles.head}>
-            <div style={{ fontSize: "3vh", fontWeight: "bold" }}> 카드</div>
-            <div
-              style={{ fontSize: "1vh", alignItems: "center" }}
-              onClick={handlereset}
-            >
-              선택 해제
-            </div>
-          </div>
-          <div style={{ fontSize: "2vh", color: "grey", textAlign: "start" }}>
-            신용·체크카드의 사용 내역을 한 눈에 확인하세요!
-          </div>
-          <FormGroup style={{ height: "100vh" }}>
+        <div className={styles.container}>
+            <h2>카드 연결하기</h2>
+          <p>
+            연결할 타행 카드사를 선택해 주세요.
+          </p>
+          <div className={styles.minicontainer}>
             {state.map((v, i) => (
-              <div className={styles.labelbox} key={i}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={v.connected}
-                      onChange={handleChange}
-                      name={v.name}
-                    />
-                  }
-                  label={<CardLogo value={v} />}
-                  labelPlacement="start"
-                />
+              <div className={styles.cardcontainer} key={i}>
+                <div className={styles.left}>
+                  <div className={styles.img}>
+                    <CardLogo value={v} />
+                  </div>
+                  <div className={styles.text}>
+
+                  <p>
+                  {v.name}
+
+                  </p>
+                  </div>
+                </div>
+                
+                <div className={styles.right}><Switch
+  checked={v.connected}
+  onChange={(checked) => handleChange(checked, v.name)}
+/></div>
+                
+                  
               </div>
             ))}
-          </FormGroup>
-          <Link
-            to="/card"
-            state={{ cardCompanyCodeList: choose }}
-            style={{
-              color: "white",
-              position: "sticky",
-              bottom: "62px",
-              backgroundColor: "#7165E3",
-              height: "40px",
-              borderRadius: "10px",
-              display: "flex",
-              alignItems: "center",
-              justifyItems: "center",
-            }}
-          >
-            <label
-              style={{
-                backgroundColor: "#7165E3",
-                margin: "0",
-                paddingLeft: "130px",
-                display: "inline-block",
-              }}
-            >
-              {cnt}개 카드사 선택
-            </label>
-          </Link>
-          {/* <Button variant="contained" color="success" style={{position:"sticky",bottom:"62px",right:"15px"}} >{cnt}개 카드사 선택</Button> */}
-        </FormControl>
+          </div>
+          <button
+  className={`${styles.button} ${styles.float}`}
+  onClick={() => {
+    navigate("/card", { state: { cardCompanyCodeList: choose } });
+  }}
+>
+  {cnt}개 카드사 선택
+</button>
+    
+        </div>
       )}
     </>
   );
