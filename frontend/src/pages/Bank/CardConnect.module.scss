@@ -20,13 +20,14 @@
     display: flex;
     flex-direction: row;
 
-    // margin-top: 20px;
 
     .text {
         width: 150px;
+        // padding-left: 10px;
 
         p {
             font-size: 18px;
+            padding-left: 10px;
         }
     }
 
@@ -54,4 +55,8 @@
     // display: flex;
     position: sticky;
     bottom: 70px;
+}
+
+.bottommargin {
+    margin-bottom: 10px;
 }

@@ -7,7 +7,7 @@ import Pinball from "../Pinball/Pinball";
 import styles from "./Home.module.css";
 import axios from "axios";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
 import { setQuiz, setDate, setIndex } from "../../store/slices/quizSlice";
@@ -56,6 +56,7 @@ function Home() {
 
   return (
     <div className={styles.container}>
+
       <div className={styles.minicontainer}>
         <h2>우리 계좌</h2>
         <FinBallContainer />
