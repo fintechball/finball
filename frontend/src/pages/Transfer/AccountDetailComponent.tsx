@@ -26,6 +26,8 @@ function AccountDetailComponent(props) {
     getHistory(
       props.isFinBall
         ? "/api/fin-ball/history"
+        : account.company.code === 106
+        ? "/api/fin-ball/history"
         : `/api/user/account/${account.account.no}`
     );
     refreshBalance();
@@ -39,8 +41,6 @@ function AccountDetailComponent(props) {
         },
       })
       .then((response) => {
-        console.log(url);
-        console.log(response);
         dispatch(
           setTradeHistorys({
             tradeHistory: response.data.data.tradeHistoryList,
