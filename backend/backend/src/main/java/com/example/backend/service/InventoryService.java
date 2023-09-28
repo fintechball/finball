@@ -89,5 +89,18 @@ public class InventoryService {
         inventoryRepository.save(inventory);
     }
 
+    @Transactional
+    public Skin selectedBall(String userId) {
+        List<Inventory> selectedBallList =  inventoryCustomRepository.findSelectedBallByMemberId(userId);
+
+        if(selectedBallList.size() == 0) {
+            throw new CustomException(ErrorCode.DATA_NOT_FOUND);
+        }
+
+        Skin selectedSkin = selectedBallList.get(0).getSkin();
+
+        return selectedSkin;
+    }
+
 
 }
