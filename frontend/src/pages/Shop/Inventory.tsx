@@ -54,13 +54,13 @@ function Inventory() {
       });
   };
 
-  const selectSkin = (skinId: any) => {
-    console.log(skinId);
+  const selectSkin = (skin: any) => {
+    console.log(skin);
     axios
       .post(
         `${BASE_HTTP_URL}/api/ball/select`,
         {
-          id: skinId,
+          id: skin.id,
         },
         {
           headers: {
@@ -121,7 +121,7 @@ function Inventory() {
               ) : (
                 <button
                   className={styles.unSelectedButton}
-                  onClick={() => selectSkin(inventoryList[activeStep].id)}
+                  onClick={() => selectSkin(inventoryList[activeStep])}
                 >
                   착용하기
                 </button>
@@ -187,7 +187,7 @@ function Inventory() {
                   ) : (
                     <button
                       className={styles.unSelectedButton}
-                      onClick={() => selectSkin(inventory.id)}
+                      onClick={() => selectSkin(inventory)}
                     >
                       착용하기
                     </button>
