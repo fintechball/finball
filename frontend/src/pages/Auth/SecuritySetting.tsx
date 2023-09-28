@@ -4,6 +4,7 @@ import styles from "./SecurityKeypad.module.css";
 import Password from "./Certification";
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 const PASSWORD_MAX_LENGTH = 6; // 비밀번호 입력길이 제한 설정
@@ -23,9 +24,12 @@ const shuffle = (nums: number[]) => {
 };
 
 const SecuritySetting = () => {
-  let nums_init = Array.from({ length: 10 }, (v, k) => k);
-  const auth = useSelector((state: RootState) => state.auth);
-  const [nums, setNums] = useState([...nums_init, "", " "]);
+  let nums_init = Array.from({ length: 10 }, (v, k) => k)
+  const auth = useSelector((state : RootState) => state.auth);
+  const location = useLocation();
+  const formData = location.state?.formData;
+  
+  const [nums, setNums] = useState([...nums_init,'',' '])
   const [accessToken, setAccessToken] = useState("");
   const [isInputPassword, setIsInputPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -57,31 +61,34 @@ const SecuritySetting = () => {
       }
     }
   }, [password]);
+  
+  const saveMyEasyPassword = async () => {
+    try {
 
-  const saveMyEasyPassword = () => {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      Authorization: auth.accessToken,
-    };
-
-    axios
-      .post(
-        `${BASE_HTTP_URL}/api/user/easyPassword`,
-        {
+        const updatedFormData: FormData = {
+          ...formData,
           easyPassword: password2,
-        },
-        {
-          headers: headers,
+        };
+
+        const requestBody = JSON.stringify(updatedFormData);
+
+        const response = await fetch(`https://j9e106.p.ssafy.io/api/user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: requestBody,
+        });
+
+        console.log(response);
+        if (response.status === 200) {
+          const responseData = await response.json();
+          alert(responseData.message);
         }
-      )
-      .then((res) => {
-        alert("성공 : " + res.data.message);
-        // 성공하면 메인 페이지로 보내기...
-      })
-      .catch((err) => {
-        alert("에러발생 : " + err);
-      });
-  };
+      } catch (error) {
+        console.error("데이터 전송 실패", error);
+      }
+  }
 
   const handlePasswordChange = useCallback(
     (num) => {

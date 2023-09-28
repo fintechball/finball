@@ -42,31 +42,25 @@ const SecurityKeypad = () => {
   }, [password]);
 
   const sendAuthEasyPassword = async () => {
-      try {
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'Authorization': auth.accessToken
+    }
 
-        const updatedFormData: FormData = {
-          ...formData,
-          easyPassword: password,
-        };
-
-        const requestBody = JSON.stringify(updatedFormData);
-
-        const response = await fetch(`https://j9e106.p.ssafy.io/api/user`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: requestBody,
-        });
-
-        console.log(response);
-        if (response.status === 200) {
-          const responseData = await response.json();
-          alert(responseData.message);
-        }
-      } catch (error) {
-        console.error("데이터 전송 실패", error);
-      }
+    axios.post(`${BASE_HTTP_URL}/api/user/auth/easyPassword`,
+        {
+            easyPassword: password
+        },
+        {
+            headers: headers
+        })
+        .then((res) => {
+            alert("성공 : " + res.data.message);
+            // 성공하면 메인 페이지로 보내기...
+        })
+        .catch((err) => {
+            alert("에러발생 : " + err);
+        })
   }
 
   const handlePasswordChange = useCallback(
