@@ -9,7 +9,7 @@ import { setOpposite } from "../../store/slices/oppositeSlice";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function FillAccount() {
-  const [userAccountList, setUserAccountList] = useState(null);
+  const [userAccountList, setUserAccountList] = useState<Array<Object>>([]);
   const account = useSelector((state) => state.account);
   const auth = useSelector((state) => state.auth);
 
@@ -17,6 +17,11 @@ function FillAccount() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    getAccount();
+    getFinBallAccountList();
+  }, []);
+
+  const getAccount = () => {
     axios
       .get(`${BASE_HTTP_URL}/api/user/account`, {
         headers: {
@@ -24,12 +29,30 @@ function FillAccount() {
         },
       })
       .then((response) => {
-        setUserAccountList(response.data.data.userAccountList);
+        setUserAccountList((prevList) => [
+          ...prevList,
+          ...response.data.data.userAccountList,
+        ]);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  };
+
+  const getFinBallAccountList = () => {
+    axios
+      .get(`${BASE_HTTP_URL}/api/fin-ball`, {
+        headers: {
+          Authorization: auth.accessToken,
+        },
+      })
+      .then((response) => {
+        setUserAccountList((prevList) => [...prevList, response.data.data]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className={styles.container}>
