@@ -1,0 +1,34 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #6d8bce;
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
+  text-align: left;
+}
+.container span {
+  font-size: 14px;
+  color: rgb(216, 216, 216);
+}
+
+.minicontainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.codebox {
+  display: flex;
+}
+.codebox span {
+  margin: 0 5px;
+}
