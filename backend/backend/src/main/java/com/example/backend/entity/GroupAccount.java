@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.dto.groupaccount.GroupAccountDto;
 import com.example.backend.dto.groupaccount.GroupAccountListDto;
 import com.example.backend.type.GameType;
 import java.time.LocalDateTime;
@@ -83,5 +84,12 @@ public class GroupAccount {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public GroupAccountDto.Response toGroupAccountResponseDto() {
+        return GroupAccountDto.Response.builder()
+                .accountNo(this.accountNo)
+                .name(this.name)
+                .build();
     }
 }
