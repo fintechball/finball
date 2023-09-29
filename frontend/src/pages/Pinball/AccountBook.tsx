@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Pinball from "../Pinball/Pinball";
+import AccountFinball from "../Pinball/AccountFinball";
 import {
   CircularProgressbar,
   buildStyles,
@@ -553,7 +553,7 @@ function AccountBook() {
                   height: "360px",
                 }}
               >
-                <Pinball value={{ parent: "canvas1" }} />
+                <AccountFinball value={{ parent: "canvas1" }} />
                 <div style={{ position: "absolute", top: "0", right: "0" }}>
                   <img src={safe} style={{ width: "50px", height: "50px" }} />
                 </div>
@@ -622,7 +622,7 @@ function AccountBook() {
                       zIndex: -1,
                     }}
                   >
-                    <Pinball value={{ parent: "canvas3" }} />
+                    <AccountFinball value={{ parent: "canvas3" }} />
                   </div>
                 </div>
               </div>
