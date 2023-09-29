@@ -39,7 +39,7 @@ function Card() {
         [...cardList].map((cardinfo, index) => (
           <div className={styles.cardBox} key={index}>
             <img className={styles.rotatedImage} src={cardinfo.card.image} />
-            <p className={styles.text}>{cardinfo.card.name}</p>
+            <div className={styles.text}>{cardinfo.card.name}</div>
           </div>
         ))
       ) : (

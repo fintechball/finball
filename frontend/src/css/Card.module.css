@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .button {
   background-color: #3c78ff;
   color: white;
@@ -10,9 +11,9 @@
 
 .container {
   overflow: auto;
-  white-space: nowrap;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  align-items: baseline;
 }
 
 .container::-webkit-scrollbar {
@@ -24,21 +25,22 @@
   transform: rotate(90deg) scale(0.5);
 }
 
-.firstCard {
-  margin-left: 120px;
-  margin-right: -20px;
-}
-
 .cardBox {
-  margin-right: -20px;
-  margin-left: -20px;
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
 }
 
 .text {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  font-weight: bold;
-  font-size: 12px;
+  flex-wrap: wrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 최대 2줄 표시 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 
 .noncontainer {
