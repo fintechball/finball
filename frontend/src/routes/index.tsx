@@ -49,11 +49,16 @@ import CreateGroupAccount from "../pages/GroupAccount/CreateGroupAccount";
 // 컴포넌트 테스트용
 import InviteMember from "../components/GroupAccount/InviteMember";
 import GroupAccountHistory from "../pages/GroupAccount/GroupAccountHistory";
-import AcceptInvite from "../pages/GroupAccount/AcceptInvite";
 
 import MyDataAuth from "../pages/Auth/MyDataAuth";
 import CreateFinBallAccount from "../pages/Pinball/CreateFinBallAccount";
 import CreateFinBallAccountAuth from "../pages/Auth/CreateFinBallAccountAuth";
+
+// 모임통장 계좌이체
+import TransferGroupAccount from "../components/GroupAccount/TransferGroupACcount.tsx";
+import TransferValueGroupAccount from "../components/GroupAccount/TransferValueGroupAccount.tsx";
+import TransferingGroupAccount from "../components/GroupAccount/TransferingGroupAccount.tsx";
+
 
 function Router() {
   return (
@@ -123,14 +128,25 @@ function Router() {
           />
           {/* 모달 테스트 (사용자 초대 모달) */}
           <Route path="/invite/group-account" element={<InviteMember />} />
+          {/* 모임 통장 계좌이체 */}
+          <Route
+            path="/transferGroupAccount"
+            element={<TransferGroupAccount />}
+          />
+          <Route
+            path="/transferValueGroupAccount"
+            element={<TransferValueGroupAccount />}
           {/* 모임 통장 거래 내역 페이지 */}
+          />
           <Route
             path="/group-account/history/:no"
             element={<GroupAccountHistory />}
           />
-          {/* 모임 통장 초대 승락 페이지 */}
-          <Route path="/accept/group-account/:uuid" element={<AcceptInvite />} />
         </Route>
+        <Route
+          path="/transferingGroupAccount"
+          element={<TransferingGroupAccount />}
+        />
       </Routes>
     </>
   );
