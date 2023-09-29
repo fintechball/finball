@@ -1,0 +1,68 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #6d8bce;
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  text-align: left;
+}
+.container h2 {
+  margin: 0;
+}
+
+.minicontainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardcontainer {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+.cardcontainer .text {
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+}
+.cardcontainer .text p {
+  font-size: 18px;
+  padding-left: 10px;
+  font-weight: bold;
+  margin: 0;
+}
+.cardcontainer .text span {
+  padding-left: 10px;
+  font-size: 12px;
+}
+.cardcontainer .left {
+  display: flex;
+  flex-direction: row;
+  margin-right: 30px;
+}
+.cardcontainer .right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cardcontainer .img {
+  display: flex;
+  align-items: center;
+}
+
+.float {
+  position: sticky;
+  bottom: 70px;
+}
+
+.bottommargin {
+  margin-bottom: 15px;
+}

@@ -30,7 +30,7 @@ function CreateGroupAccount() {
                 headers: headers
             })
             .then((res) => {
-                console.log("모임 계좌 생성 완료" + res.data.data); //계좌번호
+                console.log("모임 통장 생성 완료" + res.data.data); //accountNo
                 navigate("/groupaccount/" + res.data.data); //그룹 계좌로 바로 이동
             })
             .catch((err) => {
@@ -83,7 +83,7 @@ function CreateGroupAccount() {
 
     return (
         <div>
-            <h1>모임 계좌 생성</h1>
+            <h1>모임 통장 생성</h1>
             <hr />
             <div>
                 <div>모임통장 이름</div>

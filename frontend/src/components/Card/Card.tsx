@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "./Card.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -10,7 +11,7 @@ function Card() {
   const navigate = useNavigate();
 
   const [cardList, setCardList] = useState<any>(null);
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     getCardList();
@@ -24,6 +25,7 @@ function Card() {
         },
       })
       .then((response) => {
+        console.log(response.data.data.getCardList);
         setCardList(response.data.data.getCardList);
       })
       .catch((error) => {
@@ -35,12 +37,7 @@ function Card() {
     <div className={styles.container}>
       {cardList && cardList.length !== 0 ? (
         [...cardList].map((cardinfo, index) => (
-          <div
-            className={`${index === 0 ? styles.firstCard : ""}  ${
-              index !== 0 ? styles.cardBox : ""
-            }`}
-            key={index}
-          >
+          <div className={styles.cardBox} key={index}>
             <img className={styles.rotatedImage} src={cardinfo.card.image} />
             <p className={styles.text}>{cardinfo.card.name}</p>
           </div>

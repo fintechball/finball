@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "./SignUpCerti.module.scss";
 
@@ -10,6 +10,7 @@ interface FormData {
 }
 
 function SignUpCerti() {
+  const navigate = useNavigate();
   const location = useLocation();
   const formData = location.state?.formData;
 
@@ -60,27 +61,8 @@ function SignUpCerti() {
         ...formData,
         phoneNumber: phoneNumber,
       };
-      try {
-        const requestBody = JSON.stringify(updatedFormData);
 
-        const response = await fetch(`https://j9e106.p.ssafy.io/api/user`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: requestBody,
-        });
-
-        console.log(response);
-        if (response.status === 200) {
-          const responseData = await response.json();
-          alert(responseData.message);
-        }
-      } catch (error) {
-        console.error("데이터 전송 실패", error);
-      }
-
-      console.log(updatedFormData);
+      navigate("/securitySetting", { state: { formData: updatedFormData } });
     } else {
       alert("휴대폰 인증을 완료해주세요.");
     }

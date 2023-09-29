@@ -4,7 +4,6 @@
   overflow: auto;
   white-space: nowrap;
   display: flex;
-  justify-content: center;
 }
 
 .container::-webkit-scrollbar {
@@ -14,11 +13,6 @@
 .rotatedImage {
   width: 150px;
   transform: rotate(90deg) scale(0.5);
-}
-
-.firstCard {
-  margin-left: 120px;
-  margin-right: -20px;
 }
 
 .cardBox {

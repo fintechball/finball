@@ -7,11 +7,9 @@ type LogoValue = "hana" | "kb" | "toss" | "shinhan" | "nh" | "kakao" | "woori" |
 
 const Logo = ({ value }) => {
   return (
-    <div style={{ textAlign: "center", alignItems: "center", display: "flex", width: '275px', height: '10vh',marginLeft:"0px" }}>
-      <img src={value.logo} alt="" style={{ width: '55px',height:'55px',marginLeft:"0px" }}/>
-      <div style={{ width: '220px',position: 'absolute'}}>
-        {value.name}
-      </div>
+    <div>
+      <img src={value.logo} alt="" style={{ width: '55px',height:'55px', marginRight:'20px'}}/>
+      
     </div>
   );
 }

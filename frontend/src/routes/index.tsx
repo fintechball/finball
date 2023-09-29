@@ -12,12 +12,13 @@ import SignUpCerti from "../pages/Auth/SignUpCerti";
 
 import SignUpConfrim from "../pages/Auth/SignUpConfrim";
 import SecurityKeypad from "../pages/Auth/SecurityKeypad";
+import SecuritySetting from "../pages/Auth/SecuritySetting.tsx";
 import CertificationNaver from "../pages/Auth/CertificationNaver";
 
 import Pinball from "../pages/Pinball/Pinball";
 import Game from "../pages/Pinball/Game";
 import Game2 from "../pages/Pinball/Game2";
-import Card from "../pages/Pinball/Card";
+import Card from "../pages/Card/Card";
 import AccountBook from "../pages/Pinball/AccountBook";
 
 import BankInfo from "../pages/Bank/BankInfo";
@@ -40,12 +41,14 @@ import ReceivingMoney from "../pages/Transfer/Receive";
 import AccountList from "../pages/Transfer/AccountList";
 import AccountDetail from "../pages/Transfer/AccountDetail";
 import TransferAccount from "../pages/Transfer/TransferAccount";
+import FillAccount from "../pages/Transfer/FillAccount";
 import TransferValue from "../pages/Transfer/TransferValue";
 
 import GroupAccount from "../pages/GroupAccount/GroupAccount";
 import CreateGroupAccount from "../pages/GroupAccount/CreateGroupAccount";
 // 컴포넌트 테스트용
 import InviteMember from "../components/GroupAccount/InviteMember";
+import GroupAccountHistory from "../pages/GroupAccount/GroupAccountHistory";
 
 import MyDataAuth from "../pages/Auth/MyDataAuth";
 import CreateFinBallAccount from "../pages/Pinball/CreateFinBallAccount";
@@ -55,6 +58,7 @@ import CreateFinBallAccountAuth from "../pages/Auth/CreateFinBallAccountAuth";
 import TransferGroupAccount from "../components/GroupAccount/TransferGroupACcount.tsx";
 import TransferValueGroupAccount from "../components/GroupAccount/TransferValueGroupAccount.tsx";
 import TransferingGroupAccount from "../components/GroupAccount/TransferingGroupAccount.tsx";
+
 
 function Router() {
   return (
@@ -80,11 +84,12 @@ function Router() {
         />
 
         <Route path="/pinball" element={<Pinball />} />
-        {/* <Route path="/card" element={<Card />} /> */}
+        <Route path="/cardView" element={<Card />} />
         <Route path="/game" element={<Game />} />
         <Route path="/game2" element={<Game2 />} />
         <Route path="/signupconfrim" element={<SignUpConfrim />} />
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
+        <Route path="/SecuritySetting" element={<SecuritySetting />} />
         <Route path="/certificationnaver" element={<CertificationNaver />} />
         <Route path="/accountbook" element={<AccountBook />} />
         <Route path="/navpage" element={<NavPage />} />
@@ -113,6 +118,7 @@ function Router() {
           <Route path="/accountDetail" element={<AccountDetail />} />
           <Route path="/transferAccount" element={<TransferAccount />} />
           <Route path="/transferValue" element={<TransferValue />} />
+          <Route path="/fillAccount" element={<FillAccount />} />
           {/* 모임통장 -> 동적 라우팅 적용 */}
           <Route path="/groupaccount/:no" element={<GroupAccount />} />
           {/* 모임통장 생성 페이지 */}
@@ -130,6 +136,11 @@ function Router() {
           <Route
             path="/transferValueGroupAccount"
             element={<TransferValueGroupAccount />}
+          {/* 모임 통장 거래 내역 페이지 */}
+          />
+          <Route
+            path="/group-account/history/:no"
+            element={<GroupAccountHistory />}
           />
         </Route>
         <Route

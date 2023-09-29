@@ -49,6 +49,8 @@ public class SmsService {
     @Value("${sms.phoneNumber}")
     private String phoneNumber;
 
+    private final String GROUP_INVITE_URL_PREFIX = "https://j9e106.p.ssafy.io/accept/group-account/";
+
 
     public SmsResponse sendSms(String recipientPhoneNumber)
             throws JsonProcessingException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, URISyntaxException {
@@ -137,7 +139,7 @@ public class SmsService {
         Long time = System.currentTimeMillis();
         List<MessagesDto> messages = new ArrayList<>();
         String content =
-                "[FinBall] '" + request.getName() + " '모임 계좌에 초대 되었습니다. \n" + request.getUrl();
+                "[FinBall] '" + request.getName() + " '모임 계좌에 초대 되었습니다. \n" + GROUP_INVITE_URL_PREFIX +request.getUrl();
         String recipientPhoneNumber = request.getPhoneNumber();
         messages.add(new MessagesDto(recipientPhoneNumber, content));
 

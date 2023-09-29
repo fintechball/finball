@@ -23,8 +23,11 @@ function AccountDetailComponent(props) {
   const refreshIconStyle = { fontSize: 12 };
 
   useEffect(() => {
+    console.log(account.company.code);
     getHistory(
       props.isFinBall
+        ? "/api/fin-ball/history"
+        : account.company.code === 106
         ? "/api/fin-ball/history"
         : `/api/user/account/${account.account.no}`
     );
@@ -86,7 +89,12 @@ function AccountDetailComponent(props) {
           </p>
           <p className={styles.balance}>{account.account.balance}원</p>
           <div className={styles.buttonBox}>
-            <button className={styles.fill}>채우기</button>
+            <button
+              onClick={() => navigate("/fillAccount")}
+              className={styles.fill}
+            >
+              채우기
+            </button>
             <button
               className={styles.send}
               onClick={() => navigate("/transferAccount")}

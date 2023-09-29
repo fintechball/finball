@@ -1,6 +1,5 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.finball.CompanyDto;
 import com.example.backend.dto.finball.DeleteFinancialBookCategoryDto;
 import com.example.backend.dto.finball.GetFinancialBookDto;
 import com.example.backend.dto.finball.ReadFinBallDto;
@@ -11,7 +10,6 @@ import com.example.backend.dto.finball.RegisterFinancialBookCategoryDto;
 import com.example.backend.dto.finball.SetCategoryData;
 import com.example.backend.dto.finball.UpdateFinancialBookCategoryDto;
 import com.example.backend.dto.finball.UsageAndMoneySourceDto;
-import com.example.backend.dto.finball.UsageAndMoneySourceDto.Response;
 import com.example.backend.entity.Category;
 import com.example.backend.entity.FinBallAccount;
 import com.example.backend.entity.FinBallHistory;
@@ -161,7 +159,7 @@ public class FinBallService {
         ReadFinBallHistoryDto.Response response = new ReadFinBallHistoryDto.Response();
 
         response.toFinBallTradeHistoryDtoList(
-                finBallHistoryRepository.findAllByFinBallAccount(account));
+                finBallHistoryRepository.findAllByFinBallAccountOrderByDateDesc(account));
         response.setAccount(account.toReadFinBallDto().getAccount());
         response.setCategoryList(categoryRepository.findAllByFinBallAccount(account));
 

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FinBallHistoryRepository extends JpaRepository<FinBallHistory, Long> {
 
-    List<FinBallHistory> findAllByFinBallAccount(FinBallAccount account);
+    List<FinBallHistory> findAllByFinBallAccountOrderByDateDesc(FinBallAccount account);
 
     Optional<FinBallHistory> findByFinBallAccountAndId(FinBallAccount account, Long tradeHistoryId);
 }

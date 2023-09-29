@@ -1,0 +1,33 @@
+.container {
+  text-align: center;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.total button {
+  background-color: rgb(21, 122, 255);
+  color: beige;
+  margin-left: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.total .balance {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+Canvas {
+  width: 100%;
+  height: 200px;
+}
