@@ -1,7 +1,7 @@
 package com.example.backend.entity;
 
 import com.example.backend.dto.finball.CompanyDto;
-import com.example.backend.dto.finball.FinBallTradeHistoryDto;
+import com.example.backend.dto.finball.ReadFinBallTradeHistoryDto;
 import com.example.backend.dto.finball.OppositeDto;
 import com.example.backend.type.DealType;
 import java.time.LocalDateTime;
@@ -64,8 +64,8 @@ public class FinBallHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
-    public FinBallTradeHistoryDto toFinBallHistoryDto() {
-        FinBallTradeHistoryDto finBallTradeHistoryDto = FinBallTradeHistoryDto.builder()
+    public ReadFinBallTradeHistoryDto toFinBallHistoryDto() {
+        ReadFinBallTradeHistoryDto readFinBallTradeHistoryDto = ReadFinBallTradeHistoryDto.builder()
                 .id(this.id)
                 .value(this.value)
                 .date(this.date.toLocalDate())
@@ -83,9 +83,9 @@ public class FinBallHistory {
                         .build())
                 .build();
         if (this.category != null) {
-            finBallTradeHistoryDto.setCategoryName(this.category.getName());
+            readFinBallTradeHistoryDto.setCategoryName(this.category.getName());
         }
-        return finBallTradeHistoryDto;
+        return readFinBallTradeHistoryDto;
     }
 
     public void setHistory(Category requestCategory) {
