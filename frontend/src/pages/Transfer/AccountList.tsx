@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styles from "./AccountList.module.css";
 import AccountShort from "../../components/Transfer/AccountShort";
 
@@ -10,6 +11,7 @@ function AccountList() {
   const [accountList, setAccountList] = useState<any>([]);
   const [totalBalance, setTotalBalance] = useState<number>(0);
   const auth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getOtherBankAccount();
@@ -62,15 +64,19 @@ function AccountList() {
           <p className={styles.part}>총자산</p>
           <div className={styles.total}>
             <p className={styles.balance}>{totalBalance}원</p>
-            <button>분석</button>
+            <button onClick={() => navigate("/company/bank")}>추가 등록</button>
           </div>
 
           <AccountShort accountList={accountList} />
         </div>
       ) : (
         <>
-          <div>연결된 계좌가 없습니다.</div>
-          <button>계좌 연결하기</button>
+          <div className={styles.noncontainer}>
+            <p>연결된 계좌가 없습니다.</p>
+            <button onClick={() => navigate("/company/bank")}>
+              + 계좌 연결하기
+            </button>
+          </div>
         </>
       )}
     </>
