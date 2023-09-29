@@ -6,7 +6,7 @@ import FinBallContainer from "../../components/FinBall/FinBallContainer";
 import styles from "./Home.module.css";
 
 import { useNavigate } from "react-router-dom";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setDate } from "../../store/slices/quizSlice";
 
 function Home() {
@@ -36,6 +36,12 @@ function Home() {
       </div>
 
       <button onClick={() => dispatch(setDate("123123"))}>초기화</button>
+      <div className={styles.noncontainer}>
+        <p>연결된 카드가 없습니다.</p>
+        <button onClick={() => navigate("/company/card")}>
+          + 카드 연결하기
+        </button>
+      </div>
     </div>
   );
 }
