@@ -25,6 +25,7 @@ function Card() {
         },
       })
       .then((response) => {
+        console.log(response.data.data.getCardList);
         setCardList(response.data.data.getCardList);
       })
       .catch((error) => {
@@ -36,12 +37,7 @@ function Card() {
     <div className={styles.container}>
       {cardList && cardList.length !== 0 ? (
         [...cardList].map((cardinfo, index) => (
-          <div
-            className={`${index === 0 ? styles.firstCard : ""}  ${
-              index !== 0 ? styles.cardBox : ""
-            }`}
-            key={index}
-          >
+          <div className={styles.cardBox} key={index}>
             <img className={styles.rotatedImage} src={cardinfo.card.image} />
             <p className={styles.text}>{cardinfo.card.name}</p>
           </div>
