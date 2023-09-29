@@ -13,7 +13,7 @@ public class ReadFinBallHistoryDto {
     public static class Response {
 
         private FinBallAccountInfoDto account;
-        private ArrayList<FinBallTradeHistoryDto> tradeHistoryList;
+        private ArrayList<ReadFinBallTradeHistoryDto> tradeHistoryList;
         private ArrayList<String> categoryList = new ArrayList<>();
 
         public void toFinBallTradeHistoryDtoList(
