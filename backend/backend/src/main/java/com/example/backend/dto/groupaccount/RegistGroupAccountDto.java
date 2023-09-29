@@ -25,8 +25,11 @@ public class RegistGroupAccountDto {
         private String name;
         private GameType gameType;
 
+        private final String URL_PREFIX = "https://j9e106.p.ssafy.io/accept/group-account/";
+
         public GroupAccount toGroupAccount(Member member) {
-            String url = UUID.randomUUID().toString();
+
+            String url = makeUrl();
             String accountNo = generateAccount();
             String originNo = accountNo.replace("-", "");
             LocalDateTime refreshAt = LocalDateTime.now();
@@ -43,6 +46,10 @@ public class RegistGroupAccountDto {
                     .originNo(originNo)
                     .member(member)
                     .build();
+        }
+
+        private String makeUrl() {
+            return URL_PREFIX + UUID.randomUUID();
         }
 
         public GroupAccountMember toGroupAccountMember(Member member, GroupAccount groupAccount, FinBallAccount finBallAccount) {
