@@ -6,6 +6,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import GroupAccountModal from "../../components/GroupAccount/GroupAccountModal";
 import { setAccount } from "../../store/slices/accountSlice";
+import { useParams } from "react-router-dom";
 
 function formatMoney(amount) {
   return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -30,7 +31,7 @@ const GroupAccount = () => {
   const dispatch = useDispatch();
 
   // 계좌번호
-  const accountNo = "31942-202934-614";
+  const accountNo = useParams().no;
   const companyCode = 106;
 
   useEffect(() => {

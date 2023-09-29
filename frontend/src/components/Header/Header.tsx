@@ -12,6 +12,11 @@ import Logout from "../Auth/Logout";
 // 유저 정보 계속 업데이트
 // import UserInfo from "../Auth/UserInfo";
 
+// 클릭시 홈으로
+function handleImageClick() {
+  window.location.href = "/"; // "/" 경로로 이동
+}
+
 function Header() {
   const navigate = useNavigate();
   const title = "";
@@ -25,7 +30,7 @@ function Header() {
       {/* <UserInfo /> */}
       {/* {token} */}
       <div className={styles.header}>
-        <img src={finballLogo} alt="Finball Logo" />
+        <img src={finballLogo} alt="Finball Logo" onClick={handleImageClick} />
         {/* <p>{title}</p> */}
         {isLogged ? (
           <Logout />
