@@ -50,12 +50,12 @@ function BankAccount() {
       {accountList && accountList.length !== 0 ? (
         [...accountList].map((account, index) => (
           <div className={styles.account} key={index}>
-            <img src={account.company.logo} width={50} height={50} />
+            <img src={account.company.logo} className={styles.logoimg}/>
             <div>
               <p className={styles.text}>{account.account.name}</p>
               <p className={styles.balance}>{account.account.no}</p>
             </div>
-            <button onClick={() => goToAccountDetail(account)}>송금</button>
+            <button className={`${styles.subbutton} ${styles.accountbutton}`} onClick={() => goToAccountDetail(account)}><span>송금</span></button>
           </div>
         ))
       ) : (

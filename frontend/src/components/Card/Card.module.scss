@@ -24,21 +24,16 @@
   align-items: center;
 }
 
-// .text {
-//   flex-wrap: wrap;
-//   display: flex;
-//   overflow-wrap: break-word;
-
-// }
 
 .text {
   flex-wrap: wrap;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* 최대 2줄 표시 */
+  -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: break-word;
+  font-weight: 600;
 }
 
 .noncontainer {
