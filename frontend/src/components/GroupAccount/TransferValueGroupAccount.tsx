@@ -44,8 +44,7 @@ function TransferValueGroupAccount() {
     console.log(auth);
     axios
       .post(
-        // `${BASE_HTTP_URL}/api/user/transfer`,
-        `http://localhost:8080/api/user/transfer`,
+        `${BASE_HTTP_URL}/api/user/transfer`,
         {
           minusBank: {
             accountNo: account.account.no,
