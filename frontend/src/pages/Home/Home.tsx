@@ -21,7 +21,7 @@ function Home() {
       </div>
 
       <div className={styles.minicontainer}>
-        <h2>연결된 카드 목록</h2>
+        <h2 onClick={() => navigate("/cardView")}>연결된 카드 목록</h2>
         <CardContainer />
       </div>
 
