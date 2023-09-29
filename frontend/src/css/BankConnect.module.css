@@ -26,14 +26,22 @@
 .cardcontainer {
   display: flex;
   flex-direction: row;
+  margin-bottom: 15px;
 }
 .cardcontainer .text {
-  width: 150px;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
 }
 .cardcontainer .text p {
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 18px;
   padding-left: 10px;
+  font-weight: bold;
+  margin: 0;
+}
+.cardcontainer .text span {
+  padding-left: 10px;
+  font-size: 12px;
 }
 .cardcontainer .left {
   display: flex;
@@ -56,5 +64,5 @@
 }
 
 .bottommargin {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
