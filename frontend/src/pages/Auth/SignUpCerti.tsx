@@ -25,7 +25,7 @@ function SignUpCerti() {
         recipientPhoneNumber: phoneNumber,
       });
 
-      const response = await fetch(`http://localhost:8080/api/user/sms`, {
+      const response = await fetch(`https://j9e106.p.ssafy.io/api/user/sms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
