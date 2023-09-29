@@ -76,6 +76,7 @@ public class GroupAccountService {
         String url = request.getUrl();
         System.out.println(url);
         GroupAccount groupAccount = groupAccountRepository.findByUrl(url);
+
         // 그룹계좌 확인
         if (groupAccount == null) {
             throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
@@ -83,12 +84,20 @@ public class GroupAccountService {
         if (groupAccount.isValid() == false) {
             throw new CustomException(ErrorCode.ACCOUNT_NOT_VALID);
         }
+
         // 핀볼 계좌 확인
         FinBallAccount finBallAccount = finBallAccountRepository.findByMemberId(member.getId())
                 .get();
         if (finBallAccount == null) {
             throw new CustomException(ErrorCode.ACCOUNT_NOT_FOUND);
         }
+
+        //중복 가입 방지
+        GroupAccountMember groupMemberCheck = groupAccountMemberCustomRepository.getGroupAccountMemberWithMemberAndGroupAccount(member.getId(), groupAccount.getAccountNo());
+        if(groupMemberCheck != null){
+            throw new CustomException(ErrorCode.ALREADY_IN_USE);
+        }
+
         GroupAccountMember groupAccountMember = request.toGroupAccountMember(member, groupAccount,
                 finBallAccount);
         groupAccountMemberRepository.save(groupAccountMember);
@@ -251,5 +260,15 @@ public class GroupAccountService {
         response.setGameTypeList(GameType.values());
 
         return response;
+    }
+
+    public GroupAccountDto.Response getAccountByUuid(String uuid) {
+
+        GroupAccount groupAccount = groupAccountRepository.findByUrl(uuid);
+        if (groupAccount == null) {
+            throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
+        }
+
+        return groupAccount.toGroupAccountResponseDto();
     }
 }

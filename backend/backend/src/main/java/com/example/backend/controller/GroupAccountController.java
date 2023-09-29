@@ -121,4 +121,11 @@ public class GroupAccountController {
         GameTypeDto.Response data =  groupAccountService.getGroupGameType();
         return new Response<>(200, "게임 타입 리스트를 조회했습니다.", data);
     }
+
+    @GetMapping("/account/{uuid}")
+    public Response<GroupAccountDto.Response> getAccountByUuid(@PathVariable String uuid){
+
+        GroupAccountDto.Response data = groupAccountService.getAccountByUuid(uuid);
+        return new Response<>(200, "그룹 계좌를 조회했습니다.", data);
+    }
 }
