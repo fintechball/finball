@@ -21,7 +21,7 @@ function Home() {
       </div>
 
       <div className={styles.minicontainer}>
-        <h2>연결된 카드 목록</h2>
+        <h2 onClick={() => navigate("/cardView")}>연결된 카드 목록</h2>
         <CardContainer />
       </div>
 
@@ -35,13 +35,13 @@ function Home() {
         <GroupAccountContainer />
       </div>
 
-      <button onClick={() => dispatch(setDate("123123"))}>초기화</button>
+      {/* <button onClick={() => dispatch(setDate("123123"))}>초기화</button>
       <div className={styles.noncontainer}>
         <p>연결된 카드가 없습니다.</p>
         <button onClick={() => navigate("/company/card")}>
           + 카드 연결하기
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
