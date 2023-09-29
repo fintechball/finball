@@ -25,20 +25,21 @@
 .account {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .account img {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   margin-right: 10px;
+  margin-left: 10px;
 }
 
 .account .text {
   margin-top: 0px;
   margin-bottom: 0px;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 17px;
 }
 
 .account .balance {
@@ -48,12 +49,7 @@
   color: rgb(129, 127, 127);
 }
 
-.account button {
-  background-color: rgb(170, 143, 195);
-  color: beige;
+.accountbutton {
   margin-left: auto;
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  scale: 90%;
 }
