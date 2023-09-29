@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Engine, Render, World, Bodies, Body,Runner } from "matter-js";
 import styles from "./Pinball.module.css";
 import dafalautball from "../../assets/defalutball.png";
+// import chrome from "../../assets/"
 import { useSelector,useDispatch } from "react-redux";
 import axios from "axios";
 
@@ -17,6 +18,7 @@ function Pinball(value) {
   const finball = useSelector((state) => state.finBallAccount);
   const ballunit=useSelector((state)=>state.finballSlice.ballunit)
   const ballcnt = useSelector((state)=>state.finballSlice.ballcnt)
+  const ballskin=useSelector((state)=>state.skin.skin)
   // const changed = useSelector((state)=>state.finballSlice.changed)
   // const prebalance = useSelector((state)=>state.finballSlice.prebalance)
   // const ballunit=useState(1000)
@@ -34,12 +36,10 @@ function Pinball(value) {
       height: parentContainer.clientHeight,
     };
   };
-  const test={}
-  console.log(test)
   useEffect(() => {
     getFinBAllAccount();
   }, []);
-
+  console.log(ballskin)
   const getFinBAllAccount = () => {
     axios
       .get(`${BASE_HTTP_URL}/api/fin-ball`, {
@@ -57,13 +57,17 @@ function Pinball(value) {
           dispatch((dispatch) => {
             const balance = response.data.data.account.balance;
             const balanceString = balance.toString();
-            
+            console.log(balanceString.length)
             if (balanceString.length >= 3) {
               const ballunit = 10 ** (balanceString.length - 3);
               const firstDigit = Number(balanceString[0]);
+              console.log(firstDigit)
+              console.log(ballunit)
+              console.log(balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)
               if (balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2<0){
-                const ballcnt = (balance - firstDigit * 10 ** (balanceString.length - 1)) / ballunit;
-                console.log(balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)
+                const ballcnt = Math.round((balance - firstDigit * 10 ** (balanceString.length - 1)) / ballunit);
+                console.log(ballcnt)  
+                console.log((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit)
                 console.log('!!!!!!!!!!!!!!')
                 dispatch(
                   setFinball({
@@ -76,8 +80,13 @@ function Pinball(value) {
                 
               }
               else{
-                const ballcnt = balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2/ ballunit;
-                console.log(balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)
+                const ballcnt = Math.round((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit);
+                console.log(balance)
+                console.log(firstDigit * 10 ** (balanceString.length - 1))
+                console.log(10**(balanceString.length - 1)/2)
+
+                console.log((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit)
+                console.log(balance - firstDigit * 10 ** (balanceString.length - 1))
                 console.log('@@@@@@@@@@@@@@@@')
                 dispatch(
                   setFinball({
@@ -224,7 +233,7 @@ function Pinball(value) {
             lineWidth: 3,
             // opacity:0.5,
             sprite: {
-              texture: dafalautball,
+              texture: ballskin.image,
               xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
               yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
             },

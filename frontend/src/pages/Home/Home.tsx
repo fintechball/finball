@@ -6,23 +6,17 @@ import FinBallContainer from "../../components/FinBall/FinBallContainer";
 import styles from "./Home.module.css";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setDate } from "../../store/slices/quizSlice";
 
 function Home() {
   const navigate = useNavigate();
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  const state = { parent: "home-canvas" };
-
-  const auth = useSelector((state) => state.auth);
-  const finBallAccount = useSelector((state) => state.finBallAccount);
   const dispatch = useDispatch();
 
   return (
     <div className={styles.container}>
       <div className={styles.minicontainer}>
-        <h2>우리 계좌</h2>
+        <h2 onClick={() => navigate("/accountBook")}>우리 계좌</h2>
         <FinBallContainer />
       </div>
 
@@ -42,6 +36,12 @@ function Home() {
       </div>
 
       <button onClick={() => dispatch(setDate("123123"))}>초기화</button>
+      <div className={styles.noncontainer}>
+        <p>연결된 카드가 없습니다.</p>
+        <button onClick={() => navigate("/company/card")}>
+          + 카드 연결하기
+        </button>
+      </div>
     </div>
   );
 }

@@ -61,8 +61,7 @@ function SignUpCerti() {
         ...formData,
         phoneNumber: phoneNumber,
       };
-
-      navigate("/SecurityKeypad", { state: { formData: updatedFormData } });
+      navigate("/securitySetting", { state: { formData: updatedFormData } });
     } else {
       alert("휴대폰 인증을 완료해주세요.");
     }

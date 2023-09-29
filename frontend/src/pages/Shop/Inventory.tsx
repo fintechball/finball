@@ -51,7 +51,6 @@ function Inventory() {
         },
       })
       .then((response) => {
-        console.log(response.data.data.inventoryDtoList);
         setInventoryList(response.data.data.inventoryDtoList);
       });
   };

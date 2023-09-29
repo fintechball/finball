@@ -26,6 +26,7 @@ public class RegistGroupAccountDto {
         private GameType gameType;
 
         public GroupAccount toGroupAccount(Member member) {
+
             String url = UUID.randomUUID().toString();
             String accountNo = generateAccount();
             String originNo = accountNo.replace("-", "");

@@ -60,6 +60,7 @@ function Shop() {
         },
       })
       .then((response) => {
+        console.log(response.data.data.skin)
         setSkinList(response.data.data.skin);
       });
   };

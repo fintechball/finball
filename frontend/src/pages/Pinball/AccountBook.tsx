@@ -16,12 +16,11 @@ import { setAccountBooks } from "../../store/slices/accountBookSlice";
 import { Carousel } from "react-responsive-carousel";
 import { useSelector, useDispatch } from "react-redux";
 import AccountDetailComponent from "../Transfer/AccountDetailComponent";
+import { setAccount } from "../../store/slices/accountSlice";
+
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function AccountBook() {
-  const [account, setAccount] = useState<any>({});
-  const [tradeHistoryList, setTradeHistoryList] = useState<any>([]);
-  const [categoryList, setCategoryList] = useState<any>([]);
   const [state, setState] = useState<any>({});
   const [name, setName] = useState<any>(""); // 이름을 저장하는 state
   const [amount, setAmount] = useState<any>(""); // 금액을 저장하는 state
@@ -39,11 +38,14 @@ function AccountBook() {
   const color = ["red", "green", "yellow", "blue"];
   const dispatch = useDispatch();
   const now = new Date();
+
   // const response=localStorage.getItem("persist:root")
   // const jsonObject: { auth: string } = JSON.parse(response);
   // const authData = JSON.parse(jsonObject.auth);
   // const accessToken = authData.accessToken;
   const auth = useSelector((state) => state.auth);
+  const finBallAccount = useSelector((state) => state.finBallAccount);
+
   const [L, setL] = useState([]);
   const [selectedValue, setSelectedValue] = useState("null");
 
@@ -107,6 +109,13 @@ function AccountBook() {
   const [selectedBtn, setSelectedBtn] = useState("btn1");
   useEffect(() => {
     getHistory();
+    console.log(finBallAccount);
+    dispatch(
+      setAccount({
+        account: finBallAccount.account,
+        company: finBallAccount.company,
+      })
+    );
   }, []);
   const getHistory = () => {
     axios({
@@ -535,22 +544,7 @@ function AccountBook() {
               <div style={{ fontSize: "50px", fontWeight: "bold" }}>
                 우리 계좌
               </div>
-              <input
-                type="number"
-                placeholder="잔액"
-                style={{ width: "130px", height: "30px" }}
-              />
-              <button
-                style={{
-                  width: "90px",
-                  height: "30px",
-                  color: "white",
-                  fontSize: "10px",
-                  backgroundColor: "#7165E3",
-                }}
-              >
-                송금
-              </button>
+              <div>잔액 : {finBallAccount.account.balance}</div>
               <div
                 id="canvas1"
                 style={{
@@ -568,53 +562,10 @@ function AccountBook() {
           )}
         </div>
         <div key="btn2">
-          {/* {selectedBtn === "btn2" && (
-            <div>
-                <div style={{fontSize:'10px',fontWeight:"lighter",textAlign:'start',marginLeft:"30px"}}>핀볼 {finball.account.no}</div>
-                <div style={{fontSize:'30px',fontWeight:'bold',textAlign:'start',marginLeft:"30px"}}>{finball.account.balance}원</div>
-                <button style={{ width: '140px',height:"30px", color: 'white', aspectRatio: 5, fontSize: '15px', backgroundColor: '#4C4499', marginRight: '20px' }}>채우기</button>
-                <button style={{ width: '140px',height:"30px", color: 'white', aspectRatio: 5, fontSize: '15px', backgroundColor: '#7165E3' }}>보내기</button>
-                <div style={{ position: "relative",width:'360px',height:'70vh',marginTop:"10px" }}>
-                <div style={{fontSize:"10px",fontWeight:'bold',textAlign:'start',marginLeft:'30px'}}>전체</div>
-                {finball.tradeHistoryList.reduce((acc: React.ReactNode[], item, i) => {
-                    // 첫 번째 아이템이거나 이전 아이템과 날짜가 다를 경우 새로운 구역 생성
-                    if (i === 0 || item.date !== finball.tradeHistoryList[i - 1].date) {
-                    acc.push(
-                        <div key={`date-${item.date}`} style={{ fontWeight: 'bold',fontSize:'8px',textAlign:'start',marginLeft:'30px' }}>
-                        {item.date}
-                        </div>
-                    );
-                    }
-                    
-                    // 현재 아이템 출력
-                    acc.push(
-                    <div onClick={()=>{item.type=="출금"?openSelectModal(finball,item.id):""}} key={item.id} style={{ display: 'flex', width: '300px', alignContent: 'center', justifyContent: 'center', marginLeft: '30px',marginBottom:'3px' ,justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex',alignItems: 'center'}}>
-                        <img src={cash} style={{ width: "30px",height:"30px",marginRight:'10px' }} />
-                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div style={{ fontSize: '15px', fontWeight: 'bold' }}>{item.opposite.userName}</div>
-                        <div style={{ fontSize: '1px', opacity: 0.7 }}>{item.time.slice(0,5)}</div>
-                        </div>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ textAlign: 'end',fontSize:'15px',color:'#7165E3', fontWeight: 'bold' }}>{item.value}원</div>
-                        <div style={{fontSize:'5px'}}>{item.balance}원</div>
-                        </div>
-                    </div>
-                    );
-                    
-                    return acc;
-                }, [])}
-                <div id="canvas2" style={{ position: "absolute", top: 0,width: "360px", height: "360px", zIndex: -1, opacity: 0.1 }}>
-                    <Pinball value={{parent:"canvas2"}}/>
-                </div>
-                </div>
-            </div>
-            )} */}
           <AccountDetailComponent isFinBall={true} />
         </div>
         <div key="btn3">
-          { selectedBtn === "btn3" && state.categoryList.length === 0 ? (
+          {selectedBtn === "btn3" && state.categoryList.length === 0 ? (
             <button
               onClick={openModal}
               style={{ width: "300px", height: "300px" }}

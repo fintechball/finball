@@ -15,7 +15,12 @@ public class RedisUtil {
     private final RedisDao redisDao;
 
     private final String MYDATA_KEY = "MYDATA&&&";
-    private final int EXPIRATION_TIME = 60000 * 10; // 10일
+
+    private int SEC = 1;
+    private int MINUTE = SEC * 60;
+    private int HOUR = MINUTE * 60;
+    private int DAY = 24 * HOUR;
+    private int EXPIRATION_TIME = 60 * DAY * 1000;
 
     public void storeMyDataToken(String userId, ResponseEntity<String> respEntity) {
 

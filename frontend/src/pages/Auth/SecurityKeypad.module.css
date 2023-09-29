@@ -1,25 +1,25 @@
-  .btn{
-    color:white;
-    background-color: #7165E3;
-    width: 55px!important;
-    height: 60px!important;
-    border-radius: 0px;
-    font-size: 20px;
-    padding: 0px;
-  }
+.btn {
+  color: white;
+  background-color: #7165e3;
+  width: 55px !important;
+  height: 60px !important;
+  border-radius: 0px;
+  font-size: 20px;
+  padding: 0px;
+}
 
-  .inputer{
-    display: flex;
-    flex-wrap: wrap;
-    width: 360px;
-    justify-content: center;
-  }
-  .bottom_btm{
-    color:white;
-    background-color: #7165E3;
-    width: 110px!important;
-    height: 60px!important;
-    border-radius: 0px;
-    font-size: 20px;
-    padding: 0px;
-  }
+.inputer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 360px;
+  justify-content: center;
+}
+.bottom_btm {
+  color: white;
+  background-color: #7165e3;
+  width: 110px !important;
+  height: 60px !important;
+  border-radius: 0px;
+  font-size: 20px;
+  padding: 0px;
+}
