@@ -45,11 +45,16 @@ import TransferValue from "../pages/Transfer/TransferValue";
 import GroupAccount from "../pages/GroupAccount/GroupAccount";
 import CreateGroupAccount from "../pages/GroupAccount/CreateGroupAccount";
 // 컴포넌트 테스트용
-import InviteMember from "../components/GroupAccount/InviteMember"
+import InviteMember from "../components/GroupAccount/InviteMember";
 
-import MyDataAuth from "../pages/Auth/MyDataAuth"
-import CreateFinBallAccount from "../pages/Pinball/CreateFinBallAccount"
-import CreateFinBallAccountAuth from "../pages/Auth/CreateFinBallAccountAuth"
+import MyDataAuth from "../pages/Auth/MyDataAuth";
+import CreateFinBallAccount from "../pages/Pinball/CreateFinBallAccount";
+import CreateFinBallAccountAuth from "../pages/Auth/CreateFinBallAccountAuth";
+
+// 모임통장 계좌이체
+import TransferGroupAccount from "../components/GroupAccount/TransferGroupACcount.tsx";
+import TransferValueGroupAccount from "../components/GroupAccount/TransferValueGroupAccount.tsx";
+import TransferingGroupAccount from "../components/GroupAccount/TransferingGroupAccount.tsx";
 
 function Router() {
   return (
@@ -64,9 +69,15 @@ function Router() {
         {/* 마이데이터에 사용자 인증하는 페이지*/}
         <Route path="/my-data/auth" element={<MyDataAuth />} />
         {/* 핀볼 계좌 생성하기 전, 마이데이터 인증하는 페이지 */}
-        <Route path="/create/finball/auth" element={<CreateFinBallAccountAuth />} />
+        <Route
+          path="/create/finball/auth"
+          element={<CreateFinBallAccountAuth />}
+        />
         {/* 핀볼 계좌 생성하기 전, usage등을 선택하는 페이지 */}
-        <Route path="/create/finball-account" element={<CreateFinBallAccount />} />
+        <Route
+          path="/create/finball-account"
+          element={<CreateFinBallAccount />}
+        />
 
         <Route path="/pinball" element={<Pinball />} />
         {/* <Route path="/card" element={<Card />} /> */}
@@ -105,10 +116,26 @@ function Router() {
           {/* 모임통장 -> 동적 라우팅 적용 */}
           <Route path="/groupaccount/:no" element={<GroupAccount />} />
           {/* 모임통장 생성 페이지 */}
-          <Route path="/create/group-account" element={<CreateGroupAccount />} />
+          <Route
+            path="/create/group-account"
+            element={<CreateGroupAccount />}
+          />
           {/* 모달 테스트 (사용자 초대 모달) */}
           <Route path="/invite/group-account" element={<InviteMember />} />
+          {/* 모임 통장 계좌이체 */}
+          <Route
+            path="/transferGroupAccount"
+            element={<TransferGroupAccount />}
+          />
+          <Route
+            path="/transferValueGroupAccount"
+            element={<TransferValueGroupAccount />}
+          />
         </Route>
+        <Route
+          path="/transferingGroupAccount"
+          element={<TransferingGroupAccount />}
+        />
       </Routes>
     </>
   );

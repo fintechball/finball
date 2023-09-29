@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styles from "./GroupAccountModal.module.css";
 
 const GroupAccountModal = (props) => {
@@ -31,7 +32,9 @@ const GroupAccountModal = (props) => {
             </div>
           ))}
           <div>
-            <button>이체하기</button>
+            <Link to="/transferGroupAccount">
+              <button>이체하기</button>
+            </Link>
             <button onClick={props.onClose}>닫기</button>
           </div>
         </div>
