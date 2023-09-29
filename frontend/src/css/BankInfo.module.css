@@ -17,6 +17,9 @@
 .container h2 {
   margin: 0;
 }
+.container .selectbutton {
+  margin-bottom: 10px;
+}
 
 .minicontainer {
   display: flex;
@@ -31,9 +34,7 @@
   width: 150px;
 }
 .cardcontainer .text p {
-  font-size: 15px;
-  font-weight: bold;
-  padding-left: 10px;
+  font-size: 18px;
 }
 .cardcontainer .left {
   display: flex;
@@ -53,8 +54,4 @@
 .float {
   position: sticky;
   bottom: 70px;
-}
-
-.bottommargin {
-  margin-bottom: 10px;
 }

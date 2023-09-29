@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
+import styles from "./MyDataAuth.module.scss"
+
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
 function MyDataAuth() {
@@ -71,11 +73,13 @@ function MyDataAuth() {
   };
 
   return (
-    <div>
-      <h1>마이데이터 인증</h1>
-      <hr />
-      <p>마이데이터 인증을 위해 이름과 주민등록번호를 입력해주세요.</p>
-      <div>
+    <div className={styles.container}>
+      <h2>
+        본인 인증을 위해 <span>(마이데이터)</span>
+        <br />
+        주민등록번호를 입력해주세요.
+      </h2>
+      <div className={styles.minicontainer}>
         <div>이름</div>
         <Input
           placeholder="name"
@@ -84,9 +88,9 @@ function MyDataAuth() {
           onChange={(event) => setName(event.target.value)}
         />
       </div>
-      <div>
-        <div>주민번호</div>
-        <div>
+      <div className={styles.minicontainer}>
+        <div>주민등록번호</div>
+        <div className={styles.codebox}>
           <Input
             placeholder="first"
             type="text"
@@ -102,9 +106,9 @@ function MyDataAuth() {
           />
         </div>
       </div>
-      <Button type="primary" onClick={doMyDataAuth}>
+      <button className={styles.button} onClick={doMyDataAuth}>
         주민번호 인증
-      </Button>
+      </button>
     </div>
   );
 }
