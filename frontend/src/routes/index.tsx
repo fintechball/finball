@@ -59,7 +59,6 @@ import TransferGroupAccount from "../components/GroupAccount/TransferGroupACcoun
 import TransferValueGroupAccount from "../components/GroupAccount/TransferValueGroupAccount.tsx";
 import TransferingGroupAccount from "../components/GroupAccount/TransferingGroupAccount.tsx";
 
-
 function Router() {
   return (
     <>
@@ -136,8 +135,8 @@ function Router() {
           <Route
             path="/transferValueGroupAccount"
             element={<TransferValueGroupAccount />}
-          {/* 모임 통장 거래 내역 페이지 */}
           />
+          {/* 모임 통장 거래 내역 페이지 */}
           <Route
             path="/group-account/history/:no"
             element={<GroupAccountHistory />}
