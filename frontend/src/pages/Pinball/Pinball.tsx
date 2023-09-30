@@ -138,8 +138,6 @@ function Pinball(value) {
   // }
   else{
     if (!render){
-
-
     console.log('initialize')
     const parentSize = getParentContainerSize();
     // Create a Matter.js engine
@@ -171,9 +169,9 @@ function Pinball(value) {
     // Create ground
     const ground = Bodies.rectangle(
       parentSize.width / 2,
-      parentSize.height+parentSize.width * 0.2/2,
+      parentSize.height+parentSize.width * 1/2,
       parentSize.width * 2,
-      parentSize.width * 0.2,
+      parentSize.width * 1,
       {
         isStatic: true,
         render: {
@@ -185,9 +183,9 @@ function Pinball(value) {
       }
     );
     const wall1 = Bodies.rectangle(
-      parentSize.width+parentSize.width * 0.2/2,
+      parentSize.width+parentSize.width * 1/2,
       parentSize.height/2,
-      parentSize.width * 0.2,
+      parentSize.width * 1,
       parentSize.height,
       {
         isStatic: true,
@@ -201,9 +199,9 @@ function Pinball(value) {
       }
     );
     const wall2 = Bodies.rectangle(
-      0-parentSize.width * 0.2/2,
+      0-parentSize.width * 1/2,
       parentSize.height/2,
-      parentSize.width * 0.2,
+      parentSize.width * 1,
       parentSize.height,
       {
         isStatic: true,
@@ -217,9 +215,9 @@ function Pinball(value) {
     );
     const wall3 = Bodies.rectangle(
       0,
-      0-parentSize.width * 0.2/2,
+      0-parentSize.width * 1/2,
       parentSize.width * 2,
-      parentSize.width * 0.2,
+      parentSize.width * 1,
       {
         isStatic: true,
         render: {
