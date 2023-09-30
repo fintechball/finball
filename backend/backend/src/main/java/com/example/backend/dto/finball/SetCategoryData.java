@@ -9,6 +9,6 @@ public class SetCategoryData {
     public static class Request {
 
         private Long tradeHistoryId;
-        private String categoryName;
+        private Long categoryId;
     }
 }

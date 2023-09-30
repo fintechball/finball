@@ -17,5 +17,5 @@ public class ReadFinBallTradeHistoryDto {
     private DealType type;
     private Long balance;
     private OppositeDto opposite;
-    private String categoryName;
+    private CategoryDto category;
 }
