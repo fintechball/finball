@@ -43,7 +43,7 @@ public class Category {
     public FinancialBookCategoryDto toCategoryDto() {
         Long balance = getBalance();
 
-        int percent = (int) (balance / this.value);
+        double percent = (double) balance / this.value;
 
         return FinancialBookCategoryDto.builder()
                 .id(this.id)
@@ -51,7 +51,7 @@ public class Category {
                 .value(this.value)
                 .usedValue(this.usedValue)
                 .balance(balance)
-                .percent(percent * 100)
+                .percent((int)(percent * 100))
                 .build();
     }
 
