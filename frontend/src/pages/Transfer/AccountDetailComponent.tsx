@@ -9,7 +9,7 @@ import { setBalance } from "../../store/slices/accountSlice";
 import TradeHistory from "../../components/Transfer/TradeHistory";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-// const BASE_HTTP_URL = "http://localhost:8080";
+//const BASE_HTTP_URL = "http://localhost:8080";
 
 function AccountDetailComponent(props) {
   const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
@@ -28,8 +28,8 @@ function AccountDetailComponent(props) {
       props.isFinBall
         ? "/api/fin-ball/history"
         : account.company.code === 106
-        ? "/api/fin-ball/history"
-        : `/api/user/account/${account.account.no}`
+          ? "/api/fin-ball/history"
+          : `/api/user/account/${account.account.no}`
     );
     refreshBalance();
   }, []);
@@ -110,7 +110,7 @@ function AccountDetailComponent(props) {
             </p>
           </div>
 
-          <TradeHistory tradeHistoryDict={tradeHistoryDict} />
+          <TradeHistory tradeHistoryDict={tradeHistoryDict} isFinBall={props.isFinBall} />
         </div>
       )}
     </>

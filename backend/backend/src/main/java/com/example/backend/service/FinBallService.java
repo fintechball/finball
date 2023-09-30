@@ -177,16 +177,27 @@ public class FinBallService {
         if (tradeHistory.getDealType() == DealType.입금) {
             throw new CustomException(ErrorCode.NOT_WITHDRAW_ERROR);
         }
-
-        setCategory(tradeHistory, request);
+        if (request.getCategoryId() == -1) {
+            removeCategoryFromHistory(request.getTradeHistoryId());
+        } else {
+            setCategory(tradeHistory, request);
+        }
         finBallHistoryRepository.save(tradeHistory);
 
         return readFinBallHistoryList(member);
     }
 
+    private void removeCategoryFromHistory(Long tradeHistoryId) {
+        FinBallHistory finBallHistory = finBallHistoryRepository.findById(tradeHistoryId).orElseThrow(
+                () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+        );
+
+        finBallHistory.setHistory(null);
+    }
+
     public void setCategory(FinBallHistory tradeHistory, SetCategoryData.Request request) {
 
-        Category requestCategory = categoryRepository.findByName(request.getCategoryName())
+        Category requestCategory = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(
                         () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
                 );

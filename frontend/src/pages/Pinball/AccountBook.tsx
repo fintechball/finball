@@ -17,8 +17,10 @@ import { Carousel } from "react-responsive-carousel";
 import { useSelector, useDispatch } from "react-redux";
 import AccountDetailComponent from "../Transfer/AccountDetailComponent";
 import { setAccount } from "../../store/slices/accountSlice";
+import { RootState } from "../../store/store";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
+//const BASE_HTTP_URL = "http://localhost:8080";
 
 function AccountBook() {
   const [state, setState] = useState<any>({});
@@ -38,6 +40,7 @@ function AccountBook() {
   const color = ["red", "green", "yellow", "blue"];
   const dispatch = useDispatch();
   const now = new Date();
+  const accountbook = useSelector((state: RootState) => state.accountbook);
 
   // const response=localStorage.getItem("persist:root")
   // const jsonObject: { auth: string } = JSON.parse(response);
@@ -597,6 +600,7 @@ function AccountBook() {
                     transform: "translate(0,100%)",
                   }}
                 >
+                  {/* ==== */}
                   {Array.isArray(state.categoryList) &&
                     state.categoryList.map((v, i) => (
                       <div
