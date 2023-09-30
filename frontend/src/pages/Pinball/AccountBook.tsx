@@ -521,10 +521,13 @@ function AccountBook() {
             onClick={() => handleButtonClick("btn3")}
           ></button>
         </div>
-        <div>
-          <button onClick={openCategoryModal}>category+</button>
-          <button onClick={openModal}>category-</button>
-        </div>
+        {selectedBtn === "btn3" && state.categoryList.length > 0 && (
+          <div>
+            <button onClick={openCategoryModal}>가계부 항목 추가</button>
+            {/* <button onClick={openModal}>category-</button> */}
+          </div>
+        )}
+
       </div>
       <Carousel
         selectedItem={
