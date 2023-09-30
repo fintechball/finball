@@ -7,6 +7,7 @@ interface authState {
   refreshToken: string;
   name: string;
   userId: string;
+  image: string;
 }
 
 const initialState: authState = {
@@ -14,6 +15,7 @@ const initialState: authState = {
   refreshToken: "",
   name: "",
   userId: "",
+  image: "",
 };
 
 const authSlice = createSlice({
@@ -25,6 +27,7 @@ const authSlice = createSlice({
       state.refreshToken = action.payload.refreshToken;
       state.name = action.payload.name;
       state.userId = action.payload.userId;
+      state.image = action.payload.image;
     },
   },
   extraReducers: (builder) => {

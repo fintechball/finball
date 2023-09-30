@@ -44,6 +44,7 @@ function Login() {
             refreshToken: response.data.data.refreshToken,
             name: response.data.data.name,
             userId: response.data.data.userId,
+            image: response.data.data.image,
           })
         );
 
