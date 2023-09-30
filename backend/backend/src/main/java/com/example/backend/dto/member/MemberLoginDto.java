@@ -13,11 +13,13 @@ public class MemberLoginDto {
     private String refreshToken;
     private String name;
     private String userId;
+    private String image;
     private Skin skin;
 
     public MemberLoginDto(Member member, String accessToken, String refreshToken, Skin skin) {
         this.name = member.getName();
         this.userId = member.getUserId();
+        this.image = member.getProfileImg();
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.skin = skin;
