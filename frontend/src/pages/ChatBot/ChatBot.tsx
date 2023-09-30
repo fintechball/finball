@@ -1,8 +1,10 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./ChatBot.module.scss";
 import { useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
+import { SendOutlined }  from "@ant-design/icons"
+import { Input } from "antd"
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -99,6 +101,7 @@ function Chatbot() {
 
   return (
     <div className={styles.container}>
+      <button onClick={() => setMessageList(null)}>다지워</button>
       <div className={styles.chatcontainer}>
           {messageList &&
             messageList.length !== 0 &&
@@ -115,12 +118,12 @@ function Chatbot() {
       </div>
       
       <div className={styles.inputcontainer}>
-            <input
+            <Input
               placeholder="질문을 입력하세요"
               value={question}
               onChange={(event) => setQuestion(event.target.value)}
-            ></input>
-            <button onClick={help}>전송</button>
+            ></Input>
+            <button onClick={help} disabled={!question}><SendOutlined /></button>
       </div>
     </div>
   );
