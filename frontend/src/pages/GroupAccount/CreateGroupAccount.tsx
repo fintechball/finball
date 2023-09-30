@@ -2,6 +2,9 @@ import { Button, Input } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store/store";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -9,7 +12,9 @@ const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 function CreateGroupAccount() {
 
     const navigate = useNavigate();
-    const [accessToken, setAccessToken] = useState<string>("");
+    const dispatch = useDispatch();
+
+    const accessToken = useSelector((state: RootState) => state.auth.accessToken);
 
     const [gameTypeList, setGameTypeList] = useState<string[]>([]);
     const [gameType, setGameType] = useState<string>("");
@@ -38,7 +43,7 @@ function CreateGroupAccount() {
             })
     }
 
-    const getGameTypeList = (accessToken: string) => {
+    const getGameTypeList = () => {
 
         const headers: Record<string, string> = {
             'Authorization': accessToken,
@@ -59,26 +64,36 @@ function CreateGroupAccount() {
             })
     }
 
-    useEffect(() => {
-        const jsonString = localStorage.getItem("persist:root");
+    const finBallAccountCheck = () => {
+        const headers: Record<string, string> = {
+            'Authorization': accessToken,
+        }
 
-        const fetchData = () => {
-            if (jsonString) {
-                const jsonObject = JSON.parse(jsonString);
-                const authData = JSON.parse(jsonObject.auth);
-                const accessToken = authData.accessToken;
-
-                if (accessToken) {
-                    setAccessToken(accessToken);
-                    getGameTypeList(accessToken);
+        axios.get(`${BASE_HTTP_URL}/api/fin-ball`,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                dispatch(
+                    setFinBallAccount({
+                        account: res.data.data.account,
+                        company: res.data.data.company,
+                    })
+                );
+            })
+            .catch(() => {
+                const agree = confirm("핀볼 계좌가 없습니다.\n핀볼 계좌 페이지로 이동하겠습니까?")
+                if (agree) {
+                    navigate("/create/finball/auth")
                 } else {
-                    console.log("accessToken이 존재하지 않습니다.");
+                    navigate("/");
                 }
-            } else {
-                console.log("localStorage가 존재하지 않습니다.");
-            }
-        };
-        fetchData();
+            })
+    }
+
+    useEffect(() => {
+        finBallAccountCheck();
+        getGameTypeList();
     }, []);
 
     return (
