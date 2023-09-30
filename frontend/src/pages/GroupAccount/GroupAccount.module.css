@@ -66,8 +66,8 @@
 }
 
 .finballBox {
-  display: flex;
-  flex-direction: column-reverse;
+  /* display: flex; */
+  /* flex-direction: column-reverse; */
   width: 360px;
   height: 400px;
 }

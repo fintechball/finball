@@ -6,6 +6,7 @@ interface finballState {
   ballunit: number;
   ballcnt: number;
   minbalance:number;
+  isReady: boolean;
   // changed:number;
   // prebalance:number;
 }
@@ -14,6 +15,7 @@ const initialState: finballState = {
   ballunit: 1000,
   ballcnt: 0,
   minbalance:0,
+  isReady:false,
   // changed: 0,
   // prebalance:0,
 };
@@ -26,6 +28,7 @@ const finballSlice = createSlice({
       state.ballunit = action.payload.ballunit;
       state.ballcnt = action.payload.ballcnt;
       state.minbalance = action.payload.minbalance;
+      state.isReady = action.payload.isReady;
       // state.prebalance = action.payload.prebalance;
       // state.changed = action.payload.prebalance;
     },
