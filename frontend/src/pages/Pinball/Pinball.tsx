@@ -71,14 +71,8 @@ function Pinball(value) {
             if (balanceString.length >= 3) {
               const ballunit = 10 ** (balanceString.length - 3);
               const firstDigit = Number(balanceString[0]);
-              console.log(firstDigit)
-              console.log(ballunit)
-              console.log(balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)
               if (balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2<0){
                 const ballcnt = Math.round((balance - firstDigit * 10 ** (balanceString.length - 1)) / ballunit);
-                console.log(ballcnt)  
-                console.log((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit)
-                console.log('!!!!!!!!!!!!!!')
                 dispatch(
                   setFinball({
                     ballunit: ballunit,
@@ -92,13 +86,6 @@ function Pinball(value) {
               }
               else{
                 const ballcnt = Math.round((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit);
-                console.log(balance)
-                console.log(firstDigit * 10 ** (balanceString.length - 1))
-                console.log(10**(balanceString.length - 1)/2)
-
-                console.log((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit)
-                console.log(balance - firstDigit * 10 ** (balanceString.length - 1))
-                console.log('@@@@@@@@@@@@@@@@')
                 dispatch(
                   setFinball({
                     ballunit: ballunit,
@@ -134,14 +121,11 @@ function Pinball(value) {
         console.log(error);
       });
   };
-  useEffect(()=>{
 
-  })
   useEffect(() => {
     console.log(ballunit)
     console.log(ballcnt)
     if (render) {
-
         console.log('render')
         render.canvas.remove();
         Render.stop(render);
@@ -157,7 +141,7 @@ function Pinball(value) {
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 7.5,
+      delta: 10,
       isFixed: false,
       enabled: true
   });
@@ -275,7 +259,6 @@ function Pinball(value) {
             lineWidth: 3,
             // opacity:0.5,
             sprite: {
-              // texture: ballskin.image,
               texture: skinlist[ballskin.name],
               xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
               yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
@@ -372,9 +355,7 @@ function Pinball(value) {
     // else{
     //   deleteBall(changed*(-1)) 
     // }
-
-
-  }, [finball.account]);
+  }, [finball]);
 
   return (
     <div id="pinball-canvas">

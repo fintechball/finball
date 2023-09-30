@@ -1,7 +1,7 @@
 .body { margin: 0; overflow: auto; }
 .canvas{
 	width: 100%;
-	height: auto;
+	height: 100%;
 }
 .button {
 	background-color: aqua;
@@ -32,5 +32,5 @@
 	font-size: 15px;
 	width: fit-content;
 	justify-self: flex-start;
-	transform: translateY(575%);
+	transform: translateY(790%);
   }

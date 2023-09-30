@@ -12,6 +12,7 @@ import { setDate } from "../../store/slices/quizSlice";
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
 
   return (
     <div className={styles.container}>

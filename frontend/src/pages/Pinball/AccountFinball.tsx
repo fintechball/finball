@@ -41,6 +41,7 @@ function AccountBookFinball(value) {
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
+    console.log(parentContainer)
     return {
       width: parentContainer.clientWidth,
       height: parentContainer.clientHeight,
@@ -67,18 +68,11 @@ function AccountBookFinball(value) {
           dispatch((dispatch) => {
             const balance = response.data.data.account.balance;
             const balanceString = balance.toString();
-            console.log(balanceString.length)
             if (balanceString.length >= 3) {
               const ballunit = 10 ** (balanceString.length - 3);
               const firstDigit = Number(balanceString[0]);
-              console.log(firstDigit)
-              console.log(ballunit)
-              console.log(balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)
               if (balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2<0){
                 const ballcnt = Math.round((balance - firstDigit * 10 ** (balanceString.length - 1)) / ballunit);
-                console.log(ballcnt)  
-                console.log((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit)
-                console.log('!!!!!!!!!!!!!!')
                 dispatch(
                   setFinball({
                     ballunit: ballunit,
@@ -92,13 +86,6 @@ function AccountBookFinball(value) {
               }
               else{
                 const ballcnt = Math.round((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit);
-                console.log(balance)
-                console.log(firstDigit * 10 ** (balanceString.length - 1))
-                console.log(10**(balanceString.length - 1)/2)
-
-                console.log((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit)
-                console.log(balance - firstDigit * 10 ** (balanceString.length - 1))
-                console.log('@@@@@@@@@@@@@@@@')
                 dispatch(
                   setFinball({
                     ballunit: ballunit,
@@ -134,39 +121,36 @@ function AccountBookFinball(value) {
         console.log(error);
       });
   };
-  useEffect(()=>{
-
-  })
   useEffect(() => {
     console.log(ballunit)
     console.log(ballcnt)
     if (render) {
 
-        // console.log('render')
-        // render.canvas.remove();
-        // Render.stop(render);
-        // Engine.clear(engine);
-        // // render.canvas.remove(balls);
-        // setBalls([])
-        // setRender(null);
+        console.log('render')
+        render.canvas.remove();
+        Render.stop(render);
+        Engine.clear(engine);
+        // render.canvas.remove(balls);
+        setBalls([])
+        setRender(null);
   }
   else{
     
     console.log('initialize')
     const parentSize = getParentContainerSize();
+    console.log(parentSize,'asdfasdfasdf')
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 7.5,
+      delta: 10,
       isFixed: false,
-      enabled: true
   });
     setEngine(newEngine);
 
     // 중력 설정
     newEngine.world.gravity.x = 0;
     newEngine.world.gravity.y = 0.6;
-
+    console.log(value.value.parent)
     // Create a renderer
     const newRender = Render.create({
       element: document.getElementById(value.value.parent), // 렌더러를 부모 컨테이너에 적용
@@ -179,7 +163,7 @@ function AccountBookFinball(value) {
       },
     });
     setRender(newRender);
-
+    console.log(parentSize.width,parentSize.height,'asdfzsdfazsdfasdfds')
     // Create ground
     const ground = Bodies.rectangle(
       parentSize.width / 2,
@@ -352,7 +336,7 @@ function AccountBookFinball(value) {
                 lineWidth: 3,
                 sprite: {
                   //''하면 스프라이트 적용x
-                  texture: dafalautball,
+                  texture: defalautball,
                   xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
                   yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
                 },
@@ -374,10 +358,10 @@ function AccountBookFinball(value) {
     // }
 
 
-  }, [finball.account]);
+  }, []);
 
   return (
-    <div id="pinball-canvas">
+    <div  id="pinball-canvas">
     </div>
   );
 }
