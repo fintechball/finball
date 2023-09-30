@@ -53,6 +53,7 @@ public class GroupAccountCustomRepository extends QuerydslRepositorySupport {
                 .leftJoin(groupGameResult.groupAccountMember, groupAccountMember)
                 .leftJoin(groupAccountMember.member, member)
                 .where(groupAccountHistory.groupAccount.accountNo.eq(groupAccountId))
+                .orderBy(groupAccountHistory.date.desc())
                 .fetch();
         return result;
     }
