@@ -19,8 +19,8 @@ import AccountDetailComponent from "../Transfer/AccountDetailComponent";
 import { setAccount } from "../../store/slices/accountSlice";
 import { RootState } from "../../store/store";
 
-const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-//const BASE_HTTP_URL = "http://localhost:8080";
+//const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
+const BASE_HTTP_URL = "http://localhost:8080";
 
 function AccountBook() {
   const [state, setState] = useState<any>({});
@@ -120,6 +120,10 @@ function AccountBook() {
       })
     );
   }, []);
+
+  useEffect(() => {
+    findAccountBook();
+  }, [accountbook])
   const getHistory = () => {
     axios({
       method: "get",
@@ -155,7 +159,7 @@ function AccountBook() {
   const createAccountBook = async () => {
     await axios({
       method: "post",
-      url: `https://j9e106.p.ssafy.io/api/financial-book`,
+      url: `${BASE_HTTP_URL}/api/financial-book`,
       headers: {
         Authorization: auth.accessToken,
       },
@@ -181,7 +185,7 @@ function AccountBook() {
   const findAccountBook = async () => {
     await axios({
       method: "get",
-      url: `https://j9e106.p.ssafy.io/api/financial-book`,
+      url: `${BASE_HTTP_URL}/api/financial-book`,
       headers: {
         Authorization: auth.accessToken,
       },
@@ -198,7 +202,7 @@ function AccountBook() {
   const createCategory = async () => {
     await axios({
       method: "post",
-      url: `https://j9e106.p.ssafy.io/api/financial-book/category`,
+      url: `${BASE_HTTP_URL}/api/financial-book/category`,
       headers: {
         Authorization: auth.accessToken,
       },
@@ -221,7 +225,7 @@ function AccountBook() {
   const deleteCategory = async () => {
     await axios({
       method: "delete",
-      url: `https://j9e106.p.ssafy.io/api/financial-book/category`,
+      url: `${BASE_HTTP_URL}/api/financial-book/category`,
       headers: {
         Authorization: auth.accessToken,
       },
@@ -243,7 +247,7 @@ function AccountBook() {
   const updateCategory = async () => {
     await axios({
       method: "put",
-      url: `https://j9e106.p.ssafy.io/api/financial-book/category`,
+      url: `${BASE_HTTP_URL}/api/financial-book/category`,
       headers: {
         Authorization: auth.accessToken,
       },
@@ -278,7 +282,7 @@ function AccountBook() {
   const deleteAccountBook = async () => {
     await axios({
       method: "delete",
-      url: `https://j9e106.p.ssafy.io/api/financial-book`,
+      url: `${BASE_HTTP_URL}/api/financial-book`,
       headers: {
         Authorization: auth.accessToken,
       },
@@ -295,7 +299,7 @@ function AccountBook() {
   const selectCategory = async () => {
     await axios({
       method: "post",
-      url: `https://j9e106.p.ssafy.io/api/fin-ball/category`,
+      url: `${BASE_HTTP_URL}/api/fin-ball/category`,
       headers: {
         Authorization: auth.accessToken,
       },

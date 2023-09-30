@@ -94,7 +94,7 @@ public class FinBallHistory {
         return readFinBallTradeHistoryDto;
     }
 
-    public void setHistory(Category requestCategory) {
+    public void setCategory(Category requestCategory) {
         this.category = requestCategory;
     }
 }
