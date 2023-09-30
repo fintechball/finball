@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./ChatBot.module.scss";
+import { RootState } from "../../store/store"
 import { useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SendOutlined }  from "@ant-design/icons"
@@ -9,7 +10,7 @@ import { Input } from "antd"
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function Chatbot() {
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state : RootState) => state.auth);
   const [messageList, setMessageList] = useState(null);
   const [question, setQuestion] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -101,13 +102,19 @@ function Chatbot() {
 
   return (
     <div className={styles.container}>
+      {/* <img className={styles.profileimg} src={auth.image} alt="" /> */}
       {/* <button onClick={() => setMessageList(null)}>다지워</button> */}
       <div className={styles.chatcontainer}>
           {messageList &&
             messageList.length !== 0 &&
             [...messageList].map((message, index) => (
-              <div className={styles[message.type]} key={index}>
-                {message.body}
+              <div key={index} className={styles.messagebox}>
+                {message.type === "질문" && (
+                  <img className={styles.profileimg} src={auth.image} alt="" />
+                )}
+                <div className={styles[message.type]}>
+                  {message.body}
+                </div>
               </div>
             ))}
           {isLoading && (
