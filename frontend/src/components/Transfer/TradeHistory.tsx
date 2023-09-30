@@ -27,8 +27,6 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
 
   const changeCategory = (target, tradeHistory) => {
 
-    alert("수정요청 => " + tradeHistory.id + "를," + target.value);
-
     const headers: Record<string, string> = {
       'Authorization': accessToken,
       'Content-Type': 'application/json'
@@ -43,9 +41,6 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
         headers: headers
       })
       .then((res) => {
-        console.log("카테고리 수정 완료");
-        console.log(res.data.data);
-
         dispatch(
           setAccountBooks({
             account: res.data.data.account,
@@ -53,17 +48,14 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
             categoryList: res.data.data.categoryList,
           }))
         console.log({ category });
+        alert("가계부에 반영하였습니다.");
 
         setCategory(res.data.data.tradeHistoryList)
       })
       .catch((err) => {
-
-        //출금에서만 가능한 기능입니다
-
         alert("가계부 작성이 실패했습니다.");
         console.log(err);
       })
-
   }
 
   return (
