@@ -12,8 +12,27 @@
   align-items: center;
 }
 
+
 .chatcontainer {
   padding-bottom: 60px;
+}
+
+.messagebox {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  position: relative;
+}
+
+.profileimg {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  margin: -10px;
+  // border: 2px solid #ffffff
 }
 
 .inputcontainer {
