@@ -10,22 +10,13 @@ import Modal from 'react-modal';
 import finball from "../../assets/finball.png" 
 import styles from './Game.module.css';
 import decomp from 'poly-decomp';
-import { Float } from '@react-three/drei';
-const width = 360;
-const height = 1800;
-const Payment = 10;
-const theme = '#4C4499';
-  const dummy=
-    [
-    {"user_name":"김정희","ball_id":0,"cnt":10,"user_color":''},
-    {"user_name":"서정희","ball_id":3,"cnt":10,"user_color":''},
-    {"user_name":"신현탁","ball_id":1,"cnt":10,"user_color":''},
-    {"user_name":"정영빈","ball_id":2,"cnt":10,"user_color":''},
-    {"user_name":"정현우","ball_id":5,"cnt":10,"user_color":''},
-    {"user_name":"하성호","ball_id":5,"cnt":10,"user_color":''},
-      ]
+import { useNavigate } from "react-router-dom";
+import { useSelector,useDispatch } from "react-redux";
+import axios from "axios";
+import { setResult } from "../../store/slices/groupfinballSlice";
 
-function App() {
+
+function Game() {
 
   const [balls, setBalls] = useState([]);
   const [ballTexts, setBallTexts] = useState([]);
@@ -42,8 +33,25 @@ function App() {
   const [isButtonOpen, setisButtonOpen] = useState('visible');
   const [once,setOnce]=useState(false);
   const [finx,finy]=[102,103];
+  const width = 360;
+  const height = 1800;
   const word=width*0.04+'px';
   const [isActive, setIsActive] = useState(false);
+  
+const auth = useSelector((state) => state.auth);
+const members = useSelector((state) => state.groupfinball.members);
+const ballunit = useSelector((state) => state.groupfinball.ballunit);
+const ballcnt = useSelector((state) => state.groupfinball.ballcnt);
+const result = useSelector((state) => state.groupfinball.result);
+const membercnt=members.length;
+const total=4800
+const Payment = Math.ceil(total/ballunit);
+const last = total-(Payment-1)*ballunit
+const theme = '#4C4499';
+const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
+const my="12345-123456-123"
+const dispatch = useDispatch();
+const navigate = useNavigate();
   // 버튼 클릭 시 상태를 변경하여 확대/축소 효과 적용
   const toggleButton = () => {
     setIsActive(!isActive);
@@ -94,6 +102,7 @@ function App() {
   const Color = ['red', 'green', 'blue', 'yellow', 'purple', 'white'];
   function openModal() {
     setIsModalOpen(true);
+
   }
   // 모달 닫기 함수
   const closeModal = () => {
@@ -122,24 +131,22 @@ function getRandomUniqueItems(array, count) {
 // 예제 사용법
 const myArray = [0,1,2,3,4,5];
 const randomItems = getRandomUniqueItems(myArray, 6); // 3개의 중복 없는 랜덤 값 추출
-
 const setColor = () => {
   let B=[];
   let tmp = 0;
-  for (let i = 0; i < Color.length; i++) {
-    tmp += dummy[i]["cnt"];
-    dummy[i]["user_color"] = Color[randomItems[i]];
+  for (let i = 0; i < membercnt; i++) {
+    tmp += members[i].balance/ballunit;
+    userColor[Color[randomItems[i]]]=members[i]["name"]
     setUserColor((prevState) => ({
       ...prevState,
-      [Color[randomItems[i]]]: dummy[i]["user_name"],
+      [Color[randomItems[i]]]: members[i]["name"],
     }));
   }
-
   let sum = 0;
-  for (let i = 0; i < dummy.length; i++) {
-    sum += dummy[i].cnt;
-    for (let j = 0; j<dummy[i].cnt;j++){
-      B.push(dummy[i].user_color)
+  for (let i = 0; i < membercnt; i++) {
+    sum += members[i].balance/ballunit;
+    for (let j = 0; j<members[i].balance/ballunit;j++){
+      B.push(Object.keys(userColor).find((key) => userColor[key] == members[i]["name"]))
     }
   }
   setTotalCnt(sum);
@@ -151,19 +158,18 @@ const setGravity = () => {
   if (isMobile) {
     engine.gravity.y = 0.3
     engine.gravity.scale=0.001
-    console.log(engine.gravity.scale)
   } else {
     engine.gravity.y = 0.3
     engine.gravity.scale=0.001
-    console.log(engine.gravity.scale)
   }
 };
 function start() {
+  // setColor()
   for (let i = 0; i < totalCnt; i++) {
-    const ball = Bodies.circle(X[Math.floor(Math.random() * X.length)], Y[Math.floor(Math.random() * Y.length)], width/57, {
+    const ball = Bodies.circle(X[Math.floor(Math.random() * X.length)], Y[Math.floor(Math.random() * Y.length)], width/50, {
       restitution: 1,
       friction: 0.1,
-      density: 5,
+      density: 2,
       isStatic: false,
       render: {
         fillStyle: balllist[i],
@@ -171,26 +177,14 @@ function start() {
         lineWidth: 1,
         sprite: {
           //''히먄 스프라이트 적용x
+          // texture: '',
           texture: colorSprite[0][balllist[i]],
-          xScale: Math.sqrt(width ** 2 + height ** 2) / 23/220,
-          yScale: Math.sqrt(width ** 2 + height ** 2) / 23/220,
+          xScale: Math.sqrt(width ** 2 + height ** 2) / 23/240,
+          yScale: Math.sqrt(width ** 2 + height ** 2) / 23/240,
         },
       },
     });
     balls.push(ball);
-    // const rootDiv = document.getElementById('canvas');
-    // const textElement = document.createElement('div');
-    // textElement.textContent = `${userColor[balllist[i]]}`; // 원하는 텍스트를 추가하세요.
-    // textElement.id=`${balls[i].id}`
-    // textElement.style.position = 'absolute';
-    // textElement.style.zIndex = "1";
-    // textElement.style.fontSize = "1 px";
-    // textElement.style.color = balllist[i];
-    // textElement.style.top = `${ball.position.y-10}px`; // 초기 위치 설정
-    // textElement.style.left = `${width/2-180-ball.position.x}px`;
-    // rootDiv.appendChild(textElement);
-    // // document.body.div.appendChild(textElement);
-    // ballTexts.push(textElement);
       World.add(engine.world, ball);
     }};
     
@@ -206,23 +200,33 @@ function start() {
   
     return shuffledArray;
   }
-  
+useEffect(()=>{
+  setColor()
+  console.log(userColor)
+},[])
 useEffect(() => {
-  if (totalCnt !== 0) {
+  if(totalCnt!=0){
     start(); // totalCnt가 0이 아닐 때 start 실행
-    
+    console.log('state',totalCnt)
   }
+  console.log('qwrert')
+  console.log(totalCnt)
 }, [totalCnt]);
   useEffect(() => {
+    // start()
+    console.log(totalCnt)
+    
     async function initialize() {
+      console.log(members,'start')
+      console.log(userColor,'start')
     const engine = Engine.create({
       timing:{
         // frameRate: 60,     // 초당 60프레임
-        timestamp:1000,
+        // timestamp:1000,
       },
     })
     const runner = Runner.create({
-      delta: 7.5,
+      delta: 15,
       isFixed: true,
       enabled: true
   });
@@ -245,9 +249,6 @@ useEffect(() => {
     if (isMobile) {
       engine.gravity.y = 0.30
       // engine.gravity.scale=0.0001
-    console.log(engine.gravity.scale)
-    console.log(engine.timing)
-    console.log(engine)
     } else {
       engine.gravity.y = 0.30
     console.log(engine.gravity.scale)
@@ -265,7 +266,6 @@ useEffect(() => {
     });
 
     World.add(engine.world, mouseConstraint);
-
     const ground = Bodies.rectangle(width/2, height , width, height*0.005, {
       isStatic: true,
       label:"Ground",
@@ -440,7 +440,7 @@ useEffect(() => {
           lineWidth: 3, // 테두리 두께
         },
       });
-      const little1 = Bodies.rectangle(width * 0.9, height * 0.6, width * 0.08, width * 0.08, {
+      const little1 = Bodies.rectangle(width * 0.9, height * 0.6, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -448,7 +448,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little2 = Bodies.rectangle(width * 0.5, height * 0.6, width * 0.08, width * 0.08, {
+      const little2 = Bodies.rectangle(width * 0.5, height * 0.6, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -456,7 +456,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little3 = Bodies.rectangle(width * 0.3, height * 0.6, width * 0.08, width * 0.08, {
+      const little3 = Bodies.rectangle(width * 0.3, height * 0.6, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -464,7 +464,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little4 = Bodies.rectangle(width * 0.7, height * 0.6, width * 0.08, width * 0.08, {
+      const little4 = Bodies.rectangle(width * 0.7, height * 0.6, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -472,7 +472,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little5 = Bodies.rectangle(width * 0.1, height * 0.6, width * 0.08, width * 0.08, {
+      const little5 = Bodies.rectangle(width * 0.1, height * 0.6, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -480,7 +480,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle1 = Bodies.rectangle(width * 0.2, height * 0.615, width * 0.08, width * 0.08, {
+      const middle1 = Bodies.rectangle(width * 0.2, height * 0.615, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -488,7 +488,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle2 = Bodies.rectangle(width * 0.4, height * 0.615, width * 0.08, width * 0.08, {
+      const middle2 = Bodies.rectangle(width * 0.4, height * 0.615, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -496,7 +496,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle3 = Bodies.rectangle(width * 0.6, height * 0.615, width * 0.08, width * 0.08, {
+      const middle3 = Bodies.rectangle(width * 0.6, height * 0.615, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -504,7 +504,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle4 = Bodies.rectangle(width * 0.8, height * 0.615, width * 0.08, width * 0.08, {
+      const middle4 = Bodies.rectangle(width * 0.8, height * 0.615, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -512,7 +512,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle5 = Bodies.rectangle(0, height * 0.615, width * 0.08, width * 0.08, {
+      const middle5 = Bodies.rectangle(0, height * 0.615, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -520,7 +520,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle6 = Bodies.rectangle(width, height * 0.615, width * 0.08, width * 0.08, {
+      const middle6 = Bodies.rectangle(width, height * 0.615, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -528,7 +528,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little6 = Bodies.rectangle(width * 0.9, height * 0.63, width * 0.08, width * 0.08, {
+      const little6 = Bodies.rectangle(width * 0.9, height * 0.63, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -536,7 +536,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little7 = Bodies.rectangle(width * 0.5, height * 0.63, width * 0.08, width * 0.08, {
+      const little7 = Bodies.rectangle(width * 0.5, height * 0.63, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -544,7 +544,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little8 = Bodies.rectangle(width * 0.3, height * 0.63, width * 0.08, width * 0.08, {
+      const little8 = Bodies.rectangle(width * 0.3, height * 0.63, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -552,7 +552,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little9 = Bodies.rectangle(width * 0.7, height * 0.63, width * 0.08, width * 0.08, {
+      const little9 = Bodies.rectangle(width * 0.7, height * 0.63, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -560,7 +560,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little10 = Bodies.rectangle(width * 0.1, height * 0.63, width * 0.08, width * 0.08, {
+      const little10 = Bodies.rectangle(width * 0.1, height * 0.63, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -568,7 +568,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle7 = Bodies.rectangle(width * 0.2, height * 0.645, width * 0.08, width * 0.08, {
+      const middle7 = Bodies.rectangle(width * 0.2, height * 0.645, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -576,7 +576,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle8 = Bodies.rectangle(width * 0.4, height * 0.645, width * 0.08, width * 0.08, {
+      const middle8 = Bodies.rectangle(width * 0.4, height * 0.645, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -584,7 +584,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle9 = Bodies.rectangle(width * 0.6, height * 0.645, width * 0.08, width * 0.08, {
+      const middle9 = Bodies.rectangle(width * 0.6, height * 0.645, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -592,7 +592,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle10 = Bodies.rectangle(width * 0.8, height * 0.645, width * 0.08, width * 0.08, {
+      const middle10 = Bodies.rectangle(width * 0.8, height * 0.645, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -600,7 +600,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle11 = Bodies.rectangle(0, height * 0.645, width * 0.08, width * 0.08, {
+      const middle11 = Bodies.rectangle(0, height * 0.645, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -608,7 +608,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const middle12 = Bodies.rectangle(width, height * 0.645, width * 0.08, width * 0.08, {
+      const middle12 = Bodies.rectangle(width, height * 0.645, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -616,7 +616,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little11 = Bodies.rectangle(width * 0.9, height * 0.66, width * 0.08, width * 0.08, {
+      const little11 = Bodies.rectangle(width * 0.9, height * 0.66, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -624,7 +624,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little12 = Bodies.rectangle(width * 0.5, height * 0.66, width * 0.08, width * 0.08, {
+      const little12 = Bodies.rectangle(width * 0.5, height * 0.66, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -632,7 +632,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little13 = Bodies.rectangle(width * 0.3, height * 0.66, width * 0.08, width * 0.08, {
+      const little13 = Bodies.rectangle(width * 0.3, height * 0.66, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -640,7 +640,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little14 = Bodies.rectangle(width * 0.7, height * 0.66, width * 0.08, width * 0.08, {
+      const little14 = Bodies.rectangle(width * 0.7, height * 0.66, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -648,7 +648,7 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-      const little15 = Bodies.rectangle(width * 0.1, height * 0.66, width * 0.08, width * 0.08, {
+      const little15 = Bodies.rectangle(width * 0.1, height * 0.66, width * 0.07, width * 0.07, {
         isStatic: true,
         angle: Math.PI / 4,
         render: {
@@ -829,13 +829,6 @@ useEffect(() => {
           strokeStyle: 'transparent',
         },
       });
-    const clickEvent = (function() {
-      if ('ontouchstart' in document.documentElement === true) {
-        return 'touchstart';
-      } else {
-        return 'click';
-      }
-    })();
     const Boundary = [
       wall4,rot1,rot2,rot3,rot4,rot5,rot6,rot7,rot8,stick1,stick2,stick3, wall1, wall2, wall3,
       block,wall5,dia1,dia2,dia3,dia4,wall6,wall7,wall8,wall9,dia5,dia6,dia7,dia8,borderBody,FinBallLogo,little2,little3,little4,
@@ -862,10 +855,11 @@ useEffect(() => {
     setEngine(engine);
     Runner.run(runner, engine);
     Render.run(render);
-    setColor()
+    // setColor()
     }
+
     initialize()
-  }, []);
+  }, [members]);
 
   const removeGround = () => {
     setisButtonOpen("hidden")
@@ -1048,13 +1042,13 @@ useEffect(() => {
               updatedBalls.splice(indexToRemove, 1);
         
               // ballTexts에서도 해당 공의 텍스트 엘리먼트 제거
-              const del = ballTexts.findIndex(textElement => textElement.id === highestYBall.id);
-              if (del !== -1) {
-                const textElementToRemove = ballTexts[del];
-                ballTexts.splice(del, 1);
-                const rootDiv = document.getElementById('root')
-                rootDiv.removeChild(textElementToRemove);
-              }
+              // const del = ballTexts.findIndex(textElement => textElement.id === highestYBall.id);
+              // if (del !== -1) {
+              //   const textElementToRemove = ballTexts[del];
+              //   ballTexts.splice(del, 1);
+              //   const rootDiv = document.getElementById('root')
+              //   rootDiv.removeChild(textElementToRemove);
+              // }
         
               World.remove(engine.world, highestYBall);
         
@@ -1074,12 +1068,30 @@ useEffect(() => {
               setOnce(true)
               engine.gravity.y=-0.2
               setTimeout(() => {
-                setGravity()
+                setGravity()  
               }, 2500);
               console.log('half')
             }
             if (Pay.length==Payment){
-              setIsModalOpen(true)
+              setIsModalOpen(true,)
+              let res=[]
+              for(let i=0;i<Pay.length;i++){
+                res.push(userColor[Pay[i].render.fillStyle])
+              }
+              const frequency = res.reduce((res, curr,index) => {
+                if (res[curr]) {
+                  res[curr] += index == Pay.length - 1 ? last : ballunit;
+                } else {
+                  res[curr] = index == Pay.length - 1 ? last : ballunit;
+                }
+                return res;
+              }, {});
+              console.log(frequency)
+              dispatch(
+                setResult({
+                  result:frequency,
+                })
+            )
               return;
             }
           }
@@ -1124,13 +1136,12 @@ useEffect(() => {
         }}
         >
         <div style={{color:"black"}}>지불금액: {ballCount}/{Payment}</div>
-        <div style={{color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} : {redCount}</div>
-        
-        <div style={{color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} : {blueCount}</div>
-        <div style={{color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} : {greenCount}</div>
-        <div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} : {yellowCount}</div>
-        <div style={{color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} : {whiteCount}</div>
-        <div style={{color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} : {purpleCount}</div>
+        {userColor["red"]!="unknown"?<div style={{color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} : {redCount}</div>:""}
+        {userColor["green"]!="unknown"?<div style={{color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} : {greenCount}</div>:""}
+        {userColor["blue"]!="unknown"?<div style={{color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} : {blueCount}</div>:""}
+        {userColor["yellow"]!="unknown"?<div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} : {yellowCount}</div>:""}
+        {userColor["white"]!="unknown"?<div style={{color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} : {whiteCount}</div>:""}
+        {userColor["purple"]!="unknown"?<div style={{color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} : {purpleCount}</div>:""}
       </div>
         </div>
           <Modal
@@ -1159,13 +1170,14 @@ useEffect(() => {
 
         <h2 >게임결과</h2>
         <p style={{fontSize:word}}>다음 사람들은 돈을 지불하시오</p>
-        <div style={{fontSize:word,color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} - {'>'}{redCount}</div>
-        <div style={{fontSize:word,color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} - {'>'}{blueCount}</div>
-        <div style={{fontSize:word,color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} - {'>'}{greenCount}</div>
-        <div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} - {'>'}{yellowCount}</div>
-        <div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>
-        <div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>
-        <button onClick={closeModal} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
+        {userColor["red"]!="unknown"?<div style={{fontSize:word,color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} - {'>'}{redCount}</div>:""}
+        {userColor["blue"]!="unknown"?<div style={{fontSize:word,color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} - {'>'}{blueCount}</div>:""}
+        {userColor["green"]!="unknown"?<div style={{fontSize:word,color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} - {'>'}{greenCount}</div>:""}
+        {userColor["yellow"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} - {'>'}{yellowCount}</div>:""}
+        {userColor["white"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>:""}
+        {userColor["purple"]!="unknown"?<div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>:""}
+        
+        <button onClick={()=>navigate("/")} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
           </div>
       </Modal>
     </div>
@@ -1173,4 +1185,4 @@ useEffect(() => {
   );
 }
 
-export default App;
+export default Game;

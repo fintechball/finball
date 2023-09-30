@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Engine, Render, World, Bodies, Body,Runner } from "matter-js";
+import { Engine, Render, World, Bodies, Mouse,Body,Runner,MouseConstraint } from "matter-js";
 import styles from "./Pinball.module.css";
-import dafalautball from "../../assets/defalutball.png";
-// import chrome from "../../assets/"
+import defalautball from "../../assets/defalutball.png";
+import chrome from "../../assets/chrome1.png"
+import dogi from "../../assets/dogi1.png"
+import docker from "../../assets/docker1.png"
+import poke from "../../assets/poke1.png"
 import { useSelector,useDispatch } from "react-redux";
 import axios from "axios";
 
@@ -15,11 +18,22 @@ function GroupFinball(value) {
   const [render, setRender] = useState(null);
   const [balls, setBalls] = useState([]);
   const finball = useSelector((state) => state.finBallAccount);
-  const ballunit=useSelector((state)=>state.groupfinballSlice.ballunit)
-  const members = useSelector((state)=>state.groupfinballSlice.members)
+  const ballunit=useSelector((state)=>state.groupfinball.ballunit)
+  const members = useSelector((state)=>state.groupfinball.members)
+  const balance = useSelector((state)=>state.groupfinball.balance)
+  const name = useSelector((state) => state.auth.name);
   const ballskin=useSelector((state)=>state.skin.skin)
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  const skinlist={
+    0:chrome,
+    5:defalautball,
+    4:dogi,
+    2:docker,
+    3:poke,
+  }
+  console.log()
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
@@ -29,37 +43,7 @@ function GroupFinball(value) {
     };
   };
   useEffect(() => {
-    getGroupFinBAllAccount();
-  }, []);
-  console.log(ballskin)
-  const getGroupFinBAllAccount = () => {
-    axios
-      .get(`${BASE_HTTP_URL}/group/account/${groupAccountId}`, {
-        headers: {
-          Authorization: auth.accessToken,
-        },
-      })
-      .then((response) => {
-          dispatch((dispatch) => {
-            const balance = response.data.data["통장 총금액"];
-            const ballunit=balance/50;
-            const members=response.data.data.member
-            setGroupFinball({
-              ballunit:ballunit,
-              members:members
-            })
-    })
-  })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  useEffect(()=>{
-
-  })
-  useEffect(() => {
     console.log(ballunit)
-    console.log(ballcnt)
     if (render) {
       Render.stop(render);
       render.canvas.remove();
@@ -70,7 +54,7 @@ function GroupFinball(value) {
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 7.5,
+      delta: 10,
       isFixed: false,
       enabled: true
   });
@@ -94,61 +78,85 @@ function GroupFinball(value) {
     setRender(newRender);
 
     // Create ground
+    // Create ground
     const ground = Bodies.rectangle(
       parentSize.width / 2,
-      parentSize.height,
+      parentSize.height+parentSize.width * 0.2/2,
       parentSize.width * 2,
-      parentSize.width * 0.01,
+      parentSize.width * 0.2,
       {
         isStatic: true,
         render: {
-          fillStyle: "transparent",
-          strokeStyle: "transparent",
+          // fillStyle: "transparent",
+          fillStyle: "blue",
+          // strokeStyle: "transparent",
+          strokeStyle: "red",
         },
       }
     );
     const wall1 = Bodies.rectangle(
-      parentSize.width,
+      parentSize.width+parentSize.width * 0.2/2,
+      parentSize.height/2,
+      parentSize.width * 0.2,
       parentSize.height,
-      parentSize.width * 0.01,
-      parentSize.height * 2,
       {
         isStatic: true,
         render: {
           // fillStyle: "#4C4499",
-          fillStyle: "transparent",
-          strokeStyle: "transparent",
+          // fillStyle: "transparent",
+          fillStyle: "red",
+          // strokeStyle: "transparent",
+          strokeStyle: "red",
         },
       }
     );
     const wall2 = Bodies.rectangle(
-      0,
-      0,
-      parentSize.width * 0.01,
-      parentSize.height * 2,
+      0-parentSize.width * 0.2/2,
+      parentSize.height/2,
+      parentSize.width * 0.2,
+      parentSize.height,
       {
         isStatic: true,
         render: {
-          fillStyle: "transparent",
-          strokeStyle: "transparent",
+          // fillStyle: "transparent",
+          fillStyle: "red",
+          // strokeStyle: "transparent",
+          strokeStyle: "red",
         },
       }
     );
     const wall3 = Bodies.rectangle(
       0,
-      0,
+      0-parentSize.width * 0.2/2,
       parentSize.width * 2,
-      parentSize.width * 0.01,
+      parentSize.width * 0.2,
       {
         isStatic: true,
         render: {
-          fillStyle: "transparent",
-          strokeStyle: "transparent",
+          // fillStyle: "transparent",
+          fillStyle: "red",
+          // strokeStyle: "transparent",
+          strokeStyle: "red",
         },
       }
     );
+        // Create a mouse and add mouse interaction
+        const mouse = Mouse.create(newRender.canvas);
+        const mouseConstraint = MouseConstraint.create(newEngine, {
+          mouse: mouse,
+          constraint: {
+            stiffness: 0.2,
+            render: {
+              visible: false,
+            }
+          }
+        });
+    
+        // // Add mouse constraint to the world
+        World.add(newEngine.world, mouseConstraint);
     // Create balls array
-    for (let i = 0; i < ballcnt; i++) {
+    for (let j=0;j<members.length;j++) {
+    for (let i = 0; i < Math.round(members[j].balance/ballunit); i++) {
       const ball = Bodies.circle(
         Math.random() * parentSize.width,
         Math.random() * parentSize.height/5,
@@ -164,9 +172,9 @@ function GroupFinball(value) {
             fillStyle: "#05CD01",
             strokeStyle: "white",
             lineWidth: 3,
-            // opacity:0.5,
+            opacity: name !== members[j].name ? 1 : 0.5,
             sprite: {
-              texture: ballskin.image,
+              texture: skinlist[members[j].skinId],
               xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
               yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
             },
@@ -175,101 +183,20 @@ function GroupFinball(value) {
       );
       balls.push(ball);
     }
-    
-    const deleteBall = (num) => {
-      setTimeout(()=>{
-      const exitVelocity = 20;
-      const sortedBalls = [...balls].sort((a, b) => b.position.y - a.position.y);
-  
-      // 각 공을 삭제하면서 새로운 배열에 추가
-      const ball = [];
-      const dir = [1, -1];
-      for (let i = 1; i < num; i++) {
-        const removedBall = balls.pop();
-        removedBall.isSensor = true;
-        Body.setVelocity(removedBall, { x: exitVelocity * dir[i % 2], y: 0 });
-        ball.push(removedBall);
-      }
-  
-      function update() {
-        // 각 공의 위치를 조정
-        ball.forEach(b => {
-          b.position.y += exitVelocity / 30; // 1초에 60프레임으로 가정
-          // 화면 밖으로 벗어난 공을 삭제
-          if (
-            b.position.y >
-              parentSize.height +
-                Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 ||
-            b.position.x >
-              parentSize.width +
-                Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 ||
-            b.position.x <
-              -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23
-          ) {
-            // Matter.js World에서 삭제
-            World.remove(newEngine.world, b);
-            ball.splice(ball.indexOf(b), 1);
-          }
-        });
-      }
-      // Runner.run(runner, newEngine);
-           Render.run(newRender);
-      update();
-    },2000)
-    };
-    const addBall=(num)=>{
-      setTimeout(() => {
-        for (let i = 0; i < num; i++) {
-          const ball = Bodies.circle(
-            Math.random() * parentSize.width,
-            parentSize.height / 10,
-            Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
-            {
-              density: 0.0005,
-              frictionAir: 0.06,
-              restitution: 0.3,
-              friction: 0.01, 
-              isStatic: false,
-              isSensor:false,
-              render: {
-                fillStyle: "#05CD01",
-                strokeStyle: "white",
-                lineWidth: 3,
-                sprite: {
-                  //''하면 스프라이트 적용x
-                  texture: dafalautball,
-                  xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
-                  yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
-                },
-              },
-            }
-          );
-          balls.push(ball);
-          World.add(newEngine.world, ball);
-          // Runner.run(runner, newEngine);
-           Render.run(newRender);
-        }
-      }, 2000);
-    }
-    // if (changed>0){
-    //   addBall(changed)
-    // }
-    // else{
-    //   deleteBall(changed*(-1))
-    // }
+  }
     const Boundary = [ground, wall1, wall2, wall3];
     World.add(newEngine.world, [...Boundary, ...balls]);
 
     Runner.run(runner, newEngine);
     Render.run(newRender);
 
-  }, [finball.account.balance]);
+  }, [balance]);
 
   return (
     <div id="groupfinball-canvas">
       <div style={{ display: "flex",justifyContent: "flex-end"}}>
       <div className={styles.finball}>
-        {finball.account.balance}원
+        {balance}원
       </div>
       </div>
     </div>

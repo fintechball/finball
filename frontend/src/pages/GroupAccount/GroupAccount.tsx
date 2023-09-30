@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import styles from "./GroupAccount.module.css";
 import Pinball from "../Pinball/Pinball";
+import GroupFinball from "../Pinball/GroupFinball";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import GroupAccountModal from "../../components/GroupAccount/GroupAccountModal";
@@ -101,7 +102,7 @@ const GroupAccount = () => {
             <GroupAccountModal onClose={closeModal} data={data} />
           )}
           <div id="home-canvas" className={styles.finballBox}>
-            <Pinball value={value} />
+            <GroupFinball value={value} />
           </div>
         </div>
       ) : (

@@ -4,6 +4,7 @@ import { PURGE } from "redux-persist";
 
 interface groupfinballState {
   ballunit: number;
+  balance: number;
   members:Array<object>;
   result:Array<object>;
   // changed:number;
@@ -12,6 +13,7 @@ interface groupfinballState {
 
 const initialState: groupfinballState = {
   ballunit: 1000,
+  balance:0,
   members:[],
   result:[],
   // changed: 0,
@@ -25,9 +27,12 @@ const groupfinballSlice = createSlice({
     setGroupFinball: (state, action: PayloadAction<groupfinballState>) => {
       state.ballunit = action.payload.ballunit;
       state.members = action.payload.members;
-      state.result = action.payload.result;
+      state.balance = action.payload.balance;
       // state.prebalance = action.payload.prebalance;
       // state.changed = action.payload.prebalance;
+    },
+    setResult:(state, action: PayloadAction<groupfinballState>) => {
+      state.result = action.payload.result;
     },
   },
   extraReducers: (builder) => {
@@ -37,5 +42,5 @@ const groupfinballSlice = createSlice({
   },
 });
 
-export const { setGroupFinball} = groupfinballSlice.actions;
+export const { setGroupFinball,setResult} = groupfinballSlice.actions;
 export default groupfinballSlice.reducer;

@@ -72,15 +72,6 @@ const getGroupFinBAllAccount = () => {
     .catch(() => {
     });
 };
-  const dummy=
-    [
-    {"user_name":"김정희","ball_id":0,"cnt":5,"user_color":''},
-    {"user_name":"서정희","ball_id":3,"cnt":20,"user_color":''},
-    // {"user_name":"정현우","ball_id":5,"cnt":10,"user_color":''},
-    {"user_name":"신현탁","ball_id":1,"cnt":15,"user_color":''},
-    {"user_name":"정영빈","ball_id":2,"cnt":20,"user_color":''},
-    // {"user_name":"하성호","ball_id":5,"cnt":10,"user_color":''},
-      ]  
   // 버튼 클릭 시 상태를 변경하여 확대/축소 효과 적용
   const toggleButton = () => {
     setIsActive(!isActive);

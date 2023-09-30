@@ -27,14 +27,11 @@ function Pinball(value) {
   const finball = useSelector((state) => state.finBallAccount);
   const ballunit=useSelector((state)=>state.finballSlice.ballunit)
   const ballcnt = useSelector((state)=>state.finballSlice.ballcnt)
+  const isReady = useSelector((state)=>state.finballSlice.isReady)
   const minbalance = useSelector((state)=>state.finballSlice.minbalance)
   const ballskin=useSelector((state)=>state.skin.skin)
   // const changed = useSelector((state)=>state.finballSlice.changed)
   // const prebalance = useSelector((state)=>state.finballSlice.prebalance)
-  // const ballunit=useState(1000)
-  // const ballcnt = useState(0)
-  // const [ballunit,setBallunit]=useState(10**((finball.account.balance).toString().length-3))
-  // const [ballcnt, setBallcnt] = useState((finball.account.balance-Number((finball.account.balance).toString()[0])*10**((finball.account.balance).toString().length-1))/ballunit);
   const finBallAccount = useSelector((state) => state.finBallAccount);
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -78,6 +75,7 @@ function Pinball(value) {
                     ballunit: ballunit,
                     ballcnt: ballcnt,
                     minbalance:firstDigit * 10 ** (balanceString.length - 1),
+                    isReady:true,
                     // changed:0,
                     // prebalance:balance,
                   })
@@ -91,6 +89,7 @@ function Pinball(value) {
                     ballunit: ballunit,
                     ballcnt: ballcnt,
                     minbalance:firstDigit * 10 ** (balanceString.length - 1)+10**(balanceString.length - 1)/2,
+                    isReady:true,
                     // changed:0,
                     // prebalance:balance,
                   })
@@ -104,6 +103,7 @@ function Pinball(value) {
                     ballunit: ballunit,
                     ballcnt: ballcnt,
                     minbalance:minbalance,
+                    isReady:isReady,
                     // changed:0,
                     // prebalance:0,
                   }))
@@ -123,19 +123,21 @@ function Pinball(value) {
   };
 
   useEffect(() => {
-    console.log(ballunit)
-    console.log(ballcnt)
-    if (render) {
-        console.log('render')
-        render.canvas.remove();
-        Render.stop(render);
-        Engine.clear(engine);
-        // render.canvas.remove(balls);
-        setBalls([])
-        setRender(null);
-  }
+    if(!isReady || ballcnt==0){
+      console.log('ready')
+      return;
+    }
+  //   if (render && isReady) {
+  //       console.log('render')
+  //       render.canvas.remove();
+  //       Render.stop(render);
+  //       Engine.clear(engine);
+  //       // render.canvas.remove(balls);
+  //       setBalls([])
+  //       setRender(null);
+  // }
   else{
-    
+    if (!render){
     console.log('initialize')
     const parentSize = getParentContainerSize();
     // Create a Matter.js engine
@@ -167,9 +169,9 @@ function Pinball(value) {
     // Create ground
     const ground = Bodies.rectangle(
       parentSize.width / 2,
-      parentSize.height+parentSize.width * 0.2/2,
+      parentSize.height+parentSize.width * 1/2,
       parentSize.width * 2,
-      parentSize.width * 0.2,
+      parentSize.width * 1,
       {
         isStatic: true,
         render: {
@@ -181,9 +183,9 @@ function Pinball(value) {
       }
     );
     const wall1 = Bodies.rectangle(
-      parentSize.width+parentSize.width * 0.2/2,
+      parentSize.width+parentSize.width * 1/2,
       parentSize.height/2,
-      parentSize.width * 0.2,
+      parentSize.width * 1,
       parentSize.height,
       {
         isStatic: true,
@@ -197,9 +199,9 @@ function Pinball(value) {
       }
     );
     const wall2 = Bodies.rectangle(
-      0-parentSize.width * 0.2/2,
+      0-parentSize.width * 1/2,
       parentSize.height/2,
-      parentSize.width * 0.2,
+      parentSize.width * 1,
       parentSize.height,
       {
         isStatic: true,
@@ -213,9 +215,9 @@ function Pinball(value) {
     );
     const wall3 = Bodies.rectangle(
       0,
-      0-parentSize.width * 0.2/2,
+      0-parentSize.width * 1/2,
       parentSize.width * 2,
-      parentSize.width * 0.2,
+      parentSize.width * 1,
       {
         isStatic: true,
         render: {
@@ -355,6 +357,7 @@ function Pinball(value) {
     // else{
     //   deleteBall(changed*(-1)) 
     // }
+  }
   }, [finball]);
 
   return (
