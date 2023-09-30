@@ -17,8 +17,7 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
   const dispatch = useDispatch();
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const accountbook = useSelector((state: RootState) => state.accountbook);
-
-  const [category, setCategory] = useState([]);
+  const tradeHistoryState = useSelector((state: RootState) => state.tradeHistory);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -26,8 +25,6 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
   };
 
   const changeCategory = (target, tradeHistory) => {
-
-    alert("수정요청 => " + tradeHistory.id + "를," + target.value);
 
     const headers: Record<string, string> = {
       'Authorization': accessToken,
@@ -43,35 +40,28 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
         headers: headers
       })
       .then((res) => {
-        console.log("카테고리 수정 완료");
-        console.log(res.data.data);
-
+        alert("가계부에 반영하였습니다.");
         dispatch(
           setAccountBooks({
             account: res.data.data.account,
             tradeHistoryList: res.data.data.tradeHistoryList,
             categoryList: res.data.data.categoryList,
           }))
-        console.log({ category });
-
-        setCategory(res.data.data.tradeHistoryList)
       })
       .catch((err) => {
-
-        //출금에서만 가능한 기능입니다
-
         alert("가계부 작성이 실패했습니다.");
         console.log(err);
       })
-
   }
 
   return (
     <>
       {tradeHistoryDict &&
-        Object.keys(tradeHistoryDict).map((key, index) =>
+        //수정수정 
+        //수정
+        Object.keys(tradeHistoryDict).map((key) =>
+
           tradeHistoryDict[key].map((tradeHistory, index) => (
-            // 수정작업
             <div key={tradeHistory.id}>
               {index === 0 ? (
                 <p className={styles.bankAccount}>
@@ -97,13 +87,12 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
                 </div>
 
                 <div className={styles.money}>
+
                   {tradeHistory.type === "출금" && isFinBall == true && accountbook.categoryList.length > 0 &&
                     (
-                      <select className={styles.remain} name="category" value={accountbook.tradeHistoryList[index] && accountbook.tradeHistoryList[index].category && accountbook.tradeHistoryList[index].category.id ? accountbook.tradeHistoryList[index].category.id : -1} onChange={(event) => {
-                        console.log(accountbook.tradeHistoryList[index]);
+                      <select className={styles.remain} name="category" value={accountbook.tradeHistoryList[tradeHistory.index] && accountbook.tradeHistoryList[tradeHistory.index].category && accountbook.tradeHistoryList[tradeHistory.index].category.id ? accountbook.tradeHistoryList[tradeHistory.index].category.id : -1} onChange={(event) => {
                         changeCategory(event.target, tradeHistory)
                       }}>
-
                         <option value="-1">선택하지 않음</option>
                         {accountbook.categoryList.map((category: any) => (
                           <option key={category.id} value={category.id}>

@@ -42,6 +42,8 @@ function AccountDetailComponent(props) {
         },
       })
       .then((response) => {
+
+        let index = 0;
         console.log(url);
         console.log(response);
         dispatch(
@@ -49,13 +51,17 @@ function AccountDetailComponent(props) {
             tradeHistory: response.data.data.tradeHistoryList,
           })
         );
+
         setTradeHistoryDict(
           response.data.data.tradeHistoryList.reduce((dict, tradeHistory) => {
             const groupKey = tradeHistory.date;
+            const clonedTradeHistory = { ...tradeHistory }; // 객체 복제
+            clonedTradeHistory.index = index++;
             if (!dict[groupKey]) {
               dict[groupKey] = [];
             }
-            dict[groupKey].push(tradeHistory);
+            dict[groupKey].push(clonedTradeHistory);
+
             return dict;
           }, {})
         );
