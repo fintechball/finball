@@ -15,6 +15,7 @@ import SecurityKeypad from "../pages/Auth/SecurityKeypad";
 import SecuritySetting from "../pages/Auth/SecuritySetting.tsx";
 import CertificationNaver from "../pages/Auth/CertificationNaver";
 
+import Jeonghui from "../pages/Test/JeongHui";
 import Pinball from "../pages/Pinball/Pinball";
 import Game from "../pages/Pinball/Game";
 import Game2 from "../pages/Pinball/Game2";
@@ -96,6 +97,7 @@ function Router() {
 
         <Route path="/counter" element={<Counter />} />
         <Route path="/pinball" element={<Pinball />} />
+        <Route path="/jeonghui" element={<Jeonghui />} />
         <Route path="/game" element={<Game />} />
 
         <Route element={<PrivateRoute />}>
