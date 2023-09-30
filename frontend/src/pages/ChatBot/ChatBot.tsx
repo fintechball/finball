@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "./ChatBot.module.css";
+import styles from "./ChatBot.module.scss";
 import { useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
+import { SendOutlined }  from "@ant-design/icons"
+import { Input } from "antd"
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -26,6 +28,7 @@ function Chatbot() {
       .then((response) => {
         console.log(response);
         setMessageList(response.data.data.messageList);
+        scrollToBottom();
       })
       .catch((error) => {
         console.log(error);
@@ -48,6 +51,7 @@ function Chatbot() {
       .then((response) => {
         saveMessage(response.data.answer, "답변");
         setIsLoading(false);
+        scrollToBottom();
       })
       .catch((error) => {
         console.log(error);
@@ -72,35 +76,55 @@ function Chatbot() {
       )
       .then(() => {
         getMessageList();
+        scrollToBottom();
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  // 자동 스크롤
+  const scrollToBottom = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messageList]);
+
+  // // 엔터로 입력받기
+  // const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (event.key === "Enter") {
+  //     doLogin();
+  //   }
+  // };
+
   return (
     <div className={styles.container}>
-      <h1>Chatbot</h1>
-
-      {messageList &&
-        messageList.length !== 0 &&
-        [...messageList].map((message, index) => (
-          <div className={styles[message.type]} key={index}>
-            {message.body}
-          </div>
-        ))}
-      {isLoading && (
-        <div className={styles.loadingMessage}>
-          <CircularProgress color="inherit" />
-        </div>
-      )}
-
-      <input
-        placeholder="질문을 입력하세요"
-        value={question}
-        onChange={(event) => setQuestion(event.target.value)}
-      ></input>
-      <button onClick={help}>전송</button>
+      {/* <button onClick={() => setMessageList(null)}>다지워</button> */}
+      <div className={styles.chatcontainer}>
+          {messageList &&
+            messageList.length !== 0 &&
+            [...messageList].map((message, index) => (
+              <div className={styles[message.type]} key={index}>
+                {message.body}
+              </div>
+            ))}
+          {isLoading && (
+            <div className={styles.loadingMessage}>
+              <CircularProgress color="inherit" />
+            </div>
+          )}
+      </div>
+      
+      <div className={styles.inputcontainer}>
+            <Input
+              placeholder="질문을 입력하세요"
+              value={question}
+              onChange={(event) => setQuestion(event.target.value)}
+            ></Input>
+            <button onClick={help} disabled={!question}><SendOutlined /></button>
+      </div>
     </div>
   );
 }
