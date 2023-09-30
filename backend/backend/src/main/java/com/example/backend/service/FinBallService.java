@@ -192,7 +192,17 @@ public class FinBallService {
                 () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
         );
 
-        finBallHistory.setHistory(null);
+        if(finBallHistory.getCategory() != null){
+            Long val = finBallHistory.getValue();
+            Category category = categoryRepository.findById(finBallHistory.getCategory().getId()).orElseThrow(
+                    () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+            );
+
+            category.minusUsedValue(val); //누적 금액에서 마이너스
+            categoryRepository.save(category);
+        }
+
+        finBallHistory.setCategory(null);
     }
 
     public void setCategory(FinBallHistory tradeHistory, SetCategoryData.Request request) {
@@ -213,7 +223,7 @@ public class FinBallService {
             requestCategory.plusUsedValue(tradeHistory.getValue());
         }
 
-        tradeHistory.setHistory(requestCategory);
+        tradeHistory.setCategory(requestCategory);
     }
 
     public UsageAndMoneySourceDto.Response readUsageAndMoneySource() {
