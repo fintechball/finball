@@ -101,7 +101,7 @@ function Chatbot() {
 
   return (
     <div className={styles.container}>
-      <button onClick={() => setMessageList(null)}>다지워</button>
+      {/* <button onClick={() => setMessageList(null)}>다지워</button> */}
       <div className={styles.chatcontainer}>
           {messageList &&
             messageList.length !== 0 &&
