@@ -62,7 +62,7 @@ function FinBall() {
           </button>
         </div>
       ) : (
-        <div id="home-canvas" style={{ width: "300px", height: "150px" }}>
+        <div id="home-canvas" style={{ width: "300px", height: "200px" }}>
           {auth.accessToken == "" ? (
             "login이 필요합니다"
           ) : (
