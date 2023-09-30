@@ -6,7 +6,7 @@ import { RootState } from "../../store/store";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-const PASSWORD_MAX_LENGTH = 6; // 비밀번호 입력길이 제한 설정
+const PASSWORD_MAX_LENGTH = 6 // 비밀번호 입력길이 제한 설정
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
 const shuffle = (nums: number[]) => {
@@ -44,6 +44,7 @@ const SecurityKeypad = () => {
   }, [password]);
 
   const sendAuthEasyPassword = async () => {
+
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
       Authorization: auth.accessToken,
