@@ -136,7 +136,15 @@ export default function CardConnect() {
       {loading ? (
         "Loading..."
       ) : state.length === 0 ? (
-        <div>카드가 없어요</div>
+        <div className={styles.container}>
+          <h2>추가로 등록할 카드가 없습니다.</h2>
+          <button
+            className={`${styles.button} ${styles.float}`}
+            onClick={() => navigate("/")}
+          >
+            메인으로 이동하기
+          </button>
+        </div>
       ) : (
         <div className={styles.container}>
           <h2>카드 연결하기</h2>
