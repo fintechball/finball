@@ -20,22 +20,18 @@ function Home() {
         <h2 onClick={() => navigate("/accountBook")}>우리 계좌</h2>
         <FinBallContainer />
       </div>
-
       <div className={styles.minicontainer}>
         <h2 onClick={() => navigate("/cardView")}>연결된 카드 목록</h2>
         <CardContainer />
       </div>
-
       <div className={styles.minicontainer}>
         <h2 onClick={() => navigate("/accountList")}>연결된 타행계좌 목록</h2>
         <BankAccountContainer />
       </div>
-
       <div className={styles.minicontainer}>
         <h2>연결된 모임통장 목록</h2>
         <GroupAccountContainer />
       </div>
-
       {/* <button onClick={() => dispatch(setDate("123123"))}>초기화</button>
       <div className={styles.noncontainer}>
         <p>연결된 카드가 없습니다.</p>
@@ -43,6 +39,7 @@ function Home() {
           + 카드 연결하기
         </button>
       </div> */}
+      <button onClick={() => navigate("/jeonghui")}>김정희 테스트</button>
     </div>
   );
 }
