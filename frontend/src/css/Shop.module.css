@@ -1,51 +1,57 @@
-@import "../Test/main.module.scss";
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
 
 .container {
   padding: 0 30px 30px 30px;
   margin-top: 15px;
   height: 500px;
   text-align: left;
-
-  h2 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-
-  h3 {
-    margin: 0;
-  }
+}
+.container h2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.container h3 {
+  margin: 0;
 }
 
 .pointbox {
   display: flex;
   justify-content: end;
   align-items: center;
-
-  img {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-  }
+}
+.pointbox img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
 }
 
 .skinContainer {
   display: flex;
   flex-wrap: wrap;
   height: 330px;
-  // background-color: bisque;
-  // overflow-y: auto;
 }
 
 .skinItem {
   display: flex;
   flex-direction: column;
   align-items: center;
-  // background-color: aqua;
   width: 90px;
   margin-right: 9px;
   margin-top: 10px;
   margin-bottom: 10px;
-  // border: 2px solid black;
 }
 
 .skinName {
@@ -58,12 +64,11 @@
 .skinPointBox {
   display: flex;
   align-items: center;
-
-  img {
-    width: 18px;
-    height: 18px;
-    margin-right: 5px;
-  }
+}
+.skinPointBox img {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
 }
 
 .skinPoint {
@@ -85,7 +90,6 @@
   width: 70px;
 }
 
-
 .hadbutton {
   border-radius: 20px;
   height: 30px;
@@ -99,8 +103,6 @@
   font-size: 15px;
   padding: 0 15px;
   border: 1px solid rgb(202, 202, 202);
-  // background-color: $subcolor;
-  // color: white;
 }
 
 .floatbutton {
