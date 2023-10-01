@@ -6,7 +6,7 @@ import {
   CircularProgressbarWithChildren,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import safe from "../../assets/safe.png";
+import SafeMoney from "./safeMoney"
 import cash from "../../assets/cash.png";
 import styles from "./AccountBook.module.css";
 import axios from "axios";
@@ -566,7 +566,7 @@ function AccountBook() {
               >
                 <AccountFinball value={{ parent: "canvas1" }} />
                 <div style={{ position: "absolute", top: "0", right: "0" }}>
-                  <img src={safe} style={{ width: "50px", height: "50px" }} />
+                  <SafeMoney balance={finBallAccount.account.balance}/>
                 </div>
               </div>
             </div>

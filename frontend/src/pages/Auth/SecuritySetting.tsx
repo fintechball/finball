@@ -27,6 +27,7 @@ const SecuritySetting = () => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k);
   const auth = useSelector((state: RootState) => state.auth);
   const location = useLocation();
+  const navigate = useNavigate();
   const formData = location.state?.formData;
 
   const [nums, setNums] = useState([...nums_init, "", " "]);
@@ -83,6 +84,7 @@ const SecuritySetting = () => {
       if (response.status === 200) {
         const responseData = await response.json();
         alert(responseData.message);
+        navigate("/login");
       }
     } catch (error) {
       console.error("데이터 전송 실패", error);
