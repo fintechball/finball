@@ -35,7 +35,7 @@ function Home() {
   //       },
   //     })
   //     .then((response) => {
-  
+
   //       console.log(response.data.data)
   //       dispatch(
   //         setGroupFinball({
@@ -49,7 +49,7 @@ function Home() {
   //     .catch(() => {
   //     });
   // };
-//
+  //
   return (
     <div className={styles.container}>
       <div className={styles.minicontainer}>
@@ -58,8 +58,7 @@ function Home() {
         <div onClick={()=>navigate("/groupaccount/12345-123456-123")}>group</div> */}
         {/*  */}
         <h2 onClick={() => navigate("/accountBook")}>우리 계좌</h2>
-        <FinBallContainer />
-        
+        {/* <FinBallContainer /> */}
       </div>
       <div className={styles.minicontainer}>
         <h2 onClick={() => navigate("/cardView")}>연결된 카드 목록</h2>
