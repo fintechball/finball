@@ -1,0 +1,18 @@
+.MoneyContainer {
+    width: 300px;
+}
+
+.MoneyRow {
+    display: flex; /* Flexbox를 사용하여 가로로 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: space-between; /* 각 Money 컴포넌트 사이에 공간을 일정하게 배분 */
+    margin-bottom: 10px; /* 각 MoneyRow 사이에 아래 여백 추가 (선택 사항) */
+}
+
+.Money {
+    /* Money 컴포넌트의 스타일을 정의 */
+    width: 50px;
+    height: 50px;
+    background-color: yellow; /* 예시로 배경색 추가 (원하는 스타일로 변경 가능) */
+    margin: 0; /* Money 컴포넌트 간의 여백 제거 (선택 사항) */
+}
