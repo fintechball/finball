@@ -73,7 +73,7 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
               <div className={styles.part} onClick={() => {
                 // 사람별로 얼마 지불했는지 보는 모달
                 if (isFinBall == false && tradeHistory.gameHistory) {
-                  console.log("조회" + tradeHistory.gameHistory.member);
+                  //console.log("조회" + tradeHistory.gameHistory.member);
                   setGameHistory(tradeHistory.gameHistory);
                   setIsModalOpen(true);
                 }
