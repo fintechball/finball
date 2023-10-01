@@ -3,10 +3,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store/store";
-import Grid from "@mui/material/Unstable_Grid2";
-import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import styles from "./Shop.module.scss";
+import yellowball from "../../assets/yellowball.png"
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -23,10 +22,10 @@ const style = {
 };
 
 const divStyle = {
-  display: "flex", // 자식 요소들을 가로로 정렬하기 위해 flex 사용
-  flexDirection: "column", // 자식 요소들을 세로로 배치
-  alignItems: "center", // 수직 중앙 정렬
-  justifyContent: "center", // 수평 중앙 정렬
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 function Shop() {
@@ -97,41 +96,47 @@ function Shop() {
   };
 
   return (
-    <div>
-      <h2>보유중인 스킨</h2>
-      <p>{point}</p>
+    <div className={styles.container}>
+      <button className={`${styles.subbutton} ${styles.floatbutton}` } onClick={() => navigate("/inventory")}>
+        내 인벤토리 가기
+      </button>
+      <div className={styles.pointbox}>
+        <img src={yellowball} alt="" />
+        <h3>{point} Point</h3>
+      </div>
+      <h2>포인트 상점</h2>
       {skinList && skinList.length !== 0 && (
-        <div>
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid
-              container
-              spacing={{ xs: 1, md: 2 }}
-              columns={{ xs: 6, sm: 8, md: 12 }}
-            >
-              {[...skinList].map((skin, index) => (
-                <Grid xs={2} sm={4} md={4} key={index}>
-                  <img
-                    src={skin.image}
-                    className={styles.skinImg}
-                    onClick={() => handleOpen(index)}
-                  />
-                  <p className={styles.skinName}>{skin.name}</p>
-                  {skin.invented ? (
-                    <p className={styles.skinPoint}>보유중</p>
-                  ) : (
-                    <p className={styles.skinPoint}>{skin.value}</p>
-                  )}
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
+        <div className={styles.skinContainer}>
+          {skinList.map((skin, index) => (
+            <div className={styles.skinItem} key={index}>
+              <img
+                src={skin.image}
+                className={styles.skinImg}
+                onClick={() => handleOpen(index)}
+              />
+              <p className={styles.skinName}>{skin.name}</p>
+              {skin.invented ? (
+                <p className={styles.skinPoint}>보유중</p>
+              ) : (
+                <div className={styles.skinPointBox}>
+<img src={yellowball} alt="" />
+                  <p className={styles.skinPoint}>{skin.value}</p>
+                </div>
+              )}
+              {skin.invented ? (
+                <button className={styles.hadbutton} disabled={true}>보유중</button>
+              ) : (
+                <button className={styles.buybutton} onClick={() => buySkin(skin)}>구매</button>
+              )}
+            </div>
+          ))}
           <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Box sx={style}>
+            <div style={style}>
               <div style={divStyle}>
                 <img
                   src={skinList[index].image}
@@ -140,18 +145,15 @@ function Shop() {
                 />
                 <p className={styles.skinName}>{skinList[index].name}</p>
                 {skinList[index].invented ? (
-                  <button>보유중</button>
+                  <button className={styles.hadbutton} disabled={true}>보유중</button>
                 ) : (
-                  <button onClick={() => buySkin(skinList[index])}>구매</button>
+                  <button className={styles.buybutton} onClick={() => buySkin(skinList[index])}>구매</button>
                 )}
               </div>
-            </Box>
+            </div>
           </Modal>
         </div>
       )}
-      <button className={styles.preview} onClick={() => navigate("/inventory")}>
-        인벤토리 가기
-      </button>
     </div>
   );
 }
