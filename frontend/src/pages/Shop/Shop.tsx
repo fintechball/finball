@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../store/store";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import styles from "./Shop.module.css";
+import styles from "./Shop.module.scss";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -32,7 +33,7 @@ function Shop() {
   const [skinList, setSkinList] = useState<any>(null);
   const [index, setIndex] = useState<number>(0);
   const [point, setPoint] = useState<number>(0);
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state : RootState) => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -97,7 +98,7 @@ function Shop() {
 
   return (
     <div>
-      <h1>Shop</h1>
+      <h2>보유중인 스킨</h2>
       <p>{point}</p>
       {skinList && skinList.length !== 0 && (
         <div>
