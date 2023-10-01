@@ -138,6 +138,7 @@ export default function CardConnect() {
       ) : state.length === 0 ? (
         <div className={styles.container}>
           <h2>등록할 계좌가 없습니다.</h2>
+          <br />
           <button
             className={`${styles.button} ${styles.float}`}
             onClick={() => navigate("/")}
