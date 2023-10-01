@@ -108,20 +108,19 @@ function GroupAccountHistory() {
                 setTradeHistoryDict(data.tradeHistory.reduce((dict, tradeHistory) => {
                     const groupKey = tradeHistory.date;
 
-                    if (tradeHistory.result.length > 0) {
-                        tradeHistory.gameHistory = addTradeHistory(tradeHistory, data);
+                    const clonedTradeHistory = { ...tradeHistory };
+
+                    if (clonedTradeHistory.result.length > 0) {
+                        clonedTradeHistory.gameHistory = addTradeHistory(tradeHistory, data);
                     }
 
                     if (!dict[groupKey]) {
                         dict[groupKey] = [];
                     }
 
-                    dict[groupKey].push(tradeHistory);
+                    dict[groupKey].push(clonedTradeHistory);
                     return dict;
-                }, {})
-                );
-
-                console.log(tradeHistoryDict);
+                }, {}));
             })
             .catch((err) => {
                 alert("에러발생 : " + err);
@@ -149,7 +148,7 @@ function GroupAccountHistory() {
                     </p>
                 </div>
 
-                <TradeHistory tradeHistoryDict={tradeHistoryDict} />
+                <TradeHistory tradeHistoryDict={tradeHistoryDict} isFinBall={false} />
             </div>
 
         </div>
