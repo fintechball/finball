@@ -176,7 +176,9 @@ function AccountBook() {
     })
       .then((res) => {
         setState(res.data.data);
-        window.location.reload();
+        //이게 false여야 가계부 생성 => 삭제 버튼 만들어짐
+        setisAccountBook(false);
+        getHistory();
       })
       .catch((err) => {
         console.log("삐빅", err);
@@ -217,7 +219,9 @@ function AccountBook() {
       },
     })
       .then((res) => {
+        alert("1")
         setState(res.data.data);
+        alert("2")
       })
       .catch((err) => {
         console.log("삐빅", err);
@@ -259,6 +263,7 @@ function AccountBook() {
       },
     })
       .then((res) => {
+        alert("3")
         console.log(res.data.data);
         setState(res.data.data);
       })
@@ -291,7 +296,8 @@ function AccountBook() {
       .then((res) => {
         console.log(res);
         setisAccountBook(false);
-        window.location.reload();
+        //window.location.reload();
+        getHistory();
       })
       .catch((err) => {
         console.log("삐빅", err);
