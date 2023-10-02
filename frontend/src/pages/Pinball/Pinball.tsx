@@ -322,32 +322,35 @@ function Pinball(value) {
               x: exitVelocity * dir[i % 2],
               y: 0,
             });
+            removedBall.position.x+= exitVelocity / 30
             ball.push(removedBall);
+            World.remove(newEngine.world, b);
+            ball.splice(ball.indexOf(b), 1);
           }
 
           function update() {
             // 각 공의 위치를 조정
-            ball.forEach((b) => {
-              b.position.y += exitVelocity / 30; // 1초에 60프레임으로 가정
-              // 화면 밖으로 벗어난 공을 삭제
-              if (
-                b.position.y >
-                  parentSize.height +
-                    Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
-                      23 ||
-                b.position.x >
-                  parentSize.width +
-                    Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
-                      23 ||
-                b.position.x <
-                  -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
-                    23
-              ) {
-                // Matter.js World에서 삭제
-                World.remove(newEngine.world, b);
-                ball.splice(ball.indexOf(b), 1);
-              }
-            });
+            // ball.forEach((b) => {
+            //   b.position.y += exitVelocity / 30; // 1초에 60프레임으로 가정
+            //   // 화면 밖으로 벗어난 공을 삭제
+            //   if (
+            //     b.position.y >
+            //       parentSize.height +
+            //         Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
+            //           23 ||
+            //     b.position.x >
+            //       parentSize.width +
+            //         Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
+            //           23 ||
+            //     b.position.x <
+            //       -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
+            //         23
+            //   ) {
+            //     // Matter.js World에서 삭제
+            //     World.remove(newEngine.world, b);
+            //     ball.splice(ball.indexOf(b), 1);
+            //   }
+            // });
           }
           // Runner.run(runner, newEngine);
           Render.run(newRender);
