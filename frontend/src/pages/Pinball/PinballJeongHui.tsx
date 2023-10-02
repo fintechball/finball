@@ -19,7 +19,6 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
-
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 const skinlist = {
   크롬: chrome,
@@ -35,6 +34,7 @@ function PinballJeongHui(value) {
   const ballskin = useSelector((state) => state.skin.skin);
   const finBallAccount = useSelector((state) => state.finBallAccount);
   const auth = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
@@ -44,6 +44,7 @@ function PinballJeongHui(value) {
     };
   };
   useEffect(() => {
+    
     initialize();
   }, []);
 
@@ -57,7 +58,7 @@ function PinballJeongHui(value) {
     // console.log("최소 금액 : ", vaultCount * vaultUnit);
     // console.log("계산할 금액 : ", value - vaultCount * vaultUnit);
 
-    const ballCount = Math.floor((Math.ceil(amount / 10000) * 10000) / 10000);
+    const ballCount = Math.floor(amount / 10000);
 
     // console.log("공의 갯수 : ", ballCount);
     setBallInfo({
@@ -87,6 +88,8 @@ function PinballJeongHui(value) {
             finBallAccount.account.balance !==
             0
         ) {
+          const balanceString = response.data.data.account.balance.toString()
+          const firstDigit = Number(balanceString[0]);
           const diff =
             response.data.data.account.balance - finBallAccount.account.balance;
           console.log("차액 : ", diff);
@@ -94,18 +97,31 @@ function PinballJeongHui(value) {
             console.log("공을 늘리자");
             const past = calculateBallCount(finBallAccount.account.balance);
             const curr = calculateBallCount(response.data.data.account.balance);
+            console.log(Math.floor(response.data.data.account.balance/500000),Math.floor(finBallAccount.account.balance/500000),'test1')
+            if(Math.floor(response.data.data.account.balance/500000)==Math.floor(finBallAccount.account.balance/500000)){
+              addBall(curr.ballcnt - past.ballcnt, newEngine, newRender);
+            }
+            else{
+              console.log(past.ballcnt,curr.ballcnt)
+              deleteBall(past.ballcnt, newEngine, newRender);
+              addBall(curr.ballcnt, newEngine, newRender);
+            }
 
             console.log("더해야 할 공 갯수 : ", curr.ballcnt - past.ballcnt);
-
-            addBall(curr.ballcnt - past.ballcnt, newEngine, newRender);
           } else if (diff < 0) {
             console.log("공을 줄이자");
             const past = calculateBallCount(finBallAccount.account.balance);
             const curr = calculateBallCount(response.data.data.account.balance);
-
+            console.log(Math.floor(response.data.data.account.balance/500000),Math.floor(finBallAccount.account.balance/500000),'test2')
+            if(Math.floor(response.data.data.account.balance/500000)==Math.floor(finBallAccount.account.balance/500000)){
+              deleteBall(past.ballcnt - curr.ballcnt, newEngine, newRender);
+            }
+            else{
+              console.log(past.ballcnt,curr.ballcnt)
+              deleteBall(past.ballcnt, newEngine, newRender);
+              addBall(curr.ballcnt, newEngine, newRender);
+            }
             console.log("줄여야 할 공 갯수 : ", past.ballcnt - curr.ballcnt);
-
-            deleteBall(past.ballcnt - curr.ballcnt, newEngine, newRender);
           }
         }
         dispatch(
@@ -126,7 +142,7 @@ function PinballJeongHui(value) {
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 10,
+      delta: 15,
       isFixed: false,
       enabled: true,
     });
@@ -229,8 +245,8 @@ function PinballJeongHui(value) {
         (Math.random() * parentSize.height) / 5,
         Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 25,
         {
-          density: 15,
-          frictionAir: 0.06,
+          density: 10,
+          frictionAir: 0.01,
           restitution: 0.01,
           friction: 0.01,
           isStatic: false,
@@ -265,14 +281,14 @@ function PinballJeongHui(value) {
     getFinBAllAccount(newEngine, newRender);
     // dispatch(setIsReady(true));
   };
-
+  
   const addBall = (ballcnt, newEngine, newRender) => {
     const parentSize = getParentContainerSize();
     setTimeout(() => {
       for (let i = 0; i < ballcnt; i++) {
         const ball = Bodies.circle(
           Math.random() * parentSize.width,
-          parentSize.height / 10,
+          (Math.random() * parentSize.height) / 5,
           Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
           {
             density: 0.0005,
@@ -301,21 +317,16 @@ function PinballJeongHui(value) {
           }
         );
         balls.push(ball);
-        console.log(newEngine);
         World.add(newEngine.world, ball);
         Render.run(newRender);
       }
-    }, 2000);
+    }, 2100);
   };
 
   const deleteBall = (num, newEngine, newRender) => {
     const parentSize = getParentContainerSize();
     setTimeout(() => {
-      const exitVelocity = 20;
-      const sortedBalls = [...balls].sort(
-        (a, b) => b.position.y - a.position.y
-      );
-
+      const exitVelocity = 17.5;
       // 각 공을 삭제하면서 새로운 배열에 추가
       const ball = [];
       const dir = [1, -1];
@@ -328,27 +339,29 @@ function PinballJeongHui(value) {
         });
         ball.push(removedBall);
       }
-
       function update() {
         // 각 공의 위치를 조정
+        const BB=[...ball]
         ball.forEach((b) => {
-          b.position.y += exitVelocity / 30; // 1초에 60프레임으로 가정
+          b.position.x += exitVelocity / 60; // 1초에 60프레임으로 가정
+          b.position.y -= exitVelocity / 60; // 1초에 60프레임으로 가정
           // 화면 밖으로 벗어난 공을 삭제
           if (
-            b.position.y >
+            b.position.x >=
               parentSize.height +
                 Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
                   23 ||
-            b.position.x >
+            b.position.x >=
               parentSize.width +
                 Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
-                  23 ||
-            b.position.x <
-              -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23
+                  23/29 ||
+            b.position.x <=
+              // -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29
+              0
           ) {
             // Matter.js World에서 삭제
             World.remove(newEngine.world, b);
-            ball.splice(ball.indexOf(b), 1);
+            BB.splice(ball.indexOf(b), 1);
           }
         });
       }
@@ -370,9 +383,9 @@ function PinballJeongHui(value) {
           alignContent: "flex-end",
         }}
       >
-        {/* {ballInfo !== null && (
+        {ballInfo !== null && (
           <div className={styles.minbal}>{ballInfo.minbalance}원</div>
-        )} */}
+        )}
       </div>
     </div>
   );

@@ -569,7 +569,7 @@ function AccountBook() {
                   height: "360px",
                 }}
               >
-                <PinballJeongHui value={{ parent: "canvas1" }} />
+                <AccountFinball value={{ parent: "canvas1" }} />
                 <div style={{ position: "absolute", top: "0", right: "0" }}>
                   <SafeMoney balance={finBallAccount.account.balance} />
                 </div>
