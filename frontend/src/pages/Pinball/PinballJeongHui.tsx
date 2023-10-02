@@ -370,9 +370,9 @@ function PinballJeongHui(value) {
           alignContent: "flex-end",
         }}
       >
-        {ballInfo !== null && (
+        {/* {ballInfo !== null && (
           <div className={styles.minbal}>{ballInfo.minbalance}원</div>
-        )}
+        )} */}
       </div>
     </div>
   );

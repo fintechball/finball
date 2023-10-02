@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import AccountFinball from "../Pinball/AccountFinball";
+import PinballJeongHui from "../Pinball/PinballJeongHui";
 import {
   CircularProgressbar,
   buildStyles,
   CircularProgressbarWithChildren,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import SafeMoney from "./safeMoney"
+import SafeMoney from "./safeMoney";
 import cash from "../../assets/cash.png";
 import styles from "./AccountBook.module.css";
 import axios from "axios";
@@ -123,7 +124,7 @@ function AccountBook() {
 
   useEffect(() => {
     findAccountBook();
-  }, [accountbook])
+  }, [accountbook]);
   const getHistory = () => {
     axios({
       method: "get",
@@ -534,7 +535,6 @@ function AccountBook() {
             {/* <button onClick={openModal}>category-</button> */}
           </div>
         )}
-
       </div>
       <Carousel
         selectedItem={
@@ -548,7 +548,6 @@ function AccountBook() {
         showStatus={false}
         onChange={handleCarouselChange}
       >
-
         <div key="btn1">
           {selectedBtn === "btn1" && (
             <div>
@@ -564,9 +563,9 @@ function AccountBook() {
                   height: "360px",
                 }}
               >
-                <AccountFinball value={{ parent: "canvas1" }} />
+                <PinballJeongHui value={{ parent: "canvas1" }} />
                 <div style={{ position: "absolute", top: "0", right: "0" }}>
-                  <SafeMoney balance={finBallAccount.account.balance}/>
+                  <SafeMoney balance={finBallAccount.account.balance} />
                 </div>
               </div>
             </div>
