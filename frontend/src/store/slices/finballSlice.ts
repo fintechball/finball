@@ -5,19 +5,19 @@ import { PURGE } from "redux-persist";
 interface finballState {
   ballunit: number;
   ballcnt: number;
+  balance: number;
   minbalance:number;
   isReady: boolean;
-  // changed:number;
-  // prebalance:number;
+  change:number;
 }
 
 const initialState: finballState = {
-  ballunit: 1000,
+  ballunit: 10000,
   ballcnt: 0,
+  balance: 0,
   minbalance:0,
   isReady:false,
-  // changed: 0,
-  // prebalance:0,
+  change: 0,
 };
 
 const finballSlice = createSlice({
@@ -25,13 +25,16 @@ const finballSlice = createSlice({
   initialState,
   reducers: {
     setFinball: (state, action: PayloadAction<finballState>) => {
-      state.ballunit = action.payload.ballunit;
+      // state.ballunit = action.payload.ballunit;
+      state.balance = action.payload.balance;
       state.ballcnt = action.payload.ballcnt;
       state.minbalance = action.payload.minbalance;
       state.isReady = action.payload.isReady;
-      // state.prebalance = action.payload.prebalance;
-      // state.changed = action.payload.prebalance;
+      
     },
+    setChange:(state, action: PayloadAction<finballState>) => {
+      state.change = action.payload.change;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, () => {
@@ -40,5 +43,5 @@ const finballSlice = createSlice({
   },
 });
 
-export const { setFinball} = finballSlice.actions;
+export const { setFinball,setChange} = finballSlice.actions;
 export default finballSlice.reducer;

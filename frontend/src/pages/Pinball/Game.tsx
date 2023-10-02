@@ -226,7 +226,7 @@ useEffect(() => {
       },
     })
     const runner = Runner.create({
-      delta: 15,
+      delta: 10,
       isFixed: true,
       enabled: true
   });

@@ -10,7 +10,7 @@ import { useSelector,useDispatch } from "react-redux";
 import axios from "axios";
 
 import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
-import { setFinball } from "../../store/slices/finballSlice";
+import { setFinball,setChange } from "../../store/slices/finballSlice";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 const skinlist={
   "크롬":chrome,
@@ -26,9 +26,12 @@ function Pinball(value) {
   const [balls, setBalls] = useState([]);
   const finball = useSelector((state) => state.finBallAccount);
   const ballunit=useSelector((state)=>state.finballSlice.ballunit)
+  const balance=useSelector((state)=>state.finballSlice.balance)
   const ballcnt = useSelector((state)=>state.finballSlice.ballcnt)
   const isReady = useSelector((state)=>state.finballSlice.isReady)
   const minbalance = useSelector((state)=>state.finballSlice.minbalance)
+  const change = useSelector((state)=>state.finballSlice.change)
+  const prebalance = useSelector((state)=>state.finballSlice.prebalance)
   const ballskin=useSelector((state)=>state.skin.skin)
   // const changed = useSelector((state)=>state.finballSlice.changed)
   // const prebalance = useSelector((state)=>state.finballSlice.prebalance)
@@ -43,6 +46,9 @@ function Pinball(value) {
       height: parentContainer.clientHeight,
     };
   };
+  useEffect(()=>{
+
+  },[])
   useEffect(() => {
     getFinBAllAccount();
   }, []);
@@ -62,52 +68,54 @@ function Pinball(value) {
           );
         }
           dispatch((dispatch) => {
-            const balance = response.data.data.account.balance;
-            const balanceString = balance.toString();
-            console.log(balanceString.length)
-            if (balanceString.length >= 3) {
-              const ballunit = 10 ** (balanceString.length - 3);
-              const firstDigit = Number(balanceString[0]);
-              if (balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2<0){
-                const ballcnt = Math.round((balance - firstDigit * 10 ** (balanceString.length - 1)) / ballunit);
-                dispatch(
-                  setFinball({
-                    ballunit: ballunit,
-                    ballcnt: ballcnt,
-                    minbalance:firstDigit * 10 ** (balanceString.length - 1),
-                    isReady:true,
-                    // changed:0,
-                    // prebalance:balance,
-                  })
-                  );
+            console.log(Math.floor(response.data.data.account.balance/500000))
+            dispatch( 
+                    setFinball({
+                      balance:response.data.data.account.balance,
+                      ballcnt: Math.floor(response.data.data.account.balance/ballunit),
+                      minbalance:500000*(Math.floor(response.data.data.account.balance/500000)),
+                      isReady:true,
+                    })
+                    );
+            // const balanceString = balance.toString();
+            // console.log(balanceString.length)
+            // if (balanceString.length >= 3) {
+            //   const ballunit = 10 ** (balanceString.length - 3);
+            //   const firstDigit = Number(balanceString[0]);
+            //   if (balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2<0){
+            //     const ballcnt = Math.round((balance - firstDigit * 10 ** (balanceString.length - 1)) / ballunit);
+            //     dispatch(
+            //       setFinball({
+            //         ballunit: ballunit,
+            //         ballcnt: ballcnt,
+            //         minbalance:firstDigit * 10 ** (balanceString.length - 1),
+            //         isReady:true,
+            //       })
+            //       );
                 
-              }
-              else{
-                const ballcnt = Math.round((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit);
-                dispatch(
-                  setFinball({
-                    ballunit: ballunit,
-                    ballcnt: ballcnt,
-                    minbalance:firstDigit * 10 ** (balanceString.length - 1)+10**(balanceString.length - 1)/2,
-                    isReady:true,
-                    // changed:0,
-                    // prebalance:balance,
-                  })
-                  );
-              }
-              } else {
-                const ballunit = 1000;
-                const ballcnt=0;
-                dispatch(
-                  setFinball({
-                    ballunit: ballunit,
-                    ballcnt: ballcnt,
-                    minbalance:minbalance,
-                    isReady:isReady,
-                    // changed:0,
-                    // prebalance:0,
-                  }))
-                }
+            //   }
+            //   else{
+            //     const ballcnt = Math.round((balance - firstDigit * 10 ** (balanceString.length - 1)-10**(balanceString.length - 1)/2)/ballunit);
+            //     dispatch(
+            //       setFinball({
+            //         ballunit: ballunit,
+            //         ballcnt: ballcnt,
+            //         minbalance:firstDigit * 10 ** (balanceString.length - 1)+10**(balanceString.length - 1)/2,
+            //         isReady:true,
+            //       })
+            //       );
+            //   }
+            //   } else {
+            //     const ballunit = 1000;
+            //     const ballcnt=0;
+            //     dispatch(
+            //       setFinball({
+            //         ballunit: ballunit,
+            //         ballcnt: ballcnt,
+            //         minbalance:minbalance,
+            //         isReady:isReady,
+            //       }))
+            //     }
               });
               
               dispatch(
@@ -275,12 +283,11 @@ function Pinball(value) {
 
     Runner.run(runner, newEngine);
     Render.run(newRender);
-  }
     const deleteBall = (num) => {
       setTimeout(()=>{
       const exitVelocity = 20;
       const sortedBalls = [...balls].sort((a, b) => b.position.y - a.position.y);
-  
+      
       // 각 공을 삭제하면서 새로운 배열에 추가
       const ball = [];
       const dir = [1, -1];
@@ -290,7 +297,11 @@ function Pinball(value) {
         Body.setVelocity(removedBall, { x: exitVelocity * dir[i % 2], y: 0 });
         ball.push(removedBall);
       }
-  
+      dispatch(
+        setChange({
+          change:0,
+        })
+        );
       function update() {
         // 각 공의 위치를 조정
         ball.forEach(b => {
@@ -298,28 +309,28 @@ function Pinball(value) {
           // 화면 밖으로 벗어난 공을 삭제
           if (
             b.position.y >
-              parentSize.height +
-                Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 ||
+            parentSize.height +
+            Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 ||
             b.position.x >
-              parentSize.width +
-                Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 ||
+            parentSize.width +
+            Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 ||
             b.position.x <
-              -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23
-          ) {
-            // Matter.js World에서 삭제
-            World.remove(newEngine.world, b);
-            ball.splice(ball.indexOf(b), 1);
-          }
-        });
-      }
-      // Runner.run(runner, newEngine);
-           Render.run(newRender);
-      update();
-    },2000)
+            -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23
+            ) {
+              // Matter.js World에서 삭제
+              World.remove(newEngine.world, b);
+              ball.splice(ball.indexOf(b), 1);
+            }
+          });
+        }
+        // Runner.run(runner, newEngine);
+        Render.run(newRender);
+        update();
+      },2000)
     };
-    const addBall=()=>{
+    const addBall=(num)=>{
       setTimeout(() => {
-        for (let i = 0; i < ballcnt; i++) {
+        for (let i = 0; i < num; i++) {
           const ball = Bodies.circle(
             Math.random() * parentSize.width,
             parentSize.height / 10,
@@ -343,23 +354,31 @@ function Pinball(value) {
                 },
               },
             }
-          );
-          balls.push(ball);
-          World.add(newEngine.world, ball);
-          // Runner.run(runner, newEngine);
-           Render.run(newRender);
+            );
+            dispatch(
+              setChange({
+                change:0,
+              })
+              );
+              balls.push(ball);
+              World.add(newEngine.world, ball);
+              // Runner.run(runner, newEngine);
+              Render.run(newRender);
+            }
+          }, 2000);
         }
-      }, 2000);
+        if (change>0){
+          console.log(change)
+          addBall(change)
+        }
+        else{
+          console.log(change)
+          deleteBall(change*(-1)) 
+        }
+      }
     }
-    // if (changed>0){
-    //   addBall(changed)
-    // }
-    // else{
-    //   deleteBall(changed*(-1)) 
-    // }
-  }
-  }, [finball]);
-
+    }, [finball]);
+    
   return (
     <div id="pinball-canvas">
       <div style={{ display: "flex",justifyContent: "flex-end"}}>

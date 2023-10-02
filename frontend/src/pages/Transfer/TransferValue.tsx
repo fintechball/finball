@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./TransferValue.module.css";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-
+import { setChange } from "../../store/slices/finballSlice";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 const makeAccount = () => {
@@ -130,7 +130,13 @@ function TransferValue() {
               userName: opposite.opposite.name,
             },
           });
-        })
+          dispatch(
+            setChange({
+              change: Math.ceil(value/10000),
+            })
+            );
+        }
+        )
         .catch((error) => {
           console.log(error);
         });

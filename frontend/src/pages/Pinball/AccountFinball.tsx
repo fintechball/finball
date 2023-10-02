@@ -29,6 +29,7 @@ function AccountBookFinball(value) {
   const ballcnt = useSelector((state)=>state.finballSlice.ballcnt)
   const minbalance = useSelector((state)=>state.finballSlice.minbalance)
   const ballskin=useSelector((state)=>state.skin.skin)
+  const isReady = useSelector((state)=>state.finballSlice.isReady)
   // const changed = useSelector((state)=>state.finballSlice.changed)
   // const prebalance = useSelector((state)=>state.finballSlice.prebalance)
   // const ballunit=useState(1000)
@@ -78,8 +79,6 @@ function AccountBookFinball(value) {
                     ballunit: ballunit,
                     ballcnt: ballcnt,
                     minbalance:firstDigit * 10 ** (balanceString.length - 1),
-                    // changed:0,
-                    // prebalance:balance,
                   })
                   );
                 
@@ -91,8 +90,6 @@ function AccountBookFinball(value) {
                     ballunit: ballunit,
                     ballcnt: ballcnt,
                     minbalance:firstDigit * 10 ** (balanceString.length - 1)+10**(balanceString.length - 1)/2,
-                    // changed:0,
-                    // prebalance:balance,
                   })
                   );
               }
@@ -104,8 +101,6 @@ function AccountBookFinball(value) {
                     ballunit: ballunit,
                     ballcnt: ballcnt,
                     minbalance:minbalance,
-                    // changed:0,
-                    // prebalance:0,
                   }))
                 }
               });
@@ -122,19 +117,12 @@ function AccountBookFinball(value) {
       });
   };
   useEffect(() => {
-    console.log(ballunit)
-    console.log(ballcnt)
-    if (render) {
-
-        console.log('render')
-        render.canvas.remove();
-        Render.stop(render);
-        Engine.clear(engine);
-        // render.canvas.remove(balls);
-        setBalls([])
-        setRender(null);
-  }
-  else{
+    if(!isReady || ballcnt==0){
+      console.log('ready')
+      return;
+    }
+    else{
+    if (!render) {
     
     console.log('initialize')
     const parentSize = getParentContainerSize();
@@ -275,90 +263,8 @@ function AccountBookFinball(value) {
     Runner.run(runner, newEngine);
     Render.run(newRender);
   }
-    const deleteBall = (num) => {
-      setTimeout(()=>{
-      const exitVelocity = 20;
-      const sortedBalls = [...balls].sort((a, b) => b.position.y - a.position.y);
-  
-      // 각 공을 삭제하면서 새로운 배열에 추가
-      const ball = [];
-      const dir = [1, -1];
-      for (let i = 1; i < num; i++) {
-        const removedBall = balls.pop();
-        removedBall.isSensor = true;
-        Body.setVelocity(removedBall, { x: exitVelocity * dir[i % 2], y: 0 });
-        ball.push(removedBall);
-      }
-  
-      function update() {
-        // 각 공의 위치를 조정
-        ball.forEach(b => {
-          b.position.y += exitVelocity / 30; // 1초에 60프레임으로 가정
-          // 화면 밖으로 벗어난 공을 삭제
-          if (
-            b.position.y >
-              parentSize.height +
-                Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 ||
-            b.position.x >
-              parentSize.width +
-                Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 ||
-            b.position.x <
-              -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23
-          ) {
-            // Matter.js World에서 삭제
-            World.remove(newEngine.world, b);
-            ball.splice(ball.indexOf(b), 1);
-          }
-        });
-      }
-      // Runner.run(runner, newEngine);
-           Render.run(newRender);
-      update();
-    },2000)
-    };
-    const addBall=()=>{
-      setTimeout(() => {
-        for (let i = 0; i < ballcnt; i++) {
-          const ball = Bodies.circle(
-            Math.random() * parentSize.width,
-            parentSize.height / 10,
-            Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23,
-            {
-              density: 0.0005,
-              frictionAir: 0.06,
-              restitution: 0.3,
-              friction: 0.01, 
-              isStatic: false,
-              isSensor:false,
-              render: {
-                fillStyle: "#05CD01",
-                strokeStyle: "white",
-                lineWidth: 3,
-                sprite: {
-                  //''하면 스프라이트 적용x
-                  texture: defalautball,
-                  xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
-                  yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/30,
-                },
-              },
-            }
-          );
-          balls.push(ball);
-          World.add(newEngine.world, ball);
-          // Runner.run(runner, newEngine);
-           Render.run(newRender);
-        }
-      }, 2000);
-    }
-    // if (changed>0){
-    //   addBall(changed)
-    // }
-    // else{
-    //   deleteBall(changed*(-1)) 
-    // }
-
-
-  }, []);
+}
+  }, [finball]);
 
   return (
     <div  id="pinball-canvas">
