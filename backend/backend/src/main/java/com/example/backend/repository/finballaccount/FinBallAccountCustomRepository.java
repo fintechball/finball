@@ -39,4 +39,16 @@ public class FinBallAccountCustomRepository extends QuerydslRepositorySupport {
                 .where(finBallAccount.accountNo.eq(accountNo).and(member.userId.eq(username)))
                 .fetch();
     }
+
+    public List<FinBallAccount> findByOriginNo(String originNo) {
+        QFinBallAccount finBallAccount = QFinBallAccount.finBallAccount;
+        QMember member = QMember.member;
+
+        return jpaQueryFactory.select(finBallAccount)
+                .from(finBallAccount)
+                .leftJoin(finBallAccount.member, member)
+                .fetchJoin()
+                .where(finBallAccount.originNo.eq(originNo))
+                .fetch();
+    }
 }
