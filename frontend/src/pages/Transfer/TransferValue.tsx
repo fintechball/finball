@@ -64,6 +64,12 @@ function TransferValue() {
     }
   }, []);
 
+  useEffect(() => {
+    if (value === "0" || value === "00") {
+      setValue("");
+    }
+  }, [value]);
+
   const getBalance = (no) => {
     axios
       .get(`${BASE_HTTP_URL}/api/user/account/balance/${no}`, {
