@@ -81,6 +81,11 @@ function AcceptInvite() {
                 console.log(err);
             })
     }, [])
+
+    return (
+        <>
+        </>
+    )
 }
 
 export default AcceptInvite;
