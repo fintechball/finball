@@ -6,6 +6,8 @@ import { RootState } from "../../store/store";
 import Modal from "@mui/material/Modal";
 import styles from "./Shop.module.scss";
 import yellowball from "../../assets/yellowball.png"
+import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
+
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -98,13 +100,16 @@ function Shop() {
   return (
     <div className={styles.container}>
       <button className={`${styles.subbutton} ${styles.floatbutton}` } onClick={() => navigate("/inventory")}>
-        내 인벤토리 가기
+        <BusinessCenterOutlinedIcon /><span>내 인벤토리 가기</span>
       </button>
       <div className={styles.pointbox}>
         <img src={yellowball} alt="" />
         <h3>{point} Point</h3>
       </div>
+      <div className={styles.textbox}>
       <h2>포인트 상점</h2>
+
+      </div>
       {skinList && skinList.length !== 0 && (
         <div className={styles.skinContainer}>
           {skinList.map((skin, index) => (

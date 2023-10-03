@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
-import Grid from "@mui/material/Unstable_Grid2";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
+import { useSelector, useDispatch } from "react-redux";
+import { setSkin } from "../../store/slices/skinSlice";
+import styles from "./inventory.module.scss";
+import yellowball from "../../assets/yellowball.png"
 import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import { useSelector, useDispatch } from "react-redux";
-import styles from "./inventory.module.css";
-import { setSkin } from "../../store/slices/skinSlice";
+import { useTheme } from "@mui/material/styles";
+import { RootState } from "../../store/store"
+import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
+
+
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -20,11 +23,13 @@ function Inventory() {
   const [point, setPoint] = useState<number>(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state : RootState) => state.auth);
 
   const theme = useTheme();
+
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = inventoryList && inventoryList.length;
+  
 
   useEffect(() => {
     getPoint();
@@ -97,50 +102,65 @@ function Inventory() {
   };
 
   return (
-    <div>
-      <h1>Inventory</h1>
-      <p>{point}</p>
+    <div className={styles.container}>
+      <div className={styles.pointbox}>
+        <img src={yellowball} alt="" />
+        <h3>{point} Point</h3>
+      </div>
+      <div className={styles.textbox}>
+
+      <h2>보유중인 스킨</h2>
+      </div>
+
+
+
+
       {isDetail ? (
         <div>
-          <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+          <div className={styles.skinImgWrapper}>
             <img
               className={styles.skinImg}
               src={inventoryList[activeStep].image}
-              onClick={viewDetail}
+              // onClick={viewDetail}
             />
-            <p className={styles.skinName}>{inventoryList[activeStep].name}</p>
-            <div>
+          </div>
+          <p className={styles.skinName}>{inventoryList[activeStep].name}</p>
+          <div>
+            {/* <button
+              className={styles.preview}
+              onClick={() => preview(inventoryList[activeStep].id)}
+              disabled={true}
+            >
+              내 계좌에서 미리보기
+            </button> */}
+          </div>
+          <div>
+            {inventoryList[activeStep].selected ? (
+              <button className={styles.selectedButton} disabled={true}>착용 중</button>
+            ) : (
               <button
-                className={styles.preview}
-                onClick={() => preview(inventoryList[activeStep].id)}
+                className={styles.unSelectedButton}
+                onClick={() => selectSkin(inventoryList[activeStep])}
               >
-                내 계좌에서 미리보기
+                착용하기
               </button>
-            </div>
-            <div>
-              {inventoryList[activeStep].selected ? (
-                <button className={styles.selectedButton}>착용 중</button>
-              ) : (
-                <button
-                  className={styles.unSelectedButton}
-                  onClick={() => selectSkin(inventoryList[activeStep])}
-                >
-                  착용하기
-                </button>
-              )}
-            </div>
-            <MobileStepper
-              variant="text"
+            )}
+          </div>
+          <div className={styles.stepperbox}>
+
+          <MobileStepper
+              variant="dots"
               steps={maxSteps}
               position="static"
+              sx={{ maxWidth: 250, flexGrow: 1 }}
               activeStep={activeStep}
               nextButton={
                 <Button
-                  size="small"
+                  size="large"
                   onClick={handleNext}
                   disabled={activeStep === maxSteps - 1}
                 >
-                  Next
+                  <strong>Next</strong>
                   {theme.direction === "rtl" ? (
                     <KeyboardArrowLeft />
                   ) : (
@@ -150,7 +170,7 @@ function Inventory() {
               }
               backButton={
                 <Button
-                  size="small"
+                size="large"
                   onClick={handleBack}
                   disabled={activeStep === 0}
                 >
@@ -159,50 +179,44 @@ function Inventory() {
                   ) : (
                     <KeyboardArrowLeft />
                   )}
-                  Back
+                  <strong>Back</strong>
                 </Button>
               }
             />
-          </Box>
-          <button className={styles.preview} onClick={viewInventory}>
+          </div>
+          <button className={styles.subbutton} onClick={viewInventory}>
             목록가기
           </button>
         </div>
       ) : (
         inventoryList && (
-          <Box sx={{ flexGrow: 1, marginBottom: 3 }}>
-            <Grid
-              container
-              spacing={{ xs: 1, md: 2 }}
-              columns={{ xs: 6, sm: 8, md: 12 }}
-            >
-              {[...inventoryList].map((inventory, index) => (
-                <Grid xs={2} sm={4} md={4} key={index}>
-                  <img
-                    className={styles.skinImg}
-                    src={inventory.image}
-                    onClick={() => viewDetail(index)}
-                  />
-                  <p className={styles.skinName}>{inventory.name}</p>
-                  {inventory.selected ? (
-                    <button className={styles.selectedButton}>착용 중</button>
-                  ) : (
-                    <button
-                      className={styles.unSelectedButton}
-                      onClick={() => selectSkin(inventory)}
-                    >
-                      착용하기
-                    </button>
-                  )}
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
+          <div className={styles.inventoryList}>
+            {[...inventoryList].map((inventory, index) => (
+              <div className={styles.skinItem} key={index}>
+                <img
+                  className={styles.smallskinImg}
+                  src={inventory.image}
+                  onClick={() => viewDetail(index)}
+                />
+                <p className={styles.smallskinName}>{inventory.name}</p>
+                {inventory.selected ? (
+                  <button className={styles.selectedButton} disabled={true}>착용 중</button>
+                ) : (
+                  <button
+                    className={`${styles.unSelectedButton} ${styles.bluebutton}`}
+                    onClick={() => selectSkin(inventory)}
+                  >
+                    착용하기
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
         )
       )}
       {!isDetail && (
-        <button className={styles.preview} onClick={() => navigate("/shop")}>
-          상점 가기
+        <button className={`${styles.subbutton} ${styles.floatbutton}`} onClick={() => navigate("/shop")}>
+          <LocalMallOutlinedIcon /><span>상점 가기</span>
         </button>
       )}
     </div>

@@ -4,7 +4,10 @@
   padding: 0 30px 30px 30px;
   margin-top: 15px;
   height: 500px;
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
 
   h2 {
     margin-top: 10px;
@@ -17,6 +20,7 @@
 }
 
 .pointbox {
+  width: 100%;
   display: flex;
   justify-content: end;
   align-items: center;
@@ -26,6 +30,12 @@
     height: 30px;
     margin-right: 10px;
   }
+}
+
+.textbox {
+  width: 100%;
+  display: flex;
+  justify-content: start;
 }
 
 .skinContainer {
@@ -104,8 +114,14 @@
 }
 
 .floatbutton {
+  display: flex;
+  align-items: center;
   bottom: 80px;
-  left: 105px;
-  border-radius: 20px;
+  // left: 29%;
+  border-radius: 25px;
   position: fixed;
+
+  span {
+    margin-left: 10px;
+  }
 }
