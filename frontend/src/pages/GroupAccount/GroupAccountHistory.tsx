@@ -2,7 +2,7 @@ import axios from "axios";
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Transfer/AccountDetail.module.css";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import TradeHistory from "../../components/Transfer/TradeHistory";
@@ -43,6 +43,7 @@ function GroupAccountHistory() {
   });
   const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
   const refreshIconStyle = { fontSize: 12 };
+  const navigate = useNavigate();
 
   const makeMemberList = (resultList, memberList) => {
     const member: member[] = [];
@@ -127,6 +128,10 @@ function GroupAccountHistory() {
     getGroupAccount();
   }, []);
 
+  const openInvitePage = () => {
+    navigate("/invite/group-account", { state: { name: groupAccount.name, url: groupAccount.url } });
+  }
+
   return (
     tradeHistoryDict && (
       <div>
@@ -135,6 +140,14 @@ function GroupAccountHistory() {
           <p className={styles.bankAccount}>{groupAccount.name} 모임 통장</p>
           <span>{groupAccount.no}</span>
           <p className={styles.balance}>{groupAccount.balance}원</p>
+
+          <button>
+            채우기
+          </button>
+          <button onClick={openInvitePage}>
+            초대하기
+          </button>
+
           <hr />
           <div className={styles.date}>
             <p className={styles.total}>전체</p>
