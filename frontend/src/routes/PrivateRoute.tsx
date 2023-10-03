@@ -1,28 +1,29 @@
 import { Outlet, Navigate } from "react-router-dom";
-// import { RootState } from "../../store/store";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store/store";
 import { setLogged } from "../store/slices/loggedSlice";
+import { useEffect } from "react";
+
 
 function PrivateRoute() {
   const dispatch = useDispatch();
-  const jsonString = localStorage.getItem("persist:root");
+  const auth = useSelector((state : RootState) => state.auth);
+  const accessToken = auth.accessToken;
 
-  if (jsonString) {
-    const jsonObject: { auth: string } = JSON.parse(jsonString);
-    const authData = JSON.parse(jsonObject.auth);
-    const accessToken = authData.accessToken;
-    if (accessToken) {
-      dispatch(setLogged(true));
-      return <Outlet />;
-    }
-    alert("로그인이 필요한 기능입니다.");
-    dispatch(setLogged(false));
+  useEffect(() => {
+      if (accessToken) {
+        dispatch(setLogged(true));
+      } else {
+        alert("로그인이 필요한 기능입니다.");
+        dispatch(setLogged(false));
+      }
+  }, [dispatch]);
+
+  if (!accessToken) {
     return <Navigate to="/login" />;
   }
 
-  alert("로그인이 필요한 기능입니다.");
-  dispatch(setLogged(false));
-  return <Navigate to="/login" />;
+  return <Outlet />;
 }
 
 export default PrivateRoute;
