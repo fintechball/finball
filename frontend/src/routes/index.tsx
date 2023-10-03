@@ -59,6 +59,7 @@ import CreateFinBallAccountAuth from "../pages/Auth/CreateFinBallAccountAuth";
 import TransferGroupAccount from "../components/GroupAccount/TransferGroupACcount.tsx";
 import TransferValueGroupAccount from "../components/GroupAccount/TransferValueGroupAccount.tsx";
 import TransferingGroupAccount from "../components/GroupAccount/TransferingGroupAccount.tsx";
+import GroupAccountContainer from "../pages/GroupAccount/GroupAccountContainer.tsx";
 
 function Router() {
   return (
@@ -121,7 +122,7 @@ function Router() {
           <Route path="/transferValue" element={<TransferValue />} />
           <Route path="/fillAccount" element={<FillAccount />} />
           {/* 모임통장 -> 동적 라우팅 적용 */}
-          <Route path="/groupaccount/:no" element={<GroupAccount />} />
+          <Route path="/groupaccount/:no" element={<GroupAccountContainer />} />
           {/* 모임통장 생성 페이지 */}
           <Route
             path="/create/group-account"
