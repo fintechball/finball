@@ -24,13 +24,13 @@ public class JwtTokenUtils {
     @Value("${spring.auth.secret.key}")
     String JWT_SECRET;
 
-    private int SEC = 1;
-    private int MINUTE = SEC * 60;
-    private int HOUR = MINUTE * 60;
-    private int DAY = 24 * HOUR;
+    private final int SEC = 1;
+    private final int MINUTE = SEC * 60;
+    private final int HOUR = MINUTE * 60;
+    private final int DAY = 24 * HOUR;
 
-    private int ACCESS_TOKEN_VALID_MILLI_SEC = 12 * HOUR * 1000;
-    private int REFRESH_TOKEN_VALID_MILLI_SEC = 60 * DAY * 1000;
+    private final long ACCESS_TOKEN_VALID_MILLI_SEC = 12 * HOUR * 1000;
+    private final long REFRESH_TOKEN_VALID_MILLI_SEC = 60L * DAY * 1000;
 
 
     final String CLAIM_EXPIRED_DATE = "EXPIRED_DATE";
