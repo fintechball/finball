@@ -1,0 +1,122 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  background-color: #e4edff;
+  height: 520px;
+}
+.container h1, .container h2, .container p {
+  margin: 0;
+}
+
+.paper {
+  margin-top: 30px;
+  width: 292px;
+  height: 372px;
+  background-image: url("../../assets/paper.png");
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  height: 275px;
+}
+.body .quiz {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+}
+.body .quiz .quiztext {
+  font-size: 18px;
+  font-weight: 500;
+}
+.body .progress {
+  background-color: aqua;
+}
+.body .point {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+.body .point .pointtext {
+  margin-right: 10px;
+  width: 50px;
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+}
+.body .point .pointimg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.body .point .pointimg img {
+  width: 30px;
+}
+.body .point .pointpoint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.text {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.answerButton {
+  width: 292px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.yes {
+  background-color: #abc5ff;
+  color: #ffffff;
+  font-size: 40px;
+  width: 120px;
+  margin-top: 20px;
+  padding: 0;
+  height: 60px;
+  font-weight: 600;
+}
+
+.no {
+  background-color: #ffabab;
+  color: #ffffff;
+  font-size: 40px;
+  width: 120px;
+  margin-top: 20px;
+  padding: 0;
+  height: 60px;
+  font-weight: 600;
+}

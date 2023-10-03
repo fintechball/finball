@@ -15,19 +15,11 @@
 
 .container {
   padding: 0 30px 30px 30px;
-  margin-top: 15px;
-  height: 500px;
+  height: 490px;
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
-}
-.container h2 {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-.container h3 {
-  margin: 0;
 }
 
 .pointbox {
@@ -46,46 +38,57 @@
   width: 100%;
   display: flex;
   justify-content: start;
+  margin-bottom: 15px;
 }
 
-.skinContainer {
+.middleContainer {
   display: flex;
-  flex-wrap: wrap;
-  height: 330px;
 }
 
-.skinItem {
+.stepperbox {
+  width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 90px;
-  margin-right: 9px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  justify-content: space-between;
+}
+
+.smallskinName {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .skinName {
-  margin-top: 10px;
-  margin-bottom: 0px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   font-weight: bold;
-  font-size: 16px;
-}
-
-.skinPointBox {
-  display: flex;
-  align-items: center;
-}
-.skinPointBox img {
-  width: 18px;
-  height: 18px;
-  margin-right: 5px;
+  font-size: 30px;
 }
 
 .skinPoint {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  font-size: 16px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 12px;
   color: rgb(129, 127, 127);
+}
+
+.selectedButton {
+  width: 100px;
+  border-radius: 20px;
+}
+
+.unSelectedButton {
+  width: 100px;
+  border-radius: 20px;
+}
+
+.smallskinImg {
+  width: 70px;
+}
+
+.skinImg {
+  width: 100px;
 }
 
 .preview {
@@ -96,32 +99,28 @@
   margin-bottom: 15px;
 }
 
-.skinImg {
-  width: 70px;
+.inventoryList {
+  overflow: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
 }
 
-.hadbutton {
-  border-radius: 20px;
-  height: 30px;
-  font-size: 15px;
-  padding: 0 15px;
+.inventoryList::-webkit-scrollbar {
+  display: none;
 }
 
-.buybutton {
-  border-radius: 20px;
-  height: 30px;
-  font-size: 15px;
-  padding: 0 15px;
-  border: 1px solid rgb(202, 202, 202);
+.skinItem {
+  margin-right: 20px;
 }
 
 .floatbutton {
   display: flex;
   align-items: center;
-  bottom: 80px;
+  margin-top: 30px;
+  bottom: 150px;
   border-radius: 25px;
-  position: fixed;
 }
 .floatbutton span {
-  margin-left: 10px;
+  margin-left: 5px;
 }

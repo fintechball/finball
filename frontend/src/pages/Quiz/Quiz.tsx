@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "./Quiz.module.css";
+import styles from "./Quiz.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
@@ -8,17 +8,22 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { setQuiz, setIndex } from "../../store/slices/quizSlice";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import { RootState } from "../../store/store";
+import yellowball from "../../assets/yellowball.png";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function Quiz() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const auth = useSelector((state) => state.auth);
-  const quiz = useSelector((state) => state.quiz);
+  const auth = useSelector((state : RootState) => state.auth);
+  const quiz = useSelector((state : RootState) => state.quiz);
   const [progress, setProgress] = useState(0);
   const [isGoodVisible, setIsGoodVisible] = useState(false);
   const [isBadVisible, setIsBadVisible] = useState(false);
+
+  const [remainingTime, setRemainingTime] = useState(10);
+
 
   // useEffect(() => {
   //   console.log(quiz);
@@ -50,6 +55,9 @@ function Quiz() {
         return () => {
           clearInterval(timer);
         };
+      }
+      else {
+        dispatch(setIndex(0));
       }
     }
   }, [quiz]);
@@ -133,31 +141,52 @@ function Quiz() {
 
   return (
     <div className={styles.container}>
-      <h1>OX 퀴즈</h1>
+      <div className={styles.paper}>
+<div className={styles.title}>
+
+      <h2>OX퀴즈</h2>
+</div>
+<div className={styles.body}>
+
       {quiz.quiz.length !== 0 && quiz.index < 5 ? (
         <div>
-          <p className={styles.text}>{quiz.quiz[quiz.index].body}</p>
-          <Box sx={{ width: "100%" }}>
-            <LinearProgress variant="determinate" value={progress} />
-          </Box>
-          <p className={styles.text}>
-            {Math.round(5 * (100 - progress))} Point
-          </p>
+          <div className={styles.quiz}>
+            <p className={styles.quiztext}>{quiz.quiz[quiz.index].body}</p>
+
+          </div>
+          <div className={styles.progress}>
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress variant="determinate" value={progress} />
+            </Box>
+          </div>
+          <div className={styles.point}>
+            <div className={styles.pointimg}>
+              <img src={yellowball} alt="" />
+            </div>
+            <div className={styles.pointtext}>
+              {Math.round(5 * (100 - progress))}
+            </div>
+            <div className={styles.pointpoint}>
+              Point
+            </div>
+          </div>
         </div>
       ) : (
         <p className={styles.text}>오늘의 퀴즈를 모두 풀었습니다.</p>
       )}
-      <div className={styles.answerButton}>
-        <button className={styles.yes} onClick={() => checkAnswer(true)}>
-          O
-        </button>
-        <button className={styles.no} onClick={() => checkAnswer(false)}>
-          X
-        </button>
-      </div>
 
       {isGoodVisible && <SentimentSatisfiedAltIcon sx={{ fontSize: 50 }} />}
       {isBadVisible && <SentimentVeryDissatisfiedIcon sx={{ fontSize: 50 }} />}
+      </div>
+</div>
+      <div className={styles.answerButton}>
+        <button className={styles.yes} onClick={() => checkAnswer(true)}>
+          <span>O</span>
+        </button>
+        <button className={styles.no} onClick={() => checkAnswer(false)}>
+          <span>X</span>
+        </button>
+      </div>
     </div>
   );
 }
