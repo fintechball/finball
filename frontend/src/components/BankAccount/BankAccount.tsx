@@ -51,7 +51,7 @@ function BankAccount() {
         [...accountList].map((account, index) => (
           <div className={styles.account} key={index}>
             <img src={account.company.logo} className={styles.logoimg}/>
-            <div>
+            <div className={styles.accountbox}>
               <p className={styles.text}>{account.account.name}</p>
               <p className={styles.balance}>{account.account.no}</p>
             </div>

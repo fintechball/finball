@@ -2,7 +2,6 @@ package com.example.backend.service;
 
 import com.example.backend.dto.RestDto;
 import com.example.backend.dto.account.*;
-import com.example.backend.dto.account.GetBalanceDto.Response;
 import com.example.backend.dto.mydata.GetMemberAccountDto;
 import com.example.backend.dto.mydata.MemberAccountInfoDto;
 import com.example.backend.entity.Account;
@@ -48,7 +47,7 @@ public class AccountService {
         List<Account> accountList = accountCustomRepository.findById(member.getId());
         List<String> accountNumberList = new ArrayList<>();
 
-        for(Account account : accountList) {
+        for (Account account : accountList) {
             accountNumberList.add(account.getAccountNo());
         }
 
@@ -101,14 +100,16 @@ public class AccountService {
 
     public GetOppositeAccountDto.Response getOppositeAccount(GetOppositeAccountDto.Request request, String memberId) throws JsonProcessingException {
 
-        List<Account> accountList =  accountCustomRepository.findByOriginNo(request.getOriginNo());
+        List<FinBallAccount> finBallAccountList = finBallAccountCustomRepository.findByOriginNo(request.getOriginNo());
 
-        if(accountList.size() == 0) {
-            GetOppositeAccountDto.Response response = getMyDataOppositeAccount(request, memberId);
+        if (finBallAccountList.size() != 0) {
+            GetOppositeAccountDto.Response response = GetOppositeAccountDto.toOppositeAccountDto(finBallAccountList.get(0));
             return response;
         }
 
-        return null;
+        GetOppositeAccountDto.Response response = getMyDataOppositeAccount(request, memberId);
+
+        return response;
     }
 
     public GetOppositeAccountDto.Response getMyDataOppositeAccount(GetOppositeAccountDto.Request request, String memberId) throws JsonProcessingException {
@@ -132,15 +133,15 @@ public class AccountService {
 
         // 먼저 핀볼 계좌를 확인하고 있으면 바로 금액 리턴
         List<FinBallAccount> finBallAccountList = finBallAccountCustomRepository.findByAccountNoAndMemberId(accountNo, username);
-        if(finBallAccountList.size() == 1) {
+        if (finBallAccountList.size() == 1) {
             FinBallAccount finBallAccount = finBallAccountList.get(0);
             return new GetBalanceDto.Response(finBallAccount.getBalance());
         }
 
         // 없으면 연결된 계좌 확인해서 연결된 계좌가 있으면 resttemplate으로 금액 받아오기
         List<Account> accountList = accountCustomRepository.findByAccountNoAndMemberId(accountNo, username);
-        if(accountList.size() == 1) {
-            return new GetBalanceDto.Response(getBalanceFromMyData(accountNo,username));
+        if (accountList.size() == 1) {
+            return new GetBalanceDto.Response(getBalanceFromMyData(accountNo, username));
         }
 
         // 연결된 계좌도 없으면 계좌 없다고 알려주기

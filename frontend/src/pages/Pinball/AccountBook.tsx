@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import AccountFinball from "../Pinball/AccountFinball";
+import PinballJeongHui from "../Pinball/PinballJeongHui";
 import {
   CircularProgressbar,
   buildStyles,
   CircularProgressbarWithChildren,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import safe from "../../assets/safe.png";
+import SafeMoney from "./safeMoney";
 import cash from "../../assets/cash.png";
 import styles from "./AccountBook.module.css";
 import axios from "axios";
@@ -123,7 +124,7 @@ function AccountBook() {
 
   useEffect(() => {
     findAccountBook();
-  }, [accountbook])
+  }, [accountbook]);
   const getHistory = () => {
     axios({
       method: "get",
@@ -175,7 +176,9 @@ function AccountBook() {
     })
       .then((res) => {
         setState(res.data.data);
-        window.location.reload();
+        //이게 false여야 가계부 생성 => 삭제 버튼 만들어짐
+        setisAccountBook(false);
+        getHistory();
       })
       .catch((err) => {
         console.log("삐빅", err);
@@ -216,7 +219,9 @@ function AccountBook() {
       },
     })
       .then((res) => {
+        alert("1")
         setState(res.data.data);
+        alert("2")
       })
       .catch((err) => {
         console.log("삐빅", err);
@@ -258,6 +263,7 @@ function AccountBook() {
       },
     })
       .then((res) => {
+        alert("3")
         console.log(res.data.data);
         setState(res.data.data);
       })
@@ -290,7 +296,8 @@ function AccountBook() {
       .then((res) => {
         console.log(res);
         setisAccountBook(false);
-        window.location.reload();
+        //window.location.reload();
+        getHistory();
       })
       .catch((err) => {
         console.log("삐빅", err);
@@ -534,7 +541,6 @@ function AccountBook() {
             {/* <button onClick={openModal}>category-</button> */}
           </div>
         )}
-
       </div>
       <Carousel
         selectedItem={
@@ -548,7 +554,6 @@ function AccountBook() {
         showStatus={false}
         onChange={handleCarouselChange}
       >
-
         <div key="btn1">
           {selectedBtn === "btn1" && (
             <div>
@@ -566,7 +571,7 @@ function AccountBook() {
               >
                 <AccountFinball value={{ parent: "canvas1" }} />
                 <div style={{ position: "absolute", top: "0", right: "0" }}>
-                  <img src={safe} style={{ width: "50px", height: "50px" }} />
+                  <SafeMoney balance={finBallAccount.account.balance} />
                 </div>
               </div>
             </div>

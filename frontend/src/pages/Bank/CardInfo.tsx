@@ -34,6 +34,7 @@ export default function CardInfo() {
       },
     })
       .then((res) => {
+        console.log(res.data.data.companyList)
         setState(res.data.data.companyList);
       })
       .catch((err) => {

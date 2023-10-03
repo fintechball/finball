@@ -22,7 +22,8 @@ function Transfering() {
 
   const goToDetail = () => {
     if (account.company.code === 106) {
-      navigate("/accountBook");
+      // navigate("/accountBook");
+      navigate("/");
     } else {
       navigate("/accountDetail");
     }

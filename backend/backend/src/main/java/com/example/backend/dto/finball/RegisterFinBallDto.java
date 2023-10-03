@@ -31,6 +31,7 @@ public class RegisterFinBallDto {
 
             return FinBallAccount.builder()
                     .accountNo(sb.toString())
+                    .originNo(sb.toString().replace("-", ""))
                     .balance(0L)
                     .isTexted(this.isTexted)
                     .usage(Usage.valueOf(this.usage))

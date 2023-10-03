@@ -1,11 +1,9 @@
-//import { Button, Input } from "antd";
 import axios from "axios";
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../Transfer/AccountDetail.module.css";
-
 import RefreshIcon from "@mui/icons-material/Refresh";
 import TradeHistory from "../../components/Transfer/TradeHistory";
 
@@ -37,16 +35,13 @@ function GroupAccountHistory() {
     (state: RootState) => state.auth.accessToken
   );
   const groupAccountNo = useParams().no;
-  //const [accessToken, setAccessToken] = useState<string>("");
   const [groupAccount, setGroupAccount] = useState<account>({
     no: "",
     balance: 0,
     name: "",
     url: "",
   });
-  //const [tradeHistoryList, setTradeHistoryList] = useState<tradeHistory[]>([]);
   const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
-
   const refreshIconStyle = { fontSize: 12 };
 
   const makeMemberList = (resultList, memberList) => {
@@ -105,7 +100,7 @@ function GroupAccountHistory() {
           name: data.name,
           url: data.url,
         });
-        //setTradeHistoryList(data.tradeHistory);
+
         setTradeHistoryDict(
           data.tradeHistory.reduce((dict, tradeHistory) => {
             const groupKey = tradeHistory.date;
@@ -122,8 +117,6 @@ function GroupAccountHistory() {
             return dict;
           }, {})
         );
-
-        console.log(tradeHistoryDict);
       })
       .catch((err) => {
         alert("에러발생 : " + err);
