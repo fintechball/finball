@@ -138,8 +138,9 @@ public class SmsService {
             throws JsonProcessingException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, URISyntaxException {
         Long time = System.currentTimeMillis();
         List<MessagesDto> messages = new ArrayList<>();
-        String content =
-                "[FinBall] '" + request.getName() + " '모임 계좌에 초대 되었습니다. \n" + GROUP_INVITE_URL_PREFIX +request.getUrl();
+//        String content =
+//                "[FinBall] '" + request.getName() + " '모임 계좌에 초대 되었습니다. \n" + GROUP_INVITE_URL_PREFIX +request.getUrl();
+        String content = "[FinBall] 초대 메시지가 도착했습니다. [FinBall] => 메뉴 => 초대수락에서 확인해주세요.";
         String recipientPhoneNumber = request.getPhoneNumber();
         messages.add(new MessagesDto(recipientPhoneNumber, content));
 
