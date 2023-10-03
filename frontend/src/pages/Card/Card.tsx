@@ -16,33 +16,37 @@ import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import Cube from "./Cube";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
-function Cube() {
-  const cubeRef = useRef();
+// function Cube() {
+//   const cubeRef = useRef();
 
-  // 이미지 로드
-  const textureLoader = new TextureLoader();
-  const texture = textureLoader.load(cardImg);
+//   // 이미지 로드
+//   const textureLoader = new TextureLoader();
 
-  useFrame(({ clock }) => {
-    // 시간에 따라 자동으로 회전
-    cubeRef.current.rotation.y += 0.005; // 회전 속도 조절
-  });
+//   cardList[activeStep].card.name;
 
-  return (
-    <Box
-      args={[2, 3, 0.02]}
-      position={[0, 0, 0]}
-      rotation={[0, 0, 0]}
-      ref={cubeRef}
-      scale={3}
-    >
-      <meshPhongMaterial attach="material" map={texture} />
-    </Box>
-  );
-}
+//   const texture = textureLoader.load(cardImg);
+
+//   useFrame(({ clock }) => {
+//     // 시간에 따라 자동으로 회전
+//     cubeRef.current.rotation.y += 0.005; // 회전 속도 조절
+//   });
+
+//   return (
+//     <Box
+//       args={[2, 3, 0.02]}
+//       position={[0, 0, 0]}
+//       rotation={[0, 0, 0]}
+//       ref={cubeRef}
+//       scale={3}
+//     >
+//       <meshPhongMaterial attach="material" map={texture} />
+//     </Box>
+//   );
+// }
 
 function Card() {
   const navigate = useNavigate();
@@ -97,7 +101,7 @@ function Card() {
               >
                 <ambientLight intensity={1} />
                 <directionalLight position={[1, 2, 4]} intensity={1} />
-                <Cube />
+                <Cube cardImage={cardList[activeStep].card.image} />
                 <OrbitControls />
               </Canvas>
             </div>
