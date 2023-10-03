@@ -98,7 +98,7 @@ function TransferValue() {
   };
 
   const transferAll = () => {
-    setValue(value + fill ? balance : account.account.balance);
+    setValue(value + (fill ? balance : account.account.balance));
   };
 
   const doTransfer = () => {
