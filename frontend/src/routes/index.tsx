@@ -49,6 +49,7 @@ import GroupAccount from "../pages/GroupAccount/GroupAccount";
 import CreateGroupAccount from "../pages/GroupAccount/CreateGroupAccount";
 // 컴포넌트 테스트용
 import InviteMember from "../components/GroupAccount/InviteMember";
+import AcceptInvite from "../pages/GroupAccount/AcceptInvite";
 import GroupAccountHistory from "../pages/GroupAccount/GroupAccountHistory";
 
 import MyDataAuth from "../pages/Auth/MyDataAuth";
@@ -149,6 +150,9 @@ function Router() {
           path="/transferingGroupAccount"
           element={<TransferingGroupAccount />}
         />
+
+        {/* 모임통장 초대 수락 */}
+        <Route path="/accept/group-account/:uuid" element={<AcceptInvite />} />
       </Routes>
     </>
   );

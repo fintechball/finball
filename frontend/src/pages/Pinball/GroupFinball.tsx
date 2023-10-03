@@ -7,6 +7,12 @@ import dogi from "../../assets/dogi1.png"
 import docker from "../../assets/docker1.png"
 import poke from "../../assets/poke1.png"
 import { useSelector,useDispatch } from "react-redux";
+import redball from '../../assets/redball.png';
+import greenball from '../../assets/greenball.png';
+import yellowball from '../../assets/yellowball.png';
+import blueball from '../../assets/blueball.png';
+import purpleball from '../../assets/purpleball.png';
+import whiteball from '../../assets/whiteball.png';
 import axios from "axios";
 
 import { setGroupFinball } from "../../store/slices/groupfinballSlice";
@@ -18,7 +24,7 @@ function GroupFinball(value) {
   const [render, setRender] = useState(null);
   const [balls, setBalls] = useState([]);
   const finball = useSelector((state) => state.finBallAccount);
-  const ballunit=useSelector((state)=>state.groupfinball.ballunit)
+  // const ballunit=useSelector((state)=>state.groupfinball.ballunit)
   const members = useSelector((state)=>state.groupfinball.members)
   const balance = useSelector((state)=>state.groupfinball.balance)
   const name = useSelector((state) => state.auth.name);
@@ -33,6 +39,14 @@ function GroupFinball(value) {
     2:docker,
     3:poke,
   }
+  const colorlist={
+    0:redball,
+    1:greenball,
+    2:blueball,
+    3:yellowball,
+    4:purpleball,
+    5:whiteball,
+  }
   console.log()
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
@@ -43,7 +57,6 @@ function GroupFinball(value) {
     };
   };
   useEffect(() => {
-    console.log(ballunit)
     if (render) {
       Render.stop(render);
       render.canvas.remove();
@@ -156,7 +169,7 @@ function GroupFinball(value) {
         World.add(newEngine.world, mouseConstraint);
     // Create balls array
     for (let j=0;j<members.length;j++) {
-    for (let i = 0; i < Math.round(members[j].balance/ballunit); i++) {
+    for (let i = 0; i < Math.round(members[j].balance/10000); i++) {
       const ball = Bodies.circle(
         Math.random() * parentSize.width,
         Math.random() * parentSize.height/5,
@@ -169,12 +182,13 @@ function GroupFinball(value) {
           isStatic: false,
           isSensor:false,
           render: {
-            fillStyle: "#05CD01",
-            strokeStyle: "white",
+            fillStyle: "transparent",
+            strokeStyle: "black",
             lineWidth: 3,
-            opacity: name !== members[j].name ? 1 : 0.5,
+            // opacity: name !== members[j].name ? 1 : 0.5,
             sprite: {
-              texture: skinlist[members[j].skinId],
+              // texture: skinlist[members[j].skinId],
+              texture: colorlist[j],
               xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
               yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29,
             },

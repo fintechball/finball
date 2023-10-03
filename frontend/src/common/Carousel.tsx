@@ -13,16 +13,17 @@ const Carousel = () => {
     speed: 500,
     slidesToShow: 1, // 한 번에 보여질 슬라이드 수
     slidesToScroll: 1, // 한 번에 스크롤할 슬라이드 수
+    initialSlide: 1,
   };
 
   return (
     <div>
       <Slider {...settings}>
         <div>
-          <GroupAccount />
+          <GroupAccountHistory />
         </div>
         <div>
-          <GroupAccountHistory />
+          <GroupAccount />
         </div>
       </Slider>
     </div>

@@ -219,9 +219,9 @@ function AccountBook() {
       },
     })
       .then((res) => {
-        alert("1")
+        // alert("1")
         setState(res.data.data);
-        alert("2")
+        // alert("2")
       })
       .catch((err) => {
         console.log("삐빅", err);
@@ -263,7 +263,7 @@ function AccountBook() {
       },
     })
       .then((res) => {
-        alert("3")
+        // alert("3")
         console.log(res.data.data);
         setState(res.data.data);
       })
