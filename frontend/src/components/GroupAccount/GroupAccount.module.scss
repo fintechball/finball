@@ -1,22 +1,4 @@
-@charset "UTF-8";
-.button {
-  background-color: #3c78ff;
-  color: white;
-}
-
-.subbutton {
-  background-color: #305dc5;
-  color: white;
-}
-
-.bluebutton {
-  background-color: rgb(230, 235, 255);
-  color: #3c78ff;
-}
-
-.graybutton {
-  background-color: rgb(238, 242, 249);
-}
+@import "../../pages/Test/main.module.scss";
 
 .container {
   justify-content: center;
@@ -29,7 +11,7 @@
 
 .noncontainer button {
   width: 100%;
-  background-color: #3c78ff;
+  background-color: $maincolor;
   color: white;
 }
 
@@ -63,9 +45,10 @@
   margin-bottom: 0px;
   font-weight: 600;
   font-size: 17px;
-  white-space: nowrap; /* 텍스트가 한 줄에 표시되도록 설정 */
-  overflow: hidden; /* 넘치는 부분을 숨김 */
-  text-overflow: ellipsis; /* 넘치는 텍스트를 "..."으로 표시 */
+    white-space: nowrap; /* 텍스트가 한 줄에 표시되도록 설정 */
+    overflow: hidden; /* 넘치는 부분을 숨김 */
+    text-overflow: ellipsis; /* 넘치는 텍스트를 "..."으로 표시 */
+  
 }
 
 .account .balance {
