@@ -2,7 +2,6 @@ import CardContainer from "../../components/Card/CardContainer";
 import BankAccountContainer from "../../components/BankAccount/BankAccountContainer";
 import GroupAccountContainer from "../../components/GroupAccount/GroupAccountContainer";
 import FinBallContainer from "../../components/FinBall/FinBallContainer";
-
 import styles from "./Home.module.css";
 
 import { useNavigate } from "react-router-dom";
@@ -39,8 +38,7 @@ function Home() {
         console.log(response.data.data)
         dispatch(
           setGroupFinball({
-            // ballunit:response.data.data.balance/40,
-            ballunit:1000,
+            ballunit:10000,
             members:response.data.data.member,
             balance:response.data.data.balance,
           })
@@ -54,6 +52,7 @@ function Home() {
     <div className={styles.container}>
       <div className={styles.minicontainer}>
         {/* 테스트용 */}
+
         <div onClick={()=>navigate("/game")}>game</div>
         <div onClick={()=>navigate("/groupaccount/12345-123456-123")}>group</div>
         {/*  */}
