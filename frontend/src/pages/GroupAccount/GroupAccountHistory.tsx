@@ -136,7 +136,6 @@ function GroupAccountHistory() {
     tradeHistoryDict && (
       <div>
         <div className={styles.container}>
-          <br />
           <p className={styles.bankAccount}>{groupAccount.name} 모임 통장</p>
           <span>{groupAccount.no}</span>
           <p className={styles.balance}>{groupAccount.balance}원</p>
