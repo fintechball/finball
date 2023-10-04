@@ -58,8 +58,11 @@ const GroupAccount = () => {
       };
       dispatch(setAccount(state));
       dispatch(setGroupFinball({
-        members: res.data.data.member,
-        balance: res.data.data.balance
+        members:res.data.data.member,
+        balance:res.data.data.balance,
+        accountno:res.data.data.accountNo,
+        history:res.data.data.tradeHistory
+        ,
       }))
     });
   }, []);

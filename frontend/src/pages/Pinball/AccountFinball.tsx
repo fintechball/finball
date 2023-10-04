@@ -27,14 +27,15 @@ const skinlist = {
   도커: docker,
   포켓몬볼: poke,
 };
-function PinballJeongHui(value) {
+function AccountBookFinball(value) {
   const [balls, setBalls] = useState([]);
   const finball = useSelector((state) => state.finBallAccount);
   const [ballInfo, setBallInfo] = useState(null);
   const ballskin = useSelector((state) => state.skin.skin);
   const finBallAccount = useSelector((state) => state.finBallAccount);
   const auth = useSelector((state) => state.auth);
-
+  const [newEngine,setNewEngine] = useState(null)
+  const [newRender,setNewRender] = useState(null)
   const dispatch = useDispatch();
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
@@ -379,4 +380,4 @@ function PinballJeongHui(value) {
   );
 }
 
-export default PinballJeongHui;
+export default AccountBookFinball;
