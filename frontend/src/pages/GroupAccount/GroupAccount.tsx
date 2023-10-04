@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import styles from "./GroupAccount.module.css";
-import Pinball from "../Pinball/Pinball";
 import GroupFinball from "../Pinball/GroupFinball";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,7 +13,7 @@ function formatMoney(amount) {
 }
 
 const GroupAccount = () => {
-  const [value, setValue] = useState({ cost: 0, parent: "home-canvas" });
+  const [value, setValue] = useState({parent: "groupfinball-canvas" });
   const [response, setResponse] = useState(null);
   const [data, setData] = useState(null);
   const [balance, setBalance] = useState("");
@@ -46,9 +45,9 @@ const GroupAccount = () => {
     }).then((res) => {
       const balance = res.data.data.balance;
       setResponse(res.data.data);
-      setValue({ cost: balance, parent: "home-canvas" });
+      setValue({ parent: "pinball-canvas" });
       // setData(res.data.data);
-      console.log(res.data.data.name);
+      console.log(res.data.data);
       const state = {
         account: {
           no: accountNo,
@@ -101,7 +100,7 @@ const GroupAccount = () => {
           {isModalOpen && (
             <GroupAccountModal onClose={closeModal} data={data} />
           )}
-          <div id="home-canvas" className={styles.finballBox}>
+          <div id="pinball-canvas" className={styles.finballBox}>
             <GroupFinball value={value} />
           </div>
         </div>

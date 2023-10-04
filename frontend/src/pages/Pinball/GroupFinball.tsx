@@ -13,15 +13,8 @@ import yellowball from '../../assets/yellowball.png';
 import blueball from '../../assets/blueball.png';
 import purpleball from '../../assets/purpleball.png';
 import whiteball from '../../assets/whiteball.png';
-import axios from "axios";
-
-import { setGroupFinball } from "../../store/slices/groupfinballSlice";
-const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function GroupFinball(value) {
-  const [account, setAccount] = useState<any>(null);
-  const [engine, setEngine] = useState(null);
-  const [render, setRender] = useState(null);
   const [balls, setBalls] = useState([]);
   const finball = useSelector((state) => state.finBallAccount);
   // const ballunit=useSelector((state)=>state.groupfinball.ballunit)
@@ -29,7 +22,6 @@ function GroupFinball(value) {
   const balance = useSelector((state)=>state.groupfinball.balance)
   const name = useSelector((state) => state.auth.name);
   const ballskin=useSelector((state)=>state.skin.skin)
-  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const skinlist={
@@ -47,7 +39,7 @@ function GroupFinball(value) {
     4:purpleball,
     5:whiteball,
   }
-  console.log()
+  console.log(value.value.parent)
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
@@ -57,26 +49,22 @@ function GroupFinball(value) {
     };
   };
   useEffect(() => {
-    if (render) {
-      Render.stop(render);
-      render.canvas.remove();
-      setRender(null);
-      Engine.clear(engine);
-  }
+    
+    initialize();
+  }, []);
+  const initialize =async() => {
+    console.log("initialize");
     const parentSize = getParentContainerSize();
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 10,
+      delta: 15,
       isFixed: false,
-      enabled: true
-  });
-    setEngine(newEngine);
-
+      enabled: true,
+    });
     // 중력 설정
     newEngine.world.gravity.x = 0;
     newEngine.world.gravity.y = 0.6;
-
     // Create a renderer
     const newRender = Render.create({
       element: document.getElementById(value.value.parent), // 렌더러를 부모 컨테이너에 적용
@@ -88,15 +76,12 @@ function GroupFinball(value) {
         background: "white",
       },
     });
-    setRender(newRender);
-
-    // Create ground
     // Create ground
     const ground = Bodies.rectangle(
       parentSize.width / 2,
-      parentSize.height+parentSize.width * 0.2/2,
+      parentSize.height + (parentSize.width * 1) / 2,
       parentSize.width * 2,
-      parentSize.width * 0.2,
+      parentSize.width * 1,
       {
         isStatic: true,
         render: {
@@ -108,9 +93,9 @@ function GroupFinball(value) {
       }
     );
     const wall1 = Bodies.rectangle(
-      parentSize.width+parentSize.width * 0.2/2,
-      parentSize.height/2,
-      parentSize.width * 0.2,
+      parentSize.width + (parentSize.width * 1) / 2,
+      parentSize.height / 2,
+      parentSize.width * 1,
       parentSize.height,
       {
         isStatic: true,
@@ -124,9 +109,9 @@ function GroupFinball(value) {
       }
     );
     const wall2 = Bodies.rectangle(
-      0-parentSize.width * 0.2/2,
-      parentSize.height/2,
-      parentSize.width * 0.2,
+      0 - (parentSize.width * 1) / 2,
+      parentSize.height / 2,
+      parentSize.width * 1,
       parentSize.height,
       {
         isStatic: true,
@@ -140,9 +125,9 @@ function GroupFinball(value) {
     );
     const wall3 = Bodies.rectangle(
       0,
-      0-parentSize.width * 0.2/2,
+      0 - (parentSize.width * 1) / 2,
       parentSize.width * 2,
-      parentSize.width * 0.2,
+      parentSize.width * 1,
       {
         isStatic: true,
         render: {
@@ -153,20 +138,19 @@ function GroupFinball(value) {
         },
       }
     );
-        // Create a mouse and add mouse interaction
-        const mouse = Mouse.create(newRender.canvas);
-        const mouseConstraint = MouseConstraint.create(newEngine, {
-          mouse: mouse,
-          constraint: {
-            stiffness: 0.2,
-            render: {
-              visible: false,
-            }
-          }
-        });
-    
-        // // Add mouse constraint to the world
-        World.add(newEngine.world, mouseConstraint);
+    // Create a mouse and add mouse interaction
+    const mouse = Mouse.create(newRender.canvas);
+    const mouseConstraint = MouseConstraint.create(newEngine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: {
+          visible: false,
+        },
+      },
+    });
+    // // Add mouse constraint to the world
+    World.add(newEngine.world, mouseConstraint);
     // Create balls array
     for (let j=0;j<members.length;j++) {
     for (let i = 0; i < Math.round(members[j].balance/10000); i++) {
@@ -175,7 +159,7 @@ function GroupFinball(value) {
         Math.random() * parentSize.height/5,
         Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 25,
         {
-          density: 15,
+          density: 10,
           frictionAir: 0.06,
           restitution: 0.01,
           friction: 0.01,
@@ -204,10 +188,10 @@ function GroupFinball(value) {
     Runner.run(runner, newEngine);
     Render.run(newRender);
 
-  }, [balance]);
+};
 
   return (
-    <div id="groupfinball-canvas">
+    <div id="pinball-canvas">
       <div style={{ display: "flex",justifyContent: "flex-end"}}>
       <div className={styles.finball}>
         {balance}원
