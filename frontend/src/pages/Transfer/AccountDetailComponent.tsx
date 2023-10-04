@@ -93,7 +93,7 @@ function AccountDetailComponent(props) {
           <p className={styles.bankAccount}>
             {account.company.name}은행 {account.account.no}
           </p>
-          <p className={styles.balance}>{account.account.balance}원</p>
+          <p className={styles.balance}>{account.account.balance.toLocaleString()}원</p>
           <div className={styles.buttonBox}>
             <button
               onClick={() => navigate("/fillAccount")}

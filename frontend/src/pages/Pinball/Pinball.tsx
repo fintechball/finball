@@ -79,13 +79,13 @@ function Pinball(value) {
             const firstDigit = Number(balanceString[0]);
             if (
               balance -
-                firstDigit * 10 ** (balanceString.length - 1) -
-                10 ** (balanceString.length - 1) / 2 <
+              firstDigit * 10 ** (balanceString.length - 1) -
+              10 ** (balanceString.length - 1) / 2 <
               0
             ) {
               const ballcnt = Math.round(
                 (balance - firstDigit * 10 ** (balanceString.length - 1)) /
-                  ballunit
+                ballunit
               );
               dispatch(
                 setFinball({
@@ -102,7 +102,7 @@ function Pinball(value) {
                 (balance -
                   firstDigit * 10 ** (balanceString.length - 1) -
                   10 ** (balanceString.length - 1) / 2) /
-                  ballunit
+                ballunit
               );
               dispatch(
                 setFinball({
@@ -322,7 +322,7 @@ function Pinball(value) {
               x: exitVelocity * dir[i % 2],
               y: 0,
             });
-            removedBall.position.x+= exitVelocity / 30
+            removedBall.position.x += exitVelocity / 30
             ball.push(removedBall);
             World.remove(newEngine.world, b);
             ball.splice(ball.indexOf(b), 1);
@@ -413,7 +413,7 @@ function Pinball(value) {
   return (
     <div id="pinball-canvas">
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <div className={styles.finball}>{finball.account.balance}원</div>
+        <div className={styles.finball}>{finball.account.balance.toLocaleString()}원</div>
       </div>
       <div
         style={{
@@ -423,7 +423,7 @@ function Pinball(value) {
           alignContent: "flex-end",
         }}
       >
-        <div className={styles.minbal}>{minbalance}원</div>
+        <div className={styles.minbal}>{minbalance.toLocaleString()}원</div>
       </div>
     </div>
   );

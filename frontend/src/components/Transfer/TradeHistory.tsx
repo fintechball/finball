@@ -103,12 +103,12 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
                     )}
 
                   {tradeHistory.type === "입금" ? (
-                    <p className={styles.value}>{tradeHistory.value}원</p>
+                    <p className={styles.value}>{tradeHistory.value.toLocaleString()}원</p>
                   ) : (
-                    <p className={styles.minusValue}>-{tradeHistory.value}원</p>
+                    <p className={styles.minusValue}>-{tradeHistory.value.toLocaleString()}원</p>
                   )}
 
-                  <p className={styles.remain}>{tradeHistory.balance}원</p>
+                  <p className={styles.remain}>{tradeHistory.balance.toLocaleString()}원</p>
                 </div>
               </div>
             </div >

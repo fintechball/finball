@@ -39,9 +39,9 @@ function Transfering() {
       <Lottie animationData={transfer} loop={true} />
       <div>{receiverName}님께</div>
       {sended ? (
-        <div>{sendMoney}원을 송금했어요</div>
+        <div>{sendMoney.toLocaleString()}원을 송금했어요</div>
       ) : (
-        <div>{sendMoney}원을 송금중이에요</div>
+        <div>{sendMoney.toLocaleString()}원을 송금중이에요</div>
       )}
       {isbutton ? (
         <button
