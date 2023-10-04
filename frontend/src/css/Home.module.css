@@ -1,0 +1,44 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
+
+.graybutton {
+  background-color: rgb(238, 242, 249);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 30px;
+  text-align: left;
+}
+
+.minicontainer {
+  margin-top: 20px;
+}
+
+/* .canvas{
+	width: 20vh;
+} */
+.finballcontainer {
+  box-shadow: 0px 2px 20px rgba(231, 231, 231, 0.73);
+}
+
+.groupaccountbutton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+}
