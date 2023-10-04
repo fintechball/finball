@@ -66,6 +66,7 @@ import GroupAccountContainer from "../pages/GroupAccount/GroupAccountContainer.t
 import TransferingGroupAccountFill from "../components/GroupAccount/TransferingGroupAccountFill.tsx";
 import TransferValueGroupAccountFill from "../components/GroupAccount/TransferValueGroupAccountFill.tsx";
 import FillGroupAccount from "../pages/GroupAccount/FillGroupAccount.tsx";
+import SecurityKeypadGroupAccountFill from "../pages/Auth/SecurityKeypadGroupAccountFill.tsx";
 
 function Router() {
   return (
@@ -96,6 +97,10 @@ function Router() {
         <Route path="/game2" element={<Game2 />} />
         <Route path="/signupconfrim" element={<SignUpConfrim />} />
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
+        <Route
+          path="/securitykeypadGroupAccountFill"
+          element={<SecurityKeypadGroupAccountFill />}
+        />
         <Route path="/SecuritySetting" element={<SecuritySetting />} />
         <Route path="/certificationnaver" element={<CertificationNaver />} />
         <Route path="/accountbook" element={<AccountBook />} />

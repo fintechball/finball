@@ -9,6 +9,7 @@ const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 function TransferingGroupAccountFill() {
   const auth = useSelector((state) => state.auth);
   const opposite = useSelector((state) => state.opposite);
+  const account = useSelector((state) => state.account);
   const location = useLocation();
   const navigate = useNavigate();
   const sendMoney = location.state.money;
@@ -25,9 +26,10 @@ function TransferingGroupAccountFill() {
   }
 
   function fillMoney() {
+    console.log("실행되고 있음");
     const data = {
       value: sendMoney,
-      accountNo: opposite.opposite.accountNo,
+      accountNo: account.account.no,
     };
     console.log(data);
     axios.post(`${BASE_HTTP_URL}/api/group/account/fill`, data, {
@@ -35,7 +37,7 @@ function TransferingGroupAccountFill() {
         Authorization: auth.accessToken,
       },
     });
-    navigate("/group/account/" + opposite.opposite.accountNo);
+    navigate("/groupAccount/" + account.account.no);
   }
 
   useEffect(() => {

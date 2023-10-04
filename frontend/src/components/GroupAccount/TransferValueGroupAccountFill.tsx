@@ -134,7 +134,7 @@ function TransferValueGroupACcountFill() {
           }
         )
         .then(() => {
-          navigate("/securitykeypad", {
+          navigate("/securitykeypadGroupAccountFill", {
             state: {
               money: parseInt(value),
               userName: opposite.opposite.name,
