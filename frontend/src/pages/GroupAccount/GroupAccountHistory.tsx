@@ -43,7 +43,7 @@ function GroupAccountHistory() {
   });
 
   const [hostId, setHostId] = useState<string>("");
-  const userId = useSelector((state: RootState) => state.auth.userId)
+  const userId = useSelector((state: RootState) => state.auth.userId);
 
   const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
   const refreshIconStyle = { fontSize: 12 };
@@ -87,7 +87,7 @@ function GroupAccountHistory() {
     return gameHistory;
   };
   const sendMoney = () => {
-    navigate("/fillAccount");
+    navigate("/fillGroupAccount");
   };
 
   const getGroupAccount = () => {
@@ -113,7 +113,6 @@ function GroupAccountHistory() {
         console.log(data.member);
 
         for (const idx in data.member) {
-
           if (data.member[idx].type == "HOST") {
             setHostId(data.member[idx].userId);
 
