@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./TransferValueGroupAccount.module.css";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-
+import { setPayment } from "../../store/slices/groupfinballSlice";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function TransferValueGroupAccount() {
@@ -15,7 +15,7 @@ function TransferValueGroupAccount() {
   const [value, setValue] = useState<string>("");
   const [showNumberPad, setShowNumberPad] = useState(false);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     console.log(account);
     console.log(opposite);
@@ -67,6 +67,10 @@ function TransferValueGroupAccount() {
         }
       )
       .then(() => {
+        console.log(value)
+        dispatch(setPayment({
+          payment:value,
+        }))
         navigate("/transferingGroupAccount", {
           state: {
             money: parseInt(value),

@@ -12,11 +12,10 @@ import styles from './Game.module.css';
 import decomp from 'poly-decomp';
 import { useNavigate } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
-import axios from "axios";
 import { setResult } from "../../store/slices/groupfinballSlice";
+import { useLocation } from 'react-router-dom';
 
-
-function Game() {
+function Game(value) {
 
   const [balls, setBalls] = useState([]);
   const [ballTexts, setBallTexts] = useState([]);
@@ -40,18 +39,19 @@ function Game() {
   
 const auth = useSelector((state) => state.auth);
 const members = useSelector((state) => state.groupfinball.members);
-const ballunit = useSelector((state) => state.groupfinball.ballunit);
+const ballunit = 10000;
 const ballcnt = useSelector((state) => state.groupfinball.ballcnt);
 const result = useSelector((state) => state.groupfinball.result);
 const membercnt=members.length;
-const total=4800
-const Payment = Math.ceil(total/ballunit);
+// const total=4800
+
+const total = useSelector((state) => state.groupfinball.payment);
+const Payment = Math.ceil(Number(total)/ballunit);
 const last = total-(Payment-1)*ballunit
 const theme = '#4C4499';
-const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-const my="12345-123456-123"
 const dispatch = useDispatch();
 const navigate = useNavigate();
+const location = useLocation();
   // 버튼 클릭 시 상태를 변경하여 확대/축소 효과 적용
   const toggleButton = () => {
     setIsActive(!isActive);
@@ -226,7 +226,7 @@ useEffect(() => {
       },
     })
     const runner = Runner.create({
-      delta: 15,
+      delta: 7.5,
       isFixed: true,
       enabled: true
   });

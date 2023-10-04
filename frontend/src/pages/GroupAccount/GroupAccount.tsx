@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import GroupAccountModal from "../../components/GroupAccount/GroupAccountModal";
 import { setAccount } from "../../store/slices/accountSlice";
 import { useParams } from "react-router-dom";
-
+import {setGroupFinball} from "../../store/slices/groupfinballSlice"
 function formatMoney(amount) {
   return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -47,7 +47,7 @@ const GroupAccount = () => {
       setResponse(res.data.data);
       setValue({ parent: "pinball-canvas" });
       // setData(res.data.data);
-      console.log(res.data.data);
+      console.log(res.data.data,'here');
       const state = {
         account: {
           no: accountNo,
@@ -57,6 +57,10 @@ const GroupAccount = () => {
         company: { code: companyCode },
       };
       dispatch(setAccount(state));
+      dispatch(setGroupFinball({
+        members:res.data.data.member,
+        balance:res.data.data.balance
+      }))
     });
   }, []);
 
@@ -65,7 +69,7 @@ const GroupAccount = () => {
       setData(response); // response가 존재할 때만 복사
     }
   }, [response]);
-
+  console.log(data);
   useEffect(() => {
     if (data) {
       setBalance(formatMoney(data.balance)); // data가 변경될 때만 실행
@@ -101,7 +105,7 @@ const GroupAccount = () => {
             <GroupAccountModal onClose={closeModal} data={data} />
           )}
           <div id="pinball-canvas" className={styles.finballBox}>
-            <GroupFinball value={value} />
+            <GroupFinball value={value} state={data}/>
           </div>
         </div>
       ) : (

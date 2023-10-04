@@ -166,7 +166,7 @@ function Pinball(value) {
         // Create a Matter.js engine
         const newEngine = Engine.create({});
         const runner = Runner.create({
-          delta: 10,
+          delta: 7.5,
           isFixed: false,
           enabled: true,
         });
@@ -174,7 +174,7 @@ function Pinball(value) {
 
         // 중력 설정
         newEngine.world.gravity.x = 0;
-        newEngine.world.gravity.y = 0.5;
+        newEngine.world.gravity.y = 0.3;
 
         // Create a renderer
         const newRender = Render.create({

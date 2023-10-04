@@ -5,7 +5,7 @@ import styles from "./GroupAccountModal.module.css";
 
 const GroupAccountModal = (props) => {
   const data = props.data;
-
+  console.log(data);
   return (
     <div className={styles.modal_container}>
       <div className={styles.modal_content}>
