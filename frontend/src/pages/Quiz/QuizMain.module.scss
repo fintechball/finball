@@ -6,14 +6,14 @@
   justify-items: center;
   align-items: center;
   text-align: center;
-  background-color: #edf3ff;
+  background-color: #f6f9ff;
   height: 520px;
 
-  h1,
-  h2,
-  p {
-    margin: 0;
-  }
+  // h1,
+  // h2,
+  // p {
+  //   margin: 0;
+  // }
 }
 
 .paper {
@@ -136,4 +136,17 @@
   padding: 0;
   height: 60px;
   font-weight: 600;
+}
+
+.endbox {
+  margin-top: 20px;
+
+  p {
+    font-size: 16px;
+    font-weight: 400;
+  }
+}
+
+.btnbox {
+  height: 30px;
 }
