@@ -26,6 +26,7 @@ function Quiz() {
   const [isGoodVisible, setIsGoodVisible] = useState(false);
   const [isBadVisible, setIsBadVisible] = useState(false);
   const [totalPoint, setTotalPoint] = useState(0);
+  const [score, setScore] = useState(0);
 
   const RedLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 20,
@@ -69,9 +70,10 @@ function Quiz() {
         return () => {
           clearInterval(timer);
         };
-      } else {
-        dispatch(setIndex(0));
       }
+      // } else {
+      //   dispatch(setIndex(0));
+      // }
     }
   }, [quiz]);
 
@@ -105,6 +107,7 @@ function Quiz() {
       setTotalPoint(
         (prevTotalPoint) => prevTotalPoint + Math.round(5 * progress)
       );
+      setScore((prevScore) => prevScore + 1);
     } else {
       bad();
     }
@@ -180,9 +183,15 @@ function Quiz() {
                 </div>
                 <div className={styles.pointpoint}>Point</div>
               </div>
+              <div>맞춘 갯수 : {score} / 5</div>
             </div>
           ) : (
-            <p className={styles.text}>오늘의 퀴즈를 모두 풀었습니다.</p>
+            <>
+              <p className={styles.text}>결과</p>
+              <div>맞춘 갯수 : {score} / 5</div>
+              <div>획득한 포인트 : {totalPoint}</div>
+              <button onClick={() => navigate("/")}>메인으로 돌아가기</button>
+            </>
           )}
           {isGoodVisible && (
             <div>

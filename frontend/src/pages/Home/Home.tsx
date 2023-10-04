@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setDate } from "../../store/slices/quizSlice";
 
 //테스트용
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { setGroupFinball } from "../../store/slices/groupfinballSlice";
 
@@ -19,11 +19,11 @@ function Home() {
   const dispatch = useDispatch();
 
   //테스트용
-  const isready = useSelector((state) => state.isready)
+  const isready = useSelector((state) => state.isready);
   const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-  const my = "12345-123456-123"
+  const my = "12345-123456-123";
   const auth = useSelector((state) => state.auth);
-  const result = useSelector((state => state.groupfinball.result))
+  const result = useSelector((state) => state.groupfinball.result);
   useEffect(() => {
     getGroupFinBAllAccount();
   }, []);
@@ -35,8 +35,7 @@ function Home() {
         },
       })
       .then((response) => {
-
-        console.log(response.data.data)
+        console.log(response.data.data);
         dispatch(
           setGroupFinball({
             // ballunit:response.data.data.balance/40,
@@ -46,8 +45,7 @@ function Home() {
           })
         );
       })
-      .catch(() => {
-      });
+      .catch(() => {});
   };
 
   return (
@@ -55,7 +53,9 @@ function Home() {
       <div className={styles.minicontainer}>
         {/* 테스트용 */}
         <div onClick={() => navigate("/game")}>game</div>
-        <div onClick={() => navigate("/groupaccount/12345-123456-123")}>group</div>
+        <div onClick={() => navigate("/groupaccount/12345-123456-123")}>
+          group
+        </div>
         {/*  */}
         <h2 onClick={() => navigate("/accountBook")}>우리 계좌</h2>
         <FinBallContainer />
@@ -69,16 +69,13 @@ function Home() {
         <BankAccountContainer />
       </div>
       <div className={styles.minicontainer}>
-        <h2>연결된 모임통장 목록</h2> <button onClick={() => navigate("/create/group-account")}>모임 통장 생성</button>
+        <h2>연결된 모임통장 목록</h2>{" "}
+        <button onClick={() => navigate("/create/group-account")}>
+          모임 통장 생성
+        </button>
         <GroupAccountContainer />
       </div>
-      {/* <button onClick={() => dispatch(setDate("123123"))}>초기화</button>
-      <div className={styles.noncontainer}>
-        <p>연결된 카드가 없습니다.</p>
-        <button onClick={() => navigate("/company/card")}>
-          + 카드 연결하기
-        </button>
-      </div> */}
+      <button onClick={() => dispatch(setDate("123123"))}>초기화</button>
       {/* <button onClick={() => navigate("/jeonghui")}>김정희 테스트</button> */}
     </div>
   );
