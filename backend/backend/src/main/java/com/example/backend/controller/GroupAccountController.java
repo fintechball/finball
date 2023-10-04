@@ -3,6 +3,7 @@ package com.example.backend.controller;
 import com.example.backend.dto.Response;
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
 import com.example.backend.dto.groupaccount.DeleteGroupAccountDto;
+import com.example.backend.dto.groupaccount.FillGroupAccountDto;
 import com.example.backend.dto.groupaccount.GameEndDto;
 import com.example.backend.dto.groupaccount.GameTypeDto;
 import com.example.backend.dto.groupaccount.GetGroupAccountListDto;
@@ -42,12 +43,14 @@ public class GroupAccountController {
     private final SmsService smsService;
 
     @GetMapping("/group/account/list")
-    public Response<GetGroupAccountListDto.Response> getGroupAccountList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public Response<GetGroupAccountListDto.Response> getGroupAccountList(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         GetGroupAccountListDto.Response response = groupAccountService.getGroupAccountList(
                 member);
         return new Response<>(200, "그룹 계좌 목록 조회 완료", response);
     }
+
     @GetMapping("/group/account/{groupAccountId}")
     public Response<GroupAccountDto.Response> getGroupAccount(@PathVariable String groupAccountId) {
         GroupAccountDto.Response response = groupAccountService.findByGroupAccountId(
@@ -88,16 +91,16 @@ public class GroupAccountController {
         return new Response<>(200, "이체가 완료되었습니다.");
     }
 
-    @PostMapping("/group/account/fill")
-    public Response fillGroupAccount(@RequestBody AccountTransferDto.Request request,
-            @AuthenticationPrincipal UserDetailsImpl userDetails)
-            throws JsonProcessingException {
-
-        Member member = userDetails.getMember();
-
-        groupAccountFillingService.transferGroupAccount(request, member);
-        return new Response<>(200, "모임 계좌로 이체가 완료 되었습니다.");
-    }
+//    @PostMapping("/group/account/fill")
+//    public Response fillGroupAccount(@RequestBody AccountTransferDto.Request request,
+//            @AuthenticationPrincipal UserDetailsImpl userDetails)
+//            throws JsonProcessingException {
+//
+//        Member member = userDetails.getMember();
+//
+//        groupAccountFillingService.transferGroupAccount(request, member);
+//        return new Response<>(200, "모임 계좌로 이체가 완료 되었습니다.");
+//    }
 
     @PostMapping("/group/account/invite")
     public Response invite(@RequestBody InviteGroupAccountDto.Request request)
@@ -116,16 +119,25 @@ public class GroupAccountController {
     }
 
     @GetMapping("/gameType")
-    public Response<GameTypeDto.Response> getGroupGameType(){
+    public Response<GameTypeDto.Response> getGroupGameType() {
 
-        GameTypeDto.Response data =  groupAccountService.getGroupGameType();
+        GameTypeDto.Response data = groupAccountService.getGroupGameType();
         return new Response<>(200, "게임 타입 리스트를 조회했습니다.", data);
     }
 
     @GetMapping("/account/{uuid}")
-    public Response<GroupAccountDto.Response> getAccountByUuid(@PathVariable String uuid){
+    public Response<GroupAccountDto.Response> getAccountByUuid(@PathVariable String uuid) {
 
         GroupAccountDto.Response data = groupAccountService.getAccountByUuid(uuid);
         return new Response<>(200, "그룹 계좌를 조회했습니다.", data);
+    }
+
+    @PostMapping("/group/account/fill")
+    public Response fillGroupAccount(
+            @RequestBody FillGroupAccountDto.Request request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        groupAccountService.fill(request, member);
+        return new Response(201, "그룹계좌 충전 완료");
     }
 }

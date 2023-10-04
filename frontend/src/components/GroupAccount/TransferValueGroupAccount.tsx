@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./TransferValueGroupAccount.module.css";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-import { setPayment } from "../../store/slices/groupfinballSlice";
+import { setPayment,setHistory } from "../../store/slices/groupfinballSlice";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function TransferValueGroupAccount() {
@@ -69,7 +69,7 @@ function TransferValueGroupAccount() {
       .then(() => {
         console.log(value)
         dispatch(setPayment({
-          payment:value,
+          payment: value,
         }))
         navigate("/transferingGroupAccount", {
           state: {
@@ -100,7 +100,7 @@ function TransferValueGroupAccount() {
   return (
     <div className={styles.container}>
       <p className={styles.bigText}>내 {account.account.name}에서</p>
-      <p className={styles.smallText}>잔액 {account.account.balance}원</p>
+      <p className={styles.smallText}>잔액 {account.account.balance.toLocaleString()}원</p>
 
       <p className={styles.bigText}>{opposite.opposite.name}에게</p>
       <p className={styles.smallText}>
@@ -117,7 +117,7 @@ function TransferValueGroupAccount() {
 
       {!value && !showNumberPad && (
         <button className={styles.totalBalanceButton} onClick={transferAll}>
-          잔액{account.account.balance}원 입력
+          잔액{account.account.balance.toLocaleString()}원 입력
         </button>
       )}
 
@@ -143,7 +143,7 @@ function TransferValueGroupAccount() {
 
       {value && !showNumberPad && (
         <>
-          <div>{value}원을 옮길까요?</div>
+          <div>{value.toLocaleString()}원을 옮길까요?</div>
           <div className={styles.transfer}>
             <div>
               <button className={styles.smallButton}>

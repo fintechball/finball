@@ -18,8 +18,8 @@ import AccountDetailComponent from "../Transfer/AccountDetailComponent";
 import { setAccount } from "../../store/slices/accountSlice";
 import { RootState } from "../../store/store";
 
-//const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-const BASE_HTTP_URL = "http://localhost:8080";
+const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
+//const BASE_HTTP_URL = "http://localhost:8080";
 
 function AccountBook() {
   const [state, setState] = useState<any>({});
@@ -66,6 +66,12 @@ function AccountBook() {
       setisAccountBook(true);
     }
   };
+
+  const closeAddModal = () => {
+    setIsCategoryModalOpen(false);
+    setName("");
+    setAmount("");
+  }
   function openCategoryModal() {
     setIsCategoryModalOpen(true);
   }
@@ -79,6 +85,7 @@ function AccountBook() {
       setAmount("");
     }
   };
+
   function openUpdateModal(value) {
     setName(value.name);
     setAmount(value.value);
@@ -329,18 +336,9 @@ function AccountBook() {
         console.log("삐빅", err);
       });
   };
-  const renderPinball = () => {
-    if (selectedBtn === "btn1") {
-      return <Pinball value={{ parent: "canvas1" }} />;
-    } else if (selectedBtn === "btn2") {
-      return <Pinball value={{ parent: "canvas2" }} />;
-    } else {
-      return <Pinball value={{ parent: "canvas3" }} />;
-    }
-  };
   return (
     <div>
-      {/* 가계부생성모달 */}
+      {/* 가계부생성모달 => 이거 안쓰이고 있는 것 같아요*/}
       <Modal
         ariaHideApp={false}
         isOpen={isModalOpen}
@@ -376,7 +374,7 @@ function AccountBook() {
       <Modal
         ariaHideApp={false}
         isOpen={isCategoryModalOpen}
-        onRequestClose={closeCategoryModal}
+        onRequestClose={closeAddModal}
         contentLabel="Custom Modal" // 모달의 레이블 설정
         style={{
           content: {
@@ -403,6 +401,7 @@ function AccountBook() {
           onChange={handleAmountChange}
         />
         <button onClick={closeCategoryModal}>저장</button>
+        <button onClick={closeAddModal}>닫기</button>
       </Modal>
       {/* 카테고리 수정 및 삭제모달 */}
       <Modal
@@ -567,7 +566,7 @@ function AccountBook() {
               <div style={{ fontSize: "50px", fontWeight: "bold" }}>
                 우리 계좌
               </div>
-              <div>잔액 : {finBallAccount.account.balance}</div>
+              <div>잔액 : {finBallAccount.account.balance.toLocaleString()}</div>
               <div
                 id="canvas1"
                 style={{

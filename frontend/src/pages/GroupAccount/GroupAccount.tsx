@@ -7,13 +7,13 @@ import { useSelector, useDispatch } from "react-redux";
 import GroupAccountModal from "../../components/GroupAccount/GroupAccountModal";
 import { setAccount } from "../../store/slices/accountSlice";
 import { useParams } from "react-router-dom";
-import {setGroupFinball} from "../../store/slices/groupfinballSlice"
+import { setGroupFinball } from "../../store/slices/groupfinballSlice"
 function formatMoney(amount) {
   return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 const GroupAccount = () => {
-  const [value, setValue] = useState({parent: "groupfinball-canvas" });
+  const [value, setValue] = useState({ parent: "groupfinball-canvas" });
   const [response, setResponse] = useState(null);
   const [data, setData] = useState(null);
   const [balance, setBalance] = useState("");
@@ -47,7 +47,7 @@ const GroupAccount = () => {
       setResponse(res.data.data);
       setValue({ parent: "pinball-canvas" });
       // setData(res.data.data);
-      console.log(res.data.data,'here');
+      console.log(res.data.data, 'here');
       const state = {
         account: {
           no: accountNo,
@@ -59,7 +59,10 @@ const GroupAccount = () => {
       dispatch(setAccount(state));
       dispatch(setGroupFinball({
         members:res.data.data.member,
-        balance:res.data.data.balance
+        balance:res.data.data.balance,
+        accountno:res.data.data.accountNo,
+        history:res.data.data.tradeHistory
+        ,
       }))
     });
   }, []);
@@ -75,7 +78,7 @@ const GroupAccount = () => {
       setBalance(formatMoney(data.balance)); // data가 변경될 때만 실행
     }
   }, [data]);
-  
+
   return (
     <div className={styles.container}>
       {data ? (
@@ -91,7 +94,7 @@ const GroupAccount = () => {
           <div className={styles.memberlength}><span>{data.member.length}명</span>이 함께하고 있어요.</div>
         </div>
         <div className={styles.accountBalance}>
-          <div className={styles.balance}>{data.balance}원</div>
+          <div className={styles.balance}>{data.balance.toLocaleString()}원</div>
         </div>
             </div>
             <div className={styles.members}>
@@ -101,7 +104,7 @@ const GroupAccount = () => {
               {data.member.map((member, index) => (
                 <div key={index} className={styles.member}>
                   <span>{member.name}</span>
-                  <span>{member.balance}</span>
+                  <span>{member.balance.toLocaleString()}</span>
                 </div>
               ))}
             </div>
@@ -110,7 +113,7 @@ const GroupAccount = () => {
             <GroupAccountModal onClose={closeModal} data={data} />
           )}
           <div id="pinball-canvas" className={styles.finballBox}>
-            <GroupFinball value={value} state={data}/>
+            <GroupFinball value={value} state={data} />
           </div>
         </div>
       ) : (
