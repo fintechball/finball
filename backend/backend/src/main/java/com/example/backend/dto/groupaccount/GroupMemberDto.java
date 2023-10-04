@@ -10,7 +10,7 @@ public class GroupMemberDto {
 
     private String name;
     private String profileImage;
-    private String userId;
+    private Long userId;
     private long value;
     private long balance;
     private long percent;
