@@ -75,7 +75,7 @@ const GroupAccount = () => {
       setBalance(formatMoney(data.balance)); // data가 변경될 때만 실행
     }
   }, [data]);
-
+  
   return (
     <div className={styles.container}>
       {data ? (
