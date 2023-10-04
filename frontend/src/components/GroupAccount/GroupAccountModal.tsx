@@ -13,7 +13,7 @@ const GroupAccountModal = (props) => {
         <div className={styles.bankInfo}>
           <div className={styles.bankName}>핀볼</div>
           <div className={styles.accountNo}>{data.accountNo}</div>
-          <div className={styles.balance}>{data.balance}원</div>
+          <div className={styles.balance}>{data.balance.toLocaleString()}원</div>
         </div>
         <div>
           {data.member.map((member, index) => (
@@ -28,11 +28,11 @@ const GroupAccountModal = (props) => {
                 <div className={styles.userInfo}>
                   <div className={styles.username}>{member.name}</div>
                   {data.gameEnd != true && (
-                    <div className={styles.userBalance}>{member.balance}</div>
+                    <div className={styles.userBalance}>{member.balance.toLocaleString()}</div>
                   )}
                   {/* 모임 거래내역에서 모달을 불렀다면.. value를 보여줌 */}
                   {data.gameEnd == true && (
-                    <div className={styles.userBalance}> - {member.value}</div>
+                    <div className={styles.userBalance}> - {member.value.toLocaleString()}</div>
                   )}
                 </div>
               </div>

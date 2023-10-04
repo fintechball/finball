@@ -44,7 +44,7 @@ function PinballJeongHui(value) {
     };
   };
   useEffect(() => {
-    
+
     initialize();
   }, []);
 
@@ -85,8 +85,8 @@ function PinballJeongHui(value) {
         if (
           finBallAccount.account.no !== undefined &&
           response.data.data.account.balance -
-            finBallAccount.account.balance !==
-            0
+          finBallAccount.account.balance !==
+          0
         ) {
           const balanceString = response.data.data.account.balance.toString()
           const firstDigit = Number(balanceString[0]);
@@ -97,12 +97,12 @@ function PinballJeongHui(value) {
             console.log("공을 늘리자");
             const past = calculateBallCount(finBallAccount.account.balance);
             const curr = calculateBallCount(response.data.data.account.balance);
-            console.log(Math.floor(response.data.data.account.balance/500000),Math.floor(finBallAccount.account.balance/500000),'test1')
-            if(Math.floor(response.data.data.account.balance/500000)==Math.floor(finBallAccount.account.balance/500000)){
+            console.log(Math.floor(response.data.data.account.balance / 500000), Math.floor(finBallAccount.account.balance / 500000), 'test1')
+            if (Math.floor(response.data.data.account.balance / 500000) == Math.floor(finBallAccount.account.balance / 500000)) {
               addBall(curr.ballcnt - past.ballcnt, newEngine, newRender);
             }
-            else{
-              console.log(past.ballcnt,curr.ballcnt)
+            else {
+              console.log(past.ballcnt, curr.ballcnt)
               deleteBall(past.ballcnt, newEngine, newRender);
               addBall(curr.ballcnt, newEngine, newRender);
             }
@@ -112,12 +112,12 @@ function PinballJeongHui(value) {
             console.log("공을 줄이자");
             const past = calculateBallCount(finBallAccount.account.balance);
             const curr = calculateBallCount(response.data.data.account.balance);
-            console.log(Math.floor(response.data.data.account.balance/500000),Math.floor(finBallAccount.account.balance/500000),'test2')
-            if(Math.floor(response.data.data.account.balance/500000)==Math.floor(finBallAccount.account.balance/500000)){
+            console.log(Math.floor(response.data.data.account.balance / 500000), Math.floor(finBallAccount.account.balance / 500000), 'test2')
+            if (Math.floor(response.data.data.account.balance / 500000) == Math.floor(finBallAccount.account.balance / 500000)) {
               deleteBall(past.ballcnt - curr.ballcnt, newEngine, newRender);
             }
-            else{
-              console.log(past.ballcnt,curr.ballcnt)
+            else {
+              console.log(past.ballcnt, curr.ballcnt)
               deleteBall(past.ballcnt, newEngine, newRender);
               addBall(curr.ballcnt, newEngine, newRender);
             }
@@ -281,7 +281,7 @@ function PinballJeongHui(value) {
     getFinBAllAccount(newEngine, newRender);
     // dispatch(setIsReady(true));
   };
-  
+
   const addBall = (ballcnt, newEngine, newRender) => {
     const parentSize = getParentContainerSize();
     setTimeout(() => {
@@ -341,23 +341,23 @@ function PinballJeongHui(value) {
       }
       function update() {
         // 각 공의 위치를 조정
-        const BB=[...ball]
+        const BB = [...ball]
         ball.forEach((b) => {
           b.position.x += exitVelocity / 60; // 1초에 60프레임으로 가정
           b.position.y -= exitVelocity / 60; // 1초에 60프레임으로 가정
           // 화면 밖으로 벗어난 공을 삭제
           if (
             b.position.x >=
-              parentSize.height +
-                Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
-                  23 ||
+            parentSize.height +
+            Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
+            23 ||
             b.position.x >=
-              parentSize.width +
-                Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
-                  23/29 ||
+            parentSize.width +
+            Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
+            23 / 29 ||
             b.position.x <=
-              // -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29
-              0
+            // -Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23/29
+            0
           ) {
             // Matter.js World에서 삭제
             World.remove(newEngine.world, b);
@@ -373,7 +373,7 @@ function PinballJeongHui(value) {
   return (
     <div id="pinball-canvas">
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <div className={styles.finball}>{finball.account.balance}원</div>
+        <div className={styles.finball}>{finball.account.balance.toLocaleString()}원</div>
       </div>
       <div
         style={{
@@ -384,7 +384,7 @@ function PinballJeongHui(value) {
         }}
       >
         {ballInfo !== null && (
-          <div className={styles.minbal}>{ballInfo.minbalance}원</div>
+          <div className={styles.minbal}>{ballInfo.minbalance.toLocaleString()}원</div>
         )}
       </div>
     </div>
