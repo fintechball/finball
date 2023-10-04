@@ -156,6 +156,7 @@ function TransferGroupAccount() {
         onClick={enterAccount}
         value={bankAccount}
         placeholder="계좌번호 입력"
+        readOnly={true}
       ></input>
 
       {isEnterAccount ? (
@@ -166,6 +167,7 @@ function TransferGroupAccount() {
             onClick={showBank}
             value={bankName.name}
             placeholder="은행 선택"
+            readOnly={true}
           ></input>
           {bankList && (
             <Slide direction="up" in={showBankList} mountOnEnter unmountOnExit>
