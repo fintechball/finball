@@ -18,8 +18,8 @@ import AccountDetailComponent from "../Transfer/AccountDetailComponent";
 import { setAccount } from "../../store/slices/accountSlice";
 import { RootState } from "../../store/store";
 
-const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-//const BASE_HTTP_URL = "http://localhost:8080";
+//const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
+const BASE_HTTP_URL = "http://localhost:8080";
 
 function AccountBook() {
   const [state, setState] = useState<any>({});
@@ -246,6 +246,9 @@ function AccountBook() {
         getHistory();
       })
       .catch((err) => {
+        if (err.response.status == 400) {
+          alert(err.response.data.message)
+        }
         console.log("삐빅", err);
       });
   };

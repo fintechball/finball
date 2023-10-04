@@ -6,8 +6,8 @@ import { RootState } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { setAccountBooks } from "../../store/slices/accountBookSlice";
 
-const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
-//const BASE_HTTP_URL = "http://localhost:8080";
+//const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
+const BASE_HTTP_URL = "http://localhost:8080";
 
 function TradeHistory({ tradeHistoryDict, isFinBall }) {
 

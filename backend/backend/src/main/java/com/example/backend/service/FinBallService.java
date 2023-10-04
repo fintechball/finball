@@ -181,7 +181,7 @@ public class FinBallService {
                 request.getTradeHistoryId()).orElseThrow(
                 () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
         );
-        if (tradeHistory.getDealType() == DealType.입금) {
+         if (tradeHistory.getDealType() == DealType.입금) {
             throw new CustomException(ErrorCode.NOT_WITHDRAW_ERROR);
         }
         if (request.getCategoryId() == -1) {
