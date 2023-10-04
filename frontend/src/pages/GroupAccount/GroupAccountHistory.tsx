@@ -2,13 +2,13 @@ import axios from "axios";
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Transfer/AccountDetail.module.css";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import TradeHistory from "../../components/Transfer/TradeHistory";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-
+//const BASE_HTTP_URL = "http://localhost:8080";
 interface account {
   no: string;
   balance: number;
@@ -41,8 +41,13 @@ function GroupAccountHistory() {
     name: "",
     url: "",
   });
+
+  const [hostId, setHostId] = useState<string>("");
+  const userId = useSelector((state: RootState) => state.auth.userId)
+
   const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
   const refreshIconStyle = { fontSize: 12 };
+  const navigate = useNavigate();
 
   const makeMemberList = (resultList, memberList) => {
     const member: member[] = [];
@@ -81,6 +86,9 @@ function GroupAccountHistory() {
 
     return gameHistory;
   };
+  const sendMoney = () => {
+    navigate("/fillAccount");
+  };
 
   const getGroupAccount = () => {
     const headers: Record<string, string> = {
@@ -100,6 +108,18 @@ function GroupAccountHistory() {
           name: data.name,
           url: data.url,
         });
+
+        console.log("test");
+        console.log(data.member);
+
+        for (const idx in data.member) {
+
+          if (data.member[idx].type == "HOST") {
+            setHostId(data.member[idx].userId);
+
+            break;
+          }
+        }
 
         setTradeHistoryDict(
           data.tradeHistory.reduce((dict, tradeHistory) => {
@@ -127,14 +147,23 @@ function GroupAccountHistory() {
     getGroupAccount();
   }, []);
 
+  const openInvitePage = () => {
+    navigate("/invite/group-account", {
+      state: { name: groupAccount.name, url: groupAccount.url },
+    });
+  };
+
   return (
     tradeHistoryDict && (
       <div>
         <div className={styles.container}>
-          <br />
           <p className={styles.bankAccount}>{groupAccount.name} 모임 통장</p>
           <span>{groupAccount.no}</span>
           <p className={styles.balance}>{groupAccount.balance}원</p>
+
+          <button onClick={sendMoney}>채우기</button>
+          <button onClick={openInvitePage}>초대하기</button>
+
           <hr />
           <div className={styles.date}>
             <p className={styles.total}>전체</p>

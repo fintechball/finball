@@ -3,8 +3,10 @@ import { RootState } from "../../store/store";
 import { useEffect, useState } from "react";
 import { Button, Input } from "antd";
 import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
+//const BASE_HTTP_URL = "http://localhost:8080";
 
 function InviteMember() {
 
@@ -19,6 +21,9 @@ function InviteMember() {
     const name = useSelector((state: RootState) => state.inviteGroupAccount.name);
     const url = useSelector((state: RootState) => state.inviteGroupAccount.url);
     const [accessToken, setAccessToken] = useState<string>("");
+    const navigate = useNavigate();
+    const location = useLocation();
+    const groupAccountNameAndUrl = { ...location.state };
 
     const [inputList, setInputList] = useState(inputArr);
 
@@ -49,16 +54,13 @@ function InviteMember() {
             "Content-Type": "application/json",
             Authorization: accessToken,
         };
-
+        //alert(`${groupAccountNameAndUrl.name}계좌로 보냅니다. url은 ${groupAccountNameAndUrl.url}입니다.`)
         axios
             .post(
                 `${BASE_HTTP_URL}/api/group/account/invite`,
                 {
-                    // 아직 redux 테스트 X
-                    // name: name,
-                    // url: url,
-                    name: "핫식스더킹제로",
-                    url: "738e14c7-28a3-4e9d-b43f-eac286510faa",
+                    name: groupAccountNameAndUrl.name,
+                    url: groupAccountNameAndUrl.url,
                     phoneNumber: phoneNumber
                 },
                 {
@@ -87,6 +89,10 @@ function InviteMember() {
             ];
         });
     };
+
+    const goBack = () => {
+        navigate(-1);
+    }
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -121,9 +127,10 @@ function InviteMember() {
             <br />
 
             {/* input 박스 추가 버튼 */}
-            {inputList.length < 6 && (
+            {inputList.length < 5 && (
                 <button onClick={addInput}>+</button>
             )}
+            <button onClick={goBack}>돌아가기</button>
         </div>
     );
 }

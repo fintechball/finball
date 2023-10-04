@@ -6,11 +6,11 @@ import "./Card.module.css";
 import cardImg from "../../assets/2489card.png";
 
 function Cube(props) {
-  console.log(props.cardImage);
   const cubeRef = useRef();
 
   // 이미지 로드
   const textureLoader = new TextureLoader();
+  textureLoader.setCrossOrigin("anonymous");
 
   const texture = textureLoader.load(props.cardImage);
 

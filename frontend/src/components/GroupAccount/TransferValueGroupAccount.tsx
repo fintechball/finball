@@ -143,7 +143,7 @@ function TransferValueGroupAccount() {
           <div className={styles.transfer}>
             <div>
               <button className={styles.smallButton}>
-                받는 분에게 표시 {auth.name}
+                받는 분에게 표시 {account.account.name}
               </button>
             </div>
             <div>

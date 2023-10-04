@@ -9,6 +9,9 @@ import static com.example.backend.entity.QMember.member;
 import com.example.backend.entity.GroupAccount;
 import com.example.backend.entity.GroupAccountHistory;
 import com.example.backend.entity.GroupAccountMember;
+import com.example.backend.entity.Member;
+import com.querydsl.core.Fetchable;
+import com.querydsl.core.types.Path;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Collection;
 import java.util.List;
@@ -56,5 +59,11 @@ public class GroupAccountCustomRepository extends QuerydslRepositorySupport {
                 .orderBy(groupAccountHistory.date.desc())
                 .fetch();
         return result;
+    }
+
+    public List<GroupAccount> getGroupAccountList(Member member) {
+
+        return queryFactory.select(groupAccount).distinct().from(groupAccount).join(groupAccountMember)
+                .on(groupAccount.eq(groupAccountMember.groupAccount)).where(groupAccountMember.member.eq(member)).fetch();
     }
 }
