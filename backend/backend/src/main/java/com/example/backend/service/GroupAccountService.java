@@ -274,10 +274,7 @@ public class GroupAccountService {
     public GroupAccountDto.Response getAccountByUuid(String uuid) {
 
         GroupAccount groupAccount = groupAccountRepository.findByUrl(uuid);
-        if (groupAccount == null) {
-            throw new CustomException(ErrorCode.GROUP_ACCOUNT_NOT_FOUND);
-        }
 
-        return groupAccount.toGroupAccountResponseDto();
+        return findByGroupAccountId(groupAccount.getAccountNo());
     }
 }
