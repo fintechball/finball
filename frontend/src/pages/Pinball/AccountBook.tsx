@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import AccountFinball from "../Pinball/AccountFinball";
-import PinballJeongHui from "../Pinball/PinballJeongHui";
 import {
   CircularProgressbar,
   buildStyles,
-  CircularProgressbarWithChildren,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import SafeMoney from "./SafeMoney";

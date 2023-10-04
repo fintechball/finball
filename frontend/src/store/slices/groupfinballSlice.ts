@@ -3,8 +3,8 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
 
 interface groupfinballState {
-  ballunit: number;
   balance: number;
+  payment: number;
   members:Array<object>;
   result:Array<object>;
   // changed:number;
@@ -12,8 +12,8 @@ interface groupfinballState {
 }
 
 const initialState: groupfinballState = {
-  ballunit: 1000,
   balance:0,
+  payment:0,
   members:[],
   result:[],
   // changed: 0,
@@ -25,7 +25,6 @@ const groupfinballSlice = createSlice({
   initialState,
   reducers: {
     setGroupFinball: (state, action: PayloadAction<groupfinballState>) => {
-      state.ballunit = action.payload.ballunit;
       state.members = action.payload.members;
       state.balance = action.payload.balance;
       // state.prebalance = action.payload.prebalance;
@@ -33,6 +32,9 @@ const groupfinballSlice = createSlice({
     },
     setResult:(state, action: PayloadAction<groupfinballState>) => {
       state.result = action.payload.result;
+    },
+    setPayment:(state, action: PayloadAction<groupfinballState>) => {
+      state.payment = action.payload.payment;
     },
   },
   extraReducers: (builder) => {
@@ -42,5 +44,5 @@ const groupfinballSlice = createSlice({
   },
 });
 
-export const { setGroupFinball,setResult} = groupfinballSlice.actions;
+export const { setGroupFinball,setResult,setPayment} = groupfinballSlice.actions;
 export default groupfinballSlice.reducer;

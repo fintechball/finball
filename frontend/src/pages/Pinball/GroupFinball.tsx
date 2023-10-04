@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Engine, Render, World, Bodies, Mouse,Body,Runner,MouseConstraint } from "matter-js";
 import styles from "./Pinball.module.css";
-import defalautball from "../../assets/defalutball.png";
-import chrome from "../../assets/chrome1.png"
-import dogi from "../../assets/dogi1.png"
-import docker from "../../assets/docker1.png"
-import poke from "../../assets/poke1.png"
 import { useSelector,useDispatch } from "react-redux";
 import redball from '../../assets/redball.png';
 import greenball from '../../assets/greenball.png';
@@ -14,23 +9,12 @@ import blueball from '../../assets/blueball.png';
 import purpleball from '../../assets/purpleball.png';
 import whiteball from '../../assets/whiteball.png';
 
-function GroupFinball(value) {
+function GroupFinball(value,state) {
   const [balls, setBalls] = useState([]);
-  const finball = useSelector((state) => state.finBallAccount);
+  console.log(value.state.member)
   // const ballunit=useSelector((state)=>state.groupfinball.ballunit)
-  const members = useSelector((state)=>state.groupfinball.members)
   const balance = useSelector((state)=>state.groupfinball.balance)
-  const name = useSelector((state) => state.auth.name);
-  const ballskin=useSelector((state)=>state.skin.skin)
-  const dispatch = useDispatch();
 
-  const skinlist={
-    0:chrome,
-    5:defalautball,
-    4:dogi,
-    2:docker,
-    3:poke,
-  }
   const colorlist={
     0:redball,
     1:greenball,
@@ -39,7 +23,6 @@ function GroupFinball(value) {
     4:purpleball,
     5:whiteball,
   }
-  console.log(value.value.parent)
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
@@ -53,7 +36,6 @@ function GroupFinball(value) {
     initialize();
   }, []);
   const initialize =async() => {
-    console.log("initialize");
     const parentSize = getParentContainerSize();
     // Create a Matter.js engine
     const newEngine = Engine.create({});
@@ -152,8 +134,8 @@ function GroupFinball(value) {
     // // Add mouse constraint to the world
     World.add(newEngine.world, mouseConstraint);
     // Create balls array
-    for (let j=0;j<members.length;j++) {
-    for (let i = 0; i < Math.round(members[j].balance/10000); i++) {
+    for (let j=0;j<value.state.member.length;j++) {
+    for (let i = 0; i < Math.round(value.state.member[j].balance/10000); i++) {
       const ball = Bodies.circle(
         Math.random() * parentSize.width,
         Math.random() * parentSize.height/5,
