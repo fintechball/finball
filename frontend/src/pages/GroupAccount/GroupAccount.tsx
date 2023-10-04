@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import styles from "./GroupAccount.module.css";
+import styles from "./GroupAccount.module.scss";
 import GroupFinball from "../Pinball/GroupFinball";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -85,12 +85,17 @@ const GroupAccount = () => {
         <div>
           <div className={styles.head}>
             <div className={styles.contents}>
-              <div className={styles.name}>{data.name}</div>
-              <div className={styles.bankInfo}>
-                <div className={styles.bankName}>핀볼</div>
-                <div className={styles.accountNo}>{data.accountNo}</div>
-                <div className={styles.balance}>{balance.toLocaleString()}원</div>
-              </div>
+            <div className={styles.bankInfo}>
+          <div className={styles.name}>{data.name} 통장</div>
+          <div className={styles.smallbank}>
+            <div className={styles.bankName}>핀볼</div>
+            <div className={styles.accountNo}>{data.accountNo}</div>
+          </div>
+          <div className={styles.memberlength}><span>{data.member.length}명</span>이 함께하고 있어요.</div>
+        </div>
+        <div className={styles.accountBalance}>
+          <div className={styles.balance}>{data.balance.toLocaleString()}원</div>
+        </div>
             </div>
             <div className={styles.members}>
               <div className={styles.container}>
