@@ -79,7 +79,6 @@ function AcceptInvite() {
                 console.log(res.data.data);
                 //호스트 url
                 for (const idx in res.data.data.member) {
-                    console.log("h");
                     if (res.data.data.member[idx].type == "HOST") {
                         setHostImage(res.data.data.member[idx].profileImage);
                         setHostName(res.data.data.member[idx].name);
