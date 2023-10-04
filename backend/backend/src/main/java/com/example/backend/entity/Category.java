@@ -69,9 +69,13 @@ public class Category {
     }
 
     public void minusUsedValue(Long usedValue) {
-        if(this.usedValue - usedValue < 0){
-            throw new CustomException(ErrorCode.OUT_OF_RANGE);
-        }
+//        if(this.usedValue - usedValue < 0){
+//            throw new CustomException(ErrorCode.OUT_OF_RANGE);
+//        }
         this.usedValue -= usedValue;
+    }
+
+    public void addValue(Long value){
+        this.value += value;
     }
 }

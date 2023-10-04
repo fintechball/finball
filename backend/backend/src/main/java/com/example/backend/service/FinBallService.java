@@ -24,6 +24,7 @@ import com.example.backend.type.DealType;
 import com.example.backend.type.MoneySource;
 import com.example.backend.type.Usage;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -102,7 +103,9 @@ public class FinBallService {
 
         FinBallAccount account = getFinballAccount(member);
 
-        ArrayList<Category> categories = request.toCategory(account);
+        ArrayList<Category> savedCategories = categoryRepository.findAllByFinBallAccount(account);
+
+        ArrayList<Category> categories = request.toCategory(account, savedCategories);
         categoryRepository.saveAll(categories);
 
         return readFinancialBook(member);
@@ -127,10 +130,14 @@ public class FinBallService {
 
         FinBallAccount account = getFinballAccount(member);
 
+        //계좌 + 이름으로 조회 => 이미 있다면 => 그것의 값을 늘려주고, 나머지들 다 삭제
+
         Category savedCategory = categoryRepository.findById(request.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_FOUND));
-        Category updateCategory = request.updateCategory(savedCategory);
-        categoryRepository.save(updateCategory);
+        ArrayList<Category> savedCategoryList = categoryRepository.findAllByFinBallAccount(account);
+
+        ArrayList<Category> updateCategory = request.updateCategory(savedCategoryList);
+        categoryRepository.saveAll(updateCategory);
 
         return readFinancialBook(member);
 
@@ -180,7 +187,7 @@ public class FinBallService {
         if (request.getCategoryId() == -1) {
             removeCategoryFromHistory(request.getTradeHistoryId());
         } else {
-            setCategory(tradeHistory, request);
+            setCategory(tradeHistory, request, account);
         }
         finBallHistoryRepository.save(tradeHistory);
 
@@ -205,7 +212,7 @@ public class FinBallService {
         finBallHistory.setCategory(null);
     }
 
-    public void setCategory(FinBallHistory tradeHistory, SetCategoryData.Request request) {
+    public void setCategory(FinBallHistory tradeHistory, SetCategoryData.Request request, FinBallAccount finBallAccount) {
 
         Category requestCategory = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(
@@ -213,14 +220,14 @@ public class FinBallService {
                 );
 
         if (tradeHistory.getCategory() != null) { //비어있지 않다 => 그 전에 있던 것 취소해야함
-//            Category category = categoryRepository.findByName(tradeHistory.getCategory().getName())
-//                    .orElseThrow(
-//                            () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
-//                    );
-            Category category = categoryRepository.findById(request.getCategoryId())
+            Category category = categoryRepository.findByFinBallAccountAndName(finBallAccount, tradeHistory.getCategory().getName())
                     .orElseThrow(
                             () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
                     );
+//            Category category = categoryRepository.findById(request.getCategoryId())
+//                    .orElseThrow(
+//                            () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+//                    );
             category.minusUsedValue(tradeHistory.getValue()); //누적 금액에서 마이너스
             requestCategory.plusUsedValue(tradeHistory.getValue());
         } else {

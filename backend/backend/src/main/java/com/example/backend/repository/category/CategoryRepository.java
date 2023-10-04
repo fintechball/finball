@@ -11,4 +11,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     ArrayList<Category> findAllByFinBallAccount(FinBallAccount account);
 
     Optional<Category> findByName(String categoryName);
+
+    Optional<Category> findByFinBallAccountAndName(FinBallAccount finBallAccount, String name);
 }
