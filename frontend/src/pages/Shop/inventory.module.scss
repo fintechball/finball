@@ -32,13 +32,12 @@
 
 .middleContainer {
   display: flex;
-  
 }
 
 .stepperbox {
   width: 100%;
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -95,19 +94,17 @@
   font-size: 14px;
   margin-bottom: 15px;
 }
-
-
 .inventoryList {
-  overflow: auto;
   display: flex;
-  flex-direction: row;
-  align-items: baseline;
+  width: 300px;
+  // background-color: aqua;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .inventoryList::-webkit-scrollbar {
   display: none;
 }
-
 .skinItem {
   margin-right: 20px;
 }

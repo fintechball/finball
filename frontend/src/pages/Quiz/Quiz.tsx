@@ -8,7 +8,12 @@ import { styled } from "@mui/material/styles";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
-import { setQuiz, setIndex } from "../../store/slices/quizSlice";
+import {
+  setQuiz,
+  setIndex,
+  setResultPoint,
+  setResultScore,
+} from "../../store/slices/quizSlice";
 // import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 // import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import { RootState } from "../../store/store";
@@ -77,6 +82,11 @@ function Quiz() {
     }
   }, [quiz]);
 
+  useEffect(() => {
+    dispatch(setResultPoint(totalPoint));
+    dispatch(setResultScore(score));
+  }, [totalPoint, score]);
+
   const getNewQuiz = () => {
     axios
       .get(`${BASE_HTTP_URL}/api/quiz`, {
@@ -89,8 +99,8 @@ function Quiz() {
         dispatch(
           setQuiz({
             date: new Date().toDateString(),
-            quiz: response.data.data.quizInfoList,
             index: 0,
+            quiz: response.data.data.quizInfoList,
           })
         );
       })
@@ -187,9 +197,17 @@ function Quiz() {
             </div>
           ) : (
             <>
-              <p className={styles.text}>결과</p>
-              <div>맞춘 갯수 : {score} / 5</div>
-              <div>획득한 포인트 : {totalPoint}</div>
+              <div className={styles.endbox}>
+                <div className={styles.btnbox}>
+                  <p>오늘의 성적</p>
+                </div>
+                <p>
+                  맞춘 갯수: <span>{quiz.resultScore}/5</span>
+                </p>
+                <p>
+                  획득한 포인트: <span>{quiz.resultPoint}</span>
+                </p>
+              </div>
               <button onClick={() => navigate("/")}>메인으로 돌아가기</button>
             </>
           )}
