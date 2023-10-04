@@ -21,7 +21,7 @@ import { setAccount } from "../../store/slices/accountSlice";
 import { RootState } from "../../store/store";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-//const BASE_HTTP_URL = "http://localhost:8080";
+// const BASE_HTTP_URL = "http://localhost:8080";
 
 function AccountBook() {
   const [state, setState] = useState<any>({});
@@ -222,6 +222,7 @@ function AccountBook() {
         // alert("1")
         setState(res.data.data);
         // alert("2")
+        getHistory();
       })
       .catch((err) => {
         console.log("삐빅", err);
@@ -266,6 +267,7 @@ function AccountBook() {
         // alert("3")
         console.log(res.data.data);
         setState(res.data.data);
+        getHistory();
       })
       .catch((err) => {
         console.log("삐빅", err);
