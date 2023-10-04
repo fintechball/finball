@@ -322,15 +322,6 @@ function AccountBook() {
         console.log("삐빅", err);
       });
   };
-  const renderPinball = () => {
-    if (selectedBtn === "btn1") {
-      return <Pinball value={{ parent: "canvas1" }} />;
-    } else if (selectedBtn === "btn2") {
-      return <Pinball value={{ parent: "canvas2" }} />;
-    } else {
-      return <Pinball value={{ parent: "canvas3" }} />;
-    }
-  };
   return (
     <div>
       {/* 가계부생성모달 */}

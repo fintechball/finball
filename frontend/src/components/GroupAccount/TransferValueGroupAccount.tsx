@@ -5,7 +5,7 @@ import { useSelector,useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-import { setPayment } from "../../store/slices/groupfinballSlice";
+import { setPayment,setHistory } from "../../store/slices/groupfinballSlice";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function TransferValueGroupAccount() {
@@ -68,9 +68,7 @@ function TransferValueGroupAccount() {
       )
       .then(() => {
         console.log(value)
-        dispatch(setPayment({
-          payment:value,
-        }))
+        dispatch(setPayment({payment:value}))
         navigate("/transferingGroupAccount", {
           state: {
             money: parseInt(value),
