@@ -8,7 +8,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import TradeHistory from "../../components/Transfer/TradeHistory";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-
+//const BASE_HTTP_URL = "http://localhost:8080";
 interface account {
   no: string;
   balance: number;
@@ -41,6 +41,10 @@ function GroupAccountHistory() {
     name: "",
     url: "",
   });
+
+  const [hostId, setHostId] = useState<string>("");
+  const userId = useSelector((state: RootState) => state.auth.userId)
+
   const [tradeHistoryDict, setTradeHistoryDict] = useState<any>(null);
   const refreshIconStyle = { fontSize: 12 };
   const navigate = useNavigate();
@@ -102,6 +106,18 @@ function GroupAccountHistory() {
           url: data.url,
         });
 
+        console.log("test");
+        console.log(data.member);
+
+        for (const idx in data.member) {
+
+          if (data.member[idx].type == "HOST") {
+            setHostId(data.member[idx].userId);
+
+            break;
+          }
+        }
+
         setTradeHistoryDict(
           data.tradeHistory.reduce((dict, tradeHistory) => {
             const groupKey = tradeHistory.date;
@@ -143,9 +159,12 @@ function GroupAccountHistory() {
           <button>
             채우기
           </button>
-          <button onClick={openInvitePage}>
-            초대하기
-          </button>
+          {
+            userId == hostId && (
+              <button onClick={openInvitePage}>
+                초대하기
+              </button>)
+          }
 
           <hr />
           <div className={styles.date}>
