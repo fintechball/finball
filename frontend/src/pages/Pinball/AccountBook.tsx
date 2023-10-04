@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import AccountFinball from "../Pinball/AccountFinball";
-import PinballJeongHui from "../Pinball/PinballJeongHui";
 import {
   CircularProgressbar,
   buildStyles,
-  CircularProgressbarWithChildren,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import SafeMoney from "./SafeMoney";
@@ -20,8 +18,8 @@ import AccountDetailComponent from "../Transfer/AccountDetailComponent";
 import { setAccount } from "../../store/slices/accountSlice";
 import { RootState } from "../../store/store";
 
-const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-// const BASE_HTTP_URL = "http://localhost:8080";
+//const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
+const BASE_HTTP_URL = "http://localhost:8080";
 
 function AccountBook() {
   const [state, setState] = useState<any>({});
@@ -245,8 +243,12 @@ function AccountBook() {
         setName("");
         setAmount("");
         setChooseCategoryid(-1);
+        getHistory();
       })
       .catch((err) => {
+        if (err.response.status == 400) {
+          alert(err.response.data.message)
+        }
         console.log("삐빅", err);
       });
   };
@@ -271,6 +273,9 @@ function AccountBook() {
       })
       .catch((err) => {
         console.log("삐빅", err);
+        if (err.response.status == 409) {
+          alert("이미 카테고리로 지정이 되어 있습니다.")
+        }
       });
   };
   const handleButtonClick = (btn) => {

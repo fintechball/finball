@@ -100,10 +100,10 @@
 }
 
 .inventoryList {
-  overflow: auto;
   display: flex;
-  flex-direction: row;
-  align-items: baseline;
+  width: 300px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .inventoryList::-webkit-scrollbar {
