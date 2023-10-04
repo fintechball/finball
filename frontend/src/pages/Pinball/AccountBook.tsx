@@ -7,7 +7,7 @@ import {
   CircularProgressbarWithChildren,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import SafeMoney from "./safeMoney";
+import SafeMoney from "./SafeMoney";
 import cash from "../../assets/cash.png";
 import styles from "./AccountBook.module.css";
 import axios from "axios";
