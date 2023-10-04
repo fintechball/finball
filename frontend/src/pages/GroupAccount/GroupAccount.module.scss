@@ -24,8 +24,11 @@
 
 .bankInfo {
 }
+
 .smallbank {
   display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 13px;
   font-weight: 700;
   line-height: 25px;

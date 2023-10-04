@@ -26,7 +26,7 @@ const GroupAccountContainer = () => {
               borderRadius: "100%",
               width: "10px",
               height: "10px",
-              backgroundColor: selectedBtn == "btn1" ? "#7165E3" : "#E3E3E3",
+              backgroundColor: selectedBtn == "btn1" ? "#305dc5" : "#E3E3E3",
               padding: "0",
               marginRight: "10px",
             }}
@@ -37,7 +37,7 @@ const GroupAccountContainer = () => {
               borderRadius: "100%",
               width: "10px",
               height: "10px",
-              backgroundColor: selectedBtn == "btn2" ? "#7165E3" : "#E3E3E3",
+              backgroundColor: selectedBtn == "btn2" ? "#305dc5" : "#E3E3E3",
               padding: "0",
               marginRight: "10px",
             }}
