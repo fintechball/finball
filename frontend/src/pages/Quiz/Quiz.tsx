@@ -197,9 +197,17 @@ function Quiz() {
             </div>
           ) : (
             <>
-              <p className={styles.text}>결과</p>
-              <div>맞춘 갯수 : {score} / 5</div>
-              <div>획득한 포인트 : {totalPoint}</div>
+              <div className={styles.endbox}>
+                <div className={styles.btnbox}>
+                  <p>오늘의 성적</p>
+                </div>
+                <p>
+                  맞춘 갯수: <span>{quiz.resultScore}/5</span>
+                </p>
+                <p>
+                  획득한 포인트: <span>{quiz.resultPoint}</span>
+                </p>
+              </div>
               <button onClick={() => navigate("/")}>메인으로 돌아가기</button>
             </>
           )}
