@@ -575,7 +575,7 @@ function AccountBook() {
               <div style={{ fontSize: "50px", fontWeight: "bold" }}>
                 우리 계좌
               </div>
-              <div>잔액 : {finBallAccount.account.balance}</div>
+              <div>잔액 : {finBallAccount.account.balance.toLocaleString()}</div>
               <div
                 id="canvas1"
                 style={{
