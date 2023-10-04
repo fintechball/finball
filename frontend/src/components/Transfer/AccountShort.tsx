@@ -26,7 +26,7 @@ function AccountShort({ accountList }) {
           <img src={account.company.logo} />
           <div>
             <p className={styles.text}>{account.account.name}</p>
-            <p className={styles.balance}>{account.account.balance}원</p>
+            <p className={styles.balance}>{account.account.balance.toLocaleString()}원</p>
           </div>
           <button onClick={() => goToAccountDetail(account)}>송금</button>
         </div>
