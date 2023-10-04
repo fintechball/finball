@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
 import yellowball from "../../assets/yellowball.png";
+import pin from "../../assets/pin.png";
 
 function QuizMain() {
   const navigate = useNavigate();
@@ -42,14 +43,18 @@ function QuizMain() {
           {quiz.date !== new Date().toDateString() ||
           (quiz.quiz.length !== 0 && quiz.index < 5) ? (
             <div className={styles.startbox}>
-              <p>
-                하루에 총 5개의 금융 퀴즈에 <br />
-                도전할 수 있습니다.
-              </p>
-              <p>
-                퀴즈를 풀고 <span>포인트</span>를 얻어보세요!
-              </p>
-              <p className={styles.semibold}>현재 보유중인 포인트</p>
+              <div className={styles.graybox}>
+                <img src={pin} alt="" />
+                <p>
+                  하루에 총 5개의 금융 퀴즈에 <br />
+                  도전할 수 있습니다.
+                </p>
+                <p>
+                  퀴즈를 풀고
+                  <br /> <span>포인트</span>를 얻어보세요!
+                </p>
+              </div>
+              <p className={styles.semibold}>내 포인트 :</p>
               <div className={styles.pointbox}>
                 <img src={yellowball} alt="" />
                 <h3>{point} Point</h3>
