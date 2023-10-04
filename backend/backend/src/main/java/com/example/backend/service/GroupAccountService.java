@@ -4,6 +4,7 @@ import com.example.backend.dto.RestDto;
 import com.example.backend.dto.company.CompanyCodeDto;
 import com.example.backend.dto.groupaccount.AcceptGroupAccountDto;
 import com.example.backend.dto.groupaccount.DeleteGroupAccountDto;
+import com.example.backend.dto.groupaccount.FillGroupAccountDto;
 import com.example.backend.dto.groupaccount.GameEndDto;
 import com.example.backend.dto.groupaccount.GameTypeDto;
 import com.example.backend.dto.groupaccount.GetGroupAccountListDto;
@@ -276,5 +277,19 @@ public class GroupAccountService {
         GroupAccount groupAccount = groupAccountRepository.findByUrl(uuid);
 
         return findByGroupAccountId(groupAccount.getAccountNo());
+    }
+
+    public void fill(FillGroupAccountDto.Request request, Member member) {
+        Long memberId = member.getId();
+        Long value = request.getValue();
+        String accountNo = request.getAccountNo();
+
+        GroupAccountMember groupAccountMember = groupAccountMemberCustomRepository.findByGroupAccountNoAndMemberId(
+                accountNo, memberId);
+
+        groupAccountMember.setValue(groupAccountMember.getValue() + value);
+        groupAccountMember.setBalance((groupAccountMember.getBalance() + value));
+
+        groupAccountMemberRepository.save(groupAccountMember);
     }
 }
