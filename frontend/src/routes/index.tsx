@@ -34,6 +34,7 @@ import NavPage from "../pages/NavPage/NavPage";
 
 import Chatbot from "../pages/ChatBot/ChatBot";
 import Quiz from "../pages/Quiz/Quiz";
+import QuizMain from "../pages/Quiz/QuizMain";
 import Shop from "../pages/Shop/Shop";
 import InventoryAll from "../pages/Shop/InventoryAll";
 import Inventory from "../pages/Shop/Inventory";
@@ -106,6 +107,7 @@ function Router() {
         <Route element={<PrivateRoute />}>
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/quiz" element={<Quiz />} />
+          <Route path="/quizMain" element={<QuizMain />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/inventoryAll" element={<InventoryAll />} />
           <Route path="/inventory" element={<Inventory />} />
