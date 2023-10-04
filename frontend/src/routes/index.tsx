@@ -147,14 +147,15 @@ function Router() {
             path="/group-account/history/:no"
             element={<GroupAccountHistory />}
           />
+
+          {/* 모임통장 초대 수락 */}
+          <Route path="/accept/group-account/:uuid" element={<AcceptInvite />} />
+
         </Route>
         <Route
           path="/transferingGroupAccount"
           element={<TransferingGroupAccount />}
         />
-
-        {/* 모임통장 초대 수락 */}
-        <Route path="/accept/group-account/:uuid" element={<AcceptInvite />} />
       </Routes>
     </>
   );

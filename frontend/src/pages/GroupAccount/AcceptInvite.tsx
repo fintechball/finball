@@ -11,12 +11,18 @@ const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 function AcceptInvite() {
 
     const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-
     const navigate = useNavigate();
 
     const uuid = useParams().uuid;
 
-    const [name, setName] = useState<string>("");
+    //모임통장이름
+    const [name, setName] = useState<string>("defaultName");
+    //통장 계좌번호
+    const [accountNo, setAccountNo] = useState<string>("defaultNo");
+    //주인장 이름
+    const [hostName, setHostName] = useState<string>("defaultHostName");
+    //주인장 프로필 이미지
+    const [hostImage, setHostImage] = useState<string>("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDECw_KuoLTTqy3D413flv_CUYn9p0Wjl2Og&usqp=CAU");
 
     const sendAccpetRequest = () => {
 
@@ -47,23 +53,16 @@ function AcceptInvite() {
             })
     }
 
-    const askAccept = (name: string) => {
+    const accept = () => {
+        sendAccpetRequest();
+    }
 
-        const accpet = confirm('"' + name + '"모임 통장에 가입하시겠습니까?')
-
-        if (accpet) {
-            sendAccpetRequest();
-        } else {
-            alert("모임 통장 가입을 취소하셨습니다.\n메인 페이지로 이동하겠습니다.");
-            navigate("/")
-        }
+    const reject = () => {
+        alert("모임 통장 가입을 취소하셨습니다.\n메인 페이지로 이동하겠습니다.");
+        navigate("/");
     }
 
     useEffect(() => {
-        //토큰이 있는지 체크
-        //없으면 로그인 페이지
-        //있으면 uuid로 uuid로 계좌 조회해오기
-
         const headers: Record<string, string> = {
             'Authorization': accessToken,
         }
@@ -75,7 +74,19 @@ function AcceptInvite() {
             .then((res) => {
                 console.log("그룹 계좌를 조회했습니다.");
                 setName(res.data.data.name);
-                askAccept(res.data.data.name);
+                setAccountNo(res.data.data.accountNo);
+                console.log("test")
+                console.log(res.data.data);
+                //호스트 url
+                for (const idx in res.data.data.member) {
+                    console.log("h");
+                    if (res.data.data.member[idx].type == "HOST") {
+                        setHostImage(res.data.data.member[idx].profileImage);
+                        setHostName(res.data.data.member[idx].name);
+                        break;
+                    }
+                }
+
             })
             .catch((err) => {
                 console.log(err);
@@ -83,8 +94,17 @@ function AcceptInvite() {
     }, [])
 
     return (
-        <>
-        </>
+        <div>
+            <div>
+                <h2>{name}에서 초대가 도착했어요.</h2>
+                <h4>계좌번호 : {accountNo}</h4>
+                <img src={hostImage} /> <span>{hostName}</span>
+                <div>
+                    <button onClick={() => { accept() }}>수락</button>
+                    <button onClick={() => { reject() }}>취소</button>
+                </div>
+            </div>
+        </div>
     )
 }
 
