@@ -47,7 +47,7 @@ public class GroupAccountMemberCustomRepository extends QuerydslRepositorySuppor
         GroupAccountMember result = queryFactory
                 .selectFrom(groupAccountMember)
                 .where(groupAccountMember.member.id.eq(memberId)
-                        .and(groupAccount.accountNo.eq(groupAccountNo)))
+                        .and(groupAccountMember.groupAccount.accountNo.eq(groupAccountNo)))
                 .fetchOne();
         return result;
     }
