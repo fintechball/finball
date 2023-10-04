@@ -1,0 +1,109 @@
+.container {
+  text-align: left;
+  /* height: 560px; */
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.contents {
+  display: inline-block;
+  text-align: left;
+  margin-left: 35px;
+}
+
+.name {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 35px; /* 100% */
+  // letter-spacing: -0.5px;
+}
+
+.bankInfo {
+}
+.smallbank {
+  display: flex;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 25px;
+
+  .bankName {
+    margin-right: 5px;
+  }
+}
+
+.memberlength {
+  font-size: 13px;
+  line-height: 20px;
+
+  span {
+    font-weight: 700;
+
+  }
+}
+
+.balance {
+  text-align: left;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.accountNo {
+  display: inline-block;
+  // color: #000;
+  // font-family: Inter;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 181.818% */
+  // letter-spacing: -0.5px;
+}
+
+.balance {
+  // color: #000;
+  // font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 100% */
+  // letter-spacing: -0.5px;
+}
+
+.members {
+  display: inline-block;
+  text-align: right;
+}
+.member {
+}
+
+.finballBox {
+  /* display: flex; */
+  /* flex-direction: column-reverse; */
+  width: 360px;
+  height: 360px;
+}
+
+.username {
+  display: inline-block;
+  flex-direction: column;
+}
+
+.userBalance {
+  display: inline-block;
+  flex-direction: column;
+}
+
+.userContainer {
+  display: inline-block;
+  align-items: center; /* 세로 정렬 */
+}
+
+.userInfo {
+  display: inline-block;
+  flex-direction: column; /* 위아래로 배치 */
+  margin-left: 10px; /* 이미지와의 간격 설정 */
+}
