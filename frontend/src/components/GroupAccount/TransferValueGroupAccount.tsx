@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-import { setPayment,setHistory } from "../../store/slices/groupfinballSlice";
+import { setPayment, setHistory } from "../../store/slices/groupfinballSlice";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function TransferValueGroupAccount() {
@@ -67,10 +67,12 @@ function TransferValueGroupAccount() {
         }
       )
       .then(() => {
-        console.log(value)
-        dispatch(setPayment({
-          payment: value,
-        }))
+        console.log(value);
+        dispatch(
+          setPayment({
+            payment: value,
+          })
+        );
         navigate("/transferingGroupAccount", {
           state: {
             money: parseInt(value),
@@ -100,7 +102,9 @@ function TransferValueGroupAccount() {
   return (
     <div className={styles.container}>
       <p className={styles.bigText}>내 {account.account.name}에서</p>
-      <p className={styles.smallText}>잔액 {account.account.balance.toLocaleString()}원</p>
+      <p className={styles.smallText}>
+        잔액 {account.account.balance.toLocaleString()}원
+      </p>
 
       <p className={styles.bigText}>{opposite.opposite.name}에게</p>
       <p className={styles.smallText}>
@@ -113,6 +117,7 @@ function TransferValueGroupAccount() {
         value={value}
         placeholder="얼마나 옮길까요?"
         onClick={ShowNumberPad}
+        readOnly={true}
       />
 
       {!value && !showNumberPad && (
