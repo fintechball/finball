@@ -93,8 +93,9 @@ public class GroupAccountService {
         }
 
         //중복 가입 방지
-        GroupAccountMember groupMemberCheck = groupAccountMemberCustomRepository.getGroupAccountMemberWithMemberAndGroupAccount(member.getId(), groupAccount.getAccountNo());
-        if(groupMemberCheck != null){
+        GroupAccountMember groupMemberCheck = groupAccountMemberCustomRepository.getGroupAccountMemberWithMemberAndGroupAccount(
+                member.getId(), groupAccount.getAccountNo());
+        if (groupMemberCheck != null) {
             throw new CustomException(ErrorCode.ALREADY_IN_USE);
         }
 
@@ -224,7 +225,9 @@ public class GroupAccountService {
 
         if (code == finBallCode) {
             FinBallAccount finBallAccount = finBallAccountRepository.findById(accountNo).get();
-            if(finBallAccount == null) throw new CustomException(ErrorCode.ACCOUNT_NOT_FOUND);
+            if (finBallAccount == null) {
+                throw new CustomException(ErrorCode.ACCOUNT_NOT_FOUND);
+            }
             balance = finBallAccount.getBalance();
         }
         return TransferInfoDto.builder()
@@ -246,9 +249,15 @@ public class GroupAccountService {
 
     public Response getGroupAccountList(Member member) {
         Long memberId = member.getId();
-        List<GroupAccountListDto> groupAccountList = groupAccountRepository.findAllByMemberId(
-                memberId).stream().map(GroupAccount::togroupAccountListDto).collect(
+
+        List<GroupAccountListDto> groupAccountList = groupAccountCustomRepository.getGroupAccountList(
+                member).stream().map(GroupAccount::togroupAccountListDto).collect(
                 Collectors.toList());
+
+//        List<GroupAccountListDto> groupAccountList = groupAccountRepository.findAllByMemberId(
+//                memberId).stream().map(GroupAccount::togroupAccountListDto).collect(
+//                Collectors.toList());
+
         GetGroupAccountListDto.Response response = GetGroupAccountListDto.Response.builder()
                 .groupAccountList(groupAccountList).build();
         return response;
