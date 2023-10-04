@@ -179,6 +179,7 @@ function TransferValue() {
         value={value}
         placeholder="얼마나 옮길까요?"
         onClick={ShowNumberPad}
+        readOnly={true}
       />
 
       {!value && !showNumberPad && (
