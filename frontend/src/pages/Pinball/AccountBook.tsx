@@ -66,6 +66,12 @@ function AccountBook() {
       setisAccountBook(true);
     }
   };
+
+  const closeAddModal = () => {
+    setIsCategoryModalOpen(false);
+    setName("");
+    setAmount("");
+  }
   function openCategoryModal() {
     setIsCategoryModalOpen(true);
   }
@@ -79,6 +85,7 @@ function AccountBook() {
       setAmount("");
     }
   };
+
   function openUpdateModal(value) {
     setName(value.name);
     setAmount(value.value);
@@ -340,7 +347,7 @@ function AccountBook() {
   };
   return (
     <div>
-      {/* 가계부생성모달 */}
+      {/* 가계부생성모달 => 이거 안쓰이고 있는 것 같아요*/}
       <Modal
         ariaHideApp={false}
         isOpen={isModalOpen}
@@ -376,7 +383,7 @@ function AccountBook() {
       <Modal
         ariaHideApp={false}
         isOpen={isCategoryModalOpen}
-        onRequestClose={closeCategoryModal}
+        onRequestClose={closeAddModal}
         contentLabel="Custom Modal" // 모달의 레이블 설정
         style={{
           content: {
@@ -403,6 +410,7 @@ function AccountBook() {
           onChange={handleAmountChange}
         />
         <button onClick={closeCategoryModal}>저장</button>
+        <button onClick={closeAddModal}>닫기</button>
       </Modal>
       {/* 카테고리 수정 및 삭제모달 */}
       <Modal
