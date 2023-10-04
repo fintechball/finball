@@ -3418,6 +3418,11 @@ json5@^2.2.3:
   resolved "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz"
   integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
 
+jsqr@^1.2.0:
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/jsqr/-/jsqr-1.4.0.tgz"
+  integrity sha512-dxLob7q65Xg2DvstYkRpkYtmKm2sPJ9oFhrhmudT1dZvNFFTlroai3AWSpLey/w5vMcLBXRgOJsbXpdN9HzU/A==
+
 jss-plugin-camel-case@^10.5.1:
   version "10.10.0"
   resolved "https://registry.npmjs.org/jss-plugin-camel-case/-/jss-plugin-camel-case-10.10.0.tgz"
@@ -4423,6 +4428,15 @@ react-multi-carousel@^2.8.4:
   resolved "https://registry.npmjs.org/react-multi-carousel/-/react-multi-carousel-2.8.4.tgz"
   integrity sha512-7Is5Wr+m2ebkR+oq2Su2tjUdBwpVtB2O6Tjb74KDNfxWe/FrsTQwezTJTk/r9cKCrRp9Li308v822/5bZm7XKg==
 
+react-qr-reader@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmjs.org/react-qr-reader/-/react-qr-reader-2.2.1.tgz"
+  integrity sha512-EL5JEj53u2yAOgtpAKAVBzD/SiKWn0Bl7AZy6ZrSf1lub7xHwtaXe6XSx36Wbhl1VMGmvmrwYMRwO1aSCT2fwA==
+  dependencies:
+    jsqr "^1.2.0"
+    prop-types "^15.7.2"
+    webrtc-adapter "^7.2.1"
+
 react-reconciler@^0.27.0:
   version "0.27.0"
   resolved "https://registry.npmjs.org/react-reconciler/-/react-reconciler-0.27.0.tgz"
@@ -4668,6 +4682,13 @@ rollup@^3.27.1:
   optionalDependencies:
     fsevents "~2.3.2"
 
+rtcpeerconnection-shim@^1.2.15:
+  version "1.2.15"
+  resolved "https://registry.npmjs.org/rtcpeerconnection-shim/-/rtcpeerconnection-shim-1.2.15.tgz"
+  integrity sha512-C6DxhXt7bssQ1nHb154lqeL0SXz5Dx4RczXZu2Aa/L1NJFnEVDxFwCBo3fqtuljhHIGceg5JKBV4XJ0gW5JKyw==
+  dependencies:
+    sdp "^2.6.0"
+
 run-parallel@^1.1.9:
   version "1.2.0"
   resolved "https://registry.npmjs.org/run-parallel/-/run-parallel-1.2.0.tgz"
@@ -4714,6 +4735,11 @@ scroll-into-view-if-needed@^3.0.3:
   integrity sha512-49oNpRjWRvnU8NyGVmUaYG4jtTkNonFZI86MmGRDqBphEK2EXT9gdEUoQPZhuBM8yWHxCWbobltqYO5M4XrUvQ==
   dependencies:
     compute-scroll-into-view "^3.0.2"
+
+sdp@^2.12.0, sdp@^2.6.0:
+  version "2.12.0"
+  resolved "https://registry.npmjs.org/sdp/-/sdp-2.12.0.tgz"
+  integrity sha512-jhXqQAQVM+8Xj5EjJGVweuEzgtGWb3tmEEpl3CLP3cStInSbVHSg0QWOGQzNq8pSID4JkpeV2mPqlMDLrm0/Vw==
 
 semver-regex@^4.0.5:
   version "4.0.5"
@@ -5209,6 +5235,14 @@ webgl-sdf-generator@1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/webgl-sdf-generator/-/webgl-sdf-generator-1.1.1.tgz"
   integrity sha512-9Z0JcMTFxeE+b2x1LJTdnaT8rT8aEp7MVxkNwoycNmJWwPdzoXzMh0BjJSh/AEFP+KPYZUli814h8bJZFIZ2jA==
+
+webrtc-adapter@^7.2.1:
+  version "7.7.1"
+  resolved "https://registry.npmjs.org/webrtc-adapter/-/webrtc-adapter-7.7.1.tgz"
+  integrity sha512-TbrbBmiQBL9n0/5bvDdORc6ZfRY/Z7JnEj+EYOD1ghseZdpJ+nF2yx14k3LgQKc7JZnG7HAcL+zHnY25So9d7A==
+  dependencies:
+    rtcpeerconnection-shim "^1.2.15"
+    sdp "^2.12.0"
 
 whatwg-fetch@>=0.10.0:
   version "3.6.19"

@@ -52,7 +52,7 @@ function Footer() {
         ) : (
           <TipsAndUpdatesOutlinedIcon
             onClick={() => {
-              navigate("/quiz");
+              navigate("/quizMain");
             }}
           />
         )}

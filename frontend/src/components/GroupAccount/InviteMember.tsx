@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
+//const BASE_HTTP_URL = "http://localhost:8080";
 
 function InviteMember() {
 

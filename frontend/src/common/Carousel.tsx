@@ -17,16 +17,11 @@ const Carousel = () => {
   };
 
   return (
-    <div>
-      <Slider {...settings}>
-        <div>
-          <GroupAccountHistory />
-        </div>
-        <div>
-          <GroupAccount />
-        </div>
-      </Slider>
-    </div>
+    <Slider {...settings}>
+      <GroupAccountHistory />
+
+      <GroupAccount />
+    </Slider>
   );
 };
 

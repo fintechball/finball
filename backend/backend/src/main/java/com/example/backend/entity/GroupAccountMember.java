@@ -79,6 +79,7 @@ public class GroupAccountMember {
                 .percent(percent)
                 .value(this.value)
                 .balance(this.balance)
+                .userId(this.member.getUserId())
                 .name(name)
                 .profileImage(profileImage)
                 .type(type)
