@@ -213,7 +213,11 @@ public class FinBallService {
                 );
 
         if (tradeHistory.getCategory() != null) { //비어있지 않다 => 그 전에 있던 것 취소해야함
-            Category category = categoryRepository.findByName(tradeHistory.getCategory().getName())
+//            Category category = categoryRepository.findByName(tradeHistory.getCategory().getName())
+//                    .orElseThrow(
+//                            () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
+//                    );
+            Category category = categoryRepository.findById(request.getCategoryId())
                     .orElseThrow(
                             () -> new CustomException(ErrorCode.DATA_NOT_FOUND)
                     );
