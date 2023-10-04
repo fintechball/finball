@@ -141,7 +141,12 @@ function Card() {
               }
             />
           </BBox>
-          <button className={styles.preview}>결제하기</button>
+          <button
+            className={styles.preview}
+            onClick={() => navigate("/qrScanner")}
+          >
+            결제하기
+          </button>
         </>
       ) : (
         <>
