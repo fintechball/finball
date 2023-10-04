@@ -19,11 +19,11 @@ function Home() {
   const dispatch = useDispatch();
 
   //테스트용
-  const isready=useSelector((state)=>state.isready)
+  const isready = useSelector((state) => state.isready)
   const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-  const my="12345-123456-123"
+  const my = "12345-123456-123"
   const auth = useSelector((state) => state.auth);
-  const result =useSelector((state=>state.groupfinball.result))
+  const result = useSelector((state => state.groupfinball.result))
   useEffect(() => {
     getGroupFinBAllAccount();
   }, []);
@@ -40,22 +40,22 @@ function Home() {
         dispatch(
           setGroupFinball({
             // ballunit:response.data.data.balance/40,
-            ballunit:1000,
-            members:response.data.data.member,
-            balance:response.data.data.balance,
+            ballunit: 1000,
+            members: response.data.data.member,
+            balance: response.data.data.balance,
           })
         );
       })
       .catch(() => {
       });
   };
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.minicontainer}>
         {/* 테스트용 */}
-        <div onClick={()=>navigate("/game")}>game</div>
-        <div onClick={()=>navigate("/groupaccount/12345-123456-123")}>group</div>
+        <div onClick={() => navigate("/game")}>game</div>
+        <div onClick={() => navigate("/groupaccount/12345-123456-123")}>group</div>
         {/*  */}
         <h2 onClick={() => navigate("/accountBook")}>우리 계좌</h2>
         <FinBallContainer />
@@ -69,7 +69,7 @@ function Home() {
         <BankAccountContainer />
       </div>
       <div className={styles.minicontainer}>
-        <h2>연결된 모임통장 목록</h2>
+        <h2>연결된 모임통장 목록</h2> <button onClick={() => navigate("/create/group-account")}>모임 통장 생성</button>
         <GroupAccountContainer />
       </div>
       {/* <button onClick={() => dispatch(setDate("123123"))}>초기화</button>

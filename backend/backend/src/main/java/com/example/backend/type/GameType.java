@@ -1,7 +1,7 @@
 package com.example.backend.type;
 
 public enum GameType {
-    게임1, 게임2, 노게임;
+    핀볼이체, 공평이체;
 
     public String toString() {
         return name();

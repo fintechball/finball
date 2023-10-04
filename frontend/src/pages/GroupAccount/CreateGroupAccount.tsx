@@ -111,7 +111,7 @@ function CreateGroupAccount() {
             </div>
             <div>
                 <label htmlFor="gameTypeSelectBox">
-                    사용목적
+                    이체 타입
                 </label>
                 <select id="gameTypeSelectBox" name="gameType" onChange={(event) => setGameType(event.target.value)}>
                     {gameTypeList.map((gameType, index) => (
