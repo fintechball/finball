@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./ChatBot.module.scss";
-import { RootState } from "../../store/store"
+import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
-import { SendOutlined }  from "@ant-design/icons"
-import { Input } from "antd"
+import { SendOutlined } from "@ant-design/icons";
+import { Input } from "antd";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function Chatbot() {
-  const auth = useSelector((state : RootState) => state.auth);
+  const auth = useSelector((state: RootState) => state.auth);
   const [messageList, setMessageList] = useState(null);
   const [question, setQuestion] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +42,7 @@ function Chatbot() {
     axios
       .post(
         `${BASE_HTTP_URL}/chat_bot/gpt`,
-        { question: question },
+        { question: question + "에 대한 질문을 최대한 짧게 답변해줘" },
         {
           headers: {
             Authorization: auth.accessToken,
@@ -105,32 +105,32 @@ function Chatbot() {
       {/* <img className={styles.profileimg} src={auth.image} alt="" /> */}
       {/* <button onClick={() => setMessageList(null)}>다지워</button> */}
       <div className={styles.chatcontainer}>
-          {messageList &&
-            messageList.length !== 0 &&
-            [...messageList].map((message, index) => (
-              <div key={index} className={styles.messagebox}>
-                {message.type === "질문" && (
-                  <img className={styles.profileimg} src={auth.image} alt="" />
-                )}
-                <div className={styles[message.type]}>
-                  {message.body}
-                </div>
-              </div>
-            ))}
-          {isLoading && (
-            <div className={styles.loadingMessage}>
-              <CircularProgress color="inherit" />
+        {messageList &&
+          messageList.length !== 0 &&
+          [...messageList].map((message, index) => (
+            <div key={index} className={styles.messagebox}>
+              {message.type === "질문" && (
+                <img className={styles.profileimg} src={auth.image} alt="" />
+              )}
+              <div className={styles[message.type]}>{message.body}</div>
             </div>
-          )}
+          ))}
+        {isLoading && (
+          <div className={styles.loadingMessage}>
+            <CircularProgress color="inherit" />
+          </div>
+        )}
       </div>
-      
+
       <div className={styles.inputcontainer}>
-            <Input
-              placeholder="질문을 입력하세요"
-              value={question}
-              onChange={(event) => setQuestion(event.target.value)}
-            ></Input>
-            <button onClick={help} disabled={!question}><SendOutlined /></button>
+        <Input
+          placeholder="질문을 입력하세요"
+          value={question}
+          onChange={(event) => setQuestion(event.target.value)}
+        ></Input>
+        <button onClick={help} disabled={!question}>
+          <SendOutlined />
+        </button>
       </div>
     </div>
   );
