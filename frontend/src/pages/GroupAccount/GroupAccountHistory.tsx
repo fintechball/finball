@@ -86,6 +86,9 @@ function GroupAccountHistory() {
 
     return gameHistory;
   };
+  const sendMoney = () => {
+    navigate("/fillAccount");
+  };
 
   const getGroupAccount = () => {
     const headers: Record<string, string> = {
@@ -145,8 +148,10 @@ function GroupAccountHistory() {
   }, []);
 
   const openInvitePage = () => {
-    navigate("/invite/group-account", { state: { name: groupAccount.name, url: groupAccount.url } });
-  }
+    navigate("/invite/group-account", {
+      state: { name: groupAccount.name, url: groupAccount.url },
+    });
+  };
 
   return (
     tradeHistoryDict && (
@@ -156,15 +161,8 @@ function GroupAccountHistory() {
           <span>{groupAccount.no}</span>
           <p className={styles.balance}>{groupAccount.balance}원</p>
 
-          <button>
-            채우기
-          </button>
-          {
-            userId == hostId && (
-              <button onClick={openInvitePage}>
-                초대하기
-              </button>)
-          }
+          <button onClick={sendMoney}>채우기</button>
+          <button onClick={openInvitePage}>초대하기</button>
 
           <hr />
           <div className={styles.date}>
