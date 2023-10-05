@@ -1,4 +1,4 @@
-import styles from "./QrScanner.module.css";
+import styles from "./QrScanner.module.scss";
 import { useState } from "react";
 import QrReader from "react-qr-reader";
 import axios from "axios";
@@ -46,7 +46,11 @@ const QrScanner = () => {
         }
       )
       .then(() => {
-        navigate("/cardView");
+        navigate("/paymentDone", {
+          state: {
+            value: opposite.value,          
+          },
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -57,8 +61,9 @@ const QrScanner = () => {
 
   return (
     <div className={styles.scanner}>
+      <h3>QR코드를 화면에 인식시켜주세요.</h3>
       <QrReader
-        constraints={{ facingMode: "user" }}
+        constraints={{ facingMode: "environment" }}
         onError={handleError}
         onScan={onScan}
         style={{ width: "100%" }}

@@ -5,6 +5,7 @@ import Password from "./Certification";
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import Toast, {Error, Success, Celebrate} from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 const PASSWORD_MAX_LENGTH = 6; // 비밀번호 입력길이 제한 설정
@@ -51,13 +52,12 @@ const SecuritySetting = () => {
     } else if (password.length == PASSWORD_MAX_LENGTH && isInputPassword) {
       // 만약 1차 비밀번호와 2차비밀번호가 같지 않다면 다시 1차 비밀번호 입력하도록 한다.
       if (password != password2) {
-        alert("1차 비밀번호와 2차 비밀번호가 같지 않습니다.");
+        Error("1차 비밀번호와 2차 비밀번호가 같지 않습니다.");
         setIsInputPassword(false);
         setPassword2("");
         setMessage(PASSWORD_INPUT_TEXT);
         setPassword("");
       } else {
-        alert("2차 비밀번호까지 완료!" + password2);
         saveMyEasyPassword();
       }
     }
@@ -83,7 +83,7 @@ const SecuritySetting = () => {
       console.log(response);
       if (response.status === 200) {
         const responseData = await response.json();
-        alert(responseData.message);
+        Success("간편 비밀번호 설정에 성공했습니다.");
         navigate("/login");
       }
     } catch (error) {
@@ -130,13 +130,12 @@ const SecuritySetting = () => {
   const onClickSubmitButton = (e: MouseEvent) => {
     // 비밀번호 제출
     if (password.length === 0) {
-      alert("비밀번호를 입력 후 눌러주세요!");
-    } else {
-      alert(password + "을 입력하셨습니다.");
+      Error("비밀번호를 입력 후 눌러주세요!");
     }
   };
   return (
     <>
+      <Toast/>
       <Password value={password} />
       <div>{message}</div>
       <div className={styles.inputer}>

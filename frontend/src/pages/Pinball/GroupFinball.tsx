@@ -40,13 +40,13 @@ function GroupFinball(value, state) {
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 15,
+      // delta: 10,
       isFixed: false,
       enabled: true,
     });
     // 중력 설정
     newEngine.world.gravity.x = 0;
-    newEngine.world.gravity.y = 0.6;
+    newEngine.world.gravity.y = 0.25;
     // Create a renderer
     const newRender = Render.create({
       element: document.getElementById(value.value.parent), // 렌더러를 부모 컨테이너에 적용
@@ -135,14 +135,14 @@ function GroupFinball(value, state) {
     World.add(newEngine.world, mouseConstraint);
     // Create balls array
     for (let j = 0; j < value.state.member.length; j++) {
-      for (let i = 0; i < Math.round(value.state.member[j].balance / 10000); i++) {
+      for (let i = 0; i < Math.floor(value.state.member[j].balance / 10000); i++) {
         const ball = Bodies.circle(
           Math.random() * parentSize.width,
           Math.random() * parentSize.height / 5,
           Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 25,
           {
-            density: 10,
-            frictionAir: 0.06,
+            density: 5,
+            frictionAir: 0.01,
             restitution: 0.01,
             friction: 0.01,
             isStatic: false,

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .container {
   text-align: left;
   /* height: 560px; */
@@ -15,55 +16,57 @@
 }
 
 .name {
-  color: #000;
-  font-family: Inter;
   font-size: 20px;
   font-style: normal;
-  font-weight: 600;
-  line-height: 20px; /* 100% */
-  letter-spacing: -0.5px;
+  font-weight: 800;
+  line-height: 35px; /* 100% */
 }
 
-.bankInfo {
+.smallbank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 25px;
+}
+.smallbank .bankName {
+  margin-right: 5px;
 }
 
-.bankName {
-  display: inline-block;
-  color: #000;
-  font-family: Inter;
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 20px; /* 181.818% */
-  letter-spacing: -0.5px;
+.memberlength {
+  font-size: 13px;
+  line-height: 20px;
+}
+.memberlength span {
+  font-weight: 700;
+}
+
+.balance {
+  text-align: left;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 10px 0;
 }
 
 .accountNo {
   display: inline-block;
-  color: #000;
-  font-family: Inter;
   font-size: 11px;
   font-style: normal;
   font-weight: 600;
   line-height: 20px; /* 181.818% */
-  letter-spacing: -0.5px;
 }
 
 .balance {
-  color: #000;
-  font-family: Inter;
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: 20px; /* 100% */
-  letter-spacing: -0.5px;
 }
 
 .members {
   display: inline-block;
   text-align: right;
-}
-.member {
 }
 
 .finballBox {

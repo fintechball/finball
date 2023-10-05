@@ -12,9 +12,9 @@ import styles from './Game.module.css';
 import decomp from 'poly-decomp';
 import { useNavigate } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
-import { setResult } from "../../store/slices/groupfinballSlice";
 import { useLocation } from 'react-router-dom';
-
+import axios from "axios";
+import { setResult,setPayment } from '../../store/slices/groupfinballSlice';
 function Game(value) {
 
   const [balls, setBalls] = useState([]);
@@ -40,13 +40,15 @@ function Game(value) {
 const auth = useSelector((state) => state.auth);
 const members = useSelector((state) => state.groupfinball.members);
 const ballunit = 10000;
-const ballcnt = useSelector((state) => state.groupfinball.ballcnt);
 const result = useSelector((state) => state.groupfinball.result);
+const history = useSelector((state) => state.groupfinball.history);
 const membercnt=members.length;
+const No=useSelector((state) => state.groupfinball.accountno)
 // const total=4800
-
+const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 const total = useSelector((state) => state.groupfinball.payment);
 const Payment = Math.ceil(Number(total)/ballunit);
+console.log(Payment)
 const last = total-(Payment-1)*ballunit
 const theme = '#4C4499';
 const dispatch = useDispatch();
@@ -72,6 +74,14 @@ const location = useLocation();
     "white":whiteball,
     "yellow":yellowball,
   });
+  const colorId={
+    "red":0,
+    "blue":1,
+    "green":2,
+    "purple":3,
+    "white":4,
+    "yellow":5,
+  }
   const [balllist, setBalllist] = useState([]);
   const X = [
     width / 40, 
@@ -99,7 +109,7 @@ const location = useLocation();
   const [engine, setEngine] = useState(null); // 엔진 상태 추가
   let render;
   let angle=0;
-  const Color = ['red', 'green', 'blue', 'yellow', 'purple', 'white'];
+  const Color = ['red',  'blue', 'green','purple', 'white', 'yellow'];
   function openModal() {
     setIsModalOpen(true);
 
@@ -109,6 +119,31 @@ const location = useLocation();
     setIsModalOpen(false); // 모달 닫기
     location.reload();
   };
+  const settle=()=>{
+    const data = {
+      "groupAccountHistoryId":history[0].id,
+      "gameResult":result
+    }
+    axios
+      .post(`${BASE_HTTP_URL}/api/group/account/adjustment`, data,{
+        headers: {
+          Authorization: auth.accessToken,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        dispatch(setResult({
+          result:[]
+        }))
+        dispatch(setPayment({
+          payment:"0"
+        }))
+        navigate(`/groupAccount/${No}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 // 중복 없이 랜덤 값을 추출하는 함수
 function getRandomUniqueItems(array, count) {
   const shuffled = array.slice(); // 원본 배열을 복제하여 새 배열 생성
@@ -136,11 +171,12 @@ const setColor = () => {
   let tmp = 0;
   for (let i = 0; i < membercnt; i++) {
     tmp += members[i].balance/ballunit;
-    userColor[Color[randomItems[i]]]=members[i]["name"]
+    userColor[Color[i]]=members[i]["name"]
     setUserColor((prevState) => ({
       ...prevState,
-      [Color[randomItems[i]]]: members[i]["name"],
+      [Color[i]]: members[i]["name"],
     }));
+    console.log(userColor,'civa')
   }
   let sum = 0;
   for (let i = 0; i < membercnt; i++) {
@@ -149,18 +185,20 @@ const setColor = () => {
       B.push(Object.keys(userColor).find((key) => userColor[key] == members[i]["name"]))
     }
   }
+  console.log(B)
   setTotalCnt(sum);
   const shuffledBall = shuffleArray(B);
   setBalllist(shuffledBall);
+  console.log(userColor)
 };
 const setGravity = () => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   if (isMobile) {
-    engine.gravity.y = 0.3
-    engine.gravity.scale=0.001
+    engine.gravity.y = 0.25
+    // engine.gravity.scale=0.001
   } else {
-    engine.gravity.y = 0.3
-    engine.gravity.scale=0.001
+    engine.gravity.y = 0.25
+    // engine.gravity.scale=0.001
   }
 };
 function start() {
@@ -202,7 +240,6 @@ function start() {
   }
 useEffect(()=>{
   setColor()
-  console.log(userColor)
 },[])
 useEffect(() => {
   if(totalCnt!=0){
@@ -214,20 +251,14 @@ useEffect(() => {
 }, [totalCnt]);
   useEffect(() => {
     // start()
-    console.log(totalCnt)
     
     async function initialize() {
-      console.log(members,'start')
       console.log(userColor,'start')
     const engine = Engine.create({
-      timing:{
-        // frameRate: 60,     // 초당 60프레임
-        // timestamp:1000,
-      },
     })
     const runner = Runner.create({
-      delta: 7.5,
-      isFixed: true,
+      // delta: 10,
+      isFixed: false,
       enabled: true
   });
     const render = Render.create({
@@ -240,18 +271,16 @@ useEffect(() => {
         background: 'black',
       },
     });
-    console.log(render)
     
     Common.setDecomp(decomp);
 
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (isMobile) {
-      engine.gravity.y = 0.30
+      engine.gravity.y = 0.25
       // engine.gravity.scale=0.0001
     } else {
-      engine.gravity.y = 0.30
-    console.log(engine.gravity.scale)
+      engine.gravity.y = 0.25
 
     }
     const mouse = Mouse.create(render.canvas);
@@ -834,28 +863,10 @@ useEffect(() => {
       block,wall5,dia1,dia2,dia3,dia4,wall6,wall7,wall8,wall9,dia5,dia6,dia7,dia8,borderBody,FinBallLogo,little2,little3,little4,
       little5,little1,middle1,middle2,middle3,middle4,middle5,middle6,little6,little7,little8,little9,little10,
       middle7,middle8,middle9,middle10,middle11,middle12,little11,little12,little13,little14,little15,sShape1,sShape2,aShape,fShape,yShape];
-      // Events.on(engine, 'afterUpdate', () => {
-      //   for (let i = 0; i < balls.length; i++) {
-      //     const ball = balls[i];
-      //     const textElement = ballTexts[i];
-      //     // 각 공의 위치에 따라 텍스트 위치 업데이트
-      //     textElement.style.top = `${ball.position.y+20}px`;
-      //     textElement.style.left = `${innerWidth/2-205+ball.position.x}px`;
-      //     if (ball.position.y>height) {
-      //       World.remove(engine.world, ball);
-      //       const rootDiv = document.getElementById('canvas');
-      //       rootDiv.removeChild(textElement);
-      //       balls.splice(i, 1);
-      //       ballTexts.splice(i, 1);
-      //       i--;
-      //     }
-      //   }
-      // });
     World.add(engine.world, Boundary);
     setEngine(engine);
-    Runner.run(runner, engine);
     Render.run(render);
-    // setColor()
+    Runner.run(runner, engine);
     }
 
     initialize()
@@ -982,7 +993,7 @@ useEffect(() => {
       let angle2 = 0;
       let angle3 = 0;
       Events.on(engine, 'beforeUpdate', () => {
-        angle1 += 0.03; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
+        angle1 += 0.015; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
         Body.setAngle(rot1, angle1); // rot1 요소의 각도를 변경
         Body.setAngle(rot2, angle1); // rot1 요소의 각도를 변경
         Body.setAngle(stick3, angle1); // rot1 요소의 각도를 변경
@@ -1007,7 +1018,7 @@ useEffect(() => {
       
       Events.on(engine, 'beforeUpdate', () => {
         // angle2 += 0.1; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
-        angle2 += 0.04*dir[(Math.round(cnt/50))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
+        angle2 += 0.05*dir[(Math.round(cnt/50))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
         Body.setAngle(stick1, angle2); // rot1 요소의 각도를 변경
         Body.setAngle(stick2, -angle2); // rot1 요소의 각도를 변경
       });
@@ -1016,7 +1027,7 @@ useEffect(() => {
       Events.on(engine, 'beforeUpdate', () => {
         cnt+=1
         // angle3 += 0.15*dir[(Math.round(cnt/25))%2];
-        angle3 += 0.1;
+        angle3 += 0.05;
         Body.setAngle(rot3, -angle3); // rot1 요소의 각도를 변경
         Body.setAngle(rot4, angle3); // rot1 요소의 각도를 변경
         Body.setAngle(rot5, angle3+1); // rot1 요소의 각도를 변경
@@ -1040,15 +1051,7 @@ useEffect(() => {
             const indexToRemove = updatedBalls.findIndex(ball => ball.id === highestYBall.id);
             if (indexToRemove !== -1) {
               updatedBalls.splice(indexToRemove, 1);
-        
-              // ballTexts에서도 해당 공의 텍스트 엘리먼트 제거
-              // const del = ballTexts.findIndex(textElement => textElement.id === highestYBall.id);
-              // if (del !== -1) {
-              //   const textElementToRemove = ballTexts[del];
-              //   ballTexts.splice(del, 1);
-              //   const rootDiv = document.getElementById('root')
-              //   rootDiv.removeChild(textElementToRemove);
-              // }
+
         
               World.remove(engine.world, highestYBall);
         
@@ -1066,17 +1069,16 @@ useEffect(() => {
             //반중력효과
             if (Pay.length==Math.round(Payment/2)&&once == false){
               setOnce(true)
-              engine.gravity.y=-0.2
+              engine.gravity.y=-0.25
               setTimeout(() => {
                 setGravity()  
               }, 2500);
-              console.log('half')
             }
             if (Pay.length==Payment){
               setIsModalOpen(true,)
               let res=[]
               for(let i=0;i<Pay.length;i++){
-                res.push(userColor[Pay[i].render.fillStyle])
+                res.push(members[colorId[Pay[i].render.fillStyle]].userId)
               }
               const frequency = res.reduce((res, curr,index) => {
                 if (res[curr]) {
@@ -1110,16 +1112,8 @@ useEffect(() => {
       updateScroll();
     }
   };
-// window.addEventListener('beforeunload', () => {
-//   // 페이지를 떠날 때 ballText 엘리먼트 삭제
-//   for (let i = 0; i < ballTexts.length; i++) {
-//     const textElementToRemove = ballTexts[i];
-//     const rootDiv = document.getElementById('canvas')
-//     rootDiv.removeChild(textElementToRemove);
-//   }
-// });
   return (
-    <div id="canvas" style={{width:"360px",height:"1800px"}}>
+    <div id="canvas" style={{width:"360px",height:"1800px"}} className={styles.container}>
       <div style={{ display: "flex",justifyContent: "center"}}>
       <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen,transition: "all 0.3s ease-in-out"}}>Finball!</button>
       </div>
@@ -1177,7 +1171,7 @@ useEffect(() => {
         {userColor["white"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>:""}
         {userColor["purple"]!="unknown"?<div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>:""}
         
-        <button onClick={()=>navigate("/")} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
+        <button onClick={()=>{settle();}} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
           </div>
       </Modal>
     </div>

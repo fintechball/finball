@@ -9,7 +9,6 @@ import {
   Runner,
   MouseConstraint,
 } from "matter-js";
-import styles from "./Pinball.module.css";
 import defalautball from "../../assets/defalutball.png";
 import chrome from "../../assets/chrome1.png";
 import dogi from "../../assets/dogi1.png";
@@ -27,14 +26,15 @@ const skinlist = {
   도커: docker,
   포켓몬볼: poke,
 };
-function PinballJeongHui(value) {
+function AccountBookFinball(value) {
   const [balls, setBalls] = useState([]);
   const finball = useSelector((state) => state.finBallAccount);
   const [ballInfo, setBallInfo] = useState(null);
   const ballskin = useSelector((state) => state.skin.skin);
   const finBallAccount = useSelector((state) => state.finBallAccount);
   const auth = useSelector((state) => state.auth);
-
+  const [newEngine,setNewEngine] = useState(null)
+  const [newRender,setNewRender] = useState(null)
   const dispatch = useDispatch();
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
@@ -145,13 +145,13 @@ function PinballJeongHui(value) {
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 10,
+      // delta: 7.5,
       isFixed: false,
       enabled: true,
     });
     // 중력 설정
     newEngine.world.gravity.x = 0;
-    newEngine.world.gravity.y = 0.6;
+    newEngine.world.gravity.y = 0.25;
     // Create a renderer
     const newRender = Render.create({
       element: document.getElementById(value.value.parent), // 렌더러를 부모 컨테이너에 적용
@@ -379,4 +379,4 @@ function PinballJeongHui(value) {
   );
 }
 
-export default PinballJeongHui;
+export default AccountBookFinball;

@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AccountDetailComponent from "../Transfer/AccountDetailComponent";
 import { setAccount } from "../../store/slices/accountSlice";
 import { RootState } from "../../store/store";
+import Toast, {Error, Success, Normal} from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -57,7 +58,7 @@ function AccountBook() {
   // 모달 닫기 함수
   const closeModal = () => {
     if (name == "" || amount == "") {
-      alert("카테고리와 금액을 확인해주세요");
+      Error("카테고리와 금액을 확인해주세요");
     } else {
       setIsModalOpen(false); // 모달 닫기
       createAccountBook();
@@ -77,7 +78,7 @@ function AccountBook() {
   }
   const closeCategoryModal = () => {
     if (name == "" || amount == "") {
-      alert("카테고리와 금액을 확인해주세요");
+      Error("카테고리와 금액을 확인해주세요");
     } else {
       setIsCategoryModalOpen(false); // 모달 닫기
       createCategory();
@@ -254,7 +255,7 @@ function AccountBook() {
       })
       .catch((err) => {
         if (err.response.status == 400) {
-          alert(err.response.data.message)
+          Error(err.response.data.message)
         }
         console.log("삐빅", err);
       });
@@ -281,7 +282,7 @@ function AccountBook() {
       .catch((err) => {
         console.log("삐빅", err);
         if (err.response.status == 409) {
-          alert("이미 카테고리로 지정이 되어 있습니다.")
+          Error("이미 카테고리로 지정이 되어 있습니다.")
         }
       });
   };
@@ -336,17 +337,9 @@ function AccountBook() {
         console.log("삐빅", err);
       });
   };
-  const renderPinball = () => {
-    if (selectedBtn === "btn1") {
-      return <Pinball value={{ parent: "canvas1" }} />;
-    } else if (selectedBtn === "btn2") {
-      return <Pinball value={{ parent: "canvas2" }} />;
-    } else {
-      return <Pinball value={{ parent: "canvas3" }} />;
-    }
-  };
   return (
     <div>
+      <Toast/>
       {/* 가계부생성모달 => 이거 안쓰이고 있는 것 같아요*/}
       <Modal
         ariaHideApp={false}
@@ -606,7 +599,7 @@ function AccountBook() {
           ) : (
             <div key="btn3">
               <div
-                style={{ position: "relative", width: "360px", height: "70vh" }}
+                style={{ position: "relative", width: "360px", height: "360px" }}
               >
                 <button
                   style={{ visibility: isAccountBook ? "hidden" : "visible" }}
@@ -629,8 +622,8 @@ function AccountBook() {
                     state.categoryList.map((v, i) => (
                       <div
                         style={{
-                          width: "30px",
-                          height: "30px",
+                          width: "50px",
+                          height: "50px",
                           marginRight: "5px",
                         }}
                         key={i}

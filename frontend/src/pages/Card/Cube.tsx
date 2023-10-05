@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Box } from "@react-three/drei";
 import { TextureLoader } from "three";
-import "./Card.module.css";
+import "./Card.module.scss";
 import cardImg from "../../assets/2489card.png";
 
 function Cube(props) {
@@ -11,8 +11,12 @@ function Cube(props) {
   // 이미지 로드
   const textureLoader = new TextureLoader();
   textureLoader.setCrossOrigin("anonymous");
+  const url = props.cardImage + "?not-from-cache-please";
 
-  const texture = textureLoader.load(props.cardImage);
+  const texture = textureLoader.load(url);
+  console.log(props.cardImage)
+  console.log(texture)
+
 
   useFrame(({ clock }) => {
     // 시간에 따라 자동으로 회전
@@ -25,7 +29,7 @@ function Cube(props) {
       position={[0, 0, 0]}
       rotation={[0, 0, 0]}
       ref={cubeRef}
-      scale={3}
+      scale={4}
     >
       <meshPhongMaterial attach="material" map={texture} />
     </Box>

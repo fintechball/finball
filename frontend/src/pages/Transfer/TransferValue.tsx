@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
+import Toast, {Error, Success, Normal} from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -103,8 +104,11 @@ function TransferValue() {
 
   const doTransfer = () => {
     if (value > (fill ? balance : account.account.balance)) {
-      alert(
-        `최대 ${fill ? balance.toLocaleString() : account.account.balance.toLocaleString()
+      Error(
+        `최대 ${
+          fill
+            ? balance.toLocaleString()
+            : account.account.balance.toLocaleString()
         }원을 이체할 수 있습니다.`
       );
     } else {
@@ -162,9 +166,14 @@ function TransferValue() {
 
   return (
     <div className={styles.container}>
+      <Toast/>
       <p className={styles.bigText}>내 {account.account.name}에서</p>
       <p className={styles.smallText}>
-        잔액 {fill ? balance.toLocaleString() : account.account.balance.toLocaleString()}원
+        잔액{" "}
+        {fill
+          ? balance.toLocaleString()
+          : account.account.balance.toLocaleString()}
+        원
       </p>
 
       <p className={styles.bigText}>{opposite.opposite.name}에게</p>
@@ -178,11 +187,16 @@ function TransferValue() {
         value={value}
         placeholder="얼마나 옮길까요?"
         onClick={ShowNumberPad}
+        readOnly={true}
       />
 
       {!value && !showNumberPad && (
         <button className={styles.totalBalanceButton} onClick={transferAll}>
-          잔액 {fill ? balance.toLocaleString() : account.account.balance.toLocaleString()}원 입력
+          잔액{" "}
+          {fill
+            ? balance.toLocaleString()
+            : account.account.balance.toLocaleString()}
+          원 입력
         </button>
       )}
 

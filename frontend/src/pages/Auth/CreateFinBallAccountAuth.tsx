@@ -2,6 +2,7 @@ import { Button, Input } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Toast, {Error, Success, Celebrate} from "../../components/Toast/Toast";
 import styles from "./CreateFinBallAccountAuth.module.scss";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
@@ -33,15 +34,15 @@ function CreateFinBallAccountAuth() {
 
   const validationCheck = () => {
     if (name == "") {
-      alert("이름을 입력해주세요.");
+      Error("이름을 입력해주세요.")
       return false;
     }
     if (firstRegNum.length != 6) {
-      alert("앞 자리를 확인해주세요.");
+      Error("앞 자리를 확인해주세요.")
       return false;
     }
     if (lastRegNum.length != 7) {
-      alert("뒷 자리를 확인해주세요.");
+      Error("뒷 자리를 확인해주세요.");
       return false;
     }
 
@@ -71,16 +72,17 @@ function CreateFinBallAccountAuth() {
         }
       )
       .then((res) => {
-        alert("성공 : " + res.data.message);
+        Celebrate("핀볼계정 생성 완료")
         navigate("/create/finball-account");
       })
       .catch((err) => {
-        alert("에러발생 : " + err);
+        Error("예상치 못한 오류가 일어났습니다.");
       });
   };
 
   return (
     <div className={styles.container}>
+      <Toast/>
       <h2>
         계좌 생성을 위해
         <br />

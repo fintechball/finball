@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "./SignUpCerti.module.scss";
+import Toast, {Error, Success, Celebrate} from "../../components/Toast/Toast";
 
 interface FormData {
   name: string;
@@ -32,24 +33,24 @@ function SignUpCerti() {
         },
         body: requestBody,
       });
-      console.log(requestBody);
-      console.log(response);
+      // console.log(requestBody);
+      // console.log(response);
       if (response.status === 200) {
         const responseData = await response.json();
-        alert("sms 인증 요청을 보냈습니다. 인증 번호를 입력해주세요.");
+        Success("sms 인증 요청을 보냈습니다. 인증 번호를 입력해주세요.");
         setValidCode(responseData.data.certificationNumber);
-        console.log("인증번호:", responseData.data.certificationNumber);
+        // console.log("인증번호:", responseData.data.certificationNumber);
       } else {
-        alert("죄송합니다. 잠시 후 다시 시도해주세요.");
+        Error("죄송합니다. 잠시 후 다시 시도해주세요.");
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
   const codeCheck = () => {
     if (code === validCode) {
-      alert("인증이 완료되었습니다.");
+      Success("인증이 완료되었습니다.");
       setIsPhoneValid(true);
     }
   };
@@ -64,12 +65,13 @@ function SignUpCerti() {
 
       navigate("/securitySetting", { state: { formData: updatedFormData } });
     } else {
-      alert("휴대폰 인증을 완료해주세요.");
+      Error("휴대폰 인증을 완료해주세요.");
     }
   };
 
   return (
     <div className={styles.container}>
+      <Toast/>
       <h2>휴대폰 인증</h2>
       <div className={styles.minicontainer}>
         <p>휴대폰 번호</p>

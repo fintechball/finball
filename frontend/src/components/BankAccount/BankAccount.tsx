@@ -61,7 +61,7 @@ function BankAccount() {
       ) : (
         <>
           <div className={styles.noncontainer}>
-            <p>연결된 계좌가 없습니다.</p>
+            <p>연결된 타행 계좌가 없습니다.</p>
             <button onClick={() => navigate("/company/bank")}>
               + 계좌 연결하기
             </button>
