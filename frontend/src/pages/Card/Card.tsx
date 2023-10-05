@@ -93,7 +93,7 @@ function Card() {
               <p className={styles.balance}>카드 목록</p>
               <button
                 onClick={() => navigate("/company/card")}
-                className={styles.button}
+                className={`${styles.bluebutton} ${styles.small}`}
               >
                 + 추가 등록
               </button>

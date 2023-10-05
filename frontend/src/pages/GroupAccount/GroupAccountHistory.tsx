@@ -3,7 +3,7 @@ import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import styles from "../Transfer/AccountDetail.module.css";
+import styles from "../Transfer/AccountDetail.module.scss";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import TradeHistory from "../../components/Transfer/TradeHistory";
 
@@ -158,7 +158,9 @@ function GroupAccountHistory() {
         <div className={styles.container}>
           <p className={styles.bankAccount}>{groupAccount.name} 모임 통장</p>
           <span>{groupAccount.no}</span>
-          <p className={styles.balance}>{groupAccount.balance.toLocaleString()}원</p>
+          <p className={styles.balance}>
+            {groupAccount.balance.toLocaleString()}원
+          </p>
 
           <button onClick={sendMoney}>채우기</button>
           <button onClick={openInvitePage}>초대하기</button>

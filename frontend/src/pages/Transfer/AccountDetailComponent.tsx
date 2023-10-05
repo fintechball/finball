@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import styles from "./AccountDetail.module.css";
+import styles from "./AccountDetail.module.scss";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { setTradeHistorys } from "../../store/slices/tradeHistorySlice";
 import { setBalance } from "../../store/slices/accountSlice";
@@ -28,8 +28,8 @@ function AccountDetailComponent(props) {
       props.isFinBall
         ? "/api/fin-ball/history"
         : account.company.code === 106
-          ? "/api/fin-ball/history"
-          : `/api/user/account/${account.account.no}`
+        ? "/api/fin-ball/history"
+        : `/api/user/account/${account.account.no}`
     );
     refreshBalance();
   }, []);
@@ -42,7 +42,6 @@ function AccountDetailComponent(props) {
         },
       })
       .then((response) => {
-
         let index = 0;
         console.log(url);
         console.log(response);
@@ -93,7 +92,9 @@ function AccountDetailComponent(props) {
           <p className={styles.bankAccount}>
             {account.company.name}은행 {account.account.no}
           </p>
-          <p className={styles.balance}>{account.account.balance.toLocaleString()}원</p>
+          <p className={styles.balance}>
+            {account.account.balance.toLocaleString()}원
+          </p>
           <div className={styles.buttonBox}>
             <button
               onClick={() => navigate("/fillAccount")}
@@ -116,7 +117,10 @@ function AccountDetailComponent(props) {
             </p>
           </div>
 
-          <TradeHistory tradeHistoryDict={tradeHistoryDict} isFinBall={props.isFinBall} />
+          <TradeHistory
+            tradeHistoryDict={tradeHistoryDict}
+            isFinBall={props.isFinBall}
+          />
         </div>
       )}
     </>
