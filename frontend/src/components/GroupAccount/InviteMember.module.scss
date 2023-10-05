@@ -1,0 +1,23 @@
+@import "../../pages/Test/main.module.scss";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.textbox {
+    text-align: left;
+}
+
+.invitebox {
+    display: flex;
+    button {
+        width: 30%;
+        margin-bottom: 15px;
+    }
+}
+
+.backbutton {
+    margin-top: 15px;
+}

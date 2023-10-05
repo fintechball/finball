@@ -5,6 +5,8 @@ import { Button, Input } from "antd";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Toast, {Error, Success} from "../../components/Toast/Toast";
+import { StylesProvider } from "@material-ui/core";
+import styles from "./InviteMember.module.scss"
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -107,21 +109,24 @@ function InviteMember() {
     };
 
     return (
-        <div>
+        <div className={styles.container}>
+            <div className={styles.textbox}>
+                <h3>초대할 친구의 휴대폰 번호를 <br />입력해 주세요.</h3>
+            </div>
             <Toast/>
             {inputList.map((item, i) => {
                 return (
-                    <div key={i}>
+                    <div key={i} className={styles.invitebox}>
                         <Input
                             onChange={handleChange}
                             value={item.value}
                             id={i}
                             type="text"
                         />
-                        <Button type="primary" onClick={() => {
+                        <button className={styles.button} onClick={() => {
                             // 버튼 클릭 시, 인덱스 전달
                             addMember(i);
-                        }}>멤버추가</Button>
+                        }}>초대</button>
                     </div>
                 );
             })}
@@ -129,9 +134,9 @@ function InviteMember() {
 
             {/* input 박스 추가 버튼 */}
             {inputList.length < 5 && (
-                <button onClick={addInput}>+</button>
+                <button onClick={addInput} className={styles.bluebutton}>+ 멤버 추가</button>
             )}
-            <button onClick={goBack}>돌아가기</button>
+            <button className={styles.backbutton} onClick={goBack}>돌아가기</button>
         </div>
     );
 }
