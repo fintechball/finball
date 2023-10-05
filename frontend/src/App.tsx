@@ -7,7 +7,7 @@ import Footer from "../src/components/Footer/Footer";
 
 function App() {
   const location = useLocation();
-  const hideHeaderFooter = location.pathname === "/game";
+  const hideHeaderFooter = location.pathname === "/game" || location.pathname === "/game2";
   return (
     <>
       <div>

@@ -90,14 +90,16 @@
   margin-top: 10px;
   align-items: center;
   justify-content: center;
-  position: relative;
   width: 100%;
 }
-.body .progress img {
+.body .graybox {
+  position: relative;
+}
+.body .graybox img {
   width: 30px;
   position: absolute;
-  left: -8px;
-  top: -8px;
+  left: 110px;
+  top: -20px;
   z-index: 999;
 }
 .body .point {

@@ -1128,7 +1128,7 @@ useEffect(() => {
 //   }
 // });
   return (
-    <div id="canvas" style={{width:"360px",height:"1800px"}}>
+    <div id="canvas" style={{width:"360px",height:"1800px"}} className={styles.container}>
       <div style={{ display: "flex",justifyContent: "center"}}>
       <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen}}>Start</button>
       
