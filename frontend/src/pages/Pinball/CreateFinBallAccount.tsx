@@ -6,6 +6,7 @@ import styles from "./CreateFinBallAccount.module.scss";
 
 import { Dropdown, Menu, Space, Checkbox } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import Toast, {Error, Success, Normal} from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -20,11 +21,11 @@ function CreateFinBallAccount() {
 
   const validationCheck = () => {
     if (usage == "") {
-      alert("사용 목적을 선택해주세요");
+      Error("사용 목적을 선택해주세요");
       return false;
     }
     if (moneySource == "") {
-      alert("자금 출처를 선택해주세요");
+      Error("자금 출처를 선택해주세요");
       return false;
     }
 
@@ -53,7 +54,7 @@ function CreateFinBallAccount() {
         }
       )
       .then((res) => {
-        alert("계좌 생성이 완료되었습니다.");
+        Success("계좌 생성이 완료되었습니다.");
         console.log("계좌 생성 완료 " + res);
         navigate("/");
       })
@@ -72,7 +73,6 @@ function CreateFinBallAccount() {
         headers: headers,
       })
       .then((res) => {
-        console.log("list들 조회해왔습니다.");
         setUsageList(res.data.data.usageList);
         setMoneySourceList(res.data.data.moneySourceList);
 
@@ -124,6 +124,7 @@ function CreateFinBallAccount() {
 
   return (
     <div className={styles.container}>
+      <Toast/>
       <h2>
         안전한 거래를 위해
         <br />

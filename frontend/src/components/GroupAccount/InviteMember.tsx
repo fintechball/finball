@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button, Input } from "antd";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import Toast, {Error, Success} from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -54,7 +55,6 @@ function InviteMember() {
             "Content-Type": "application/json",
             Authorization: accessToken,
         };
-        //alert(`${groupAccountNameAndUrl.name}계좌로 보냅니다. url은 ${groupAccountNameAndUrl.url}입니다.`)
         axios
             .post(
                 `${BASE_HTTP_URL}/api/group/account/invite`,
@@ -69,10 +69,10 @@ function InviteMember() {
             )
             .then((res) => {
                 console.log(res.data.message);
-                alert(phoneNumber + "에게 초대 링크를 보냈습니다.");
+                Success(phoneNumber + "에게 초대 링크를 보냈습니다.");
             })
             .catch(() => {
-                alert(phoneNumber + "에게 초대 링크를 보내지 못했습니다.");
+                Error(phoneNumber + "에게 초대 링크를 보내지 못했습니다.")
             });
     }
 
@@ -108,6 +108,7 @@ function InviteMember() {
 
     return (
         <div>
+            <Toast/>
             {inputList.map((item, i) => {
                 return (
                     <div key={i}>

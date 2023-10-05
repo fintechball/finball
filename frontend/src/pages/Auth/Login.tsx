@@ -10,6 +10,8 @@ import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/slices/authSlice";
 import { setLogged } from "../../store/slices/loggedSlice";
 import { setSkin } from "../../store/slices/skinSlice";
+import Toast, {Error} from "../../components/Toast/Toast";
+// import toast, { Toaster } from 'react-hot-toast';
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
@@ -54,11 +56,7 @@ function Login() {
         navigate("/");
       })
       .catch((error) => {
-        console.log({
-          username: id,
-          password: password,
-        });
-        console.log(error);
+        Error("로그인에 실패하였습니다.");
       });
   };
 
@@ -71,21 +69,27 @@ function Login() {
       doLogin();
     }
   };
+
   const focusId = () => {
     setIdcolor("#d1c4e9");
   };
+
   const defaultId = () => {
     setIdcolor("");
   };
+
   const focusPw = () => {
     setPwcolor("#d1c4e9");
   };
+
   const defaultPW = () => {
     setPwcolor("");
   };
+
   return (
     <div className={styles.container}>
       <h1>LOGIN</h1>
+      <Toast/>
       <div className={styles.smallbox}>
         <div className={styles.label}>아이디</div>
         <Input

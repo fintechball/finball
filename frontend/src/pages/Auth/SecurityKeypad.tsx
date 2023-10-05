@@ -5,6 +5,7 @@ import Password from "./Certification";
 import { RootState } from "../../store/store";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Toast, {Error, Success, Celebrate} from "../../components/Toast/Toast";
 
 const PASSWORD_MAX_LENGTH = 6; // 비밀번호 입력길이 제한 설정
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
@@ -60,8 +61,7 @@ const SecurityKeypad = () => {
         }
       )
       .then((res) => {
-        // alert("성공 : " + res.data.message);
-        // 성공하면 메인 페이지로 보내기...
+        Success("간편 비밀번호 인증에 성공했습니다.");
         navigate("/transfering", {
           state: {
             money: sendMoney,
@@ -70,7 +70,7 @@ const SecurityKeypad = () => {
         });
       })
       .catch(() => {
-        alert("비밀번호를 잘못 입력하였습니다.");
+        Error("비밀번호를 잘못 입력하였습니다.");
         setPassword("");
       });
   };
@@ -110,17 +110,9 @@ const SecurityKeypad = () => {
     [handlePasswordChange]
   );
 
-  // const onClickSubmitButton = (e: MouseEvent) => {
-  //   // 비밀번호 제출
-  //   if (password.length === 0) {
-  //     alert("비밀번호를 입력 후 눌러주세요!");
-  //   } else {
-  //     alert(password + "을 입력하셨습니다.");
-  //     // 여기서부터 통신 시작
-  //   }
-  // };
   return (
     <>
+    <Toast/>
       <Password value={password} />
       <div className={styles.inputer}>
         {[

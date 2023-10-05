@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.scss";
 import { useState } from "react";
 import { Button } from "antd";
+import Toast, {Error, Success, Celebrate} from "../../components/Toast/Toast";
 
 interface IFormInput {
   name: string;
@@ -67,10 +68,10 @@ function SignUp() {
       console.log(response);
       if (response.status === 200) {
         const responseData = await response.json();
-        alert(responseData.message);
+        Success("사용가능한 아이디입니다.");
         setIsIdValid(true);
       } else {
-        alert("사용 불가능한 아이디입니다.");
+        Error("사용 불가능한 아이디입니다.");
       }
     } catch (error) {
       console.error(error);
@@ -80,15 +81,15 @@ function SignUp() {
   const onSubmit = (data: IFormInput) => {
     if (isIdValid) {
       const { passwordConfirm, ...signupData } = data;
-      console.log(signupData);
       navigate("/signupcerti", { state: { formData: signupData } });
     } else {
-      alert("아이디 중복 확인을 완료해주세요.");
+      Error("아이디 중복 확인을 완료해주세요.");
     }
   };
 
   return (
     <div className={styles.container}>
+      <Toast/>
       <h1>SIGNUP</h1>
       <div className={styles.smallbox}>
         <p>이름</p>
