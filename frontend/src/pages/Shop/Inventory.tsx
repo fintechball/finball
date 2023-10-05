@@ -4,16 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setSkin } from "../../store/slices/skinSlice";
 import styles from "./inventory.module.scss";
-import yellowball from "../../assets/yellowball.png"
+import yellowball from "../../assets/yellowball.png";
 import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useTheme } from "@mui/material/styles";
-import { RootState } from "../../store/store"
+import { RootState } from "../../store/store";
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
-
-
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -23,13 +21,12 @@ function Inventory() {
   const [point, setPoint] = useState<number>(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const auth = useSelector((state : RootState) => state.auth);
+  const auth = useSelector((state: RootState) => state.auth);
 
   const theme = useTheme();
 
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = inventoryList && inventoryList.length;
-  
 
   useEffect(() => {
     getPoint();
@@ -108,12 +105,8 @@ function Inventory() {
         <h3>{point} Point</h3>
       </div>
       <div className={styles.textbox}>
-
-      <h2>보유중인 스킨</h2>
+        <h2>보유중인 스킨</h2>
       </div>
-
-
-
 
       {isDetail ? (
         <div>
@@ -136,7 +129,9 @@ function Inventory() {
           </div>
           <div>
             {inventoryList[activeStep].selected ? (
-              <button className={styles.selectedButton} disabled={true}>착용 중</button>
+              <button className={styles.selectedButton} disabled={true}>
+                착용 중
+              </button>
             ) : (
               <button
                 className={styles.unSelectedButton}
@@ -147,8 +142,7 @@ function Inventory() {
             )}
           </div>
           <div className={styles.stepperbox}>
-
-          <MobileStepper
+            <MobileStepper
               variant="dots"
               steps={maxSteps}
               position="static"
@@ -170,7 +164,7 @@ function Inventory() {
               }
               backButton={
                 <Button
-                size="large"
+                  size="large"
                   onClick={handleBack}
                   disabled={activeStep === 0}
                 >
@@ -200,7 +194,9 @@ function Inventory() {
                 />
                 <p className={styles.smallskinName}>{inventory.name}</p>
                 {inventory.selected ? (
-                  <button className={styles.selectedButton} disabled={true}>착용 중</button>
+                  <button className={styles.selectedButton} disabled={true}>
+                    착용 중
+                  </button>
                 ) : (
                   <button
                     className={`${styles.unSelectedButton} ${styles.bluebutton}`}
@@ -215,8 +211,12 @@ function Inventory() {
         )
       )}
       {!isDetail && (
-        <button className={`${styles.subbutton} ${styles.floatbutton}`} onClick={() => navigate("/shop")}>
-          <LocalMallOutlinedIcon /><span>상점 가기</span>
+        <button
+          className={`${styles.subbutton} ${styles.floatbutton}`}
+          onClick={() => navigate("/shop")}
+        >
+          <LocalMallOutlinedIcon />
+          <span>상점 가기</span>
         </button>
       )}
     </div>
