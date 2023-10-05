@@ -20,7 +20,7 @@
 
 .total button {
   background-color: rgb(21, 122, 255);
-  color: beige;
+  color: white;
   margin-left: auto;
   padding-left: 16px;
   padding-right: 16px;
@@ -63,7 +63,7 @@
 
 .account button {
   background-color: rgb(170, 143, 195);
-  color: beige;
+  color: white;
   margin-left: auto;
   padding-left: 12px;
   padding-right: 12px;

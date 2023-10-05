@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "./StartGame.module.css"
+import styles from "./StartGame.module.scss"
 import { useNavigate } from "react-router-dom";
 import Toast, {Error, Success} from "../../components/Toast/Toast";
 function StartGame() {
@@ -57,8 +57,10 @@ function StartGame() {
       }
     
       return (
-        <>
-        <Toast/>
+        <div className={styles.container}>
+          <div className={styles.textbox}>
+            <h2>모임통장이 없어도 <br />핀볼 게임을 이용할 수 있어요!</h2>
+          </div>
           <div className={styles.inputContainer}>
             <input
               className={styles.inputbox}
@@ -119,7 +121,7 @@ function StartGame() {
             />
             <button onClick={goToGame}>게임하러가기</button>
           </div>
-        </>
+        </div>
     )
 }
 

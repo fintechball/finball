@@ -16,6 +16,7 @@ import { setAccount } from "../../store/slices/accountSlice";
 import { RootState } from "../../store/store";
 import Toast, { Error, Success, Normal } from "../../components/Toast/Toast";
 import trash from "../../assets/trash.png"
+import { StarOutlineSharp } from "@mui/icons-material";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -645,15 +646,17 @@ function AccountBook() {
                   }}
                 >
                   가계부
-                  <button
+                </div>
+                <div className={styles.buttonbox}>
+                <button
                   className={styles.deleteAccountBookbtn}
                   style={{ visibility: isAccountBook ? "hidden" : "visible" }}
                   onClick={deleteAccountBook}
                 >
                   <img src={trash} style={{width:"15px"}}/>
                 </button>
+                <button className={styles.addCategorybtn} onClick={openCategoryModal}>+ 카테고리 추가</button>
                 </div>
-                <button className={styles.addCategorybtn} onClick={openCategoryModal}>+추가하기</button>
                 <div
                   style={{
                     display: "flex",

@@ -30,14 +30,14 @@
 
 .fill {
   background-color: rgb(21, 122, 255);
-  color: beige;
+  color: white;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
 .send {
   background-color: rgb(170, 143, 195);
-  color: beige;
+  color: white;
   margin-left: auto;
   padding-top: 5px;
   padding-bottom: 5px;
