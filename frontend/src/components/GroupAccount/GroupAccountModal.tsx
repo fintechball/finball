@@ -6,8 +6,13 @@ import yellowball from '../../assets/yellowball.png';
 import blueball from '../../assets/blueball.png';
 import purpleball from '../../assets/purpleball.png';
 import whiteball from '../../assets/whiteball.png';
+import { useSelector } from "react-redux";
 
 const GroupAccountModal = (props) => {
+  const auth = useSelector((state) => state.auth);
+  const member=useSelector((state)=>state.groupfinball.members)
+  console.log(auth)
+  console.log(member[0].name)
   const data = props.data;
 
   const colorlist={
@@ -61,11 +66,13 @@ const GroupAccountModal = (props) => {
           ))}
         </div>
           <div className={styles.footer}>
-            {data.gameEnd != true && (
+            {auth.name==member[0].name?
+            data.gameEnd != true && (
               <Link to="/transferGroupAccount">
                 <button className={`${styles.subbutton} ${styles.lightbutton}`}>이체하기</button>
               </Link>
-            )}
+            )
+            :<></>}
             <button onClick={props.onClose} className={styles.graybutton}>닫기</button>
           </div>
       </div>
