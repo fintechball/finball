@@ -60,7 +60,7 @@ import CreateFinBallAccount from "../pages/Pinball/CreateFinBallAccount";
 import CreateFinBallAccountAuth from "../pages/Auth/CreateFinBallAccountAuth";
 
 // 모임통장 계좌이체
-import TransferGroupAccount from "../components/GroupAccount/TransferGroupAccount.tsx";
+import TransferGroupAccount from "../components/GroupAccount/TransferGroupACcount.tsx";
 import TransferValueGroupAccount from "../components/GroupAccount/TransferValueGroupAccount.tsx";
 import TransferingGroupAccount from "../components/GroupAccount/TransferingGroupAccount.tsx";
 import GroupAccountContainer from "../pages/GroupAccount/GroupAccountContainer.tsx";
