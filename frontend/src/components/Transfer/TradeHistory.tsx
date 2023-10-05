@@ -1,5 +1,5 @@
 import axios from "axios";
-import styles from "../../pages/Transfer/AccountDetail.module.scss";
+import styles from "./TradeHistory.module.scss";
 import GroupAccountModal from "../../components/GroupAccount/GroupAccountModal";
 import { useState } from "react";
 import { RootState } from "../../store/store";
@@ -68,6 +68,7 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
             <div key={tradeHistory.id}>
               {index === 0 ? (
                 <p className={styles.bankAccount}>
+                  {/* <hr className={styles.hr} /> */}
                   {key.split("-")[1]}월 {key.split("-")[2]}일
                 </p>
               ) : (
@@ -123,7 +124,7 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
 
                   {tradeHistory.type === "입금" ? (
                     <p className={styles.value}>
-                      {tradeHistory.value.toLocaleString()}원
+                      +{tradeHistory.value.toLocaleString()}원
                     </p>
                   ) : (
                     <p className={styles.minusValue}>
