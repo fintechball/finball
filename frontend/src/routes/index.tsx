@@ -19,6 +19,7 @@ import Jeonghui from "../pages/Test/JeongHui";
 import Pinball from "../pages/Pinball/Pinball";
 import Game from "../pages/Pinball/Game";
 import Game2 from "../pages/Pinball/Game2";
+import StartGame from "../pages/Pinball/StartGame.tsx";
 import Card from "../pages/Card/Card";
 import QrScanner from "../pages/Card/QrScanner";
 import PaymentDone from "../pages/Card/PaymentDone";
@@ -187,6 +188,7 @@ function Router() {
         <Route 
         path="/game2"
         element={<Game2 />}/>
+        <Route path="/startgame" element={<StartGame />} />
       </Routes>
     </>
   );
