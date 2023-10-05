@@ -118,18 +118,19 @@ const location = useLocation();
     setIsModalOpen(false); // 모달 닫기
     location.reload();
   };
-  function settle(){
+  const settle=()=>{
+    const data = {
+      "groupAccountHistoryId":history[0].id,
+      "gameResult":result
+    }
     axios
-      .post(`${BASE_HTTP_URL}/api/group/account/adjustment`, {
+      .post(`${BASE_HTTP_URL}/api/group/account/adjustment`, data,{
         headers: {
           Authorization: auth.accessToken,
         },
-        data:{
-          "groupAccountHistoryId":history[0].id,
-          "gameResult":result
-        }
       })
       .then((res) => {
+        console.log(res);
         dispatch(setResult({
           result:[]
         }))
@@ -259,7 +260,7 @@ useEffect(() => {
       },
     })
     const runner = Runner.create({
-      delta: 10,
+      delta: 7.5,
       isFixed: true,
       enabled: true
   });
@@ -866,23 +867,6 @@ useEffect(() => {
       block,wall5,dia1,dia2,dia3,dia4,wall6,wall7,wall8,wall9,dia5,dia6,dia7,dia8,borderBody,FinBallLogo,little2,little3,little4,
       little5,little1,middle1,middle2,middle3,middle4,middle5,middle6,little6,little7,little8,little9,little10,
       middle7,middle8,middle9,middle10,middle11,middle12,little11,little12,little13,little14,little15,sShape1,sShape2,aShape,fShape,yShape];
-      // Events.on(engine, 'afterUpdate', () => {
-      //   for (let i = 0; i < balls.length; i++) {
-      //     const ball = balls[i];
-      //     const textElement = ballTexts[i];
-      //     // 각 공의 위치에 따라 텍스트 위치 업데이트
-      //     textElement.style.top = `${ball.position.y+20}px`;
-      //     textElement.style.left = `${innerWidth/2-205+ball.position.x}px`;
-      //     if (ball.position.y>height) {
-      //       World.remove(engine.world, ball);
-      //       const rootDiv = document.getElementById('canvas');
-      //       rootDiv.removeChild(textElement);
-      //       balls.splice(i, 1);
-      //       ballTexts.splice(i, 1);
-      //       i--;
-      //     }
-      //   }
-      // });
     World.add(engine.world, Boundary);
     setEngine(engine);
     Runner.run(runner, engine);
@@ -1038,7 +1022,7 @@ useEffect(() => {
       
       Events.on(engine, 'beforeUpdate', () => {
         // angle2 += 0.1; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
-        angle2 += 0.04*dir[(Math.round(cnt/50))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
+        angle2 += 0.05*dir[(Math.round(cnt/50))%2]; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
         Body.setAngle(stick1, angle2); // rot1 요소의 각도를 변경
         Body.setAngle(stick2, -angle2); // rot1 요소의 각도를 변경
       });
@@ -1071,15 +1055,7 @@ useEffect(() => {
             const indexToRemove = updatedBalls.findIndex(ball => ball.id === highestYBall.id);
             if (indexToRemove !== -1) {
               updatedBalls.splice(indexToRemove, 1);
-        
-              // ballTexts에서도 해당 공의 텍스트 엘리먼트 제거
-              // const del = ballTexts.findIndex(textElement => textElement.id === highestYBall.id);
-              // if (del !== -1) {
-              //   const textElementToRemove = ballTexts[del];
-              //   ballTexts.splice(del, 1);
-              //   const rootDiv = document.getElementById('root')
-              //   rootDiv.removeChild(textElementToRemove);
-              // }
+
         
               World.remove(engine.world, highestYBall);
         
@@ -1106,7 +1082,7 @@ useEffect(() => {
               setIsModalOpen(true,)
               let res=[]
               for(let i=0;i<Pay.length;i++){
-                res.push(colorId[Pay[i].render.fillStyle])
+                res.push(members[colorId[Pay[i].render.fillStyle]].userId)
               }
               const frequency = res.reduce((res, curr,index) => {
                 if (res[curr]) {

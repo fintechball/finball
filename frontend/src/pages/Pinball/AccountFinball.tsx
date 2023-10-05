@@ -9,7 +9,6 @@ import {
   Runner,
   MouseConstraint,
 } from "matter-js";
-import styles from "./Pinball.module.css";
 import defalautball from "../../assets/defalutball.png";
 import chrome from "../../assets/chrome1.png";
 import dogi from "../../assets/dogi1.png";
@@ -146,13 +145,13 @@ function AccountBookFinball(value) {
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 10,
+      delta: 15,
       isFixed: false,
       enabled: true,
     });
     // 중력 설정
     newEngine.world.gravity.x = 0;
-    newEngine.world.gravity.y = 0.6;
+    newEngine.world.gravity.y = 0.3;
     // Create a renderer
     const newRender = Render.create({
       element: document.getElementById(value.value.parent), // 렌더러를 부모 컨테이너에 적용

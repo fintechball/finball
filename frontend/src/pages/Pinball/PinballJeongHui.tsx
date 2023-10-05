@@ -326,7 +326,7 @@ function PinballJeongHui(value) {
   const deleteBall = (num, newEngine, newRender) => {
     const parentSize = getParentContainerSize();
     setTimeout(() => {
-      const exitVelocity = 17.5;
+      const exitVelocity = 10;
       // 각 공을 삭제하면서 새로운 배열에 추가
       const ball = [];
       const dir = [1, -1];
@@ -369,7 +369,8 @@ function PinballJeongHui(value) {
       update();
     }, 2000);
   };
-
+  console.log(finball)
+  console.log(ballInfo)
   return (
     <div id="pinball-canvas">
       <div style={{ display: "flex", justifyContent: "flex-end" }}>

@@ -597,7 +597,7 @@ function AccountBook() {
           ) : (
             <div key="btn3">
               <div
-                style={{ position: "relative", width: "360px", height: "70vh" }}
+                style={{ position: "relative", width: "360px", height: "360px" }}
               >
                 <button
                   style={{ visibility: isAccountBook ? "hidden" : "visible" }}
@@ -620,8 +620,8 @@ function AccountBook() {
                     state.categoryList.map((v, i) => (
                       <div
                         style={{
-                          width: "30px",
-                          height: "30px",
+                          width: "50px",
+                          height: "50px",
                           marginRight: "5px",
                         }}
                         key={i}
