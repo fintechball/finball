@@ -47,23 +47,24 @@ function Game(value) {
   const height = 1800;
   const word = width * 0.04 + "px";
   const [isActive, setIsActive] = useState(false);
-
-  const auth = useSelector((state) => state.auth);
-  const members = useSelector((state) => state.groupfinball.members);
-  const ballunit = 10000;
-  const result = useSelector((state) => state.groupfinball.result);
-  const history = useSelector((state) => state.groupfinball.history);
-  const membercnt = members.length;
-  // const total=4800
-  const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
-  const total = useSelector((state) => state.groupfinball.payment);
-  const Payment = Math.ceil(Number(total) / ballunit);
-  console.log(Payment);
-  const last = total - (Payment - 1) * ballunit;
-  const theme = "#4C4499";
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
+  
+const auth = useSelector((state) => state.auth);
+const members = useSelector((state) => state.groupfinball.members);
+const ballunit = 10000;
+const result = useSelector((state) => state.groupfinball.result);
+const history = useSelector((state) => state.groupfinball.history);
+const membercnt=members.length;
+const No=useSelector((state) => state.groupfinball.accountno)
+// const total=4800
+const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
+const total = useSelector((state) => state.groupfinball.payment);
+const Payment = Math.ceil(Number(total)/ballunit);
+console.log(Payment)
+const last = total-(Payment-1)*ballunit
+const theme = '#4C4499';
+const dispatch = useDispatch();
+const navigate = useNavigate();
+const location = useLocation();
   // 버튼 클릭 시 상태를 변경하여 확대/축소 효과 적용
   const toggleButton = () => {
     setIsActive(!isActive);
@@ -141,16 +142,13 @@ function Game(value) {
       })
       .then((res) => {
         console.log(res);
-        dispatch(
-          setResult({
-            result: [],
-          })
-        );
-        dispatch(
-          setPayment({
-            payment: "0",
-          })
-        );
+        dispatch(setResult({
+          result:[]
+        }))
+        dispatch(setPayment({
+          payment:"0"
+        }))
+        navigate(`/groupAccount/${No}`);
       })
       .catch((error) => {
         console.log(error);
@@ -1894,10 +1892,20 @@ function Game(value) {
               backgroundColor: "#A39AF5",
               color: "white",
             }}
-          >
-            Close
-          </button>
-        </div>
+        >
+          <div style={{width:"100%",display:"flex",flexDirection:"column",alignItems:"center",zIndex:"5"}}>
+
+        <h2 >게임결과</h2>
+        <p style={{fontSize:word}}>다음 사람들은 돈을 지불하시오</p>
+        {userColor["red"]!="unknown"?<div style={{fontSize:word,color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} - {'>'}{redCount}</div>:""}
+        {userColor["blue"]!="unknown"?<div style={{fontSize:word,color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} - {'>'}{blueCount}</div>:""}
+        {userColor["green"]!="unknown"?<div style={{fontSize:word,color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} - {'>'}{greenCount}</div>:""}
+        {userColor["yellow"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} - {'>'}{yellowCount}</div>:""}
+        {userColor["white"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>:""}
+        {userColor["purple"]!="unknown"?<div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>:""}
+        
+        <button onClick={()=>{settle();}} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
+          </div>
       </Modal>
     </div>
   );
