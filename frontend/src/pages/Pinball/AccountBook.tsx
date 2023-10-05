@@ -15,6 +15,7 @@ import AccountDetailComponent from "../Transfer/AccountDetailComponent";
 import { setAccount } from "../../store/slices/accountSlice";
 import { RootState } from "../../store/store";
 import Toast, { Error, Success, Normal } from "../../components/Toast/Toast";
+import trash from "../../assets/trash.png"
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -364,12 +365,14 @@ function AccountBook() {
           placeholder="이름"
           value={name}
           onChange={handleNameChange}
+          style={{width:"280px",marginBottom:"20px"}}
           />
         <input
           type="number"
           placeholder="금액"
           value={amount}
           onChange={handleAmountChange}
+          style={{width:"280px",marginBottom:"20px"}}
           />
           <div style={{display: "flex",alignItems: "center",justifyContent:"space-between"}}>
         <button style={{width: "45%",height:"40px",backgroundColor: "rgb(21, 122, 255)",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}} onClick={closeModal}>저장</button>
@@ -453,7 +456,7 @@ function AccountBook() {
         />
         <div style={{display: "flex",alignItems: "center",justifyContent:"space-between"}}>
         <button style={{width: "45%",height:"40px",backgroundColor: "rgb(21, 122, 255)",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}} onClick={closeUpdateModal}>저장</button>
-        <button style={{width: "45%",height:"40px",backgroundColor: "red",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}} onClick={deleteCategory}>삭제</button>
+        <button style={{width: "45%",height:"40px",backgroundColor: "rgb(248, 63, 63)",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}} onClick={deleteCategory}>삭제</button>
         </div>
       </Modal>
       {/* 가계부히스토리에서 카테고리 설정 모달 */}
@@ -601,7 +604,7 @@ function AccountBook() {
                 style={{
                   position: "relative",
                   width: "360px",
-                  height: "500px",
+                  height: "520px",
                 }}
               >
                 <AccountFinball value={{ parent: "canvas1" }} />
@@ -619,9 +622,9 @@ function AccountBook() {
           {selectedBtn === "btn3" && state.categoryList.length === 0 ? (
             <button
               onClick={openModal}
-              style={{ width: "300px", height: "300px" }}
+              style={{width: "90%",height:"40px",backgroundColor: "rgb(21, 122, 255)",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}}
             >
-              가계부생성
+              + 가계부 생성하기
             </button>
           ) : (
             <div key="btn3">
@@ -629,7 +632,7 @@ function AccountBook() {
                 style={{
                   position: "relative",
                   width: "360px",
-                  height:"60px"
+                  height:"610px"
                 }}
               >
 
@@ -641,12 +644,13 @@ function AccountBook() {
                   }}
                 >
                   가계부
-                  {/* <button
+                  <button
+                  className={styles.deleteAccountBookbtn}
                   style={{ visibility: isAccountBook ? "hidden" : "visible" }}
                   onClick={deleteAccountBook}
                 >
-                  가계부삭제
-                </button> */}
+                  <img src={trash} style={{width:"15px"}}/>
+                </button>
                 </div>
                 <button className={styles.addCategorybtn} onClick={openCategoryModal}>+추가하기</button>
                 <div
@@ -654,8 +658,6 @@ function AccountBook() {
                     display: "flex",
                     justifyContent: "flex-end",
                     marginTop:"60px",
-                    // position: "relative",
-                    // transform: "translate(0,30%)",
                   }}
                 >
                   {/* ==== */}
@@ -666,6 +668,7 @@ function AccountBook() {
                           width: "50px",
                           height: "50px",
                           marginRight: "10px",
+                          zIndex:3,
                         }}
                         key={i}
                         onClick={() => openUpdateModal(v)}
@@ -684,8 +687,7 @@ function AccountBook() {
                       position: "absolute",
                       top: "90px",
                       width: "360px",
-                      height: "500px",
-                      zIndex: -1,
+                      height: "520px",
                     }}
                   >
                     <AccountFinball value={{ parent: "canvas3" }} />
