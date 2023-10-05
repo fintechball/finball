@@ -68,6 +68,7 @@ import TransferingGroupAccountFill from "../components/GroupAccount/TransferingG
 import TransferValueGroupAccountFill from "../components/GroupAccount/TransferValueGroupAccountFill.tsx";
 import FillGroupAccount from "../pages/GroupAccount/FillGroupAccount.tsx";
 import SecurityKeypadGroupAccountFill from "../pages/Auth/SecurityKeypadGroupAccountFill.tsx";
+import StartGame from "../pages/Pinball/StartGame.tsx";
 
 function Router() {
   return (
@@ -112,7 +113,8 @@ function Router() {
         <Route path="/pinball" element={<Pinball />} />
         <Route path="/jeonghui" element={<Jeonghui />} />
         <Route path="/game" element={<Game />} />
-
+        <Route path="/game2" element={<Game2 />} />
+        <Route path="/startgame" element={<StartGame />} />
         <Route element={<PrivateRoute />}>
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/quiz" element={<Quiz />} />

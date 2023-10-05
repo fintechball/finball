@@ -1115,7 +1115,7 @@ useEffect(() => {
   return (
     <div id="canvas" style={{width:"360px",height:"1800px"}} className={styles.container}>
       <div style={{ display: "flex",justifyContent: "center"}}>
-      <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen,transition: "all 0.3s ease-in-out"}}>Finball!</button>
+      <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen}}>Start</button>
       </div>
       <div style={{ display: "flex",justifyContent: "flex-end"}}>
       <div
@@ -1131,11 +1131,11 @@ useEffect(() => {
         >
         <div style={{color:"black"}}>지불금액: {ballCount}/{Payment}</div>
         {userColor["red"]!="unknown"?<div style={{color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} : {redCount}</div>:""}
-        {userColor["green"]!="unknown"?<div style={{color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} : {greenCount}</div>:""}
         {userColor["blue"]!="unknown"?<div style={{color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} : {blueCount}</div>:""}
+        {userColor["green"]!="unknown"?<div style={{color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} : {greenCount}</div>:""}
         {userColor["yellow"]!="unknown"?<div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} : {yellowCount}</div>:""}
-        {userColor["white"]!="unknown"?<div style={{color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} : {whiteCount}</div>:""}
         {userColor["purple"]!="unknown"?<div style={{color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} : {purpleCount}</div>:""}
+        {userColor["white"]!="unknown"?<div style={{color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} : {whiteCount}</div>:""}
       </div>
         </div>
           <Modal
@@ -1168,8 +1168,8 @@ useEffect(() => {
         {userColor["blue"]!="unknown"?<div style={{fontSize:word,color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} - {'>'}{blueCount}</div>:""}
         {userColor["green"]!="unknown"?<div style={{fontSize:word,color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} - {'>'}{greenCount}</div>:""}
         {userColor["yellow"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} - {'>'}{yellowCount}</div>:""}
-        {userColor["white"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>:""}
         {userColor["purple"]!="unknown"?<div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>:""}
+        {userColor["white"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>:""}
         
         <button onClick={()=>{settle();}} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
           </div>

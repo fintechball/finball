@@ -10,22 +10,14 @@ import Modal from 'react-modal';
 import finball from "../../assets/finball.png" 
 import styles from './Game.module.css';
 import decomp from 'poly-decomp';
-import { Float } from '@react-three/drei';
+import { useLocation,useNavigate } from 'react-router-dom';
 const width = 360;
 const height = 1800;
-const Payment = 1;
-const theme = '#4C4499';
-  const dummy=
-    [
-    {"user_name":"김정희","ball_id":0,"cnt":1,"user_color":''},
-    {"user_name":"서정희","ball_id":3,"cnt":1,"user_color":''},
-    {"user_name":"신현탁","ball_id":1,"cnt":1,"user_color":''},
-    {"user_name":"정영빈","ball_id":2,"cnt":1,"user_color":''},
-    {"user_name":"정현우","ball_id":5,"cnt":1,"user_color":''},
-    {"user_name":"하성호","ball_id":5,"cnt":1,"user_color":''},
-      ]
 
-function App() {
+const theme = '#4C4499';
+
+
+function Game2(value) {
 
   const [balls, setBalls] = useState([]);
   const [ballTexts, setBallTexts] = useState([]);
@@ -43,11 +35,19 @@ function App() {
   const [once,setOnce]=useState(false);
   const [finx,finy]=[102,103];
   const word=width*0.04+'px';
-  const [isActive, setIsActive] = useState(false);
-  // 버튼 클릭 시 상태를 변경하여 확대/축소 효과 적용
-  const toggleButton = () => {
-    setIsActive(!isActive);
-  };
+  const location = useLocation(); 
+  const navigate = useNavigate();
+  console.log(location.state)
+  const inputData=location.state.Name
+  const [ans,setAns]=useState({});
+  const Payment = Math.ceil(Number(location.state.cost)/10000);
+  const last = Number(location.state.cost)-(Payment-1)*10000
+  const dummy = Object.keys(inputData).map((key) => ({
+    user_name: inputData[key],
+    cnt: inputData[key]?5:0,
+    user_color: key,
+  }));
+  console.log(dummy)
   const [userColor, setUserColor] = useState({
     "red":"unknown",
     "blue":"unknown",
@@ -64,6 +64,14 @@ function App() {
     "white":whiteball,
     "yellow":yellowball,
   });
+  const colorId={
+    "red":0,
+    "blue":1,
+    "green":2,
+    "purple":3,
+    "white":4,
+    "yellow":5,
+  }
   const [balllist, setBalllist] = useState([]);
   const X = [
     width / 40, 
@@ -91,14 +99,15 @@ function App() {
   const [engine, setEngine] = useState(null); // 엔진 상태 추가
   let render;
   let angle=0;
-  const Color = ['red', 'green', 'blue', 'yellow', 'purple', 'white'];
+  const Color = ['red',  'blue', 'green','yellow', 'purple', 'white'];
   function openModal() {
     setIsModalOpen(true);
   }
   // 모달 닫기 함수
   const closeModal = () => {
     setIsModalOpen(false); // 모달 닫기
-    location.reload();
+    // location.reload();
+    navigate("/startgame")
   };
 // 중복 없이 랜덤 값을 추출하는 함수
 function getRandomUniqueItems(array, count) {
@@ -128,10 +137,10 @@ const setColor = () => {
   let tmp = 0;
   for (let i = 0; i < Color.length; i++) {
     tmp += dummy[i]["cnt"];
-    dummy[i]["user_color"] = Color[randomItems[i]];
+    userColor[Color[i]] = dummy[i]["user_name"];
     setUserColor((prevState) => ({
       ...prevState,
-      [Color[randomItems[i]]]: dummy[i]["user_name"],
+      [Color[i]]: dummy[i]["user_name"],
     }));
   }
 
@@ -139,7 +148,7 @@ const setColor = () => {
   for (let i = 0; i < dummy.length; i++) {
     sum += dummy[i].cnt;
     for (let j = 0; j<dummy[i].cnt;j++){
-      B.push(dummy[i].user_color)
+      B.push(Object.keys(userColor).find((key) => userColor[key] == dummy[i]["user_name"]))
     }
   }
   setTotalCnt(sum);
@@ -216,14 +225,10 @@ useEffect(() => {
   useEffect(() => {
     async function initialize() {
     const engine = Engine.create({
-      timing:{
-        // frameRate: 60,     // 초당 60프레임
-        timestamp:1000,
-      },
     })
     const runner = Runner.create({
-      delta: 7.5,
-      isFixed: true,
+      // delta: 10,
+      isFixed: false,
       enabled: true
   });
     const render = Render.create({
@@ -234,6 +239,7 @@ useEffect(() => {
         height: 1800,
         wireframes: false,
         background: 'black',
+        pixelRatio:0.8
       },
     });
     console.log(render)
@@ -1080,6 +1086,22 @@ useEffect(() => {
             }
             if (Pay.length==Payment){
               setIsModalOpen(true)
+              let res=[]
+              for(let i=0;i<Pay.length;i++){
+                res.push(dummy[colorId[Pay[i].render.fillStyle]]["user_name"])
+              }
+              console.log(res)
+              const frequency = res.reduce((res, curr,index) => {
+                console.log(res,curr,index)
+                if (res[curr]) {
+                  res[curr] += index == Pay.length - 1 ? last : 10000;
+                } else {
+                  res[curr] = index == Pay.length - 1 ? last : 10000;
+                }
+                return res;
+              }, {});
+              console.log(frequency)
+              setAns(frequency)
               return;
             }
           }
@@ -1109,7 +1131,8 @@ useEffect(() => {
   return (
     <div id="canvas" style={{width:"360px",height:"1800px"}}>
       <div style={{ display: "flex",justifyContent: "center"}}>
-      <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen,transition: "all 0.3s ease-in-out"}}>Finball!</button>
+      <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen}}>Start</button>
+      
       </div>
       <div style={{ display: "flex",justifyContent: "flex-end"}}>
       <div
@@ -1124,13 +1147,12 @@ useEffect(() => {
         }}
         >
         <div style={{color:"black"}}>지불금액: {ballCount}/{Payment}</div>
-        <div style={{color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} : {redCount}</div>
-        
-        <div style={{color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} : {blueCount}</div>
-        <div style={{color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} : {greenCount}</div>
-        <div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} : {yellowCount}</div>
-        <div style={{color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} : {whiteCount}</div>
-        <div style={{color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} : {purpleCount}</div>
+        {userColor["red"]!=""?<div style={{color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} : {redCount}</div>:""}
+        {userColor["blue"]!=""?<div style={{color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} : {blueCount}</div>:""}
+         {userColor["green"]!=""?<div style={{color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} : {greenCount}</div>:""}
+         {userColor["yellow"]!=""?<div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} : {yellowCount}</div>:""}
+         {userColor["purple"]!=""?<div style={{color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} : {purpleCount}</div>:""}
+         {userColor["white"]!=""?<div style={{color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} : {whiteCount}</div>:""}
       </div>
         </div>
           <Modal
@@ -1159,12 +1181,17 @@ useEffect(() => {
 
         <h2 >게임결과</h2>
         <p style={{fontSize:word}}>다음 사람들은 돈을 지불하시오</p>
-        <div style={{fontSize:word,color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} - {'>'}{redCount}</div>
-        <div style={{fontSize:word,color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} - {'>'}{blueCount}</div>
-        <div style={{fontSize:word,color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} - {'>'}{greenCount}</div>
-        <div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} - {'>'}{yellowCount}</div>
-        <div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>
-        <div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>
+        {/* {userColor["red"]!=""?<div style={{fontSize:word,color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} - {'>'}{redCount}</div>:""}
+        {userColor["blue"]!=""?<div style={{fontSize:word,color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} - {'>'}{blueCount}</div>:""}
+        {userColor["green"]!=""?<div style={{fontSize:word,color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} - {'>'}{greenCount}</div>:""}
+        {userColor["yellow"]!=""?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} - {'>'}{yellowCount}</div>:""}
+        {userColor["white"]!=""?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>:""}
+        {userColor["purple"]!=""?<div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>:""} */}
+        {Object.entries(ans).map(([key, value]) => (
+          <div key={key}>
+            {key}: {value}원
+          </div>
+        ))}
         <button onClick={closeModal} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
           </div>
       </Modal>
@@ -1173,4 +1200,4 @@ useEffect(() => {
   );
 }
 
-export default App;
+export default Game2;
