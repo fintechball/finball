@@ -59,10 +59,14 @@ import CreateFinBallAccount from "../pages/Pinball/CreateFinBallAccount";
 import CreateFinBallAccountAuth from "../pages/Auth/CreateFinBallAccountAuth";
 
 // 모임통장 계좌이체
-import TransferGroupAccount from "../components/GroupAccount/TransferGroupACcount.tsx";
+import TransferGroupAccount from "../components/GroupAccount/TransferGroupAccount.tsx";
 import TransferValueGroupAccount from "../components/GroupAccount/TransferValueGroupAccount.tsx";
 import TransferingGroupAccount from "../components/GroupAccount/TransferingGroupAccount.tsx";
 import GroupAccountContainer from "../pages/GroupAccount/GroupAccountContainer.tsx";
+import TransferingGroupAccountFill from "../components/GroupAccount/TransferingGroupAccountFill.tsx";
+import TransferValueGroupAccountFill from "../components/GroupAccount/TransferValueGroupAccountFill.tsx";
+import FillGroupAccount from "../pages/GroupAccount/FillGroupAccount.tsx";
+import SecurityKeypadGroupAccountFill from "../pages/Auth/SecurityKeypadGroupAccountFill.tsx";
 
 function Router() {
   return (
@@ -93,6 +97,10 @@ function Router() {
         <Route path="/game2" element={<Game2 />} />
         <Route path="/signupconfrim" element={<SignUpConfrim />} />
         <Route path="/securitykeypad" element={<SecurityKeypad />} />
+        <Route
+          path="/securitykeypadGroupAccountFill"
+          element={<SecurityKeypadGroupAccountFill />}
+        />
         <Route path="/SecuritySetting" element={<SecuritySetting />} />
         <Route path="/certificationnaver" element={<CertificationNaver />} />
         <Route path="/accountbook" element={<AccountBook />} />
@@ -126,6 +134,7 @@ function Router() {
           <Route path="/transferAccount" element={<TransferAccount />} />
           <Route path="/transferValue" element={<TransferValue />} />
           <Route path="/fillAccount" element={<FillAccount />} />
+          <Route path="/fillGroupAccount" element={<FillGroupAccount />} />
           {/* 모임통장 -> 동적 라우팅 적용 */}
           <Route path="/groupaccount/:no" element={<GroupAccountContainer />} />
           {/* 모임통장 생성 페이지 */}
@@ -141,8 +150,16 @@ function Router() {
             element={<TransferGroupAccount />}
           />
           <Route
+            path="/transferGroupAccountFill"
+            element={<TransferingGroupAccountFill />}
+          />
+          <Route
             path="/transferValueGroupAccount"
             element={<TransferValueGroupAccount />}
+          />
+          <Route
+            path="/transferValueGroupAccountFill"
+            element={<TransferValueGroupAccountFill />}
           />
           {/* 모임 통장 거래 내역 페이지 */}
           <Route
@@ -151,12 +168,18 @@ function Router() {
           />
 
           {/* 모임통장 초대 수락 */}
-          <Route path="/accept/group-account/:uuid" element={<AcceptInvite />} />
-
+          <Route
+            path="/accept/group-account/:uuid"
+            element={<AcceptInvite />}
+          />
         </Route>
         <Route
           path="/transferingGroupAccount"
           element={<TransferingGroupAccount />}
+        />
+        <Route
+          path="/transferingGroupAccountFill"
+          element={<TransferingGroupAccountFill />}
         />
       </Routes>
     </>
