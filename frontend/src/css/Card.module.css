@@ -58,3 +58,7 @@ Canvas {
 .stepperbox {
   margin-bottom: 15px;
 }
+
+.small {
+  scale: 0.9;
+}
