@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import transfer from "../../assets/transfer.json";
+import transfer2 from "../../assets/transfer2.json";
 import Lottie from "lottie-react";
 import axios from "axios";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
@@ -48,7 +48,7 @@ function TransferingGroupAccountFill() {
   });
   return (
     <>
-      <Lottie animationData={transfer} loop={true} />
+      <Lottie animationData={transfer2} loop={true} />
       <div>{receiverName}님께</div>
       {sended ? (
         <div>{sendMoney}원을 송금했어요</div>

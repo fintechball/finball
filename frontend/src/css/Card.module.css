@@ -23,6 +23,11 @@
   background-color: rgb(238, 242, 249);
 }
 
+.purplebutton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+}
+
 .container {
   text-align: center;
   padding: 30px;
@@ -61,4 +66,27 @@ Canvas {
 
 .small {
   scale: 0.9;
+}webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+  font-weight: 600;
+}
+
+.noncontainer {
+  width: 100%;
+  flex-direction: column;
+  overflow: visible !important;
+  white-space: normal !important;
+  display: block !important;
+}
+
+.noncontainer button {
+  width: 100%;
+  background-color: #3c78ff;
+  color: aliceblue;
+}
+
+.noncontainer p {
+  color: #ababab;
 }

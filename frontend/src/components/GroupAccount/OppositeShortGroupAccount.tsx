@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import styles from "./TransferGroupAccount.module.css";
+// import styles from "./TransferGroupAccount.module.css";
+import styles from "./OppositeShortGroupAccount.module.scss";
 import { setOpposite } from "../../store/slices/oppositeSlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";

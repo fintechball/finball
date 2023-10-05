@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Lottie from "lottie-react";
-import transfer from "../../assets/transfer.json";
+import transfer2 from "../../assets/transfer2.json";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import axios from "axios";
 import { setHistory } from "../../store/slices/groupfinballSlice";
+import { StylesProvider } from "@material-ui/core";
+import styles from "./TransferingGroupAccount.module.scss"
 function TransferingGroupAccount() {
   const location = useLocation();
   const sendMoney = location.state.money;
@@ -48,32 +50,25 @@ function TransferingGroupAccount() {
     }, 3000);
   });
   return (
-    <>
-      <Lottie animationData={transfer} loop={true} />
-      <div>{receiverName}님께</div>
+    <div className={styles.container}>
+      <Lottie animationData={transfer2} loop={true} />
+      <p>{receiverName}님께</p>
       {sended ? (
-        <div>{sendMoney.toLocaleString()}원을 송금했어요</div>
+        <p><span>{sendMoney.toLocaleString()}원</span>을 송금했어요</p>
       ) : (
-        <div>{sendMoney.toLocaleString()}원을 송금중이에요</div>
+        <p><span>{sendMoney.toLocaleString()}원</span>을 송금중이에요</p>
       )}
       {isbutton ? (
         <button
-          style={{
-            width: "360px",
-            backgroundColor: "#7165E3",
-            color: "white",
-            // position: "relative",
-            // left: "0",
-            // top: "130px",
-          }}
           onClick={() => navigate("/game")}
+          className={styles.subbutton}
         >
           확인
         </button>
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 }
 

@@ -5,10 +5,13 @@ import { useNavigate } from "react-router-dom";
 import Slide from "@mui/material/Slide";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-import styles from "./TransferGroupAccount.module.css";
+import styles from "./TransferGroupAccount.module.scss";
 import { setOpposite } from "../../store/slices/oppositeSlice";
 import OppositeShortGroupAccount from "./OppositeShortGroupAccount";
 import { DeviceUnknown } from "@mui/icons-material";
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -147,20 +150,28 @@ function TransferGroupAccount() {
 
   return (
     <div className={styles.container}>
-      {isEnterAccount && <button onClick={cancelEnterAccount}>뒤로가기</button>}
+      {isEnterAccount && <button onClick={cancelEnterAccount}
+      className={styles.bluebutton}>
+        <KeyboardArrowLeftIcon />뒤로가기</button>}
 
-      <div className={styles.bigText}>어디로 돈을 보낼까요</div>
-      <input
-        className={styles.inputStyle}
+      <h2 className={styles.bigText}>어디로 돈을 보낼까요?</h2>
+      {/* <p>받는 분의 정보를 입력해 주세요.</p> */}
+      <div className={styles.accountbox}>
+        <span>계좌번호</span>
+         <input
+      className={styles.inputstylenone}
         id="numberPad"
         onClick={enterAccount}
         value={bankAccount}
         placeholder="계좌번호 입력"
         readOnly={true}
       ></input>
+      </div>
+     
 
       {isEnterAccount ? (
-        <>
+        <div className={styles.bankbox}>
+          <span>은행</span>
           <input
             className={styles.inputStyle}
             id="selectBank"
@@ -169,10 +180,10 @@ function TransferGroupAccount() {
             placeholder="은행 선택"
             readOnly={true}
           ></input>
+          <br />
           {bankList && (
             <Slide direction="up" in={showBankList} mountOnEnter unmountOnExit>
               <Box sx={{ flexGrow: 1, textAlign: "center" }}>
-                <div>은행을 선택해주세요</div>
                 <Grid
                   container
                   spacing={{ xs: 1, md: 2 }}
@@ -190,32 +201,31 @@ function TransferGroupAccount() {
               </Box>
             </Slide>
           )}
-        </>
+        </div>
       ) : (
         <OppositeShortGroupAccount />
       )}
 
-      {showNumberPad && (
-        <Box sx={{ flexGrow: 1, textAlign: "center", marginTop: "10px" }}>
-          <Grid
-            container
-            spacing={{ xs: 1, md: 2 }}
-            columns={{ xs: 6, sm: 8, md: 12 }}
-          >
-            {[
-              ...["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "<-"],
-            ].map((number, index) => (
-              <Grid xs={2} sm={4} md={4} key={index}>
-                <button id="numberPad" onClick={() => clickButton(number)}>
-                  {number}
-                </button>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      )}
+{showNumberPad && (
+  <div className={styles.keypadcontainer}>
+    <div className={styles.keypad}>
+      {[
+        ...["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "<-"],
+      ].map((number, index) => (
+        <div
+        className={styles.buttonbox}
+          key={index}
+          onClick={() => clickButton(number)}
+          id="numberPad"
+        >
+            {number}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
-      {isError && <p>해당하는 계좌가 없습니다!! 다시 입력하세요</p>}
+      {isError && <p>해당하는 계좌가 없습니다. 다시 입력해 주세요.</p>}
     </div>
   );
 }
