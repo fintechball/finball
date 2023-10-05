@@ -412,11 +412,13 @@ function PinballJeongHui(value) {
           alignContent: "flex-end",
         }}
       >
-        {ballInfo !== null && (
-          <div className={styles.minbal}>
-            {ballInfo.minbalance.toLocaleString()}원
-          </div>
-        )}
+        <div className={styles.minbal_parent}>
+          {ballInfo !== null && (
+            <div className={styles.minbal}>
+              {ballInfo.minbalance.toLocaleString()}원
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
