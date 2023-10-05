@@ -8,19 +8,11 @@ canvas {
 }
 .btn {
   background-color: #4c4499;
-  border-radius: 50%;
+  border-radius: 30px;
   border: 2px solid white;
-  aspect-ratio: 1;
   position: absolute;
-  top: 180px;
+  top: 280px;
   color: white;
-  font-size: 30px;
+  font-size: 40px;
   cursor: pointer;
-  transition: all 0.3s ease-in-out; /* 크기 변화에 대한 전환 효과 */
-
-  /* 클릭된 경우의 스타일 */
-  .hover {
-    transform: scale(0.9); /* 90% 크기로 축소 */
-    background-color: red;
-  }
 }

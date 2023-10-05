@@ -1027,7 +1027,6 @@ useEffect(() => {
       World.add(engine.world, stick2);
       Events.on(engine, 'beforeUpdate', () => {
         cnt+=1
-        // angle3 += 0.15*dir[(Math.round(cnt/25))%2];
         angle3 += 0.1;
         Body.setAngle(rot3, -angle3); // rot1 요소의 각도를 변경
         Body.setAngle(rot4, angle3); // rot1 요소의 각도를 변경
