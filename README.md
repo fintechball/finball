@@ -1,9 +1,9 @@
-# 🧿 finBall
+# 🧿 finBall (SSAFY 9기 부울경 E106 핫식스더킹제로)
 
 <br/>
 
 <div align="center">
-  <h1>이미지</h1>
+  <img src="./img/logo.png" width="80%">
   <h3>자산의 시각화를 제공하는 인터넷 전문 은행</h3>
 </div>
 
@@ -33,13 +33,15 @@
 
 <a name="subject"></a>
 
-**finBall**은 돈을 시각적으로 보여주기 위해 공을 사용합니다. 공을 통해 자신의 계좌 잔액을 볼 수 있으며, 공을 통한 재미있는 정산 방식인 **핀볼 정산**을 제공합니다.
+**finBall**은 돈을 시각적으로 보여주기 위해 공을 사용합니다. 
+
+공을 통해 자신의 계좌 잔액을 볼 수 있으며, 공을 통한 재미있는 정산 방식인 **핀볼 정산**을 제공합니다.
 
 **주요 기능**
 
 - 모임 통장
 - 가계부
-- 금융퀴즈
+- 금융 학습
 
 <div align="right"><a href="#tableContents">목차로 이동</a></div>
 
@@ -87,6 +89,8 @@
 ## ⚙ 시스템 아키텍쳐
 
 <a name="systemArchitecture"></a>
+
+<img src="./img/architecture.png">
 
 <div align="right"><a href="#tableContents">목차로 이동</a></div>
 
@@ -140,6 +144,12 @@
 <!------- ERD 시작 -------->
 
 ## 💾 ERD
+### 핀볼 ERD
+<img src="./img/erdFinball.png">
+
+---
+### 마이데이터 ERD
+<img src="./img/erdMydata.png">
 
 <a name="erd"></a>
 
