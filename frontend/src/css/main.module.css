@@ -22,3 +22,8 @@
 .graybutton {
   background-color: rgb(238, 242, 249);
 }
+
+.purplebutton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+}

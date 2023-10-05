@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Engine, Render, World, Bodies, Mouse, Body, Runner, MouseConstraint } from "matter-js";
+import {
+  Engine,
+  Render,
+  World,
+  Bodies,
+  Mouse,
+  Body,
+  Runner,
+  MouseConstraint,
+} from "matter-js";
 import styles from "./Pinball.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import redball from '../../assets/redball.png';
-import greenball from '../../assets/greenball.png';
-import yellowball from '../../assets/yellowball.png';
-import blueball from '../../assets/blueball.png';
-import purpleball from '../../assets/purpleball.png';
-import whiteball from '../../assets/whiteball.png';
+import redball from "../../assets/redball.png";
+import greenball from "../../assets/greenball.png";
+import yellowball from "../../assets/yellowball.png";
+import blueball from "../../assets/blueball.png";
+import purpleball from "../../assets/purpleball.png";
+import whiteball from "../../assets/whiteball.png";
 
 function GroupFinball(value, state) {
   const [balls, setBalls] = useState([]);
-  console.log(value.state.member)
+  console.log(value.state.member);
   // const ballunit=useSelector((state)=>state.groupfinball.ballunit)
-  const balance = useSelector((state) => state.groupfinball.balance)
+  const balance = useSelector((state) => state.groupfinball.balance);
 
   const colorlist = {
     0: redball,
@@ -22,7 +31,7 @@ function GroupFinball(value, state) {
     3: yellowball,
     4: purpleball,
     5: whiteball,
-  }
+  };
   // 부모 컨테이너의 크기를 가져오는 함수
   const getParentContainerSize = () => {
     const parentContainer = document.getElementById(value.value.parent); // 부모 컨테이너의 ID로 가져옴
@@ -32,7 +41,6 @@ function GroupFinball(value, state) {
     };
   };
   useEffect(() => {
-
     initialize();
   }, []);
   const initialize = async () => {
@@ -135,10 +143,14 @@ function GroupFinball(value, state) {
     World.add(newEngine.world, mouseConstraint);
     // Create balls array
     for (let j = 0; j < value.state.member.length; j++) {
-      for (let i = 0; i < Math.floor(value.state.member[j].balance / 10000); i++) {
+      for (
+        let i = 0;
+        i < Math.floor(value.state.member[j].balance / 10000);
+        i++
+      ) {
         const ball = Bodies.circle(
           Math.random() * parentSize.width,
-          Math.random() * parentSize.height / 5,
+          (Math.random() * parentSize.height) / 5,
           Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 25,
           {
             density: 5,
@@ -155,8 +167,14 @@ function GroupFinball(value, state) {
               sprite: {
                 // texture: skinlist[members[j].skinId],
                 texture: colorlist[j],
-                xScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 / 29,
-                yScale: Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) / 23 / 29,
+                xScale:
+                  Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
+                  23 /
+                  29,
+                yScale:
+                  Math.sqrt(parentSize.width ** 2 + parentSize.height ** 2) /
+                  23 /
+                  29,
               },
             },
           }
@@ -169,14 +187,13 @@ function GroupFinball(value, state) {
 
     Runner.run(runner, newEngine);
     Render.run(newRender);
-
   };
 
   return (
     <div id="pinball-canvas">
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <div className={styles.finball}>
-          {balance.toLocaleString()}원
+          {/* {balance.toLocaleString()}원 */}
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import styles from "../Transfer/TransferAccount.module.css";
+import styles from "./FillGroupAccount.module.scss";
 import { setOpposite } from "../../store/slices/oppositeSlice";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";

@@ -2,6 +2,9 @@ $maincolor: #3c78ff;
 // $subcolor: desaturate($maincolor, 50%);
 $subcolor: #305dc5;
 $bordercolor: #a5c0ff;
+$purplecolor: rgb(170, 143, 195);
+$bluecolor: rgb(21, 122, 255);
+// $maincolor: $bluecolor;
 $greycolor: grayscale($maincolor);
 
 .button {
@@ -27,4 +30,9 @@ $greycolor: grayscale($maincolor);
 
 .graybutton {
   background-color: rgb(238, 242, 249);
+}
+
+.purplebutton {
+  background-color: $purplecolor;
+  color: white;
 }
