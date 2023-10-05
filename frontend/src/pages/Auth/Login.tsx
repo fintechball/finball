@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/slices/authSlice";
 import { setLogged } from "../../store/slices/loggedSlice";
 import { setSkin } from "../../store/slices/skinSlice";
+import Alert from "../../components/Alert/alert";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 
@@ -85,6 +86,7 @@ function Login() {
   };
   return (
     <div className={styles.container}>
+      <Alert/>
       <h1>LOGIN</h1>
       <div className={styles.smallbox}>
         <div className={styles.label}>아이디</div>
