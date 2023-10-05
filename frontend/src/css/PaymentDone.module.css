@@ -24,41 +24,11 @@
 }
 
 .container {
-  text-align: center;
-  padding: 30px;
-}
-
-.total {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
 }
-
-.total button {
-  margin-left: auto;
-  height: 40px;
-}
-
-.total .balance {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  font-weight: bold;
-  font-size: 24px;
-}
-
-Canvas {
-  width: 100%;
-}
-
-.cardname {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.stepperbox {
-  margin-bottom: 10px;
-}
-
-.small {
-  scale: 0.9;
+.container h2,
+.container h2 {
+  margin: 0;
 }

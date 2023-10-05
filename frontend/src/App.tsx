@@ -1,19 +1,19 @@
-import { useState } from "react";
-
 import "./App.css";
 
 import Router from "../src/routes/index";
-
+import { useLocation } from "react-router-dom";
 import Header from "../src/components/Header/Header";
 import Footer from "../src/components/Footer/Footer";
 
 function App() {
+  const location = useLocation();
+  const hideHeaderFooter = location.pathname === "/game";
   return (
     <>
       <div>
-        <Header />
+        {!hideHeaderFooter && <Header />}
         <Router />
-        <Footer />
+        {!hideHeaderFooter && <Footer />}
       </div>
     </>
   );
