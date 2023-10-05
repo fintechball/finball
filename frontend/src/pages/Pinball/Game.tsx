@@ -194,11 +194,11 @@ const setColor = () => {
 const setGravity = () => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   if (isMobile) {
-    engine.gravity.y = 0.3
-    engine.gravity.scale=0.001
+    engine.gravity.y = 0.25
+    // engine.gravity.scale=0.001
   } else {
-    engine.gravity.y = 0.3
-    engine.gravity.scale=0.001
+    engine.gravity.y = 0.25
+    // engine.gravity.scale=0.001
   }
 };
 function start() {
@@ -255,14 +255,10 @@ useEffect(() => {
     async function initialize() {
       console.log(userColor,'start')
     const engine = Engine.create({
-      timing:{
-        // frameRate: 60,     // 초당 60프레임
-        // timestamp:1000,
-      },
     })
     const runner = Runner.create({
-      delta: 10,
-      isFixed: true,
+      // delta: 10,
+      isFixed: false,
       enabled: true
   });
     const render = Render.create({
@@ -281,10 +277,10 @@ useEffect(() => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (isMobile) {
-      engine.gravity.y = 0.30
+      engine.gravity.y = 0.25
       // engine.gravity.scale=0.0001
     } else {
-      engine.gravity.y = 0.30
+      engine.gravity.y = 0.25
 
     }
     const mouse = Mouse.create(render.canvas);
@@ -869,8 +865,8 @@ useEffect(() => {
       middle7,middle8,middle9,middle10,middle11,middle12,little11,little12,little13,little14,little15,sShape1,sShape2,aShape,fShape,yShape];
     World.add(engine.world, Boundary);
     setEngine(engine);
-    Runner.run(runner, engine);
     Render.run(render);
+    Runner.run(runner, engine);
     }
 
     initialize()
@@ -1073,7 +1069,7 @@ useEffect(() => {
             //반중력효과
             if (Pay.length==Math.round(Payment/2)&&once == false){
               setOnce(true)
-              engine.gravity.y=-0.2
+              engine.gravity.y=-0.25
               setTimeout(() => {
                 setGravity()  
               }, 2500);

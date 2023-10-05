@@ -144,19 +144,21 @@ function PinballJeongHui(value) {
     const runner = Runner.create({
       delta: 7.5,
       fps:60,
+      lastDelta:10,
       deltaSampleSize: 30,
       isFixed: false,
       enabled: true,
     });
     // 중력 설정
     newEngine.world.gravity.x = 0;
-    newEngine.world.gravity.y = 0.6;
+    newEngine.world.gravity.y = 0.25;
     // Create a renderer
     const newRender = Render.create({
       element: document.getElementById(value.value.parent), // 렌더러를 부모 컨테이너에 적용
       engine: newEngine,
       timing:{
-        delta:7.5
+        delta:7.5,
+        timestamp:30000
       },
       options: {
         width: parentSize.width, // 부모 컨테이너의 가로 크기로 설정
@@ -165,6 +167,8 @@ function PinballJeongHui(value) {
         background: "white",
       },
     });
+    console.log(newEngine)
+    console.log(newRender)
     // Create ground
     const ground = Bodies.rectangle(
       parentSize.width / 2,

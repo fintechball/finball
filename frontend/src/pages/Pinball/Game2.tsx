@@ -13,13 +13,16 @@ import decomp from 'poly-decomp';
 import { Float } from '@react-three/drei';
 const width = 360;
 const height = 1800;
-const Payment = 10;
+const Payment = 1;
 const theme = '#4C4499';
   const dummy=
     [
-    {"user_name":"김정희","ball_id":0,"cnt":10,"user_color":''},
-    {"user_name":"서정희","ball_id":3,"cnt":10,"user_color":''},
-
+    {"user_name":"김정희","ball_id":0,"cnt":1,"user_color":''},
+    {"user_name":"서정희","ball_id":3,"cnt":1,"user_color":''},
+    {"user_name":"신현탁","ball_id":1,"cnt":1,"user_color":''},
+    {"user_name":"정영빈","ball_id":2,"cnt":1,"user_color":''},
+    {"user_name":"정현우","ball_id":5,"cnt":1,"user_color":''},
+    {"user_name":"하성호","ball_id":5,"cnt":1,"user_color":''},
       ]
 
 function App() {
@@ -46,12 +49,20 @@ function App() {
     setIsActive(!isActive);
   };
   const [userColor, setUserColor] = useState({
+    "red":"unknown",
     "blue":"unknown",
+    "green":"unknown",
+    "purple":"unknown",
     "white":"unknown",
+    "yellow":"unknown",
   });
   const colorSprite = useState({
+    "red":redball,
     "blue":blueball,
+    "green":greenball,
+    "purple":purpleball,
     "white":whiteball,
+    "yellow":yellowball,
   });
   const [balllist, setBalllist] = useState([]);
   const X = [
@@ -80,7 +91,7 @@ function App() {
   const [engine, setEngine] = useState(null); // 엔진 상태 추가
   let render;
   let angle=0;
-  const Color = ['blue','white'];
+  const Color = ['red', 'green', 'blue', 'yellow', 'purple', 'white'];
   function openModal() {
     setIsModalOpen(true);
   }
@@ -109,7 +120,7 @@ function getRandomUniqueItems(array, count) {
 }
 
 // 예제 사용법
-const myArray = [0,1];
+const myArray = [0,1,2,3,4,5];
 const randomItems = getRandomUniqueItems(myArray, 6); // 3개의 중복 없는 랜덤 값 추출
 
 const setColor = () => {
@@ -1087,13 +1098,21 @@ useEffect(() => {
       updateScroll();
     }
   };
+// window.addEventListener('beforeunload', () => {
+//   // 페이지를 떠날 때 ballText 엘리먼트 삭제
+//   for (let i = 0; i < ballTexts.length; i++) {
+//     const textElementToRemove = ballTexts[i];
+//     const rootDiv = document.getElementById('canvas')
+//     rootDiv.removeChild(textElementToRemove);
+//   }
+// });
   return (
     <div id="canvas" style={{width:"360px",height:"1800px"}}>
       <div style={{ display: "flex",justifyContent: "center"}}>
       <button className={styles.btn} onClick={removeGround} style={{visibility:isButtonOpen,transition: "all 0.3s ease-in-out"}}>Finball!</button>
       </div>
       <div style={{ display: "flex",justifyContent: "flex-end"}}>
-      {/* <div
+      <div
         style={{
           background: '#F4F4F4',  
           padding: '5px 10px',
@@ -1112,7 +1131,7 @@ useEffect(() => {
         <div style={{color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} : {yellowCount}</div>
         <div style={{color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} : {whiteCount}</div>
         <div style={{color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} : {purpleCount}</div>
-      </div> */}
+      </div>
         </div>
           <Modal
             ariaHideApp={false}
