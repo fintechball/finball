@@ -89,3 +89,37 @@
   justify-content: center;
   align-items: center;
 }
+
+.addCategorybtn{
+  background-color: rgb(21, 122, 255);
+  color: beige;
+  margin-left: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: absolute;
+  right:10px;
+}
+.buttonbox{
+  display: flex;
+  align-items: center;
+}
+
+.modalSavebtn{
+  width: 45%;
+  background-color: rgb(21, 122, 255);
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.modalClosebtn{
+  width: 45%;
+  background-color: rgb(170, 143, 195);
+  color: white;
+}
+.modaldeletebtn{
+  width: 45%;
+  background-color: rgb(170, 143, 195);
+  color: white;
+}

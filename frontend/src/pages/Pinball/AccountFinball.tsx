@@ -151,7 +151,7 @@ function AccountBookFinball(value) {
     });
     // 중력 설정
     newEngine.world.gravity.x = 0;
-    newEngine.world.gravity.y = 0.25;
+    newEngine.world.gravity.y = 0.3;
     // Create a renderer
     const newRender = Render.create({
       element: document.getElementById(value.value.parent), // 렌더러를 부모 컨테이너에 적용
@@ -161,6 +161,7 @@ function AccountBookFinball(value) {
         height: parentSize.height, // 부모 컨테이너의 세로 크기로 설정
         wireframes: false,
         background: "white",
+        pixelRatio:0.8
       },
     });
     // Create ground
