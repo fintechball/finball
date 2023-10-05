@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
 import { setLogged } from "../store/slices/loggedSlice";
 import { useEffect } from "react";
+import Toast, {Error} from "../components/Toast/Toast";
 
 
 function PrivateRoute() {
@@ -14,7 +15,7 @@ function PrivateRoute() {
       if (accessToken) {
         dispatch(setLogged(true));
       } else {
-        alert("로그인이 필요한 기능입니다.");
+        Error("로그인이 필요한 기능입니다.");
         dispatch(setLogged(false));
       }
   }, [dispatch]);
@@ -23,7 +24,12 @@ function PrivateRoute() {
     return <Navigate to="/login" />;
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <Toast/>
+      <Outlet />
+    </>
+  );
 }
 
 export default PrivateRoute;

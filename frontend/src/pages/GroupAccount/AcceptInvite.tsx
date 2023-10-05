@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import Toast, {Error, Success, Normal} from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -38,15 +39,14 @@ function AcceptInvite() {
                 headers: headers
             })
             .then((res) => {
-
-                alert(res.data.data.ownerName + "님의 " + res.data.data.accountName + "통장에 가입하셨습니다.");
+                Success(res.data.data.ownerName + "님의 " + res.data.data.accountName + "통장에 가입하셨습니다.");
                 navigate(`/groupaccount/${res.data.data.accountNo}`)
             })
             .catch((err) => {
                 if (err.response.status == 409) {
-                    alert("이미 가입된 통장입니다.");
+                    Error("이미 가입된 통장입니다.");
                 } else {
-                    alert("가입에 실패하였습니다.");
+                    Error("가입에 실패하였습니다.");
                 }
 
                 navigate("/");
@@ -58,7 +58,7 @@ function AcceptInvite() {
     }
 
     const reject = () => {
-        alert("모임 통장 가입을 취소하셨습니다.\n메인 페이지로 이동하겠습니다.");
+        Normal("모임 통장 가입을 취소하셨습니다.\n메인 페이지로 이동하겠습니다.");
         navigate("/");
     }
 
@@ -94,6 +94,7 @@ function AcceptInvite() {
 
     return (
         <div>
+            <Toast/>
             <div>
                 <h2>{name}에서 초대가 도착했어요.</h2>
                 <h4>계좌번호 : {accountNo}</h4>

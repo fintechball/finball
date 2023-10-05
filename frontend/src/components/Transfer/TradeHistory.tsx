@@ -5,6 +5,7 @@ import { useState } from "react";
 import { RootState } from "../../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { setAccountBooks } from "../../store/slices/accountBookSlice";
+import Toast, {Error, Success} from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -43,7 +44,8 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
         }
       )
       .then((res) => {
-        alert("가계부에 반영하였습니다.");
+        Success("가계부에 반영하였습니다.");
+      
         dispatch(
           setAccountBooks({
             account: res.data.data.account,
@@ -53,13 +55,14 @@ function TradeHistory({ tradeHistoryDict, isFinBall }) {
         );
       })
       .catch((err) => {
-        alert("가계부 작성이 실패했습니다.");
+        Error("가계부 작성이 실패했습니다.");
         console.log(err);
       });
   };
 
   return (
     <>
+    <Toast/>
       {tradeHistoryDict &&
         //수정수정
         //수정

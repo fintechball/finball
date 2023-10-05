@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
+import Toast, {Error, Success} from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -70,6 +71,20 @@ function TransferValueGroupACcountFill() {
     }
   }, [value]);
 
+    useEffect(() => {
+    const handleNumberPad = (e) => {
+      if (showNumberPad && e.target.id !== "numberPad") {
+        setShowNumberPad(false);
+      }
+    };
+
+    document.addEventListener("click", handleNumberPad);
+
+    return () => {
+      document.removeEventListener("click", handleNumberPad);
+    };
+  }, [showNumberPad]);
+
   const getBalance = (no) => {
     axios
       .get(`${BASE_HTTP_URL}/api/user/account/balance/${no}`, {
@@ -103,11 +118,7 @@ function TransferValueGroupACcountFill() {
 
   const doTransfer = () => {
     if (value > (fill ? balance : account.account.balance)) {
-      alert(
-        `최대 ${
-          fill ? balance : account.account.balance
-        }원을 이체할 수 있습니다.`
-      );
+      Error(`최대 ${ fill ? balance : account.account.balance}원을 이체할 수 있습니다.`)
     } else {
       axios
         .post(
@@ -147,22 +158,9 @@ function TransferValueGroupACcountFill() {
     }
   };
 
-  useEffect(() => {
-    const handleNumberPad = (e) => {
-      if (showNumberPad && e.target.id !== "numberPad") {
-        setShowNumberPad(false);
-      }
-    };
-
-    document.addEventListener("click", handleNumberPad);
-
-    return () => {
-      document.removeEventListener("click", handleNumberPad);
-    };
-  }, [showNumberPad]);
-
   return (
     <div className={styles.container}>
+      <Toast/>
       <p className={styles.bigText}>내 {account.account.name}에서</p>
       <p className={styles.smallText}>
         잔액 {fill ? balance : account.account.balance}원

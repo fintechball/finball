@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import Toast, {Error, Success, Celebrate} from "../../components/Toast/Toast";
 
 import styles from "./MyDataAuth.module.scss"
 
@@ -23,15 +24,15 @@ function MyDataAuth() {
 
   const validationCheck = () => {
     if (name == "") {
-      alert("이름을 입력해주세요.");
+      Error("이름을 입력해주세요.");
       return false;
     }
     if (firstRegNum.length != 6) {
-      alert("앞 자리를 확인해주세요.");
+      Error("앞 자리를 확인해주세요.");
       return false;
     }
     if (lastRegNum.length != 7) {
-      alert("뒷 자리를 확인해주세요.");
+      Error("뒷 자리를 확인해주세요.");
       return false;
     }
 
@@ -61,19 +62,19 @@ function MyDataAuth() {
         }
       )
       .then(() => {
-        // alert("성공 : " + res.data.message);
-        // navigate(-1); //이전 페이지로 이동
+        Success("마이데이터 인증에 성공했습니다.");
         navigate(nextUrl, {
           state: { list: list },
         });
       })
       .catch((err) => {
-        alert("인증에 실패하였습니다. 다시 정보를 입력하세요" + err);
+        Error("인증에 실패하였습니다. 다시 정보를 입력하세요");
       });
   };
 
   return (
     <div className={styles.container}>
+      <Toast/>
       <h2>
         본인 인증을 위해 <span>(마이데이터)</span>
         <br />

@@ -6,7 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Transfer/AccountDetail.module.scss";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import TradeHistory from "../../components/Transfer/TradeHistory";
-
+import Toast, {Error, Success, Normal} from "../../components/Toast/Toast";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
 interface account {
@@ -109,8 +109,8 @@ function GroupAccountHistory() {
           url: data.url,
         });
 
-        console.log("test");
-        console.log(data.member);
+        // console.log("test");
+        // console.log(data.member);
 
         for (const idx in data.member) {
           if (data.member[idx].type == "HOST") {
@@ -138,7 +138,7 @@ function GroupAccountHistory() {
         );
       })
       .catch((err) => {
-        alert("에러발생 : " + err);
+        Error("예상치 못한 오류가 일어났습니다.");
       });
   };
 
@@ -155,6 +155,7 @@ function GroupAccountHistory() {
   return (
     tradeHistoryDict && (
       <div>
+        <Toast/>
         <div className={styles.container}>
           <p className={styles.bankAccount}>{groupAccount.name} 모임 통장</p>
           <span>{groupAccount.no}</span>
