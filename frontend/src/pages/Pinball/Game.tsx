@@ -138,7 +138,7 @@ const location = useLocation();
         dispatch(setPayment({
           payment:"0"
         }))
-
+        navigate(`/groupAccount/${No}`);
       })
       .catch((error) => {
         console.log(error);
@@ -1176,7 +1176,7 @@ useEffect(() => {
         {userColor["white"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>:""}
         {userColor["purple"]!="unknown"?<div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>:""}
         
-        <button onClick={()=>{settle();navigate(`/groupAccount/${No}`);}} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
+        <button onClick={()=>{settle();}} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
           </div>
       </Modal>
     </div>
