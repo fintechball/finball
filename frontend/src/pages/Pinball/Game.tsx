@@ -43,6 +43,7 @@ const ballunit = 10000;
 const result = useSelector((state) => state.groupfinball.result);
 const history = useSelector((state) => state.groupfinball.history);
 const membercnt=members.length;
+const No=useSelector((state) => state.groupfinball.accountno)
 // const total=4800
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 const total = useSelector((state) => state.groupfinball.payment);
@@ -1175,7 +1176,7 @@ useEffect(() => {
         {userColor["white"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>:""}
         {userColor["purple"]!="unknown"?<div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>:""}
         
-        <button onClick={()=>{settle();navigate("/");}} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
+        <button onClick={()=>{settle();navigate(`/groupAccount/${No}`);}} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
           </div>
       </Modal>
     </div>

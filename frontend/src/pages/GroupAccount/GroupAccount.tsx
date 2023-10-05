@@ -14,9 +14,7 @@ function formatMoney(amount) {
 
 const GroupAccount = () => {
   const [value, setValue] = useState({ parent: "groupfinball-canvas" });
-  const [response, setResponse] = useState(null);
-  const [data, setData] = useState(null);
-  const [balance, setBalance] = useState("");
+  const [data, setData] = useState({});
   const accessToken = useSelector((state) => state.auth.accessToken);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -43,8 +41,7 @@ const GroupAccount = () => {
         Authorization: accessToken,
       },
     }).then((res) => {
-      const balance = res.data.data.balance;
-      setResponse(res.data.data);
+      setData(res.data.data);
       setValue({ parent: "pinball-canvas" });
       // setData(res.data.data);
       console.log(res.data.data, 'here');
@@ -58,30 +55,17 @@ const GroupAccount = () => {
       };
       dispatch(setAccount(state));
       dispatch(setGroupFinball({
-        members:res.data.data.member,
-        balance:res.data.data.balance,
-        accountno:res.data.data.accountNo,
-        history:res.data.data.tradeHistory
-        ,
+        members: res.data.data.member,
+        balance: res.data.data.balance,
+        accountno: res.data.data.accountNo,
+        history: res.data.data.tradeHistory,
       }))
     });
   }, []);
 
-  useEffect(() => {
-    if (response) {
-      setData(response); // response가 존재할 때만 복사
-    }
-  }, [response]);
-  console.log(data);
-  useEffect(() => {
-    if (data) {
-      setBalance(formatMoney(data.balance)); // data가 변경될 때만 실행
-    }
-  }, [data]);
-
   return (
     <div className={styles.container}>
-      {data ? (
+      {data && data.member ? (
         <div>
           <div className={styles.head}>
             <div className={styles.contents}>
@@ -104,7 +88,7 @@ const GroupAccount = () => {
               {data.member.map((member, index) => (
                 <div key={index} className={styles.member}>
                   <span>{member.name}</span>
-                  <span>{member.balance.toLocaleString()}</span>
+                  <span>{member.balance.toLocaleString()}원</span>
                 </div>
               ))}
             </div>
