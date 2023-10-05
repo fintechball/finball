@@ -13,6 +13,10 @@
   color: #3c78ff;
 }
 
+.graybutton {
+  background-color: rgb(238, 242, 249);
+}
+
 .rootcontainer {
   padding: 0px 20px;
 }

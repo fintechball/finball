@@ -1,81 +1,98 @@
 @charset "UTF-8";
-.button {
-  background-color: #3c78ff;
-  color: white;
-}
-
-.subbutton {
-  background-color: #305dc5;
-  color: white;
-}
-
-.bluebutton {
-  background-color: rgb(230, 235, 255);
-  color: #3c78ff;
-}
-
-.graybutton {
-  background-color: rgb(238, 242, 249);
-}
-
 .container {
-  justify-content: center;
+  text-align: left;
+  /* height: 560px; */
 }
 
-.noncontainer {
-  flex-direction: column;
-  text-align: center;
+.head {
+  display: flex;
+  justify-content: space-between;
 }
 
-.noncontainer button {
-  width: 100%;
-  background-color: #3c78ff;
-  color: white;
+.contents {
+  display: inline-block;
+  text-align: left;
+  margin-left: 35px;
 }
 
-.noncontainer p {
-  color: #ababab;
+.name {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 35px; /* 100% */
 }
 
-.rightAlign {
-  margin-left: auto; /* 오른쪽으로 정렬 */
-}
-
-.account {
+.smallbank {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 25px;
+}
+.smallbank .bankName {
+  margin-right: 5px;
 }
 
-.account img {
-  width: 50px;
-  height: 50px;
-  margin-right: 15px;
-  margin-left: 15px;
+.memberlength {
+  font-size: 13px;
+  line-height: 20px;
+}
+.memberlength span {
+  font-weight: 700;
 }
 
-.accountbox {
-  width: 140px;
+.balance {
+  text-align: left;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 10px 0;
 }
 
-.account .text {
-  margin-top: 0px;
-  margin-bottom: 0px;
+.accountNo {
+  display: inline-block;
+  font-size: 11px;
+  font-style: normal;
   font-weight: 600;
-  font-size: 17px;
-  white-space: nowrap; /* 텍스트가 한 줄에 표시되도록 설정 */
-  overflow: hidden; /* 넘치는 부분을 숨김 */
-  text-overflow: ellipsis; /* 넘치는 텍스트를 "..."으로 표시 */
+  line-height: 20px; /* 181.818% */
 }
 
-.account .balance {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  font-size: 12px;
-  color: rgb(129, 127, 127);
+.balance {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 100% */
 }
 
-.accountbutton {
-  margin-left: auto;
-  scale: 90%;
+.members {
+  display: inline-block;
+  text-align: right;
+}
+
+.finballBox {
+  /* display: flex; */
+  /* flex-direction: column-reverse; */
+  width: 360px;
+  height: 360px;
+}
+
+.username {
+  display: inline-block;
+  flex-direction: column;
+}
+
+.userBalance {
+  display: inline-block;
+  flex-direction: column;
+}
+
+.userContainer {
+  display: inline-block;
+  align-items: center; /* 세로 정렬 */
+}
+
+.userInfo {
+  display: inline-block;
+  flex-direction: column; /* 위아래로 배치 */
+  margin-left: 10px; /* 이미지와의 간격 설정 */
 }

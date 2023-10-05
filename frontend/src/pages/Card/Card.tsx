@@ -3,11 +3,11 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Box } from "@react-three/drei";
 import { TextureLoader } from "three";
-import "./Card.module.css";
+import "./Card.module.scss";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cardImg from "../../assets/2489card.png";
-import styles from "./Card.module.css";
+import styles from "./Card.module.scss";
 import BBox from "@mui/material/Box";
 import MobileStepper from "@mui/material/MobileStepper";
 import axios from "axios";
@@ -91,8 +91,11 @@ function Card() {
           <BBox sx={{ maxWidth: 400, flexGrow: 1 }}>
             <div className={styles.total}>
               <p className={styles.balance}>카드 목록</p>
-              <button onClick={() => navigate("/company/card")}>
-                추가 등록
+              <button
+                onClick={() => navigate("/company/card")}
+                className={styles.button}
+              >
+                + 추가 등록
               </button>
             </div>
             <div>
@@ -105,47 +108,49 @@ function Card() {
                 <OrbitControls />
               </Canvas>
             </div>
-            <p>{cardList[activeStep].card.name}</p>
-            <MobileStepper
-              variant="text"
-              steps={maxSteps}
-              position="static"
-              activeStep={activeStep}
-              nextButton={
-                <Button
-                  size="small"
-                  onClick={handleNext}
-                  disabled={activeStep === maxSteps - 1}
-                >
-                  Next
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowLeft />
-                  ) : (
-                    <KeyboardArrowRight />
-                  )}
-                </Button>
-              }
-              backButton={
-                <Button
-                  size="small"
-                  onClick={handleBack}
-                  disabled={activeStep === 0}
-                >
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowRight />
-                  ) : (
-                    <KeyboardArrowLeft />
-                  )}
-                  Back
-                </Button>
-              }
-            />
+            <p className={styles.cardname}>{cardList[activeStep].card.name}</p>
+            <div className={styles.stepperbox}>
+              <MobileStepper
+                variant="text"
+                steps={maxSteps}
+                position="static"
+                activeStep={activeStep}
+                nextButton={
+                  <Button
+                    size="small"
+                    onClick={handleNext}
+                    disabled={activeStep === maxSteps - 1}
+                  >
+                    Next
+                    {theme.direction === "rtl" ? (
+                      <KeyboardArrowLeft />
+                    ) : (
+                      <KeyboardArrowRight />
+                    )}
+                  </Button>
+                }
+                backButton={
+                  <Button
+                    size="small"
+                    onClick={handleBack}
+                    disabled={activeStep === 0}
+                  >
+                    {theme.direction === "rtl" ? (
+                      <KeyboardArrowRight />
+                    ) : (
+                      <KeyboardArrowLeft />
+                    )}
+                    Back
+                  </Button>
+                }
+              />
+            </div>
           </BBox>
           <button
-            className={styles.preview}
+            className={styles.sublightbutton}
             onClick={() => navigate("/qrScanner")}
           >
-            결제하기
+            이 카드로 결제하기
           </button>
         </>
       ) : (

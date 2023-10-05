@@ -3,12 +3,12 @@ import BankAccountContainer from "../../components/BankAccount/BankAccountContai
 import GroupAccountContainer from "../../components/GroupAccount/GroupAccountContainer";
 import FinBallContainer from "../../components/FinBall/FinBallContainer";
 import styles from "./Home.module.scss";
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+// import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setDate } from "../../store/slices/quizSlice";
-
 
 function Home() {
   const navigate = useNavigate();
@@ -16,23 +16,47 @@ function Home() {
   return (
     <div className={styles.container}>
       <div className={styles.minicontainer}>
-        <h2 onClick={() => navigate("/accountBook")}>우리 계좌</h2>
+        <div
+          className={styles.titlecontainer}
+          onClick={() => navigate("/accountBook")}
+        >
+          <h2>우리 계좌</h2>
+          <ArrowForwardIosRoundedIcon />
+        </div>
         <div className={styles.finballcontainer}>
           <FinBallContainer />
         </div>
       </div>
       <div className={styles.minicontainer}>
-        <h2 onClick={() => navigate("/cardView")}>연결된 카드 목록</h2>
-        <CardContainer />
+        <div
+          className={styles.titlecontainer}
+          onClick={() => navigate("/cardView")}
+        >
+          <h2>연결된 카드 목록</h2>
+          <ArrowForwardIosRoundedIcon />
+        </div>
+        <div>
+          <CardContainer />
+        </div>
       </div>
       <div className={styles.minicontainer}>
-        <h2 onClick={() => navigate("/accountList")}>연결된 타행계좌 목록</h2>
-        <BankAccountContainer />
+        <div
+          className={styles.titlecontainer}
+          onClick={() => navigate("/accountList")}
+        >
+          <h2>연결된 타행계좌 목록</h2>
+          <ArrowForwardIosRoundedIcon />
+        </div>
+        <div>
+          <BankAccountContainer />
+        </div>
       </div>
       <div className={styles.minicontainer}>
-        <h2>연결된 모임통장 목록</h2>{" "}
-        <GroupAccountContainer />
-        <button onClick={() => navigate("/create/group-account")} className={`${styles.button} ${styles.groupaccountbutton}`}>
+        <h2>연결된 모임통장 목록</h2> <GroupAccountContainer />
+        <button
+          onClick={() => navigate("/create/group-account")}
+          className={`${styles.button} ${styles.groupaccountbutton}`}
+        >
           + 모임 통장 생성하기
         </button>
       </div>
