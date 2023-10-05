@@ -1,5 +1,7 @@
+@import "../Test/main.module.scss";
+
 .slide_button {
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 /* styles.css 또는 해당 CSS 파일에 추가하세요 */
@@ -91,28 +93,30 @@
 }
 
 .addCategorybtn{
-  background-color: rgb(21, 122, 255);
-  color: beige;
-  margin-left: auto;
+  /* background-color: rgb(21, 122, 255); */
+  /* color: white; */
+  /* margin-left: auto;
   padding-left: 16px;
   padding-right: 16px;
   padding-top: 5px;
-  padding-bottom: 5px;
-  position: absolute;
-  left:10px;
+  padding-bottom: 5px; */
+  scale: 0.8;
+  /* position: absolute; */
+  /* right:10px; */
 }
 .deleteAccountBookbtn{
   background-color:rgb(248, 63, 63);
-  color: beige;
-  margin-left: auto;
-  position: absolute;
+  color: white;
   top:10px;
   right:10px;
   font-size: 10px;
+  margin-right: 20px;
 }
 .buttonbox{
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
+  text-align: center;
 }
 
 .modalSavebtn{

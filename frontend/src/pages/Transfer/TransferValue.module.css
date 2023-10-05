@@ -40,7 +40,7 @@
 
 .totalBalanceButton {
   background-color: rgb(170, 143, 195);
-  color: beige;
+  color: white;
   font-size: 8px;
 }
 
@@ -54,13 +54,13 @@
 
 .smallButton {
   font-size: 8px;
-  color: beige;
+  color: white;
   background-color: rgb(66, 40, 90);
   margin-bottom: 10px;
 }
 
 .bigButton {
   width: 100%;
-  color: beige;
+  color: white;
   background-color: rgb(170, 143, 195);
 }
