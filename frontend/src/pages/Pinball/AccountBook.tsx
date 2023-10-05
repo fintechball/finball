@@ -35,7 +35,8 @@ function AccountBook() {
   const [finball, setFinball] = useState<any>({});
   const [loading, setLoading] = useState<any>(false);
   const [ball, setBall] = useState<number>(-1);
-  const color = ["red", "green", "yellow", "blue"];
+  // const color = ["red", "green", "yellow", "blue"];
+  const color = ["#EF4D4D", "#6CB77E", "#004FFF", "#FFC000","#AF8BB7","#D1EFF0"];
   const dispatch = useDispatch();
   const now = new Date();
   const accountbook = useSelector((state: RootState) => state.accountbook);
@@ -372,7 +373,7 @@ function AccountBook() {
           placeholder="금액"
           value={amount}
           onChange={handleAmountChange}
-          style={{width:"280px",marginBottom:"20px"}}
+          style={{width:"280px",marginBottom:"10px"}}
           />
           <div style={{display: "flex",alignItems: "center",justifyContent:"space-between"}}>
         <button style={{width: "45%",height:"40px",backgroundColor: "rgb(21, 122, 255)",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}} onClick={closeModal}>저장</button>
@@ -665,8 +666,8 @@ function AccountBook() {
                     state.categoryList.map((v, i) => (
                       <div
                         style={{
-                          width: "50px",
-                          height: "50px",
+                          width: "75px",
+                          height: "75px",
                           marginRight: "10px",
                           zIndex:3,
                         }}
@@ -676,9 +677,10 @@ function AccountBook() {
                         <CircularProgressbar
                           value={v.percent}
                           text={`${v.percent}%`}
-                          styles={buildStyles({ pathColor: color[i % 4] })}
+                          strokeWidth="12"
+                          styles={buildStyles({ pathColor: color[i % 6],textColor:"black"})}
                         />
-                        <div>{v.name}</div>
+                        <div style={{fontWeight:600}}>{v.name}</div>
                       </div>
                     ))}
                   <div
