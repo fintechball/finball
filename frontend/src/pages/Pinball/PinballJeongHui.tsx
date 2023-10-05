@@ -44,7 +44,6 @@ function PinballJeongHui(value) {
     };
   };
   useEffect(() => {
-
     initialize();
   }, []);
 
@@ -373,7 +372,11 @@ function PinballJeongHui(value) {
   console.log(ballInfo)
   return (
     <div id="pinball-canvas">
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <div style={{ display: "flex", justifyContent: 'space-between' }}>
+        <div style={{ display: "flex"} }>
+          <img src={ballskin.image} style={{width:"25px"}}></img>
+          <div className={styles.finball}>x {balls.length}</div>
+        </div>
         <div className={styles.finball}>{finball.account.balance.toLocaleString()}원</div>
       </div>
       <div
