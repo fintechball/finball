@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 
@@ -5,10 +7,15 @@ import styles from "./MyInfo.module.scss";
 // import profileimg from "../../assets/profiletemp.png"
 
 function MyInfo() {
-  const name = useSelector((state: RootState) => state.auth.name);
-  const userId = useSelector((state: RootState) => state.auth.userId);
-  const isLogged = useSelector((state: RootState) => state.logged.isLogged);
-  const profileimg = useSelector((state: RootState) => state.auth.image);
+  const [isLogged, setIsLogged] = useState(false);
+
+  const auth = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (auth.accessToken) {
+      setIsLogged(true);
+    }
+  }, [auth]);
 
   return (
     <>
@@ -16,16 +23,16 @@ function MyInfo() {
         {/* todo : 프로필사진 추가 */}
         {isLogged ? (
           <div className={styles.container}>
-            <img src={profileimg} />
+            <img src={auth.image} />
             <div className={styles.textbox}>
               <div>
                 <span>안녕하세요,</span>
                 <br />
-                <span className={styles.name}>{name}</span>
+                <span className={styles.name}>{auth.name}</span>
                 <span>님!</span>
               </div>
               <div>
-                <p>ID : {userId}</p>
+                <p>ID : {auth.userId}</p>
               </div>
             </div>
           </div>
