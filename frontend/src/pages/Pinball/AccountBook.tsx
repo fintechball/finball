@@ -346,28 +346,34 @@ function AccountBook() {
         style={{
           content: {
             width: "300px", // 모달의 너비
-            height: "160px", // 모달의 높이
+            height: "170px", // 모달의 높이
             zIndex: 30,
             position: "fixed",
             top: "50%", // 화면 상단에서 50% 위치로 이동
             left: "50%", // 화면 왼쪽에서 50% 위치로 이동
             transform: "translate(-50%, -50%)", // 수직 및 수평으로 중앙에 위치시킴
+            borderRadius: "20px",
+            border:"1px solid transparent",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)" /* 그림자 효과 추가 */
           },
         }}
       >
+
         <input
           type="text"
           placeholder="이름"
           value={name}
           onChange={handleNameChange}
-        />
+          />
         <input
           type="number"
           placeholder="금액"
           value={amount}
           onChange={handleAmountChange}
-        />
-        <button onClick={closeModal}>저장</button>
+          />
+          <div style={{display: "flex",alignItems: "center",justifyContent:"space-between"}}>
+        <button style={{width: "45%",height:"40px",backgroundColor: "rgb(21, 122, 255)",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}} onClick={closeModal}>저장</button>
+          </div>
       </Modal>
       {/* 카테고리생성모달 */}
       <Modal
@@ -378,29 +384,37 @@ function AccountBook() {
         style={{
           content: {
             width: "300px", // 모달의 너비
-            height: "160px", // 모달의 높이
+            height: "170px", // 모달의 높이
             zIndex: 30,
             position: "fixed",
             top: "50%", // 화면 상단에서 50% 위치로 이동
             left: "50%", // 화면 왼쪽에서 50% 위치로 이동
             transform: "translate(-50%, -50%)", // 수직 및 수평으로 중앙에 위치시킴
+            borderRadius: "20px",
+            border:"1px solid transparent",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)" /* 그림자 효과 추가 */
           },
         }}
       >
         <input
           type="text"
-          placeholder="이름"
+          placeholder="카테고리 이름"
           value={name}
           onChange={handleNameChange}
+          style={{width:"280px",marginBottom:"20px"}}
         />
         <input
           type="number"
           placeholder="금액"
           value={amount}
           onChange={handleAmountChange}
+          style={{width:"280px",marginBottom:"10px"}}
         />
-        <button onClick={closeCategoryModal}>저장</button>
-        <button onClick={closeAddModal}>닫기</button>
+        <div style={{display: "flex",alignItems: "center",justifyContent:"space-between"}}>
+
+        <button style={{width: "45%",height:"40px",backgroundColor: "rgb(21, 122, 255)",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}} onClick={closeCategoryModal}>저장</button>
+        <button  style={{width: "45%",height:"40px",backgroundColor: " rgb(170, 143, 195)",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}} onClick={closeAddModal}>닫기</button>
+        </div>
       </Modal>
       {/* 카테고리 수정 및 삭제모달 */}
       <Modal
@@ -411,12 +425,15 @@ function AccountBook() {
         style={{
           content: {
             width: "300px", // 모달의 너비
-            height: "160px", // 모달의 높이
+            height: "170px", // 모달의 높이
             zIndex: 30,
             position: "fixed",
             top: "50%", // 화면 상단에서 50% 위치로 이동
             left: "50%", // 화면 왼쪽에서 50% 위치로 이동
             transform: "translate(-50%, -50%)", // 수직 및 수평으로 중앙에 위치시킴
+            borderRadius: "20px",
+            border:"1px solid transparent",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)" /* 그림자 효과 추가 */
           },
         }}
       >
@@ -425,31 +442,38 @@ function AccountBook() {
           placeholder="이름"
           value={name}
           onChange={handleNameChange}
+          style={{width:"280px",marginBottom:"20px"}}
         />
         <input
           type="number"
           placeholder="금액"
           value={amount}
           onChange={handleAmountChange}
+          style={{width:"280px",marginBottom:"10px"}}
         />
-        <button onClick={closeUpdateModal}>저장</button>
-        <button onClick={deleteCategory}>삭제</button>
+        <div style={{display: "flex",alignItems: "center",justifyContent:"space-between"}}>
+        <button style={{width: "45%",height:"40px",backgroundColor: "rgb(21, 122, 255)",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}} onClick={closeUpdateModal}>저장</button>
+        <button style={{width: "45%",height:"40px",backgroundColor: "red",color: "white",paddingTop:"5px",paddingBottom: "5px",marginTop:"10px"}} onClick={deleteCategory}>삭제</button>
+        </div>
       </Modal>
       {/* 가계부히스토리에서 카테고리 설정 모달 */}
-      <Modal
+      {/* <Modal
         ariaHideApp={false}
         isOpen={isSelectModalOpen}
         onRequestClose={closeSelectModal}
         contentLabel="카테고리 선택 모달"
         style={{
           content: {
-            width: "300px", // 모달의 너비
-            height: "160px", // 모달의 높이
+            width: "300px",
+            height: "170px",
             zIndex: 30,
             position: "fixed",
-            top: "50%", // 화면 상단에서 50% 위치로 이동
-            left: "50%", // 화면 왼쪽에서 50% 위치로 이동
-            transform: "translate(-50%, -50%)", // 수직 및 수평으로 중앙에 위치시킴
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            borderRadius: "20px",
+            border:"1px solid transparent",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)"
           },
         }}
       >
@@ -465,22 +489,25 @@ function AccountBook() {
           ))}
         </select>
         <button onClick={closeSelectModal}>저장</button>
-      </Modal>
+      </Modal> */}
       {/* 송금모달 */}
-      <Modal
+      {/* <Modal
         ariaHideApp={false}
         isOpen={isSelectModalOpen}
         onRequestClose={closeSelectModal}
         contentLabel="카테고리 선택 모달"
         style={{
           content: {
-            width: "300px", // 모달의 너비
-            height: "160px", // 모달의 높이
+            width: "300px",
+            height: "170px",
             zIndex: 30,
             position: "fixed",
-            top: "50%", // 화면 상단에서 50% 위치로 이동
-            left: "50%", // 화면 왼쪽에서 50% 위치로 이동
-            transform: "translate(-50%, -50%)", // 수직 및 수평으로 중앙에 위치시킴
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)", 
+            borderRadius: "20px",
+            border:"1px solid transparent",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)" 
           },
         }}
       >
@@ -503,7 +530,7 @@ function AccountBook() {
           onChange={handleAmountChange}
         />
         <button onClick={closeSelectModal}>저장</button>
-      </Modal>
+      </Modal> */}
 
       <div>
         <div className={styles.slide_button}>
@@ -542,7 +569,6 @@ function AccountBook() {
         </div>
         {selectedBtn === "btn3" && state.categoryList.length > 0 && (
           <div>
-            {/* <button onClick={openCategoryModal}>가계부 항목 추가</button> */}
             {/* <button onClick={openModal}>category-</button> */}
           </div>
         )}
@@ -562,12 +588,12 @@ function AccountBook() {
         <div key="btn1">
           {selectedBtn === "btn1" && (
             <div className={styles.bank_container}>
-              <div style={{ fontSize: "20px", fontWeight: "bold" }}>
+              <div style={{ fontSize: "30px", fontWeight: "bold" }}>
                 우리 계좌
               </div>
               <div className={styles.balance_container}>
                 <div className={styles.our_bank_balance}>
-                  잔액 : {finBallAccount.account.balance.toLocaleString()}
+                  잔액 : {finBallAccount.account.balance.toLocaleString()} 원
                 </div>
               </div>
               <div
@@ -575,7 +601,7 @@ function AccountBook() {
                 style={{
                   position: "relative",
                   width: "360px",
-                  height: "360px",
+                  height: "500px",
                 }}
               >
                 <AccountFinball value={{ parent: "canvas1" }} />
@@ -603,29 +629,33 @@ function AccountBook() {
                 style={{
                   position: "relative",
                   width: "360px",
-                  height: "360px",
+                  height:"60px"
                 }}
               >
-                {/* <button
-                  style={{ visibility: isAccountBook ? "hidden" : "visible" }}
-                  onClick={deleteAccountBook}
-                >
-                  가계부삭제
-                </button> */}
+
                 <div
                   style={{
-                    fontSize: "20px",
+                    fontSize: "30px",
                     fontWeight: "bold",
                     marginTop: "25px",
                   }}
                 >
                   가계부
+                  {/* <button
+                  style={{ visibility: isAccountBook ? "hidden" : "visible" }}
+                  onClick={deleteAccountBook}
+                >
+                  가계부삭제
+                </button> */}
                 </div>
+                <button className={styles.addCategorybtn} onClick={openCategoryModal}>+추가하기</button>
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "flex-end",
-                    transform: "translate(0,100%)",
+                    marginTop:"60px",
+                    // position: "relative",
+                    // transform: "translate(0,30%)",
                   }}
                 >
                   {/* ==== */}
@@ -635,7 +665,7 @@ function AccountBook() {
                         style={{
                           width: "50px",
                           height: "50px",
-                          marginRight: "5px",
+                          marginRight: "10px",
                         }}
                         key={i}
                         onClick={() => openUpdateModal(v)}
@@ -652,9 +682,9 @@ function AccountBook() {
                     id="canvas3"
                     style={{
                       position: "absolute",
-                      top: 0,
+                      top: "90px",
                       width: "360px",
-                      height: "368px",
+                      height: "500px",
                       zIndex: -1,
                     }}
                   >
