@@ -11,9 +11,9 @@ function Cube(props) {
   // 이미지 로드
   const textureLoader = new TextureLoader();
   textureLoader.setCrossOrigin("anonymous");
+  const url = props.cardImage + "?not-from-cache-please";
 
-  
-  const texture = textureLoader.load(props.cardImage);
+  const texture = textureLoader.load(url);
   console.log(props.cardImage)
   console.log(texture)
 
