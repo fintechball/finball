@@ -40,13 +40,13 @@ function GroupFinball(value, state) {
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 15,
+      // delta: 10,
       isFixed: false,
       enabled: true,
     });
     // 중력 설정
     newEngine.world.gravity.x = 0;
-    newEngine.world.gravity.y = 0.4;
+    newEngine.world.gravity.y = 0.25;
     // Create a renderer
     const newRender = Render.create({
       element: document.getElementById(value.value.parent), // 렌더러를 부모 컨테이너에 적용

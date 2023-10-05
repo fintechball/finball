@@ -184,6 +184,9 @@ function Router() {
           path="/transferingGroupAccountFill"
           element={<TransferingGroupAccountFill />}
         />
+        <Route 
+        path="/game2"
+        element={<Game2 />}/>
       </Routes>
     </>
   );
