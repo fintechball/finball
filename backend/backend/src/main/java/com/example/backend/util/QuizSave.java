@@ -18,7 +18,7 @@ public class QuizSave {
 
     private final QuizRepository quizRepository;
 
-    static final String JSON_FILE_PATH = "/Users/jeong-yeongbin/Desktop/S09P22E106/backend/backend/src/main/java/com/example/backend/util/json/question.json";
+    static final String JSON_FILE_PATH = "C:\\Users\\SSAFY\\Desktop\\ssafy2\\ssafy2-2\\S09P22E106\\backend\\backend\\src\\main\\java\\com\\example\\backend\\util\\json\\question.json";
 
     public void create() throws IOException, ParseException {
         JSONParser parser = new JSONParser();
