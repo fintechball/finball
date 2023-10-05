@@ -7,6 +7,7 @@
 .head {
   display: flex;
   justify-content: space-between;
+  margin-top: 15px;
 }
 
 .contents {
@@ -16,10 +17,18 @@
 }
 
 .name {
-  font-size: 20px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 800;
   line-height: 35px; /* 100% */
+}
+
+.piechart {
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 30px;
 }
 
 .smallbank {

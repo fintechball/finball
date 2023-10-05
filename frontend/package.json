@@ -17,6 +17,7 @@
     "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.10",
+    "@nivo/pie": "^0.83.0",
     "@react-three/drei": "^9.83.9",
     "@react-three/fiber": "^8.14.1",
     "@reduxjs/toolkit": "^1.9.5",
