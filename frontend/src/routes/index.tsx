@@ -21,6 +21,7 @@ import Game from "../pages/Pinball/Game";
 import Game2 from "../pages/Pinball/Game2";
 import Card from "../pages/Card/Card";
 import QrScanner from "../pages/Card/QrScanner";
+import PaymentDone from "../pages/Card/PaymentDone";
 import AccountBook from "../pages/Pinball/AccountBook";
 
 import BankInfo from "../pages/Bank/BankInfo";
@@ -127,6 +128,8 @@ function Router() {
           <Route path="/company/card" element={<CardInfo />} />
           <Route path="/card" element={<CardConnect />} />
           <Route path="/qrScanner" element={<QrScanner />} />
+          <Route path="/paymentDone" element={<PaymentDone />} />
+          
           <Route path="/agreement" element={<Agreement />} />
           {/* 계좌 이체 */}
           <Route path="/accountList" element={<AccountList />} />

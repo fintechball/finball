@@ -46,7 +46,11 @@ const QrScanner = () => {
         }
       )
       .then(() => {
-        navigate("/cardView");
+        navigate("/paymentDone", {
+          state: {
+            value: opposite.value,          
+          },
+        });
       })
       .catch((error) => {
         console.log(error);
