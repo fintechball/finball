@@ -259,18 +259,6 @@ useEffect(() => {
     console.log(engine.gravity.scale)
 
     }
-    const mouse = Mouse.create(render.canvas);
-    const mouseConstraint = MouseConstraint.create(engine, {
-      mouse: mouse,
-      constraint: {
-        stiffness: 0.2,
-        render: {
-          visible: false,
-        },
-      },
-    });
-
-    World.add(engine.world, mouseConstraint);
 
     const ground = Bodies.rectangle(width/2, height , width, height*0.005, {
       isStatic: true,

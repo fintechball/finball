@@ -269,6 +269,7 @@ useEffect(() => {
         height: 1800,
         wireframes: false,
         background: 'black',
+        pixelRatio:0.8
       },
     });
     
