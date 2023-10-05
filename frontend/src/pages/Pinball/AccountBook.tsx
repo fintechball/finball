@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import AccountFinball from "../Pinball/AccountFinball";
-import {
-  CircularProgressbar,
-  buildStyles,
-} from "react-circular-progressbar";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import SafeMoney from "./SafeMoney";
 import cash from "../../assets/cash.png";
@@ -17,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AccountDetailComponent from "../Transfer/AccountDetailComponent";
 import { setAccount } from "../../store/slices/accountSlice";
 import { RootState } from "../../store/store";
-import Toast, {Error, Success, Normal} from "../../components/Toast/Toast";
+import Toast, { Error, Success, Normal } from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -72,7 +69,7 @@ function AccountBook() {
     setIsCategoryModalOpen(false);
     setName("");
     setAmount("");
-  }
+  };
   function openCategoryModal() {
     setIsCategoryModalOpen(true);
   }
@@ -255,7 +252,7 @@ function AccountBook() {
       })
       .catch((err) => {
         if (err.response.status == 400) {
-          Error(err.response.data.message)
+          Error(err.response.data.message);
         }
         console.log("삐빅", err);
       });
@@ -282,7 +279,7 @@ function AccountBook() {
       .catch((err) => {
         console.log("삐빅", err);
         if (err.response.status == 409) {
-          Error("이미 카테고리로 지정이 되어 있습니다.")
+          Error("이미 카테고리로 지정이 되어 있습니다.");
         }
       });
   };
@@ -339,7 +336,7 @@ function AccountBook() {
   };
   return (
     <div>
-      <Toast/>
+      <Toast />
       {/* 가계부생성모달 => 이거 안쓰이고 있는 것 같아요*/}
       <Modal
         ariaHideApp={false}
@@ -509,7 +506,7 @@ function AccountBook() {
       </Modal>
 
       <div>
-        <div>
+        <div className={styles.slide_button}>
           <button
             style={{
               borderRadius: "100%",
@@ -545,7 +542,7 @@ function AccountBook() {
         </div>
         {selectedBtn === "btn3" && state.categoryList.length > 0 && (
           <div>
-            <button onClick={openCategoryModal}>가계부 항목 추가</button>
+            {/* <button onClick={openCategoryModal}>가계부 항목 추가</button> */}
             {/* <button onClick={openModal}>category-</button> */}
           </div>
         )}
@@ -564,11 +561,15 @@ function AccountBook() {
       >
         <div key="btn1">
           {selectedBtn === "btn1" && (
-            <div>
-              <div style={{ fontSize: "50px", fontWeight: "bold" }}>
+            <div className={styles.bank_container}>
+              <div style={{ fontSize: "20px", fontWeight: "bold" }}>
                 우리 계좌
               </div>
-              <div>잔액 : {finBallAccount.account.balance.toLocaleString()}</div>
+              <div className={styles.balance_container}>
+                <div className={styles.our_bank_balance}>
+                  잔액 : {finBallAccount.account.balance.toLocaleString()}
+                </div>
+              </div>
               <div
                 id="canvas1"
                 style={{
@@ -599,15 +600,25 @@ function AccountBook() {
           ) : (
             <div key="btn3">
               <div
-                style={{ position: "relative", width: "360px", height: "360px" }}
+                style={{
+                  position: "relative",
+                  width: "360px",
+                  height: "360px",
+                }}
               >
-                <button
+                {/* <button
                   style={{ visibility: isAccountBook ? "hidden" : "visible" }}
                   onClick={deleteAccountBook}
                 >
                   가계부삭제
-                </button>
-                <div style={{ fontSize: "30px", fontWeight: "bold" }}>
+                </button> */}
+                <div
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    marginTop: "25px",
+                  }}
+                >
                   가계부
                 </div>
                 <div
@@ -643,7 +654,7 @@ function AccountBook() {
                       position: "absolute",
                       top: 0,
                       width: "360px",
-                      height: "360px",
+                      height: "368px",
                       zIndex: -1,
                     }}
                   >
