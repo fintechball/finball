@@ -38,32 +38,28 @@ function NavPage() {
             onClick={() => {
               navigate("/login");
             }}
-          >
+            >
             <p>로그인</p>
           </div>
           <div
             onClick={() => {
               navigate("/signup");
             }}
-          >
+            >
             <p>회원가입</p>
           </div>
         </>
       ) : (
         <>
+        <div className={styles.box}>
+          <div className={styles.navbox}>
+
           <div
             onClick={() => {
               navigate("/");
             }}
           >
-            로그아웃
-          </div>
-          <div
-            onClick={() => {
-              navigate("/certificationnaver");
-            }}
-          >
-            <p>네이버 인증서</p>
+            <p>로그아웃</p>
           </div>
           <div
             onClick={() => {
@@ -81,6 +77,16 @@ function NavPage() {
           </div>
           <div
             onClick={() => {
+              navigate("/cardView");
+            }}
+          >
+            <p>카드결제</p>
+          </div>
+          </div>
+
+          <div className={styles.navbox}>
+          <div
+            onClick={() => {
               navigate("/accountbook");
             }}
           >
@@ -88,18 +94,28 @@ function NavPage() {
           </div>
           <div
             onClick={() => {
-              navigate("/transfering");
+              navigate("/transferAccount");
             }}
-          >
+            >
             <p>송금</p>
           </div>
           <div
             onClick={() => {
-              navigate("/groupaccount");
+              navigate("/startgame");
             }}
-          >
-            <p>모임통장</p>
+            >
+            <p>게임하러가기</p>
           </div>
+          <div
+            onClick={() => {
+              navigate("/create/group-account");
+            }}
+            >
+            <p>모임통장 만들기</p>
+          </div>
+
+          </div>
+      </div>
         </>
       )}
       </div>

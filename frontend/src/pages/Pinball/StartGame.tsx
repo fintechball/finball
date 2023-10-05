@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./StartGame.module.css"
 import { useNavigate } from "react-router-dom";
-
+import Toast, {Error, Success} from "../../components/Toast/Toast";
 function StartGame() {
     const [red,setRed]=useState<String>("")
     const [blue,setBlue]=useState("")
@@ -44,13 +44,21 @@ function StartGame() {
 
     };
     const goToGame=() => {
-          const state={cost,Name:{ red, blue, green, yellow, purple, white}}
-            console.log(state)
-            navigate("/game2", { state })
+      if(cost==0||red==""||green==""||blue==""||yellow==""||purple==""||white==""){
+        Error("가격과 이름을 입력해주세요.");
+      }
+      else{
+
+        
+        const state={cost,Name:{ red, blue, green, yellow, purple, white}}
+        console.log(state)
+        navigate("/game2", { state })
+      }
       }
     
       return (
         <>
+        <Toast/>
           <div className={styles.inputContainer}>
             <input
               className={styles.inputbox}
