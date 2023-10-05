@@ -29,11 +29,19 @@
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 30px;
+  height: 570px;
 }
-.container h2,
-.container h2 {
-  margin: 0;
+.container p {
+  margin: 5px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.container p span {
+  font-size: 22px;
+  font-weight: 700;
+}
+.container button {
+  margin-top: 10px;
+  width: 100%;
 }

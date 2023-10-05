@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "./TransferValueGroupAccount.module.css";
+import styles from "./TransferValueGroupAccount.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -101,12 +101,12 @@ function TransferValueGroupAccount() {
 
   return (
     <div className={styles.container}>
-      <p className={styles.bigText}>내 {account.account.name}에서</p>
+      <h2 className={styles.bigText}>{account.account.name} 에서</h2>
       <p className={styles.smallText}>
         잔액 {account.account.balance.toLocaleString()}원
       </p>
 
-      <p className={styles.bigText}>{opposite.opposite.name}에게</p>
+      <p className={styles.bigText}>{opposite.opposite.name} 에게</p>
       <p className={styles.smallText}>
         {opposite.opposite.company.name}
         {opposite.opposite.accountNo}
@@ -126,33 +126,35 @@ function TransferValueGroupAccount() {
         </button>
       )}
 
-      {showNumberPad && (
-        <Box sx={{ flexGrow: 1, textAlign: "center" }}>
-          <Grid
-            container
-            spacing={{ xs: 1, md: 2 }}
-            columns={{ xs: 6, sm: 8, md: 12 }}
-          >
-            {[
-              ...["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "<-"],
-            ].map((number, index) => (
-              <Grid xs={2} sm={4} md={4} key={index}>
-                <button id="numberPad" onClick={() => clickButton(number)}>
-                  {number}
-                </button>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      )}
+{showNumberPad && (
+  <div className={styles.keypadcontainer}>
+    <div className={styles.keypad}>
+      {[
+        ...["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "<-"],
+      ].map((number, index) => (
+        <div
+        className={styles.buttonbox}
+          key={index}
+          onClick={() => clickButton(number)}
+          id="numberPad"
+        >
+            {number}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
       {value && !showNumberPad && (
         <>
-          <div>{value.toLocaleString()}원을 옮길까요?</div>
+        <div className={styles.textbox}>
+          <h3>{value.toLocaleString()}원을 옮길까요?</h3>
+
+        </div>
           <div className={styles.transfer}>
             <div>
               <button className={styles.smallButton}>
-                받는 분에게 표시 {account.account.name}
+                받는 분에게 표시 : {account.account.name}
               </button>
             </div>
             <div>
@@ -160,7 +162,7 @@ function TransferValueGroupAccount() {
                 옮기기
               </button>
             </div>
-            <p className={styles.smallText}>평생 수수료 무료</p>
+            {/* <p className={styles.smallText}>평생 수수료 무료</p> */}
           </div>
         </>
       )}

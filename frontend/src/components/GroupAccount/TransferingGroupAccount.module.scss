@@ -1,0 +1,21 @@
+@import "../../pages/Test/main.module.scss";
+
+.container {
+    padding: 30px;
+    height: 570px;
+
+    p {
+        margin: 5px;
+        font-size: 18px;
+        font-weight: 600;
+
+        span {
+            font-size: 22px;
+            font-weight: 700;
+        }
+    }
+    button {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
