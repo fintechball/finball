@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 import styles from "./NavPage.module.scss";
 
@@ -8,7 +10,15 @@ import MyInfo from "../../components/User/MyInfo"
 
 function NavPage() {
   const navigate = useNavigate();
-  const isLogged = useSelector((state: RootState) => state.logged.isLogged);
+  const [isLogged, setIsLogged] = useState(false);
+
+  const auth = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (auth.accessToken) {
+      setIsLogged(true);
+    }
+  }, [auth]);
 
   return (
     <div>

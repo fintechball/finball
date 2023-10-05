@@ -8,6 +8,7 @@ import TipsAndUpdatesRoundedIcon from "@mui/icons-material/TipsAndUpdatesRounded
 import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
 import LocalMallRoundedIcon from "@mui/icons-material/LocalMallRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 
 import { useEffect } from "react";
 // import { useSelector } from "react-redux";
@@ -38,6 +39,11 @@ function Footer() {
             }}
           />
         )}
+        <SportsEsportsOutlinedIcon
+          onClick={() => {
+            navigate("/startgame");
+          }}
+        />
         {currentUrl === "/chatbot" ? (
           <ForumRoundedIcon />
         ) : (
@@ -65,11 +71,6 @@ function Footer() {
             }}
           />
         )}
-        <MenuRoundedIcon
-          onClick={() => {
-            navigate("/navpage");
-          }}
-        />
       </div>
     </div>
   );

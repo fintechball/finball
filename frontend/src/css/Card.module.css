@@ -29,44 +29,34 @@
 }
 
 .container {
-  text-align: center;
-  padding: 30px;
-}
-
-.total {
+  overflow: auto;
   display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.rotatedImage {
+  width: 150px;
+  transform: rotate(90deg) scale(0.5);
+}
+
+.cardBox {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
 }
 
-.total button {
-  margin-left: auto;
-  height: 40px;
-}
-
-.total .balance {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  font-weight: bold;
-  font-size: 24px;
-}
-
-Canvas {
-  width: 100%;
-}
-
-.cardname {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.stepperbox {
-  margin-bottom: 10px;
-}
-
-.small {
-  scale: 0.9;
-}webkit-line-clamp: 2;
+.text {
+  flex-wrap: wrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: break-word;
