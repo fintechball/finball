@@ -99,7 +99,16 @@
   padding-top: 5px;
   padding-bottom: 5px;
   position: absolute;
+  left:10px;
+}
+.deleteAccountBookbtn{
+  background-color:rgb(248, 63, 63);
+  color: beige;
+  margin-left: auto;
+  position: absolute;
+  top:10px;
   right:10px;
+  font-size: 10px;
 }
 .buttonbox{
   display: flex;
