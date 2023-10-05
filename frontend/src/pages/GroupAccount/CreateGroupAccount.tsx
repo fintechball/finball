@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { setFinBallAccount } from "../../store/slices/finBallAccountSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
+import styles from "./CreateGroupAccount.module.scss"
+import { Dropdown, Menu, Space, Checkbox } from "antd";
+import { DownOutlined } from "@ant-design/icons";
+
 
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
 //const BASE_HTTP_URL = "http://localhost:8080";
@@ -19,6 +23,15 @@ function CreateGroupAccount() {
     const [gameTypeList, setGameTypeList] = useState<string[]>([]);
     const [gameType, setGameType] = useState<string>("");
     const [name, setName] = useState<string>("");
+
+
+    const gameTypeMenu = (
+        <Menu onClick={(e) => setGameType(e.key)}>
+          {gameTypeList.map((gameType) => (
+            <Menu.Item key={gameType}>{gameType}</Menu.Item>
+          ))}
+        </Menu>
+      );
 
     const createGroupAccount = () => {
         const headers: Record<string, string> = {
@@ -97,10 +110,13 @@ function CreateGroupAccount() {
     }, []);
 
     return (
-        <div>
-            <h1>모임 통장 생성</h1>
+        <div className={styles.container}>
+            <div className={styles.textbox}>
+            <h2>친구들과 함께 하는 <br />모임 통장을 개설해보세요!</h2>
+
+            </div>
             <hr />
-            <div>
+            <div className={styles.namebox}>
                 <div>모임통장 이름</div>
                 <Input
                     placeholder="name"
@@ -109,20 +125,23 @@ function CreateGroupAccount() {
                     onChange={(event) => setName(event.target.value)}
                 />
             </div>
-            <div>
-                <label htmlFor="gameTypeSelectBox">
-                    이체 타입
-                </label>
-                <select id="gameTypeSelectBox" name="gameType" onChange={(event) => setGameType(event.target.value)}>
+            <div className={styles.typebox}>
+                <div>이체 타입</div>
+                {/* <select id="gameTypeSelectBox" name="gameType" onChange={(event) => setGameType(event.target.value)}>
                     {gameTypeList.map((gameType, index) => (
                         <option key={index} value={gameType}>{gameType}</option>
                     ))}
-                </select>
+                </select> */}
+                <Dropdown overlay={gameTypeMenu}>
+        <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+          {gameType || "이체 타입을 선택해 주세요."} <DownOutlined />
+        </a>
+      </Dropdown>
             </div>
 
-            <Button type="primary" onClick={createGroupAccount}>
+            <button className={styles.button} onClick={createGroupAccount}>
                 계좌 생성하기
-            </Button>
+            </button>
         </div>
     )
 }

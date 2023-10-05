@@ -39,7 +39,7 @@ function SignUpCerti() {
         const responseData = await response.json();
         Success("sms 인증 요청을 보냈습니다. 인증 번호를 입력해주세요.");
         setValidCode(responseData.data.certificationNumber);
-        // console.log("인증번호:", responseData.data.certificationNumber);
+        console.log("인증번호:", responseData.data.certificationNumber);
       } else {
         Error("죄송합니다. 잠시 후 다시 시도해주세요.");
       }
