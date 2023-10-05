@@ -21,7 +21,7 @@
   }
   
   .finball{
-	position: absolute;
+	/* position: absolute; */
 	font-weight: bold;
 	font-size: 15px;
 	width: fit-content;

@@ -12,7 +12,11 @@ function Cube(props) {
   const textureLoader = new TextureLoader();
   textureLoader.setCrossOrigin("anonymous");
 
+  
   const texture = textureLoader.load(props.cardImage);
+  console.log(props.cardImage)
+  console.log(texture)
+
 
   useFrame(({ clock }) => {
     // 시간에 따라 자동으로 회전
