@@ -261,7 +261,7 @@ useEffect(() => {
       },
     })
     const runner = Runner.create({
-      delta: 7.5,
+      delta: 10,
       isFixed: true,
       enabled: true
   });
@@ -285,7 +285,6 @@ useEffect(() => {
       // engine.gravity.scale=0.0001
     } else {
       engine.gravity.y = 0.30
-    console.log(engine.gravity.scale)
 
     }
     const mouse = Mouse.create(render.canvas);
@@ -998,7 +997,7 @@ useEffect(() => {
       let angle2 = 0;
       let angle3 = 0;
       Events.on(engine, 'beforeUpdate', () => {
-        angle1 += 0.03; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
+        angle1 += 0.015; // 매 업데이트마다 각도를 변경 (원하는 속도로 조절)
         Body.setAngle(rot1, angle1); // rot1 요소의 각도를 변경
         Body.setAngle(rot2, angle1); // rot1 요소의 각도를 변경
         Body.setAngle(stick3, angle1); // rot1 요소의 각도를 변경
@@ -1032,7 +1031,7 @@ useEffect(() => {
       Events.on(engine, 'beforeUpdate', () => {
         cnt+=1
         // angle3 += 0.15*dir[(Math.round(cnt/25))%2];
-        angle3 += 0.1;
+        angle3 += 0.05;
         Body.setAngle(rot3, -angle3); // rot1 요소의 각도를 변경
         Body.setAngle(rot4, angle3); // rot1 요소의 각도를 변경
         Body.setAngle(rot5, angle3+1); // rot1 요소의 각도를 변경

@@ -142,7 +142,9 @@ function PinballJeongHui(value) {
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      delta: 15,
+      delta: 7.5,
+      fps:60,
+      deltaSampleSize: 30,
       isFixed: false,
       enabled: true,
     });
@@ -153,6 +155,9 @@ function PinballJeongHui(value) {
     const newRender = Render.create({
       element: document.getElementById(value.value.parent), // 렌더러를 부모 컨테이너에 적용
       engine: newEngine,
+      timing:{
+        delta:7.5
+      },
       options: {
         width: parentSize.width, // 부모 컨테이너의 가로 크기로 설정
         height: parentSize.height, // 부모 컨테이너의 세로 크기로 설정
