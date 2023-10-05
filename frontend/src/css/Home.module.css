@@ -28,6 +28,12 @@
   margin-top: 20px;
 }
 
+.titlecontainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 /* .canvas{
 	width: 20vh;
 } */
