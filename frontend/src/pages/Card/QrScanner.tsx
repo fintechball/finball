@@ -58,7 +58,7 @@ const QrScanner = () => {
   return (
     <div className={styles.scanner}>
       <QrReader
-        constraints={{ facingMode: "user" }}
+        constraints={{ facingMode: "environment" }}
         onError={handleError}
         onScan={onScan}
         style={{ width: "100%" }}

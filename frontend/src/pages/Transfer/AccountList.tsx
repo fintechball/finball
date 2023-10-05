@@ -63,7 +63,7 @@ function AccountList() {
         <div className={styles.container}>
           <p className={styles.part}>총자산</p>
           <div className={styles.total}>
-            <p className={styles.balance}>{totalBalance}원</p>
+            <p className={styles.balance}>{totalBalance.toLocaleString()}원</p>
             <button onClick={() => navigate("/company/bank")}>추가 등록</button>
           </div>
 
