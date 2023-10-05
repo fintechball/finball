@@ -25,7 +25,7 @@ function Cube(props) {
       position={[0, 0, 0]}
       rotation={[0, 0, 0]}
       ref={cubeRef}
-      scale={3}
+      scale={4}
     >
       <meshPhongMaterial attach="material" map={texture} />
     </Box>

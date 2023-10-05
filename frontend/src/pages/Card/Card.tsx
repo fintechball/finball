@@ -101,6 +101,7 @@ function Card() {
             <div>
               <Canvas
                 camera={{ fov: 75, near: 1, far: 20, position: [7, 7, 0] }}
+                style={{ height: "220px" }}
               >
                 <ambientLight intensity={1} />
                 <directionalLight position={[1, 2, 4]} intensity={1} />
