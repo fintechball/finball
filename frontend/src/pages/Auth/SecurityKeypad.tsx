@@ -5,7 +5,7 @@ import Password from "./Certification";
 import { RootState } from "../../store/store";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import Toast, {Error, Success, Celebrate} from "../../components/Toast/Toast";
+import Toast, { Error, Success, Celebrate } from "../../components/Toast/Toast";
 
 const PASSWORD_MAX_LENGTH = 6; // 비밀번호 입력길이 제한 설정
 const BASE_HTTP_URL = "https://j9e106.p.ssafy.io";
@@ -30,7 +30,7 @@ const SecurityKeypad = () => {
   const receiverName = location.state.userName;
   const sendMoney = location.state.money;
 
-  const [nums, setNums] = useState([...nums_init, "", " "]);
+  const [nums, setNums] = useState([...nums_init, "", ""]);
   const [password, setPassword] = useState("");
 
   useEffect(() => {
@@ -110,11 +110,15 @@ const SecurityKeypad = () => {
     [handlePasswordChange]
   );
 
+  const disableKeyboard = (e) => {
+    e.preventDefault(); // 입력 요소에 포커스되는 동작을 막습니다.
+  };
+
   return (
     <>
-    <Toast/>
+      <Toast />
       <Password value={password} />
-      <div className={styles.inputer}>
+      <div className={styles.inputer} onContextMenu={disableKeyboard}>
         {[
           ...nums.map((n, i) => (
             <button

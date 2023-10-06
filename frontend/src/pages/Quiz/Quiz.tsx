@@ -19,6 +19,7 @@ import {
 import { RootState } from "../../store/store";
 import yellowball from "../../assets/yellowball.png";
 import clock from "../../assets/clock.png";
+import Toast, {Error, Success} from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -70,7 +71,7 @@ function Quiz() {
             const diff = 0.1;
             return Math.min(oldProgress - diff, 100);
           });
-        }, 10);
+        }, 3000);
 
         return () => {
           clearInterval(timer);
@@ -146,6 +147,7 @@ function Quiz() {
 
   const good = () => {
     setIsGoodVisible(true);
+    Success("정답입니다! " +  "현재까지의 포인트 : " + totalPoint);
 
     // 1초 후에 컴포넌트를 숨김
     const timeout = setTimeout(() => {
@@ -158,7 +160,7 @@ function Quiz() {
 
   const bad = () => {
     setIsBadVisible(true);
-
+    Error("오답입니다! " +  "현재까지의 포인트 : " + totalPoint);
     // 1초 후에 컴포넌트를 숨김
     const timeout = setTimeout(() => {
       setIsBadVisible(false);
@@ -170,6 +172,7 @@ function Quiz() {
 
   return (
     <div className={styles.container}>
+      <Toast/>
       <div className={styles.paper}>
         <div className={styles.title}>
           <h2>OX퀴즈</h2>
