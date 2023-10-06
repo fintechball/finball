@@ -60,7 +60,7 @@ function Home() {
           + 모임 통장 생성하기
         </button>
       </div>
-      <button onClick={() => dispatch(setDate("123123"))}>초기화</button>
+      {/* <button onClick={() => dispatch(setDate("123123"))}>초기화</button> */}
       {/* <button onClick={() => navigate("/jeonghui")}>김정희 테스트</button> */}
     </div>
   );
