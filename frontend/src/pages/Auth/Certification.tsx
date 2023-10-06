@@ -74,6 +74,7 @@ export default function Password({value}) {
             name="value1"
             pattern="\d*"
             inputMode="numeric"
+            readOnly={true}
             ref={(el) => (inputRef.current[0] = el)}
             onClick={emptyIndexFocus}
             onChange={handleInputChange}
@@ -88,6 +89,7 @@ export default function Password({value}) {
             name="value2"
             pattern="\d*"
             inputMode="numeric"
+            readOnly={true}
             ref={(el) => (inputRef.current[1] = el)}
             onClick={emptyIndexFocus}
             onChange={handleInputChange}
@@ -102,6 +104,7 @@ export default function Password({value}) {
             name="value3"
             pattern="\d*"
             inputMode="numeric"
+            readOnly={true}
             ref={(el) => (inputRef.current[2] = el)}
             onClick={emptyIndexFocus}
             onChange={handleInputChange}
@@ -115,6 +118,7 @@ export default function Password({value}) {
             className={styles.invisible}
             name="value4"
             pattern="\d*"
+            readOnly={true}
             inputMode="numeric"
             ref={(el) => (inputRef.current[3] = el)}
             onClick={emptyIndexFocus}
@@ -128,6 +132,7 @@ export default function Password({value}) {
             value={state.value5}
             className={styles.invisible}
             name="value5"
+            readOnly={true}
             pattern="\d*"
             inputMode="numeric"
             ref={(el) => (inputRef.current[4] = el)}
@@ -142,6 +147,7 @@ export default function Password({value}) {
             value={state.value6}
             className={styles.invisible}
             name="value6"
+            readOnly={true}
             pattern="\d*"
             inputMode="numeric"
             ref={(el) => (inputRef.current[5] = el)}
