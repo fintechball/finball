@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
-import Toast, {Error, Success, Normal} from "../../components/Toast/Toast";
+import Toast, { Error, Success, Normal } from "../../components/Toast/Toast";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -166,7 +166,7 @@ function TransferValue() {
 
   return (
     <div className={styles.container}>
-      <Toast/>
+      <Toast />
       <p className={styles.bigText}>내 {account.account.name}에서</p>
       <p className={styles.smallText}>
         잔액{" "}
@@ -187,7 +187,7 @@ function TransferValue() {
         value={value}
         placeholder="얼마나 옮길까요?"
         onClick={ShowNumberPad}
-        readOnly={true}
+        // readOnly={true}
       />
 
       {!value && !showNumberPad && (
@@ -200,7 +200,7 @@ function TransferValue() {
         </button>
       )}
 
-      {showNumberPad && (
+      {/* {showNumberPad && (
         <Box sx={{ flexGrow: 1, textAlign: "center" }}>
           <Grid
             container
@@ -218,7 +218,7 @@ function TransferValue() {
             ))}
           </Grid>
         </Box>
-      )}
+      )} */}
 
       {value && !showNumberPad && (
         <>

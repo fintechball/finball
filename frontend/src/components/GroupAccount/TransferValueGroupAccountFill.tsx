@@ -181,7 +181,7 @@ function TransferValueGroupACcountFill() {
         value={value}
         placeholder="얼마나 옮길까요?"
         onClick={ShowNumberPad}
-        readOnly={true}
+        // readOnly={true}
       />
 
       {!value && !showNumberPad && (
@@ -190,7 +190,7 @@ function TransferValueGroupACcountFill() {
         </button>
       )}
 
-      {showNumberPad && (
+      {/* {showNumberPad && (
         <Box sx={{ flexGrow: 1, textAlign: "center" }}>
           <Grid
             container
@@ -208,7 +208,7 @@ function TransferValueGroupACcountFill() {
             ))}
           </Grid>
         </Box>
-      )}
+      )} */}
 
       {value && !showNumberPad && (
         <>
