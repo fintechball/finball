@@ -155,7 +155,7 @@ function TransferAccount() {
         onClick={enterAccount}
         value={bankAccount}
         placeholder="계좌번호 입력"
-        // readOnly={true}
+        readOnly={true}
       ></input>
 
       {isEnterAccount ? (
@@ -194,7 +194,7 @@ function TransferAccount() {
         <OppositeShort />
       )}
 
-      {/* {showNumberPad && (
+      {showNumberPad && (
         <Box sx={{ flexGrow: 1, textAlign: "center", marginTop: "10px" }}>
           <Grid
             container
@@ -212,7 +212,7 @@ function TransferAccount() {
             ))}
           </Grid>
         </Box>
-      )} */}
+      )}
 
       {isError && <p>해당하는 계좌가 없습니다!! 다시 입력하세요</p>}
     </div>

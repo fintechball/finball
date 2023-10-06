@@ -117,7 +117,7 @@ function TransferValueGroupAccount() {
         value={value}
         placeholder="얼마나 옮길까요?"
         onClick={ShowNumberPad}
-        // readOnly={true}
+        readOnly={true}
       />
 
       {!value && !showNumberPad && (
@@ -126,24 +126,24 @@ function TransferValueGroupAccount() {
         </button>
       )}
 
-      {/* {showNumberPad && (
-  <div className={styles.keypadcontainer}>
-    <div className={styles.keypad}>
-      {[
-        ...["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "<-"],
-      ].map((number, index) => (
-        <div
-        className={styles.buttonbox}
-          key={index}
-          onClick={() => clickButton(number)}
-          id="numberPad"
-        >
-            {number}
+      {showNumberPad && (
+        <div className={styles.keypadcontainer}>
+          <div className={styles.keypad}>
+            {[
+              ...["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "<-"],
+            ].map((number, index) => (
+              <div
+                className={styles.buttonbox}
+                key={index}
+                onClick={() => clickButton(number)}
+                id="numberPad"
+              >
+                {number}
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-)} */}
+      )}
 
       {value && !showNumberPad && (
         <>

@@ -167,7 +167,7 @@ function TransferGroupAccount() {
           onClick={enterAccount}
           value={bankAccount}
           placeholder="계좌번호 입력"
-          // readOnly={true}
+          readOnly={true}
         ></input>
       </div>
 
@@ -208,24 +208,24 @@ function TransferGroupAccount() {
         <OppositeShortGroupAccount />
       )}
 
-      {/* {showNumberPad && (
-  <div className={styles.keypadcontainer}>
-    <div className={styles.keypad}>
-      {[
-        ...["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "<-"],
-      ].map((number, index) => (
-        <div
-        className={styles.buttonbox}
-          key={index}
-          onClick={() => clickButton(number)}
-          id="numberPad"
-        >
-            {number}
+      {showNumberPad && (
+        <div className={styles.keypadcontainer}>
+          <div className={styles.keypad}>
+            {[
+              ...["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "<-"],
+            ].map((number, index) => (
+              <div
+                className={styles.buttonbox}
+                key={index}
+                onClick={() => clickButton(number)}
+                id="numberPad"
+              >
+                {number}
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-)} */}
+      )}
 
       {isError && <p>해당하는 계좌가 없습니다. 다시 입력해 주세요.</p>}
     </div>

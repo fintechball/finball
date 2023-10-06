@@ -187,7 +187,7 @@ function TransferValue() {
         value={value}
         placeholder="얼마나 옮길까요?"
         onClick={ShowNumberPad}
-        // readOnly={true}
+        readOnly={true}
       />
 
       {!value && !showNumberPad && (
@@ -200,7 +200,7 @@ function TransferValue() {
         </button>
       )}
 
-      {/* {showNumberPad && (
+      {showNumberPad && (
         <Box sx={{ flexGrow: 1, textAlign: "center" }}>
           <Grid
             container
@@ -218,7 +218,7 @@ function TransferValue() {
             ))}
           </Grid>
         </Box>
-      )} */}
+      )}
 
       {value && !showNumberPad && (
         <>
