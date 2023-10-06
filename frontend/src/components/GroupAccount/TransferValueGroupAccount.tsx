@@ -117,7 +117,7 @@ function TransferValueGroupAccount() {
         value={value}
         placeholder="얼마나 옮길까요?"
         onClick={ShowNumberPad}
-        readOnly={true}
+        // readOnly={true}
       />
 
       {!value && !showNumberPad && (
@@ -126,7 +126,7 @@ function TransferValueGroupAccount() {
         </button>
       )}
 
-{showNumberPad && (
+      {/* {showNumberPad && (
   <div className={styles.keypadcontainer}>
     <div className={styles.keypad}>
       {[
@@ -143,14 +143,13 @@ function TransferValueGroupAccount() {
       ))}
     </div>
   </div>
-)}
+)} */}
 
       {value && !showNumberPad && (
         <>
-        <div className={styles.textbox}>
-          <h3>{value.toLocaleString()}원을 옮길까요?</h3>
-
-        </div>
+          <div className={styles.textbox}>
+            <h3>{value.toLocaleString()}원을 옮길까요?</h3>
+          </div>
           <div className={styles.transfer}>
             <div>
               <button className={styles.smallButton}>

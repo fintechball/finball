@@ -9,9 +9,9 @@ import styles from "./TransferGroupAccount.module.scss";
 import { setOpposite } from "../../store/slices/oppositeSlice";
 import OppositeShortGroupAccount from "./OppositeShortGroupAccount";
 import { DeviceUnknown } from "@mui/icons-material";
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import InputAdornment from '@mui/material/InputAdornment';
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
@@ -150,24 +150,26 @@ function TransferGroupAccount() {
 
   return (
     <div className={styles.container}>
-      {isEnterAccount && <button onClick={cancelEnterAccount}
-      className={styles.bluebutton}>
-        <KeyboardArrowLeftIcon />뒤로가기</button>}
+      {isEnterAccount && (
+        <button onClick={cancelEnterAccount} className={styles.bluebutton}>
+          <KeyboardArrowLeftIcon />
+          뒤로가기
+        </button>
+      )}
 
       <h2 className={styles.bigText}>어디로 돈을 보낼까요?</h2>
       {/* <p>받는 분의 정보를 입력해 주세요.</p> */}
       <div className={styles.accountbox}>
         <span>계좌번호</span>
-         <input
-      className={styles.inputstylenone}
-        id="numberPad"
-        onClick={enterAccount}
-        value={bankAccount}
-        placeholder="계좌번호 입력"
-        readOnly={true}
-      ></input>
+        <input
+          className={styles.inputstylenone}
+          id="numberPad"
+          onClick={enterAccount}
+          value={bankAccount}
+          placeholder="계좌번호 입력"
+          // readOnly={true}
+        ></input>
       </div>
-     
 
       {isEnterAccount ? (
         <div className={styles.bankbox}>
@@ -206,7 +208,7 @@ function TransferGroupAccount() {
         <OppositeShortGroupAccount />
       )}
 
-{showNumberPad && (
+      {/* {showNumberPad && (
   <div className={styles.keypadcontainer}>
     <div className={styles.keypad}>
       {[
@@ -223,7 +225,7 @@ function TransferGroupAccount() {
       ))}
     </div>
   </div>
-)}
+)} */}
 
       {isError && <p>해당하는 계좌가 없습니다. 다시 입력해 주세요.</p>}
     </div>
