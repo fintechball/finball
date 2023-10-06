@@ -1,0 +1,190 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.sublightbutton {
+  background-color: #305dc5;
+  color: white;
+  box-shadow: 0px 2px 20px rgba(128, 116, 255, 0.73);
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
+
+.graybutton {
+  background-color: rgb(238, 242, 249);
+}
+
+.purplebutton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  background-color: #f6f9ff;
+  height: 520px;
+}
+
+.paper {
+  margin-top: 30px;
+  width: 292px;
+  height: 372px;
+  background-image: url("../../assets/paper.png");
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+}
+
+.graybox {
+  margin-top: 10px;
+  text-align: left;
+  background-color: #f4f6f9;
+  padding: 5px;
+}
+.graybox p {
+  margin: 0;
+  padding: 10px;
+  font-weight: 500;
+}
+.graybox img {
+  width: 30px;
+  position: absolute;
+  top: 180px;
+}
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  text-align: center;
+  padding: 30px;
+  padding-top: 10px;
+  height: 275px;
+}
+.body .quiz {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+}
+.body .quiz .quiztext {
+  font-size: 18px;
+  font-weight: 500;
+}
+.body .progress {
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.body .graybox {
+  position: relative;
+}
+.body .graybox img {
+  width: 30px;
+  position: absolute;
+  left: 110px;
+  top: -20px;
+  z-index: 999;
+}
+.body .point {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+.body .point .pointtext {
+  margin-right: 10px;
+  width: 45px;
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+}
+.body .point .pointimg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.body .point .pointimg img {
+  width: 30px;
+}
+.body .point .pointpoint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.text {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.answerButton {
+  width: 292px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btnbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  border-radius: 20px;
+  background-color: #3c78ff;
+  color: white;
+}
+
+.startbox p {
+  font-size: 16px;
+  font-weight: 500;
+}
+.startbox span {
+  font-size: 20px;
+  font-weight: bold;
+}
+.startbox button {
+  margin-top: 60px;
+  box-shadow: 0px 2px 20px rgba(128, 116, 255, 0.73);
+}
+.startbox .semibold {
+  font-weight: 600;
+  margin: 0;
+  margin-top: 20px;
+}
+.startbox .semibold p {
+  margin: 0;
+  padding: 0;
+}
+
+.pointbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pointbox h3 {
+  margin: 0;
+}
+.pointbox img {
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+}

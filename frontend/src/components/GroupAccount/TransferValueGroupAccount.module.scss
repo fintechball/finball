@@ -1,0 +1,97 @@
+@import "../../pages/Test/main.module.scss";
+
+.pwWrap {
+  width: 80%;
+  max-width: 450px;
+  background: lightGrey;
+  margin: 20px auto;
+}
+
+.pwWrap .numberSection {
+  overflow: hidden;
+}
+
+.pwWrap .numberSection .number {
+  float: left;
+  width: 33.33%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 12px 0;
+  cursor: pointer;
+  background: #f8f2f2;
+}
+
+.container {
+  text-align: left;
+  padding: 30px;
+}
+
+.bigText {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.smallText {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: rgb(129, 127, 127);
+}
+
+.totalBalanceButton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+  font-size: 8px;
+}
+
+.container .inputStyle {
+  width: 94%;
+}
+
+.transfer {
+  text-align: center;
+}
+
+.smallButton {
+  font-size: 8px;
+  color: rgb(41, 41, 41);
+  background-color: rgb(236, 236, 236);
+  margin-bottom: 10px;
+}
+
+.bigButton {
+  width: 100%;
+  color: white;
+  background-color: $maincolor;
+}
+
+.textbox {
+  // background-color: aqua;
+  display: flex;
+  text-align: center;
+  justify-content: center
+}
+
+.keypadcontainer {
+  margin-top: 10px;
+}
+
+.keypad {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.buttonbox {
+  width: 98px;
+  margin: 1px;
+  background-color: $subcolor;
+  // border-radius: 5px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  // border: 1px solid black;
+}

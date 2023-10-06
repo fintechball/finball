@@ -1,0 +1,33 @@
+@import "../Test/main.module.scss";
+
+.container {
+  // background-color: aqua;
+  padding: 0px 45px;
+}
+
+.smallbox {
+  margin-bottom: 20px;
+  text-align: left;
+  .label {
+    margin-bottom: 5px;
+  }
+}
+.input {
+  width: 250px;
+  height: 40px;
+  // border: 1px solid rgb(210, 210, 210);
+  border-radius: 10px;
+  padding: 0px 10px;
+}
+
+.signupbox {
+  margin-top: 40px;
+  p {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+}
+
+::placeholder {
+  color: rgb(220, 220, 220);
+}

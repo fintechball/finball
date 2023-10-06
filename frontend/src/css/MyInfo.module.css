@@ -1,0 +1,61 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.sublightbutton {
+  background-color: #305dc5;
+  color: white;
+  box-shadow: 0px 2px 20px rgba(128, 116, 255, 0.73);
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
+
+.graybutton {
+  background-color: rgb(238, 242, 249);
+}
+
+.purplebutton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+}
+
+.rootcontainer {
+  padding: 0px 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 25px;
+  margin: 30px 0px;
+  font-size: large;
+  border-radius: 25px;
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.08);
+}
+.container .name {
+  font-size: 25px;
+  font-weight: bold;
+}
+.container img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.textbox {
+  text-align: right;
+  justify-content: space-between;
+}
+.textbox p {
+  font-size: 14px;
+}

@@ -1,0 +1,18 @@
+.container {
+  margin-top: -60px;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+}
+.btn {
+  background-color: #4c4499;
+  border-radius: 30px;
+  border: 2px solid white;
+  position: absolute;
+  top: 280px;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+}

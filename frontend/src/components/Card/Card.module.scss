@@ -1,0 +1,55 @@
+@import "../../pages/Test/main.module.scss";
+
+.container {
+  overflow: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.rotatedImage {
+  width: 150px;
+  transform: rotate(90deg) scale(0.5);
+}
+
+.cardBox {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text {
+  flex-wrap: wrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+  font-weight: 600;
+}
+
+.noncontainer {
+  width: 100%;
+  flex-direction: column;
+  overflow: visible !important;
+  white-space: normal !important;
+  display: block !important;
+}
+
+.noncontainer button {
+  width: 100%;
+  background-color: $maincolor;
+  color: aliceblue;
+}
+
+.noncontainer p {
+  color: #ababab;
+}

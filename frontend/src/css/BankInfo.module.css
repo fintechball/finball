@@ -1,0 +1,78 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.sublightbutton {
+  background-color: #305dc5;
+  color: white;
+  box-shadow: 0px 2px 20px rgba(128, 116, 255, 0.73);
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
+
+.graybutton {
+  background-color: rgb(238, 242, 249);
+}
+
+.purplebutton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  text-align: left;
+}
+.container h2 {
+  margin: 0;
+}
+.container .selectbutton {
+  margin-bottom: 10px;
+}
+
+.minicontainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardcontainer {
+  display: flex;
+  flex-direction: row;
+}
+.cardcontainer .text {
+  width: 150px;
+}
+.cardcontainer .text p {
+  font-size: 16px;
+  font-weight: 600;
+}
+.cardcontainer .left {
+  display: flex;
+  flex-direction: row;
+  margin-right: 30px;
+}
+.cardcontainer .right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cardcontainer .img {
+  display: flex;
+  align-items: center;
+}
+
+.float {
+  position: sticky;
+  bottom: 70px;
+}

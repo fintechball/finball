@@ -1,0 +1,136 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.sublightbutton {
+  background-color: #305dc5;
+  color: white;
+  box-shadow: 0px 2px 20px rgba(128, 116, 255, 0.73);
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
+
+.graybutton {
+  background-color: rgb(238, 242, 249);
+}
+
+.purplebutton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+}
+
+.container {
+  text-align: left;
+  padding: 30px;
+}
+
+.buttonBox button {
+  width: 45%;
+}
+
+.bankAccount {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  font-size: 14px;
+  color: rgb(129, 127, 127);
+}
+
+.balance {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.buttonBox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.fill {
+  background-color: rgb(21, 122, 255);
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.send {
+  background-color: rgb(170, 143, 195);
+  color: white;
+  margin-left: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.part {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.time {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 12px;
+  color: rgb(129, 127, 127);
+}
+
+.remain {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 12px;
+  color: rgb(129, 127, 127);
+}
+
+.name {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.value {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #3c78ff;
+}
+
+.minusValue {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(170, 143, 195);
+}
+
+.money {
+  text-align: right;
+}
+
+.total {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  font-size: 18px;
+  color: rgb(129, 127, 127);
+}

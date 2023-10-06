@@ -1,0 +1,12 @@
+@import "../Test/main.module.scss";
+
+.container {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.checkbox {
+  margin-left: 10px;
+}

@@ -1,0 +1,179 @@
+{
+  "cards" : [
+    {
+      "name" : "청춘대로 톡톡카드",
+      "cp_id" : 21,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EC%B2%AD%EC%B6%98%EB%8C%80%EB%A1%9C.png",
+      "length" : [16],
+      "bin" : ["557042"]
+    },
+    {
+      "name" : "다담카드",
+      "cp_id" : 21,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EB%8B%A4%EB%8B%B4%EC%B9%B4%EB%93%9C.png",
+      "length" : [16, 16, 16],
+      "bin" : ["457972", "457972", "540926"]
+    },
+    {
+      "name" : "FINETECH카드",
+      "cp_id" : 21,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/FINETECH%EC%B9%B4%EB%93%9C.png",
+      "length" : [16, 16],
+      "bin" : ["527289", "540926"]
+    },
+    {
+      "name" : "삼성카드 taptap O",
+      "cp_id" : 22,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EC%82%BC%EC%84%B1%EC%B9%B4%EB%93%9C+taptap+O.png",
+      "length" : [16],
+      "bin" : ["536148"]
+    },
+    {
+      "name" : "taptap DIGITAL",
+      "cp_id" : 22,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/taptap+DIGITAL.png",
+      "length" : [16],
+      "bin" : ["536648"]
+    },
+    {
+      "name" : "네이버페이 taptap",
+      "cp_id" : 22,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8E%98%EC%9D%B4+taptap.png",
+      "length" : [16],
+      "bin" : ["536148"]
+    },
+    {
+      "name" : "롯데 국민행복카드",
+      "cp_id" : 23,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EB%A1%AF%EB%8D%B0+%EA%B5%AD%EB%AF%BC%ED%96%89%EB%B3%B5%EC%B9%B4%EB%93%9C.png",
+      "length" : [16],
+      "bin" : ["534292"]
+    },
+    {
+      "name" : "롯데백화점 롯데카드",
+      "cp_id" : 23,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EB%A1%AF%EB%8D%B0%EB%B0%B1%ED%99%94%EC%A0%90+%EB%A1%AF%EB%8D%B0%EC%B9%B4%EB%93%9C.png",
+      "length" : [16, 16],
+      "bin" : ["467007", "625904"]
+    },
+    {
+      "name": "LOCA LIKIT 1.2",
+      "cp_id": 23,
+      "image": "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images/likit12.png",
+      "length" : [16, 15],
+      "bin": ["513792", "376277"]
+    },
+    {
+      "name" : "로얄블루1000카드",
+      "cp_id" : 24,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EB%A1%9C%EC%96%84%EB%B8%94%EB%A3%A81000%EC%B9%B4%EB%93%9C.png",
+      "length" : [16],
+      "bin" : ["412020"]
+    },
+    {
+      "name" : "갤러리아 우리카드",
+      "cp_id" : 24,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EA%B0%A4%EB%9F%AC%EB%A6%AC%EC%95%84+%EC%9A%B0%EB%A6%AC%EC%B9%B4%EB%93%9C.png",
+      "length" : [16],
+      "bin" : ["432632"]
+    },
+    {
+      "name" : "신한카드 Deep Dream",
+      "cp_id" : 25,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EC%8B%A0%ED%95%9C%EC%B9%B4%EB%93%9C+Deep+Dream.png",
+      "length" : [16],
+      "bin" : ["422155"]
+    },
+    {
+      "name" : "신한카드 Simple Platinum#",
+      "cp_id" : 25,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EC%8B%A0%ED%95%9C%EC%B9%B4%EB%93%9C+Simple+Platinum%23.png",
+      "length" : [16],
+      "bin" : ["45184243"]
+    },
+    {
+      "name" : "신한카드 Deep Dream Platinum+",
+      "cp_id" : 25,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EC%8B%A0%ED%95%9C%EC%B9%B4%EB%93%9C+Deep+Dream+Platinum%2B.png",
+      "length" : [16],
+      "bin" : ["478892"]
+    },
+    {
+      "name" : "네이버 현대카드",
+      "cp_id" : 26,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images/%EB%84%A4%EC%9D%B4%EB%B2%84%ED%98%84%EB%8C%80-%EB%B0%B0%EA%B2%BD.png",
+      "length" : [16],
+      "bin" : ["404577"]
+    },
+    {
+      "name" : "현대카드ZERO Edition2",
+      "cp_id" : 26,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images/%ED%98%84%EB%8C%80%EC%A0%9C%EB%A1%9C2-%EB%B0%B0%EA%B2%BD.png",
+      "length" : [15, 16, 16],
+      "bin" : ["370299", "489016", "523930"]
+    },
+    {
+      "name" : "현대카드 X BOOST",
+      "cp_id" : 26,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images/xboost-%EB%B0%B0%EA%B2%BD.png",
+      "length" : [16],
+      "bin" : ["489016"]
+    },
+    {
+      "name" : "부자되세요 덤카드",
+      "cp_id" : 27,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EB%B6%80%EC%9E%90%EB%90%98%EC%84%B8%EC%9A%94+%EB%8D%A4%EC%B9%B4%EB%93%9C.png",
+      "length" : [16, 16],
+      "bin" : ["537720", "943020"]
+    },
+    {
+      "name" : "K-FIRST",
+      "cp_id" : 27,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/K-FIRST.png",
+      "length" : [16, 16],
+      "bin" : ["455320", "625120"]
+    },
+    {
+      "name" : "위카드",
+      "cp_id" : 28,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EC%9C%84%EC%B9%B4%EB%93%9C.png",
+      "length" : [16, 16, 16, 16, 16, 16],
+      "bin" : ["473058", "473059", "552386", "552387", "624387", "624388"]
+    },
+    {
+      "name" : "NH올원카드",
+      "cp_id" : 28,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/NH%EC%98%AC%EC%9B%90%EC%B9%B4%EB%93%9C.png",
+      "length" : [16, 16, 16, 16],
+      "bin" : ["546111", "546112", "542416", "542417"]
+    },
+    {
+      "name" : "#ing+(샵핑플러스)카드",
+      "cp_id" : 28,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%23ing%2B(%EC%83%B5%ED%95%91%ED%94%8C%EB%9F%AC%EC%8A%A4)%EC%B9%B4%EB%93%9C.png",
+      "length" : [16, 16],
+      "bin" : ["546111", "546112"]
+    },
+    {
+      "name" : "원더카드 FREE",
+      "cp_id" : 29,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EC%9B%90%EB%8D%94%EC%B9%B4%EB%93%9C+FREE.png",
+      "length" : [16, 16],
+      "bin" : ["402175", "402175"]
+    },
+    {
+      "name" : "1Q Daily+",
+      "cp_id" : 29,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/1Q+Daily%2B.png",
+      "length" : [16],
+      "bin" : ["461771"]
+    },
+    {
+      "name" : "모두의 일상",
+      "cp_id" : 29,
+      "image" : "https://s3-hotsix.s3.ap-northeast-2.amazonaws.com/images2/%EB%AA%A8%EB%91%90%EC%9D%98+%EC%9D%BC%EC%83%81.png",
+      "length" : [16],
+      "bin" : ["511845"]
+    }
+  ]
+}

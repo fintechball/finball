@@ -1,0 +1,10 @@
+@import "../Test/main.module.scss";
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.minicontainer {
+  text-align: left;
+}

@@ -1,0 +1,200 @@
+@import "../Test/main.module.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  background-color: #f6f9ff;
+  height: 520px;
+
+  // h1,
+  // h2,
+  // p {
+  //   margin: 0;
+  // }
+}
+
+.paper {
+  margin-top: 30px;
+  width: 292px;
+  height: 372px;
+  background-image: url("../../assets/paper.png");
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // background-color: aquamarine;
+  height: 90px;
+}
+
+.graybox {
+  margin-top: 10px;
+  text-align: left;
+  p {
+    margin: 0;
+    padding: 10px;
+    font-weight: 500;
+  }
+
+  img {
+    width: 30px;
+    position: absolute;
+    top: 180px;
+  }
+
+  span {
+    // background-color: rgb(255, 225, 0);
+  }
+  background-color: #f4f6f9;
+  padding: 5px;
+  // border-radius: 20px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  text-align: center;
+  padding: 30px;
+  padding-top: 10px;
+  // background-color: #ffabab;
+  height: 275px;
+
+  .quiz {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    // background-color: #ffabab;
+
+    .quiztext {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+
+  .progress {
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    // position: relative;
+    width: 100%;
+    // background-color: #ffabab;
+    // flex-direction: row;
+  }
+
+  .graybox {
+    position: relative;
+
+    img {
+      width: 30px;
+      position: absolute;
+      left: 110px;
+      top: -20px;
+      z-index: 999;
+    }
+  }
+
+  .point {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // background-color: brown;
+    margin-top: 20px;
+
+    .pointtext {
+      margin-right: 10px;
+      width: 45px;
+      text-align: right;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .pointimg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 30px;
+      }
+    }
+
+    .pointpoint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  }
+}
+
+.text {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.answerButton {
+  width: 292px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btnbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  // width: 130px;
+  border-radius: 20px;
+  background-color: $maincolor;
+  color: white;
+}
+
+.startbox {
+  p {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  span {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  button {
+    margin-top: 60px;
+    // box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 2px 20px rgba(128, 116, 255, 0.73);
+  }
+
+  .semibold {
+    font-weight: 600;
+    margin: 0;
+    margin-top: 20px;
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.pointbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+  }
+
+  img {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+  }
+}

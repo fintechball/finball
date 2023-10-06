@@ -1,0 +1,47 @@
+@import "../Test/main.module.scss";
+
+.container {
+  text-align: center;
+  padding: 30px;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.total button {
+  // background-color: rgb(21, 122, 255);
+  // color: white;
+  margin-left: auto;
+  height: 40px;
+  // padding-left: 16px;
+  // padding-right: 16px;
+  // padding-top: 5px;
+  // padding-bottom: 5px;
+}
+
+.total .balance {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+Canvas {
+  width: 100%;
+}
+
+.cardname {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.stepperbox {
+  margin-bottom: 10px;
+}
+
+.small {
+  scale: 0.9;
+}

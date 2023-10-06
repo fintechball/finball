@@ -1,0 +1,100 @@
+@charset "UTF-8";
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.sublightbutton {
+  background-color: #305dc5;
+  color: white;
+  box-shadow: 0px 2px 20px rgba(128, 116, 255, 0.73);
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
+
+.graybutton {
+  background-color: rgb(238, 242, 249);
+}
+
+.purplebutton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+}
+
+.container {
+  justify-content: center;
+}
+
+.noncontainer {
+  flex-direction: column;
+  text-align: center;
+}
+
+.noncontainer button {
+  width: 100%;
+  background-color: #3c78ff;
+  color: white;
+}
+
+.noncontainer p {
+  color: #ababab;
+}
+
+.rightAlign {
+  margin-left: auto; /* 오른쪽으로 정렬 */
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.account img {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.accountbox {
+  width: 140px;
+}
+
+.account .text {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 17px;
+  white-space: nowrap; /* 텍스트가 한 줄에 표시되도록 설정 */
+  overflow: hidden; /* 넘치는 부분을 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트를 "..."으로 표시 */
+}
+
+.account .balance {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 12px;
+  color: rgb(129, 127, 127);
+}
+
+.accountbutton {
+  margin-left: auto;
+  scale: 90%;
+}nline-block;
+  align-items: center; /* 세로 정렬 */
+}
+
+.userInfo {
+  display: inline-block;
+  flex-direction: column; /* 위아래로 배치 */
+  margin-left: 10px; /* 이미지와의 간격 설정 */
+}

@@ -1,0 +1,62 @@
+@import "../../pages/Test/main.module.scss";
+
+.container {
+  justify-content: center;
+}
+
+.noncontainer {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.noncontainer button {
+  width: 100%;
+  background-color: $maincolor;
+  color: white;
+}
+
+.noncontainer p {
+  color: #ababab;
+}
+
+.rightAlign {
+  margin-left: auto; /* 오른쪽으로 정렬 */
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.account img {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.accountbox {
+  width: 140px;
+}
+
+.account .text {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.account .balance {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 12px;
+  color: rgb(129, 127, 127);
+}
+
+.accountbutton {
+  margin-left: auto;
+  scale: 90%;
+}

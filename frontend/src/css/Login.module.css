@@ -1,0 +1,64 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.sublightbutton {
+  background-color: #305dc5;
+  color: white;
+  box-shadow: 0px 2px 20px rgba(128, 116, 255, 0.73);
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
+
+.graybutton {
+  background-color: rgb(238, 242, 249);
+}
+
+.purplebutton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+}
+
+.container {
+  padding: 0px 45px;
+}
+
+.smallbox {
+  margin-bottom: 20px;
+  text-align: left;
+}
+.smallbox .label {
+  margin-bottom: 5px;
+}
+
+.input {
+  width: 250px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 0px 10px;
+}
+
+.signupbox {
+  margin-top: 40px;
+}
+.signupbox p {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+::-moz-placeholder {
+  color: rgb(220, 220, 220);
+}
+
+::placeholder {
+  color: rgb(220, 220, 220);
+}

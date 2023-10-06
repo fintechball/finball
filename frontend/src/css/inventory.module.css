@@ -1,0 +1,165 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.sublightbutton {
+  background-color: #305dc5;
+  color: white;
+  box-shadow: 0px 2px 20px rgba(128, 116, 255, 0.73);
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
+
+.graybutton {
+  background-color: rgb(238, 242, 249);
+}
+
+.purplebutton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+}
+
+.container {
+  padding: 0 30px 30px 30px;
+  height: 490px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.pointbox {
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: 30px;
+}
+.pointbox img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.textbox {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 56px;
+}
+.textbox h2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+.middleContainer {
+  display: flex;
+}
+
+.stepperbox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.smallskinName {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.skinName {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.skinPoint {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 12px;
+  color: rgb(129, 127, 127);
+}
+
+.selectedButton {
+  border-radius: 20px;
+  height: 30px;
+  font-size: 15px;
+  padding: 0 15px;
+}
+
+.unSelectedButton {
+  border-radius: 20px;
+  height: 30px;
+  font-size: 15px;
+  padding: 0 15px;
+}
+
+.smallskinImg {
+  width: 70px;
+}
+
+.skinImg {
+  width: 100px;
+}
+
+.preview {
+  background-color: #cdcdcd;
+  color: aliceblue;
+  border-radius: 70px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.inventoryList {
+  display: flex;
+  flex-wrap: wrap;
+  height: 330px;
+}
+
+.inventoryList::-webkit-scrollbar {
+  display: none;
+}
+
+.skinItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90px;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.floatbutton {
+  display: flex;
+  align-items: center;
+  bottom: 80px;
+  border-radius: 25px;
+  position: fixed;
+}
+.floatbutton span {
+  margin-left: 10px;
+}

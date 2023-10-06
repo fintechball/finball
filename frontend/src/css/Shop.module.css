@@ -1,0 +1,143 @@
+.button {
+  background-color: #3c78ff;
+  color: white;
+}
+
+.subbutton {
+  background-color: #305dc5;
+  color: white;
+}
+
+.sublightbutton {
+  background-color: #305dc5;
+  color: white;
+  box-shadow: 0px 2px 20px rgba(128, 116, 255, 0.73);
+}
+
+.bluebutton {
+  background-color: rgb(230, 235, 255);
+  color: #3c78ff;
+}
+
+.graybutton {
+  background-color: rgb(238, 242, 249);
+}
+
+.purplebutton {
+  background-color: rgb(170, 143, 195);
+  color: white;
+}
+
+.container {
+  padding: 0 30px 30px 30px;
+  margin-top: 15px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+.container h2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.container h3 {
+  margin: 0;
+}
+
+.pointbox {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.pointbox img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.textbox {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+}
+
+.skinContainer {
+  display: flex;
+  flex-wrap: wrap;
+  height: 330px;
+}
+
+.skinItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90px;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.skinName {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.skinPointBox {
+  display: flex;
+  align-items: center;
+}
+.skinPointBox img {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+}
+
+.skinPoint {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: rgb(129, 127, 127);
+}
+
+.preview {
+  background-color: #cdcdcd;
+  color: aliceblue;
+  border-radius: 70px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.skinImg {
+  width: 70px;
+}
+
+.hadbutton {
+  border-radius: 20px;
+  height: 30px;
+  font-size: 15px;
+  padding: 0 15px;
+}
+
+.buybutton {
+  border-radius: 20px;
+  height: 30px;
+  font-size: 15px;
+  padding: 0 15px;
+  border: 1px solid rgb(202, 202, 202);
+}
+
+.floatbutton {
+  display: flex;
+  align-items: center;
+  bottom: 80px;
+  border-radius: 25px;
+  position: fixed;
+}
+.floatbutton span {
+  margin-left: 10px;
+}
