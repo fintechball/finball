@@ -176,7 +176,7 @@ function PinballJeongHui(value) {
         height: parentSize.height, // 부모 컨테이너의 세로 크기로 설정
         wireframes: false,
         background: "white",
-        pixelRatio:0.8
+        pixelRatio: 0.8,
       },
     });
     console.log(newEngine);

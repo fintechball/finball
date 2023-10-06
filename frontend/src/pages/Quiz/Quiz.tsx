@@ -193,7 +193,7 @@ function Quiz() {
                 </div>
                 <div className={styles.pointpoint}>Point</div>
               </div>
-              <div>맞춘 갯수 : {score} / 5</div>
+              <div className={styles.topmargin}>맞춘 갯수 : {score} / 5</div>
             </div>
           ) : (
             <>
@@ -213,14 +213,18 @@ function Quiz() {
           )}
           {isGoodVisible && (
             <div>
-              <p>정답입니다!</p>
-              <p>현재까지 획득한 포인트: {totalPoint}</p>
+              <p className={styles.topmargin}>
+                <strong>정답입니다!</strong>
+              </p>
+              {/* <p>현재까지 획득한 포인트: {totalPoint}</p> */}
             </div>
           )}
           {isBadVisible && (
             <div>
-              <p>오답입니다.</p>
-              <p>현재까지 획득한 포인트: {totalPoint}</p>
+              <p>
+                <strong>오답입니다.</strong>
+              </p>
+              {/* <p>현재까지 획득한 포인트: {totalPoint}</p> */}
             </div>
           )}
         </div>
