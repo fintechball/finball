@@ -153,30 +153,29 @@ function PinballJeongHui(value) {
     // Create a Matter.js engine
     const newEngine = Engine.create({});
     const runner = Runner.create({
-      // delta: 7.5,
-      // fps:60,
-      // lastDelta:10,
-      // deltaSampleSize: 30,
+      delta: 7.5,
+      fps: 60,
+      lastDelta: 10,
+      deltaSampleSize: 30,
       isFixed: false,
       enabled: true,
     });
     // 중력 설정
     newEngine.world.gravity.x = 0;
-    newEngine.world.gravity.y = 0.3;
+    newEngine.world.gravity.y = 0.25;
     // Create a renderer
     const newRender = Render.create({
       element: document.getElementById(value.value.parent), // 렌더러를 부모 컨테이너에 적용
       engine: newEngine,
-      // timing:{
-      //   delta:7.5,
-      //   timestamp:30000
-      // },
+      timing: {
+        delta: 7.5,
+        timestamp: 30000,
+      },
       options: {
         width: parentSize.width, // 부모 컨테이너의 가로 크기로 설정
         height: parentSize.height, // 부모 컨테이너의 세로 크기로 설정
         wireframes: false,
         background: "white",
-        pixelRatio: 0.8,
       },
     });
     console.log(newEngine);
@@ -412,13 +411,11 @@ function PinballJeongHui(value) {
           alignContent: "flex-end",
         }}
       >
-        <div className={styles.minbal_parent}>
-          {ballInfo !== null && (
-            <div className={styles.minbal}>
-              {ballInfo.minbalance.toLocaleString()}원
-            </div>
-          )}
-        </div>
+        {ballInfo !== null && (
+          <div className={styles.minbal}>
+            {ballInfo.minbalance.toLocaleString()}원
+          </div>
+        )}
       </div>
     </div>
   );
