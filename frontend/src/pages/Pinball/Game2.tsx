@@ -109,7 +109,8 @@ function Game2(value) {
   const [engine, setEngine] = useState(null); // 엔진 상태 추가
   let render;
   let angle = 0;
-  const Color = ["red", "blue", "green", "yellow", "purple", "white"];
+  //  const Color = ["red", "blue", "green", "yellow", "purple", "white"];
+  const Color = ['red', 'blue', 'green', 'purple', 'white', 'yellow'];
   function openModal() {
     setIsModalOpen(true);
   }
