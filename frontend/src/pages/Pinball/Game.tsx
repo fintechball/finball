@@ -1090,6 +1090,7 @@ useEffect(() => {
                 return res;
               }, {});
               console.log(frequency)
+              console.log()
               dispatch(
                 setResult({
                   result:frequency,
@@ -1113,6 +1114,7 @@ useEffect(() => {
       updateScroll();
     }
   };
+  
   return (
     <div id="canvas" style={{width:"360px",height:"1800px"}} className={styles.container}>
       <div style={{ display: "flex",justifyContent: "center"}}>
@@ -1165,13 +1167,25 @@ useEffect(() => {
 
         <h2 >게임결과</h2>
         <p style={{fontSize:word}}>다음 사람들은 돈을 지불하시오</p>
-        {userColor["red"]!="unknown"?<div style={{fontSize:word,color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} - {'>'}{redCount}</div>:""}
+        {/* {userColor["red"]!="unknown"?<div style={{fontSize:word,color:"red"}}><img src={redball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["red"]} - {'>'}{redCount}</div>:""}
         {userColor["blue"]!="unknown"?<div style={{fontSize:word,color:"blue"}}><img src={blueball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["blue"]} - {'>'}{blueCount}</div>:""}
         {userColor["green"]!="unknown"?<div style={{fontSize:word,color:"green"}}><img src={greenball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["green"]} - {'>'}{greenCount}</div>:""}
         {userColor["yellow"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px yellow"}}><img src={yellowball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["yellow"]} - {'>'}{yellowCount}</div>:""}
         {userColor["purple"]!="unknown"?<div style={{fontSize:word,color:"purple"}}><img src={purpleball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["purple"]} - {'>'}{purpleCount}</div>:""}
-        {userColor["white"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>:""}
-        
+        {userColor["white"]!="unknown"?<div style={{fontSize:word,color:"black",WebkitTextStroke: "0.2px white"}}><img src={whiteball} style={{width:"10px",height:"10px",marginRight:"6px"}}/>{userColor["white"]} - {'>'}{whiteCount}</div>:""} */}
+{Object.entries(result).map(([key, value]) => {
+  const userId = parseInt(key); // key를 숫자로 변환
+
+  // userId와 일치하는 멤버 찾기
+  const foundMember = members.find((member) => member.userId === userId);
+
+  return (
+    <div key={key}>
+      {foundMember ? foundMember.name : "알 수 없는 멤버"}: {value}원
+    </div>
+  );
+})}
+
         <button onClick={()=>{settle();}} style={{width:"100px",aspectRatio:5,fontSize:word,marginTop:"10px",backgroundColor:"#A39AF5",color:"white"}}>Close</button>
           </div>
       </Modal>
