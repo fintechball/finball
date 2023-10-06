@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import transfer2 from "../../assets/transfer2.json";
 import Lottie from "lottie-react";
 import axios from "axios";
+import styles from "./TransferingGroupAccountFill.module.scss";
 const BASE_HTTP_URL = "https://j9E106.p.ssafy.io";
 
 function TransferingGroupAccountFill() {
@@ -47,32 +48,26 @@ function TransferingGroupAccountFill() {
     }, 3000);
   });
   return (
-    <>
+    <div className={styles.container}>
       <Lottie animationData={transfer2} loop={true} />
-      <div>{receiverName}님께</div>
+      <p>{receiverName}님께</p>
       {sended ? (
-        <div>{sendMoney}원을 송금했어요</div>
+        <p>
+          <span>{sendMoney.toLocaleString()}원</span>을 송금했어요
+        </p>
       ) : (
-        <div>{sendMoney}원을 송금중이에요</div>
+        <p>
+          <span>{sendMoney.toLocaleString()}원</span>을 송금중이에요
+        </p>
       )}
       {isbutton ? (
-        <button
-          style={{
-            width: "360px",
-            backgroundColor: "#7165E3",
-            color: "white",
-            // position: "relative",
-            // left: "0",
-            // top: "130px",
-          }}
-          onClick={() => fillMoney()}
-        >
+        <button onClick={() => fillMoney()} className={styles.subbutton}>
           확인
         </button>
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 }
 

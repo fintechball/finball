@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Lottie from "lottie-react";
-import transfer from "../../assets/transfer.json";
+import transfer from "../../assets/transfer2.json";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import styles from "./Transfering.module.scss";
 
 function Transfering() {
   const location = useLocation();
@@ -35,32 +36,26 @@ function Transfering() {
     }, 3000);
   });
   return (
-    <>
+    <div className={styles.container}>
       <Lottie animationData={transfer} loop={true} />
-      <div>{receiverName}님께</div>
+      <p>{receiverName}님께</p>
       {sended ? (
-        <div>{sendMoney.toLocaleString()}원을 송금했어요</div>
+        <p>
+          <span>{sendMoney.toLocaleString()}원</span>을 송금했어요
+        </p>
       ) : (
-        <div>{sendMoney.toLocaleString()}원을 송금중이에요</div>
+        <p>
+          <span>{sendMoney.toLocaleString()}원</span>을 송금중이에요
+        </p>
       )}
       {isbutton ? (
-        <button
-          style={{
-            width: "360px",
-            backgroundColor: "#7165E3",
-            color: "white",
-            // position: "relative",
-            // left: "0",
-            // top: "130px",
-          }}
-          onClick={() => goToDetail()}
-        >
+        <button onClick={() => goToDetail()} className={styles.subbutton}>
           확인
         </button>
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 }
 
