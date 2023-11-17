@@ -78,7 +78,6 @@
 - 생성형 AI인 ChatGPT와 대화할 수 있는 공간을 제공합니다.
 - ChatGPT에 금융 전문가의 역할을 부여했으며, 금융 지식을 전문적으로 답변을 제공합니다.
 
-
 <div align="right"><a href="#tableContents">목차로 이동</a></div>
 
 <br/>
@@ -91,6 +90,11 @@
 <a name="systemArchitecture"></a>
 
 <img src="./img/architecture.png">
+
+- FinBall 서버 : 핀볼 서비스 
+- Mydata 서버 : 은행 공동망(대외계)
+
+은행 업무를 위해 타행 관련 서비스를 위해 금융 시스템의 대외계 채널의 아키텍처를 활용했습니다. FinBall서버와 Mydata 서버간 통신을 통해 데이터 공유 및 결제 처리를 했습니다.
 
 <div align="right"><a href="#tableContents">목차로 이동</a></div>
 
@@ -165,23 +169,142 @@
 
 ## 🖥️ 화면 소개
 
-### 1. 로그인 페이지
+### 1. 핀볼 계좌
 
-### 2. 계좌 생성 페이지
+<table>
+    <tr>
+        <td align="center">
+            <h5>핀볼 계좌 채우기</h5>
+            <img src="./img/gifs/핀볼채우기.gif" alt="핀볼채우기" width="100%" />  
+        </td>
+        <td align="center">
+            <h5>핀볼 계좌 이체</h5>
+            <img src="./img/gifs/핀볼보내기.gif" alt="핀볼보내기" width="100%" />  
+        </td> 
+        <td align="center">
+            <h5>가계부</h5>
+            <img src="./img/gifs/가계부.gif" alt="가계부" width="100%" />
+        </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <div>✔ 핀볼 서비스에 등록된 계좌에서 입금</div>
+      </td>
+      <td align="center">
+        <div>✔ 핀볼 계좌에서 다른 계좌로의 이체</div>
+      </td>
+      <td align="center">
+        <div>✔ 가계부 생성 및 항목 지정</div>
+        <div>✔ 거래 내역에서 항목 선택 시 가계부 반영</div>
+      </td>
+    </tr>
+</table>
 
-### 3. 계좌 목록 조회 페이지
+### 2. 모임 통장
 
-### 4. 모임 통장 페이지
+<table>
+    <tr>
+        <td align="center">
+            <h5>모임 계좌 생성</h5>
+            <img src="./img/gifs/모임계좌생성.gif" alt="모임계좌생성" width="200" />  
+        </td>
+        <td align="center">
+            <h5>모임 계좌 채우기</h5>
+            <img src="./img/gifs/모임계좌채우기.gif" alt="모임계좌채우기" width="200" />  
+        </td> 
+        <td align="center">
+            <h5>모임 계좌로 결제</h5>
+            <img src="./img/gifs/모임계좌로결제.gif" alt="모임계좌로결제" width="200" />
+        </td>
+        <td align="center">
+            <h5>간편 정산</h5>
+            <img src="./img/gifs/간편정산.gif" alt="간편정산" width="200" />
+        </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <div>✔ 모임 계좌 생성 시 계좌 이름과 정산 방식 설정</div>
+      </td>
+      <td align="center">
+        <div>✔ 모임 계좌의 채우기 버튼을 통해 채우기</div>
+      </td>
+      <td align="center">
+        <div>✔ 핀볼 정산을 선택했을 시, 게임을 통해 정산 진행</div>
+      </td>
+      <td align="center">
+        <div>✔ 모임 계좌가 없거나, 간편하게 정산을 하기 위한 서비스</div>
+      </td>
+    </tr>
+</table>
 
-### 5. 계좌 정보 페이지
+### 3. 타행
 
-### 6. ChatGPT 챗봇 페이지
+<table>
+    <tr>
+        <td align="center">
+            <h5>카드 연결</h5>
+            <img src="./img/gifs/카드연결.gif" alt="카드연결" width="200" />  
+        </td>
+        <td align="center">
+            <h5>카드 결제</h5>
+            <img src="./img/gifs/카드결제.gif" alt="카드결제" width="200" />  
+        </td> 
+        <td align="center">
+            <h5>계좌 연결</h5>
+            <img src="./img/gifs/계좌연결.gif" alt="계좌연결" width="200" />
+        </td>
+        <td align="center">
+            <h5>계좌 결제</h5>
+            <img src="./img/gifs/계좌결제.gif" alt="계좌결제" width="200" />
+        </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <div>✔ 대외계 접근을 위해 주민번호 인증</div>
+        <div>✔ 대외계 서버에 존재하는 카드 정보 조회 및 등록</div>  
+      </td>
+      <td align="center">
+      </td>
+      <td align="center">
+        <div>✔ 대외계 접근을 위해 주민번호 인증</div>
+        <div>✔ 대외계 서버에 존재하는 계좌 정보 조회 및 등록</div>
+      </td>
+      <td align="center">
+        <div>✔ 대외계 서버에 있는 계좌로 결제</div>
+      </td>
+    </tr>
+</table>
 
-### 7. 금융 퀴즈 페이지
+### 4. 금융 학습
 
-### 8. 공 커스텀 페이지
-
-### 9. 가계부 페이지
+<table>
+    <tr>
+        <td align="center">
+            <h5>GPT 학습</h5>
+            <img src="./img/gifs/GPT학습.gif" alt="GPT학습" width="200" />  
+        </td>
+        <td align="center">
+            <h5>금융 퀴즈</h5>
+            <img src="./img/gifs/금융퀴즈.gif" alt="금융퀴즈" width="200" />  
+        </td> 
+        <td align="center">
+            <h5>계좌 연결</h5>
+            <img src="./img/gifs/커스텀볼.gif" alt="커스텀볼" width="200" />
+        </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <div>✔ ChatGPT를 활용한 금융 학습</div>  
+      </td>
+      <td align="center">
+        <div>✔ 금융 퀴즈로 포인트 획득</div>  
+      </td>
+      <td align="center">
+        <div>✔ 획득한 포인트로 공 구매</div>
+        <div>✔ 구매한 공 선택으로 스킨 적용</div>
+      </td>
+    </tr>
+</table>
 
 <div align="right"><a href="#tableContents">목차로 이동</a></div>
 
